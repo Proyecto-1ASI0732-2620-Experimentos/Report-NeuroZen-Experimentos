@@ -11,7 +11,7 @@
   <p align="center">Nombre del profesor: Sánchez Ponce Alex Humberto</p>
   <p align="center"><b>Informe de Trabajo Final</b></p>
   <p align="center">Nombre del startup: NeuroDraw</p>
-  <p align="center">Nombre del producto:NeuroZen</p>
+  <p align="center">Nombre del producto: NeuroZen</p>
 </div>
 
 <h3 align="center">Relación de integrantes</h3>
