@@ -31,16 +31,16 @@
       <td>Castro Picón, Manuel Fernando Joao</td>
     </tr>
     <tr>
-      <td>U20321774</td>
-      <td>Requena Gutiérrez, Diego Gabriel</td>
-    </tr>
-    <tr>
       <td>U20201E781</td>
       <td>Huaman De La Cruz, Jean Pool</td>
     </tr>
     <tr>
-      <td>U</td></td>
+      <td>U202321613</td></td>
       <td>Paredes Chavez, Carlos Augusto </td>
+    </tr>
+      <tr>
+      <td>U20321774</td>
+      <td>Requena Gutiérrez, Diego Gabriel</td>
     </tr>
     <tr>
       <td>U20231G054</td>
