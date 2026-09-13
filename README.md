@@ -317,6 +317,12 @@ La propuesta de la startup no pretende sustituir la evaluación, diagnóstico o 
 
 ## 1.2. Solution Profile
 
+NeuroZen plantea una solución digital orientada a apoyar a personas laboralmente activas en la gestión de situaciones de estrés relacionadas con su actividad laboral. La propuesta parte de reconocer que factores como la sobrecarga de trabajo, las altas exigencias emocionales, la falta de autonomía y las relaciones interpersonales conflictivas pueden afectar el bienestar de los trabajadores.
+
+La plataforma busca concentrar en una experiencia digital accesible herramientas que permitan al usuario conocer mejor su situación actual, realizar un seguimiento personal, acceder a actividades y recursos relacionados con el bienestar y encontrar orientación profesional cuando lo considere necesario.
+
+La propuesta se concibe como una plataforma de acompañamiento y prevención, y no como un sistema destinado a realizar diagnósticos médicos o sustituir la intervención de profesionales de la salud. Su evolución estará guiada por investigación con usuarios, análisis de información y experimentación controlada, manteniendo como principios la privacidad, la transparencia y el uso responsable de los datos.
+
 ### 1.2.1. Antecedentes y problemática
 
 ### 1.2.2. Lean UX Process
