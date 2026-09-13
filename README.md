@@ -305,13 +305,17 @@ Como parte de esta visión, NeuroDraw desarrolla **NeuroZen**, una plataforma di
 
 ### 1.1.1. Descripción de la Startup
 
-NeuroDraw nace con el propósito de utilizar la ingeniería de software para desarrollar soluciones que faciliten el cuidado del bienestar en contextos laborales. La startup parte de la necesidad de contar con herramientas digitales accesibles que permitan a las personas reconocer situaciones relacionadas con el estrés, realizar un seguimiento de su bienestar y encontrar alternativas que puedan incorporar en su rutina cotidiana.
+NeuroDraw nace con el propósito de utilizar la ingeniería de software para desarrollar herramientas que ayuden a las personas a identificar y gestionar situaciones de estrés asociadas con su actividad laboral.
 
-Su principal producto es **NeuroZen**, una plataforma de software que integra experiencias web y móviles para centralizar diferentes recursos orientados a la gestión personal del estrés. La propuesta contempla mecanismos de autoevaluación, seguimiento de la evolución del usuario, actividades y recursos de bienestar, así como medios para facilitar el acceso a orientación profesional cuando el usuario lo considere necesario.
+La startup reconoce que el estrés relacionado con el trabajo puede manifestarse de diferentes maneras y estar vinculado con factores como jornadas extensas, sobrecarga de actividades, presión por resultados, relaciones interpersonales, disponibilidad constante o dificultad para establecer límites entre el trabajo y la vida personal.
 
-NeuroDraw plantea el desarrollo de NeuroZen bajo un enfoque centrado en el usuario y de mejora continua. Para ello, la startup busca utilizar información obtenida mediante la interacción con sus productos, investigación con usuarios y experimentación controlada para evaluar sus decisiones y evolucionar la plataforma de acuerdo con necesidades observables y resultados medibles.
+Su principal producto es **NeuroZen**, una plataforma digital que busca integrar diferentes mecanismos de apoyo dentro de una misma experiencia. La propuesta contempla autoevaluaciones, registro de información relacionada con señales físicas y emocionales asociadas al estrés, seguimiento histórico, identificación de patrones y factores desencadenantes, actividades orientadas a la gestión del estrés, recursos informativos y acceso a orientación profesional.
 
-La propuesta de la startup no pretende sustituir la evaluación, diagnóstico o tratamiento realizado por profesionales de la salud. NeuroZen se plantea como una herramienta digital de acompañamiento y apoyo para la gestión del bienestar, manteniendo como principios relevantes la privacidad de la información, la accesibilidad, la transparencia y el uso responsable de los datos de sus usuarios.
+NeuroZen se plantea como una herramienta de acompañamiento y apoyo para la identificación y gestión personal del estrés. La plataforma no busca sustituir la evaluación, diagnóstico o tratamiento proporcionado por profesionales de la salud.
+
+NeuroDraw busca que la evolución del producto se encuentre respaldada por investigación con usuarios, análisis de información y experimentación controlada. De esta manera, las decisiones sobre nuevas funcionalidades o modificaciones del producto podrán sustentarse en evidencia obtenida a partir de necesidades y comportamientos observables de sus usuarios.
+
+Asimismo, debido a la naturaleza de la información que puede ser registrada en NeuroZen, la startup considera principios fundamentales la privacidad, seguridad, transparencia, accesibilidad y uso responsable de los datos.
 
 ### 1.1.2. Perfiles de integrantes del equipo
 
