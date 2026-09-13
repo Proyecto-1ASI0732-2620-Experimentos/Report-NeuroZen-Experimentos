@@ -579,6 +579,190 @@ Preguntas:
 
 ### 2.2.2. Registro de entrevistas
 
+**Segmento 1: Personas activas en el ámbito laboral con jornadas extendidas**
+
+Entrevista N°1
+
+● Nombre: Enzo Joaquín Alatrista Amaya.
+
+● Sexo: Masculino.
+
+● Edad: 25.
+
+● Estado Civil: Soltero.
+
+● Labor: Ingeniero de Sistemas.
+
+Detalles de la entrevista:
+
+● Duración: 03:26
+
+[● Link: https://drive.google.com/file/d/13V0bp8f4mNgHBX6nU5c74mhhuCYzXYmT/view?usp=sharing](https://drive.google.com/file/d/13V0bp8f4mNgHBX6nU5c74mhhuCYzXYmT/view?usp=sharing)
+
+Resumen de los puntos clave en la entrevista:
+
+La entrevista con Enzo, ingeniero de sistemas de 25 años, revela el alto nivel de presión en el
+sector tecnológico. Sus jornadas laborales de hasta 11 horas, sumadas a la disponibilidad
+constante y los cambios de último minuto, han afectado su salud con insomnio, dolores de
+cabeza e irritabilidad. Esto impacta su productividad y vida personal, generando agotamiento
+emocional. Aunque intenta manejar el estrés con caminatas y ejercicios de respiración, su
+rutina no le permite ser constante. Su empresa no ofrece apoyo real para el manejo del estrés,
+más allá de charlas esporádicas. Enzo valora herramientas simples y accesibles, con
+recordatorios para pausas, ejercicios rápidos y la opción de contactar a un profesional desde
+la misma app.
+
+Entrevista N°2
+
+● Nombre: Andrés Luján Carrión
+
+● Sexo: Masculino
+
+● Edad: 40
+
+● Estado Civil: Soltero
+
+● Labor: Rector(USL)
+
+Detalles de la entrevista:
+
+● Duración: 4min11seg
+
+[● Link: https://drive.google.com/file/d/1aePzhaW86rM-1leKeeb1c65SbWk9Y0yZ/view?usp=sharing](https://drive.google.com/file/d/1aePzhaW86rM-1leKeeb1c65SbWk9Y0yZ/view?usp=sharing)
+
+Resumen de los puntos clave en la entrevista:
+
+- El entrevistado trabaja entre 10 y 12 horas diarias.
+- Su principal fuente de estrés son la necesidad de resultados rápidos frente a cambios que
+  requieren tiempo.
+- Ha notado fatiga mental, insomnio y tensión muscular.
+- Le parecerían útiles herramientas como coaching personalizado y plataformas digitales.
+- Le gustaría que la aplicación contase con coaching emocional, seguimiento de estrés y una
+  comunidad de apoyo.
+
+  Entrevista N°3
+
+● Nombre: Valentina Flores.
+
+● Sexo: Femenino.
+
+● Edad: 24 años.
+
+● Estado Civil: Soltera.
+
+● Labor: Analista de Recursos Humanos.
+
+Detalles de la entrevista:
+
+● Duración: 02:25
+
+[● Link: https://drive.google.com/file/d/10gpZrHKXRZATb-VCJ6RAm-Zu81CONRbT/view?usp=sharing](https://drive.google.com/file/d/10gpZrHKXRZATb-VCJ6RAm-Zu81CONRbT/view?usp=sharing)
+
+Resumen de los puntos clave en la entrevista:
+
+La entrevista con Valentina Flores (24 años), analista de Recursos Humanos, evidencia cómo las
+jornadas extensas y la alta carga laboral generan estrés, insomnio y agotamiento emocional.
+El estrés afecta su concentración, estado de ánimo y vida personal. Aunque intenta aliviarlo con
+pausas o caminatas, la falta de tiempo y apoyo institucional limita sus esfuerzos. Valentina
+considera útil una app con ejercicios guiados, recordatorios y seguimiento emocional, que le
+ayude a equilibrar su bienestar en el entorno laboral.
+
+**Segmento 2: Adultos entre 20 y 50 años con trabajo informal o sin horarios definidos**
+
+Entrevista N°4
+
+● Nombre: Cristofer Pablo Paucar
+
+● Sexo: Masculino
+
+● Edad: 21
+
+● Estado Civil: Soltero
+
+● Labor: Repartidor
+
+Detalles de la entrevista:
+
+● Duración: 6:27
+
+[● Link: https://drive.google.com/file/d/1SRe3Ilrde37SMS8YGALvpk9OqU4jpwh0/view?usp=sharing](https://drive.google.com/file/d/1SRe3Ilrde37SMS8YGALvpk9OqU4jpwh0/view?usp=sharing)
+
+Resumen de los puntos clave en la entrevista:
+
+La entrevista con Cristofer Paucar, un repartidor delivery de 21 años que trabaja sin un
+horario fijo. Organiza su jornada en función de la demanda y necesidades económicas, lo que
+implica horarios variables que a menudo se extienden hasta la noche. Reconoce que tiene
+dificultades para establecer límites entre su vida personal y laboral, ya que su trabajo "lo
+sigue a todas partes" debido a la constante atención al celular.
+Los principales factores de estrés que enfrenta son la inestabilidad laboral, la incertidumbre
+económica, fallas en las aplicaciones de reparto, el tráfico, clientes exigentes y el desgaste
+físico. Califica su nivel de estrés como medio, aunque se eleva en situaciones específicas
+como fines de mes o días lluviosos.
+
+Cristofer considera que la falta de un horario fijo agrava el estrés al dificultar la separación
+entre el trabajo y la vida personal. Ha notado efectos negativos en su salud física y mental,
+incluyendo dolores corporales, cansancio, insomnio e irritabilidad. Para manejar el estrés,
+intenta desconectarse ocasionalmente, escuchar música o realizar actividades recreativas,
+aunque no siempre lo logra. Si bien usa aplicaciones básicas para organizar su vida personal,
+no emplea herramientas específicas para el manejo del estrés, pero le gustaría explorar
+alguna. Identifica la mañana y la noche como los momentos más adecuados para realizar
+actividades relajantes, aunque muchas veces depende del flujo de trabajo diario.
+
+Entrevista N°5
+
+● Nombre: Laura Méndez
+
+● Sexo: Mujer
+
+● Edad: 24 años
+
+● Estado Civil: Soltera
+
+● Labor: Freelancer diseñadora gráfica y fotógrafa de eventos
+
+Detalles de la entrevista:
+
+● Duración: 8 minutos con 39 segundos
+
+[● Link: https://drive.google.com/file/d/1qmh7C8VD0SDWj4DvPe7hUj3HFCdga7o5/view?usp=sharing](https://drive.google.com/file/d/1qmh7C8VD0SDWj4DvPe7hUj3HFCdga7o5/view?usp=sharing)
+
+Resumen de los puntos clave en la entrevista:
+
+La entrevista con Laura Méndez, una diseñadora gráfica freelance y fotógrafa de 24 años,
+revela los desafíos únicos que enfrenta como trabajadora con horarios irregulares. Su
+situación laboral se caracteriza por la ausencia de límites entre vida personal y profesional,
+con un teléfono que funciona como "oficina móvil" y clientes que esperan disponibilidad
+constante. Los principales factores de estrés identificados incluyen la inestabilidad económica
+que la lleva a sobrecargarse de trabajo, las expectativas poco realistas de los clientes, y la
+imposibilidad de desconectar completamente, resultando en un nivel de estrés medio-alto con
+picos que afectan su salud física y creatividad. Aunque intenta implementar estrategias como
+yoga o ejercicio, estas prácticas son inconsistentes debido a su carga laboral, por lo que
+necesita soluciones flexibles que se adapten a su ritmo caótico: herramientas rápidas
+accesibles desde el móvil, técnicas para establecer límites sin perder clientes y métodos
+efectivos para "apagar" su mente al finalizar la jornada.
+
+Entrevista N°6
+
+● Nombre: Jose Feliciano
+
+● Sexo: Hombre
+
+● Edad: 56 años
+
+● Estado Civil: Casado
+
+● Labor: Trabajador independiente en Software.
+
+Detalles de la entrevista:
+
+● Duración: 2 minutos con 50 segundos
+
+[● Link:https://drive.google.com/file/d/1x6wdR-u7jdTX1J-8nMbbKf8xzeWVYhVH/view](https://drive.google.com/file/d/1x6wdR-u7jdTX1J-8nMbbKf8xzeWVYhVH/view)
+
+Resumen de los puntos clave en la entrevista:
+
+La entrevista con José Feliciano, un trabajador independiente en software de 56 años, muestra las dificultades de mantener equilibrio entre la vida laboral y personal cuando se trabaja por cuenta propia. Su rutina varía constantemente, sin horarios fijos, lo que le genera complicaciones para desconectarse del trabajo. José comenta que su celular y laptop son herramientas esenciales pero también fuentes de distracción y presión constante. Entre los principales factores de estrés menciona los plazos ajustados, los cambios imprevistos y la falta de pausas reales durante el día. Describe su nivel de estrés como medio, con aumentos en épocas de alta carga laboral. Este estilo de trabajo flexible le otorga libertad, pero también incrementa su dificultad para descansar y cuidar su salud, notando síntomas como dolores de cabeza y cansancio. Para manejar el estrés recurre a caminatas, música y pausas cortas, además de apoyarse en herramientas digitales como Google Calendar y Notion. Considera que los mejores momentos para relajarse son las noches o las mañanas antes de empezar la jornada.
+
+
 ### 2.2.3. Análisis de entrevistas
 
 ## 2.3. Needfinding
