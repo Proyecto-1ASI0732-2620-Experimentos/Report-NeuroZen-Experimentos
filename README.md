@@ -576,6 +576,32 @@ Los siguientes supuestos representan creencias iniciales del equipo sobre el neg
 
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
+A partir de los supuestos anteriores se plantean las siguientes hipótesis iniciales. Los porcentajes definidos representan criterios preliminares de éxito y deberán ser revisados conforme el equipo obtenga evidencia mediante investigación y uso del producto.
+
+##### Hypothesis 01 — Seguimiento del bienestar
+
+**Creemos que** permitir a las personas realizar autoevaluaciones y consultar visualmente su evolución facilitará que mantengan un seguimiento más consciente de su bienestar relacionado con el estrés laboral.
+
+**Sabremos que hemos tenido éxito cuando** al menos el **70 % de los usuarios que completen una primera autoevaluación consulte posteriormente su historial o realice una nueva autoevaluación durante las siguientes dos semanas**.
+
+##### Hypothesis 02 — Actividades de bienestar
+
+**Creemos que** ofrecer actividades breves que puedan incorporarse fácilmente a la rutina laboral ayudará a los usuarios a adoptar acciones concretas frente a situaciones de estrés.
+
+**Sabremos que hemos tenido éxito cuando** al menos el **60 % de los usuarios que reciban o consulten actividades complete al menos una actividad durante una semana y la mayoría de ellos la valore positivamente**.
+
+##### Hypothesis 03 — Identificación de factores asociados al estrés
+
+**Creemos que** permitir al usuario registrar situaciones o factores relacionados con episodios de estrés y posteriormente visualizar patrones le ayudará a comprender mejor qué elementos de su actividad laboral afectan con mayor frecuencia su bienestar.
+
+**Sabremos que hemos tenido éxito cuando** al menos el **60 % de los usuarios activos registre tres o más situaciones durante el período de observación y pueda reconocer al menos un patrón relevante al consultar su historial**.
+
+##### Hypothesis 04 — Acceso a orientación profesional
+
+**Creemos que** proporcionar información clara sobre profesionales y reducir la cantidad de pasos necesarios para solicitar orientación disminuirá la fricción de los usuarios que consideran necesario buscar apoyo especializado.
+
+**Sabremos que hemos tenido éxito cuando** al menos el **80 % de los usuarios participantes en pruebas de usabilidad pueda localizar información de un profesional e iniciar el proceso de solicitud de una cita sin asistencia externa**.
+
 #### 1.2.2.4. Lean UX Canvas
 
 ## 1.3. Segmentos objetivo
