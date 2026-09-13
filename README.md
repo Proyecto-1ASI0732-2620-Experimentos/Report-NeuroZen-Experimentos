@@ -506,6 +506,77 @@ términos de reducción de ausentismo y mejora de productividad.
 
 ### 2.2.1. Diseño de entrevistas
 
+**Segmento: Personas activas en el ámbito laboral con jornadas extendidas**
+
+Para evaluar las necesidades y experiencias de profesionales con horarios laborales extensos que
+enfrentan altos niveles de estrés, hemos desarrollado una serie de preguntas enfocadas en comprender
+su rutina diaria, factores estresantes, y estrategias actuales para manejar la presión laboral. Esta
+información nos permitirá identificar oportunidades para que nuestra plataforma ofrezca soluciones
+efectivas que mejoren su calidad de vida y rendimiento profesional.
+
+Introducción:
+
+Buenos días/tardes, soy [...], representante de [Nombre del Proyecto]. Estamos
+desarrollando una plataforma destinada a ayudar a profesionales con horarios laborales extensos a
+manejar mejor el estrés y mejorar su calidad de vida. Nos gustaría conocer más sobre tu experiencia
+laboral y los desafíos que enfrentas en tu día a día. Tu perspectiva será muy valiosa para desarrollar
+una solución que realmente responda a las necesidades de personas como tú.
+
+Preguntas:
+
+1. Para comenzar, ¿podrías presentarte y contarnos brevemente sobre tu profesión y el sector en
+   el que trabajas?
+2. ¿Cómo describirías una jornada laboral típica para ti? ¿Cuántas horas trabajas habitualmente?
+3. ¿Qué aspectos de tu trabajo consideras que generan mayor presión o estrés?
+4. ¿Has notado cambios en tu salud física o mental que atribuyas al estrés laboral?
+5. ¿Cómo suele afectar el estrés laboral a tu rendimiento en el trabajo y a tu vida personal?
+6. ¿Qué estrategias utilizas actualmente para manejar el estrés relacionado con tu trabajo?
+7. ¿Tu empresa o lugar de trabajo ofrece algún programa o recurso para ayudar a los empleados
+   a manejar el estrés?
+8. En los momentos de mayor presión laboral, ¿qué tipo de apoyo o herramientas te resultarían
+   más útiles?
+9. ¿Utilizas actualmente alguna aplicación o plataforma digital para gestionar el estrés o mejorar
+   tu bienestar? Si es así, ¿cuál y qué te parece?
+10. ¿Qué características o funcionalidades consideras importantes en una plataforma diseñada
+    para ayudar a reducir el estrés laboral?
+
+**Segmento: Adultos entre 20 y 50 años con trabajo informal o sin horarios definidos**
+
+Para evaluar las necesidades y experiencias de adultos que trabajan en el sector informal o con
+horarios no definidos, hemos desarrollado preguntas orientadas a comprender cómo manejan sus
+tiempos, los factores estresantes específicos de su situación laboral y sus mecanismos actuales para
+gestionar el estrés. Esta información nos permitirá adaptar nuestra plataforma para ofrecer soluciones
+que respondan a las características particulares de este segmento, que según estudios, experimenta
+niveles variables de estrés debido a la naturaleza omnipresente de su trabajo.
+
+Introducción:
+
+Buenos días/tardes, soy [...], representante de NeuroZen. Estamos desarrollando una
+plataforma para ayudar a personas que trabajan sin horarios fijos o en el sector informal a manejar
+mejor el estrés y mejorar su calidad de vida. Nos interesa conocer tu experiencia para crear una
+solución que realmente funcione para personas como tú. Agradecemos mucho tu tiempo y sinceridad
+en esta conversación.
+
+Preguntas:
+
+1. Para empezar, ¿podrías contarnos a qué te dedicas y cómo es tu rutina de trabajo habitual?
+2. ¿Cómo organizas tu tiempo entre el trabajo y otras actividades? ¿Tienes algún método para
+   establecer límites?
+3. ¿Sientes que tu trabajo "te sigue a todas partes"? ¿Puedes describir cómo es esa experiencia?
+4. ¿Cuáles son los principales factores que te generan estrés en tu trabajo?
+5. ¿Cómo describirías el nivel de estrés que experimentas habitualmente (bajo, medio, alto)?
+   ¿Varía mucho dependiendo de las temporadas o circunstancias?
+6. ¿De qué manera crees que el no tener un horario fijo afecta tu nivel de estrés, en comparación
+   con trabajos formales con horarios establecidos?
+7. ¿Has notado algún impacto en tu salud física o mental debido al estrés relacionado con tu
+   trabajo?
+8. ¿Qué estrategias o métodos utilizas actualmente para manejar el estrés cuando sientes que el
+   trabajo invade todos los aspectos de tu vida?
+9. ¿Utilizas alguna aplicación, plataforma o recurso digital para ayudarte a organizar tu trabajo o
+   manejar el estrés? ¿Cuál ha sido tu experiencia?
+10. ¿Qué momentos del día considerarías más apropiados para dedicar tiempo a actividades para
+    reducir el estrés?
+
 ### 2.2.2. Registro de entrevistas
 
 ### 2.2.3. Análisis de entrevistas
