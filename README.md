@@ -317,7 +317,111 @@ La propuesta de la startup no pretende sustituir la evaluación, diagnóstico o 
 
 ## 1.2. Solution Profile
 
+NeuroZen plantea una solución digital orientada a apoyar a personas laboralmente activas en la gestión de situaciones de estrés relacionadas con su actividad laboral. La propuesta parte de reconocer que factores como la sobrecarga de trabajo, las altas exigencias emocionales, la falta de autonomía y las relaciones interpersonales conflictivas pueden afectar el bienestar de los trabajadores.
+
+La plataforma busca concentrar en una experiencia digital accesible herramientas que permitan al usuario conocer mejor su situación actual, realizar un seguimiento personal, acceder a actividades y recursos relacionados con el bienestar y encontrar orientación profesional cuando lo considere necesario.
+
+La propuesta se concibe como una plataforma de acompañamiento y prevención, y no como un sistema destinado a realizar diagnósticos médicos o sustituir la intervención de profesionales de la salud. Su evolución estará guiada por investigación con usuarios, análisis de información y experimentación controlada, manteniendo como principios la privacidad, la transparencia y el uso responsable de los datos.
+
 ### 1.2.1. Antecedentes y problemática
+
+Para comprender el contexto en el que se plantea NeuroZen, se aplicó la técnica **5W+2H**, permitiendo analizar el problema desde las perspectivas de qué ocurre, quiénes se encuentran involucrados, dónde y cuándo se presenta, por qué resulta relevante, cómo se manifiesta y cuál es su magnitud.
+
+#### What — ¿Qué ocurre?
+
+El estrés asociado al trabajo constituye un problema que puede afectar el bienestar y desempeño de las personas laboralmente activas. Factores como una carga laboral elevada, exigencias emocionales, falta de autonomía, poca claridad sobre las funciones y relaciones interpersonales conflictivas pueden generar o incrementar situaciones de estrés.
+
+Aunque existen diferentes recursos de bienestar y atención profesional, las personas no siempre disponen de un medio que les permita centralizar de manera sencilla el reconocimiento de su situación, realizar un seguimiento de su evolución y acceder a alternativas de apoyo dentro de una misma experiencia digital.
+
+#### Who — ¿A quién afecta?
+
+El problema involucra principalmente a personas laboralmente activas que se encuentran expuestas de manera recurrente a factores de riesgo psicosocial dentro de su actividad laboral.
+
+También involucra indirectamente a organizaciones, profesionales relacionados con el bienestar y al entorno social de los trabajadores, debido a que las consecuencias del estrés pueden reflejarse en el desempeño laboral, las relaciones interpersonales y la calidad de vida.
+
+#### Where — ¿Dónde ocurre?
+
+Las situaciones de estrés pueden presentarse en distintos entornos de trabajo, tanto presenciales como remotos o híbridos, y no dependen exclusivamente de una industria o profesión determinada.
+
+Para el alcance inicial de NeuroZen, el análisis se orientará al contexto de trabajadores en Perú y a usuarios que puedan acceder a servicios digitales mediante dispositivos móviles o navegadores web.
+
+#### When — ¿Cuándo ocurre?
+
+El estrés relacionado con el trabajo puede manifestarse durante períodos de alta carga laboral, cumplimiento de plazos, cambios organizacionales, conflictos interpersonales, jornadas extensas o situaciones en las que el trabajador perciba un bajo nivel de control sobre sus actividades.
+
+También puede desarrollarse de manera progresiva cuando dichos factores se mantienen durante períodos prolongados y no existen mecanismos adecuados para reconocerlos y gestionarlos oportunamente.
+
+#### Why — ¿Por qué es importante atenderlo?
+
+El bienestar mental en el trabajo tiene consecuencias tanto para las personas como para las organizaciones y la sociedad. Un manejo inadecuado de factores relacionados con el estrés puede afectar el desempeño, incrementar el ausentismo y contribuir a problemas de salud mental.
+
+La Organización Mundial de la Salud señala que los ambientes laborales deficientes, las cargas excesivas de trabajo, el bajo control sobre las tareas y la inseguridad laboral constituyen riesgos para la salud mental. Asimismo, estima que la depresión y la ansiedad provocan aproximadamente 12 mil millones de días laborales perdidos cada año a nivel mundial.
+
+En este contexto, disponer de mecanismos accesibles que favorezcan el reconocimiento temprano de situaciones de estrés y promuevan prácticas de bienestar representa una oportunidad para apoyar a los trabajadores antes de que las dificultades se intensifiquen.
+
+#### How — ¿Cómo se manifiesta actualmente el problema?
+
+Actualmente, una persona que busca gestionar su estrés puede recurrir a diferentes alternativas de manera independiente: contenido disponible en Internet, aplicaciones de bienestar, técnicas de relajación, registros personales o atención con profesionales.
+
+Esta fragmentación puede dificultar que el usuario mantenga continuidad sobre su propio proceso, relacione los factores que influyen en su bienestar y observe su evolución a través del tiempo.
+
+NeuroZen busca abordar esta situación mediante una plataforma que integre mecanismos de autoevaluación, seguimiento personal, actividades de bienestar, recursos informativos y acceso a orientación profesional dentro de una experiencia digital unificada.
+
+#### How Much — ¿Cuál es la magnitud del problema?
+
+La información disponible evidencia que el estrés laboral representa una problemática relevante tanto en el contexto nacional como internacional.
+
+En Perú, EsSalud informó que, entre enero y septiembre de 2024, evaluó a 927 trabajadores asegurados de diferentes empresas de Lima y encontró que aproximadamente el **84 % presentaba algún grado de estrés laboral**. Entre los factores identificados se encontraban la excesiva carga de trabajo, las altas exigencias emocionales, la falta de autonomía y las relaciones interpersonales conflictivas (EsSalud, 2024).
+
+Asimismo, el Instituto Nacional de Salud Mental “Honorio Delgado - Hideyo Noguchi” señaló que durante 2023 el Ministerio de Salud atendió **más de 42 000 casos de estrés severo** en el país (INSM, 2025).
+
+A nivel internacional, la Organización Mundial de la Salud estima que cada año se pierden alrededor de **12 mil millones de días de trabajo debido a la depresión y la ansiedad**, generando aproximadamente **US$1 billón anuales en pérdida de productividad** (OMS, 2024).
+
+Estas cifras permiten dimensionar la relevancia de desarrollar alternativas que contribuyan al cuidado y seguimiento del bienestar de las personas dentro del contexto laboral.
+
+#### Antecedentes
+
+La relación entre el entorno laboral y el bienestar mental ha adquirido una relevancia creciente. La Organización Mundial de la Salud reconoce que, aunque el trabajo puede constituir un factor positivo al proporcionar ingresos, estructura, relaciones sociales y sentido de propósito, determinadas condiciones laborales pueden convertirse en factores de riesgo para la salud mental.
+
+En el contexto peruano, instituciones como EsSalud y el Instituto Nacional de Salud Mental han advertido sobre la presencia de estrés laboral y la necesidad de fortalecer acciones preventivas frente a riesgos psicosociales. Entre los factores recurrentemente señalados se encuentran la sobrecarga de trabajo, las exigencias emocionales, la falta de autonomía y los ambientes laborales desfavorables.
+
+Paralelamente, el uso extendido de aplicaciones web y móviles genera oportunidades para complementar las acciones de prevención y bienestar mediante herramientas digitales capaces de acompañar al usuario de manera continua. Sin embargo, estas herramientas deben diseñarse evitando presentar resultados como diagnósticos médicos y protegiendo adecuadamente la información personal recopilada.
+
+Dentro de este contexto surge NeuroZen como una propuesta orientada a facilitar el acceso a herramientas de seguimiento y gestión personal del estrés relacionado con el trabajo mediante una experiencia digital integrada.
+
+#### Problemática
+
+Las personas laboralmente activas pueden encontrarse expuestas a diferentes factores de estrés durante su rutina de trabajo sin disponer de mecanismos continuos que les permitan identificar patrones asociados con su bienestar, observar su evolución y acceder de forma organizada a alternativas de apoyo.
+
+Si bien existen recursos digitales, información pública y servicios profesionales relacionados con el bienestar, estos pueden encontrarse distribuidos entre distintas plataformas o depender de acciones aisladas del usuario. Esta situación dificulta mantener continuidad y obtener una visión organizada de los factores que pueden estar relacionados con cambios en su nivel de estrés.
+
+Por ello, se identifica la necesidad de proporcionar una experiencia digital que permita al usuario realizar autoevaluaciones orientativas, registrar y consultar su evolución, identificar factores asociados con situaciones de estrés, acceder a actividades y recursos de bienestar y, cuando resulte necesario, encontrar mecanismos que faciliten el contacto con profesionales.
+
+La problemática no consiste únicamente en la ausencia de una aplicación, sino en la dificultad que puede experimentar el usuario para **reconocer, organizar y dar seguimiento de manera continua a información relevante sobre su bienestar frente al estrés relacionado con su actividad laboral**.
+
+#### Objetivos de la solución
+
+La propuesta de NeuroZen busca:
+
+- Facilitar al usuario mecanismos de autoevaluación que le permitan reflexionar sobre su estado de bienestar relacionado con el estrés.
+- Permitir el registro y seguimiento de información que ayude al usuario a observar la evolución de su bienestar a través del tiempo.
+- Proporcionar actividades y recursos que puedan incorporarse a la rutina del usuario para apoyar la gestión personal del estrés.
+- Facilitar el acceso a información sobre profesionales y mecanismos de orientación cuando el usuario considere necesario buscar apoyo especializado.
+- Integrar las principales funcionalidades dentro de experiencias web y móviles accesibles y consistentes.
+- Generar, con autorización del usuario y bajo criterios de privacidad, información que permita evaluar el comportamiento de la plataforma y apoyar procesos posteriores de mejora y experimentación.
+
+#### Restricciones de alcance
+
+Para delimitar el alcance inicial del producto se establecen las siguientes restricciones:
+
+- NeuroZen no realizará diagnósticos médicos, psicológicos o psiquiátricos.
+- La plataforma no sustituirá la evaluación, diagnóstico ni tratamiento proporcionado por profesionales de la salud.
+- Las autoevaluaciones y resultados presentados tendrán carácter informativo y de acompañamiento.
+- La plataforma no funcionará como servicio de emergencia o atención inmediata frente a situaciones de crisis.
+- El acceso a determinadas funcionalidades dependerá de una conexión a Internet y de un dispositivo compatible con la experiencia web o móvil.
+- El tratamiento de información personal deberá realizarse respetando criterios de privacidad, seguridad, transparencia y consentimiento del usuario.
+- La incorporación de nuevas funcionalidades estará condicionada por evidencia obtenida mediante investigación con usuarios y por el alcance técnico establecido para el producto.
+
 
 ### 1.2.2. Lean UX Process
 
