@@ -393,46 +393,51 @@ Estas cifras permiten dimensionar la importancia de promover herramientas y estr
 
 #### Antecedentes
 
-La relación entre el entorno laboral y el bienestar mental ha adquirido una relevancia creciente. La Organización Mundial de la Salud reconoce que, aunque el trabajo puede constituir un factor positivo al proporcionar ingresos, estructura, relaciones sociales y sentido de propósito, determinadas condiciones laborales pueden convertirse en factores de riesgo para la salud mental.
+El estrés laboral ha adquirido mayor relevancia debido a la relación existente entre las condiciones de trabajo y el bienestar de las personas.
 
-En el contexto peruano, instituciones como EsSalud y el Instituto Nacional de Salud Mental han advertido sobre la presencia de estrés laboral y la necesidad de fortalecer acciones preventivas frente a riesgos psicosociales. Entre los factores recurrentemente señalados se encuentran la sobrecarga de trabajo, las exigencias emocionales, la falta de autonomía y los ambientes laborales desfavorables.
+Factores como la carga excesiva de actividades, jornadas prolongadas, presión por resultados, bajo nivel de autonomía, relaciones laborales conflictivas y dificultades para mantener una separación entre las responsabilidades laborales y personales pueden influir en la aparición o incremento de situaciones de estrés.
 
-Paralelamente, el uso extendido de aplicaciones web y móviles genera oportunidades para complementar las acciones de prevención y bienestar mediante herramientas digitales capaces de acompañar al usuario de manera continua. Sin embargo, estas herramientas deben diseñarse evitando presentar resultados como diagnósticos médicos y protegiendo adecuadamente la información personal recopilada.
+Al mismo tiempo, el crecimiento del uso de aplicaciones web y móviles permite explorar nuevas formas de acompañamiento digital. Estas herramientas pueden facilitar que las personas registren información, realicen autoevaluaciones, observen su evolución y accedan a actividades relacionadas con la gestión del estrés.
 
-Dentro de este contexto surge NeuroZen como una propuesta orientada a facilitar el acceso a herramientas de seguimiento y gestión personal del estrés relacionado con el trabajo mediante una experiencia digital integrada.
+Sin embargo, debido a que este tipo de información se relaciona con aspectos personales y de bienestar, las soluciones digitales deben evitar presentar sus resultados como diagnósticos clínicos y considerar cuidadosamente la privacidad y seguridad de los datos recopilados.
+
+Dentro de este contexto surge NeuroZen como una plataforma orientada a integrar mecanismos para la identificación, seguimiento y gestión del estrés relacionado con el trabajo.
 
 #### Problemática
 
-Las personas laboralmente activas pueden encontrarse expuestas a diferentes factores de estrés durante su rutina de trabajo sin disponer de mecanismos continuos que les permitan identificar patrones asociados con su bienestar, observar su evolución y acceder de forma organizada a alternativas de apoyo.
+Las personas laboralmente activas pueden encontrarse expuestas de manera recurrente a factores capaces de generar estrés sin disponer de mecanismos continuos que les permitan reconocer cómo evoluciona su situación, relacionar los cambios percibidos con posibles factores desencadenantes y tomar acciones de manera oportuna.
 
-Si bien existen recursos digitales, información pública y servicios profesionales relacionados con el bienestar, estos pueden encontrarse distribuidos entre distintas plataformas o depender de acciones aisladas del usuario. Esta situación dificulta mantener continuidad y obtener una visión organizada de los factores que pueden estar relacionados con cambios en su nivel de estrés.
+Si bien existen cuestionarios, aplicaciones de bienestar, técnicas de relajación, contenido informativo y servicios profesionales, estos recursos suelen utilizarse de forma aislada. Esta fragmentación dificulta mantener una visión continua que relacione autoevaluaciones, señales físicas o emocionales percibidas, situaciones laborales, actividades realizadas y evolución histórica.
 
-Por ello, se identifica la necesidad de proporcionar una experiencia digital que permita al usuario realizar autoevaluaciones orientativas, registrar y consultar su evolución, identificar factores asociados con situaciones de estrés, acceder a actividades y recursos de bienestar y, cuando resulte necesario, encontrar mecanismos que faciliten el contacto con profesionales.
+Por ello, se identifica la necesidad de proporcionar una experiencia digital que permita al usuario recopilar y organizar información relacionada con su estrés laboral, observar patrones a través del tiempo y acceder a herramientas que contribuyan a su gestión.
 
-La problemática no consiste únicamente en la ausencia de una aplicación, sino en la dificultad que puede experimentar el usuario para **reconocer, organizar y dar seguimiento de manera continua a información relevante sobre su bienestar frente al estrés relacionado con su actividad laboral**.
+NeuroZen busca responder a esta problemática integrando mecanismos de autoevaluación, registro de señales y factores asociados al estrés, seguimiento histórico, actividades orientadas a su gestión, recursos informativos y acceso a orientación profesional.
 
 #### Objetivos de la solución
 
-La propuesta de NeuroZen busca:
+NeuroZen busca:
 
-- Facilitar al usuario mecanismos de autoevaluación que le permitan reflexionar sobre su estado de bienestar relacionado con el estrés.
-- Permitir el registro y seguimiento de información que ayude al usuario a observar la evolución de su bienestar a través del tiempo.
-- Proporcionar actividades y recursos que puedan incorporarse a la rutina del usuario para apoyar la gestión personal del estrés.
-- Facilitar el acceso a información sobre profesionales y mecanismos de orientación cuando el usuario considere necesario buscar apoyo especializado.
-- Integrar las principales funcionalidades dentro de experiencias web y móviles accesibles y consistentes.
-- Generar, con autorización del usuario y bajo criterios de privacidad, información que permita evaluar el comportamiento de la plataforma y apoyar procesos posteriores de mejora y experimentación.
+- Facilitar mecanismos de autoevaluación que permitan al usuario reflexionar sobre situaciones relacionadas con su nivel de estrés.
+- Permitir el registro de información sobre factores, situaciones y señales físicas o emocionales asociadas con episodios de estrés.
+- Proporcionar visualizaciones históricas que faciliten el seguimiento y reconocimiento de patrones.
+- Brindar actividades y estrategias que puedan contribuir a la gestión personal del estrés.
+- Proporcionar recursos informativos relacionados con el estrés y el bienestar.
+- Facilitar el acceso a orientación profesional cuando el usuario considere necesario recibir apoyo especializado.
+- Integrar las principales funcionalidades dentro de experiencias web y móviles consistentes.
+- Obtener, mediante autorización del usuario y bajo criterios de privacidad, información que permita evaluar y mejorar progresivamente el producto.
 
 #### Restricciones de alcance
 
-Para delimitar el alcance inicial del producto se establecen las siguientes restricciones:
+Para delimitar el alcance de NeuroZen se establecen las siguientes restricciones:
 
 - NeuroZen no realizará diagnósticos médicos, psicológicos o psiquiátricos.
-- La plataforma no sustituirá la evaluación, diagnóstico ni tratamiento proporcionado por profesionales de la salud.
-- Las autoevaluaciones y resultados presentados tendrán carácter informativo y de acompañamiento.
-- La plataforma no funcionará como servicio de emergencia o atención inmediata frente a situaciones de crisis.
-- El acceso a determinadas funcionalidades dependerá de una conexión a Internet y de un dispositivo compatible con la experiencia web o móvil.
-- El tratamiento de información personal deberá realizarse respetando criterios de privacidad, seguridad, transparencia y consentimiento del usuario.
-- La incorporación de nuevas funcionalidades estará condicionada por evidencia obtenida mediante investigación con usuarios y por el alcance técnico establecido para el producto.
+- Los resultados de autoevaluaciones y análisis tendrán carácter orientativo.
+- La identificación de señales o patrones no deberá presentarse como confirmación de una condición clínica.
+- La plataforma no sustituirá la evaluación ni el tratamiento realizado por profesionales de la salud.
+- NeuroZen no funcionará como servicio de emergencia o atención inmediata frente a situaciones de crisis.
+- Cualquier mecanismo que utilice información física, emocional o biométrica deberá contar con conocimiento y consentimiento del usuario.
+- El tratamiento de información personal deberá considerar privacidad, seguridad y transparencia.
+- Las funcionalidades incorporadas deberán mantenerse dentro del alcance técnico definido para el proyecto y ser evaluadas antes de considerarse parte definitiva del producto.
 
 
 ### 1.2.2. Lean UX Process
