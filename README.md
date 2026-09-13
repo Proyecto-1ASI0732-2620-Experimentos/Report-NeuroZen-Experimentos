@@ -454,58 +454,57 @@ Los elementos desarrollados durante esta etapa representan supuestos iniciales y
 
 ##### Domain
 
-NeuroZen se desarrolla dentro del dominio del **bienestar digital aplicado al contexto laboral**, específicamente en la gestión personal del estrés relacionado con las actividades de trabajo.
+NeuroZen se desarrolla dentro del dominio de las soluciones digitales orientadas a la **identificación, seguimiento y gestión del estrés relacionado con el trabajo**.
 
-El producto se encuentra en la intersección entre tecnología, bienestar personal y acceso a recursos de orientación, buscando aprovechar experiencias web y móviles para ofrecer acompañamiento continuo al usuario.
+La propuesta combina tecnología, seguimiento personal y acceso a recursos de bienestar para ayudar a los usuarios a reconocer factores y señales asociados con situaciones de estrés y adoptar acciones que puedan contribuir a su gestión.
 
 ##### Customer Segments
 
-Como punto de partida se consideran dos grupos de personas laboralmente activas:
+Se consideran inicialmente dos segmentos:
 
-- **Trabajadores dependientes:** personas que realizan sus actividades dentro de una organización y están sujetas a horarios, responsabilidades, objetivos, relaciones laborales y condiciones determinadas por su entorno de trabajo.
-- **Trabajadores independientes:** personas que desarrollan actividades laborales por cuenta propia, con mayor autonomía sobre sus horarios pero expuestas a factores como variabilidad de ingresos, carga de trabajo irregular, gestión simultánea de responsabilidades y dificultad para separar el tiempo laboral del personal.
-
-La caracterización definitiva de estos segmentos se desarrollará posteriormente mediante investigación y entrevistas.
+- **Personas laboralmente activas con jornadas extendidas**, expuestas a alta carga de trabajo, presión por resultados y disponibilidad limitada para gestionar situaciones de estrés.
+- **Personas con trabajo informal, independiente o con horarios flexibles**, cuyas actividades pueden caracterizarse por horarios variables, disponibilidad constante, incertidumbre económica o dificultad para establecer límites entre trabajo y vida personal.
 
 ##### Pain Points
 
-A partir de la problemática analizada se plantean inicialmente los siguientes puntos de dolor:
+Inicialmente se identifican los siguientes puntos de dolor:
 
-- Dificultad para reconocer oportunamente cambios relacionados con el nivel de estrés.
-- Falta de continuidad al registrar y observar la evolución del bienestar personal.
-- Dificultad para identificar situaciones o factores laborales que se repiten y pueden estar relacionados con episodios de estrés.
-- Uso de recursos de bienestar provenientes de diferentes plataformas sin un seguimiento común.
-- Falta de claridad sobre qué actividades pueden incorporarse a la rutina diaria para gestionar situaciones de estrés.
-- Fricción al momento de buscar información u orientación profesional cuando el usuario considera que necesita apoyo adicional.
-- Preocupación por la privacidad al utilizar plataformas que recopilan información relacionada con el bienestar personal.
+- Dificultad para reconocer oportunamente cambios relacionados con el estrés.
+- Falta de continuidad para registrar y consultar la evolución de situaciones de estrés.
+- Dificultad para relacionar determinadas situaciones laborales con señales físicas o emocionales percibidas.
+- Falta de claridad sobre qué factores se repiten con mayor frecuencia.
+- Uso de diferentes herramientas sin un historial común.
+- Dificultad para incorporar actividades de gestión del estrés dentro de la rutina.
+- Fricción para encontrar orientación profesional cuando resulta necesaria.
+- Preocupación por la privacidad de la información relacionada con el bienestar.
 
 ##### Gap
 
-Actualmente existen aplicaciones de bienestar, contenido informativo, herramientas de relajación y servicios profesionales que pueden atender individualmente algunas de estas necesidades. Sin embargo, el usuario puede terminar utilizando diferentes medios sin contar con una experiencia que le permita mantener continuidad entre su autoevaluación, el registro de situaciones relevantes, las actividades realizadas y la evolución percibida de su bienestar.
+Existen diferentes herramientas para realizar cuestionarios, registrar estados personales, practicar técnicas de relajación, consultar recursos o acceder a profesionales.
 
-Se identifica, por lo tanto, una oportunidad para integrar estos elementos dentro de una experiencia digital que permita mantener una visión organizada y continua del proceso personal del usuario.
+Sin embargo, estas funcionalidades suelen encontrarse distribuidas entre diferentes productos y no necesariamente permiten relacionar de forma continua autoevaluaciones, señales percibidas, factores desencadenantes, actividades realizadas y evolución histórica.
+
+Se identifica una oportunidad para integrar estos elementos dentro de una misma experiencia digital orientada específicamente al estrés relacionado con la actividad laboral.
 
 ##### Vision and Strategy
 
-NeuroZen busca convertirse en una plataforma digital de acompañamiento que permita a las personas laboralmente activas comprender mejor su relación con el estrés laboral y adoptar acciones orientadas a su bienestar.
+NeuroZen busca convertirse en una plataforma digital capaz de ayudar a las personas laboralmente activas a comprender mejor cómo se manifiesta y evoluciona el estrés asociado con su trabajo.
 
-La estrategia inicial consiste en proporcionar una experiencia sencilla y accesible que combine autoevaluación, seguimiento personal, registro de factores asociados al estrés, actividades de bienestar, contenido informativo y mecanismos para facilitar el acceso a orientación profesional.
+La estrategia consiste en combinar autoevaluaciones, registro de factores y señales relacionadas con el estrés, seguimiento histórico, identificación de patrones, actividades de gestión, recursos y acceso a orientación profesional.
 
-La evolución del producto estará dirigida por investigación con usuarios, análisis de comportamiento y experimentación, evitando asumir que una funcionalidad genera valor únicamente por haber sido implementada.
+La evolución de la solución estará dirigida por evidencia obtenida mediante investigación con usuarios, métricas de uso y experimentación.
 
 ##### Initial Segment
 
-Como segmento inicial para las primeras actividades de investigación se priorizarán **personas laboralmente activas en Perú que utilizan habitualmente dispositivos móviles o aplicaciones web y que manifiestan haber experimentado situaciones de estrés relacionadas con su trabajo**.
-
-Dentro de este grupo se buscará incluir tanto trabajadores dependientes como independientes para identificar similitudes y diferencias en sus necesidades y comportamientos.
+Las primeras actividades de investigación priorizarán adultos de aproximadamente **20 a 50 años** pertenecientes a alguno de los dos segmentos identificados y que manifiesten haber experimentado situaciones de estrés relacionadas con su actividad laboral.
 
 ##### Problem Statement
 
-Las personas laboralmente activas pueden experimentar situaciones de estrés relacionadas con sus responsabilidades y condiciones de trabajo, pero no siempre cuentan con mecanismos continuos que les permitan reconocer cambios en su bienestar, registrar los factores asociados, observar su evolución y acceder de manera organizada a alternativas de apoyo.
+Las personas laboralmente activas pueden estar expuestas de manera recurrente a situaciones capaces de generar estrés sin contar con mecanismos continuos que les permitan relacionar los factores laborales, señales percibidas y cambios en su nivel de estrés a través del tiempo.
 
-Actualmente, estas necesidades pueden atenderse mediante herramientas y recursos separados, lo cual dificulta mantener una visión integrada del proceso personal del usuario.
+Aunque existen diferentes herramientas de evaluación, bienestar y orientación profesional, su utilización de manera independiente puede dificultar la construcción de una visión integrada de la situación del usuario.
 
-NeuroZen busca abordar esta brecha mediante una experiencia digital que centralice mecanismos de autoevaluación, seguimiento, registro de factores asociados al estrés, actividades y recursos de bienestar y acceso a orientación profesional, permitiendo que el usuario disponga de información organizada para tomar decisiones más conscientes sobre su bienestar.
+NeuroZen busca abordar esta brecha mediante una plataforma que permita registrar información relevante, realizar autoevaluaciones, observar patrones históricos, acceder a actividades para gestionar el estrés y encontrar orientación profesional cuando resulte necesario.
 
 #### 1.2.2.2. Lean UX Assumptions
 
