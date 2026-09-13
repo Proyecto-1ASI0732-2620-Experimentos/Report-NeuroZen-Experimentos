@@ -604,6 +604,8 @@ A partir de los supuestos anteriores se plantean las siguientes hipótesis inici
 
 #### 1.2.2.4. Lean UX Canvas
 
+![Lean UX Canvas](assets/img/chapter-1-images/lean-ux-canvas.PNG)
+
 ## 1.3. Segmentos objetivo
 
 <div style="page-break-after: always;"></div>
