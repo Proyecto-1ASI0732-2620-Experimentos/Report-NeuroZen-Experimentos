@@ -490,6 +490,90 @@ NeuroZen busca abordar esta brecha mediante una experiencia digital que centrali
 
 #### 1.2.2.2. Lean UX Assumptions
 
+Los siguientes supuestos representan creencias iniciales del equipo sobre el negocio y los futuros usuarios de NeuroZen. Estos elementos deberán ser contrastados posteriormente mediante investigación, entrevistas y validación del producto.
+
+##### Business Assumptions
+
+1. Existe un grupo de personas laboralmente activas que reconoce el estrés relacionado con el trabajo como un problema relevante y estaría dispuesto a utilizar una herramienta digital para realizar seguimiento de su bienestar.
+
+2. La centralización de autoevaluaciones, seguimiento, registro de factores asociados al estrés, actividades de bienestar y recursos dentro de una misma plataforma puede generar mayor valor para los usuarios que el uso independiente de diferentes herramientas.
+
+3. La disponibilidad de información histórica sobre el bienestar puede favorecer el uso recurrente de NeuroZen, debido a que el valor del producto aumenta conforme el usuario registra información a través del tiempo.
+
+4. Las actividades breves que puedan incorporarse durante o después de una jornada laboral tendrán mayor probabilidad de ser utilizadas que aquellas que requieran períodos extensos de tiempo.
+
+5. Facilitar información y acceso a profesionales puede incrementar la confianza en NeuroZen al ofrecer una alternativa de apoyo adicional cuando las herramientas de autogestión no sean suficientes para las necesidades del usuario.
+
+6. La privacidad, seguridad y transparencia sobre el uso de los datos serán factores determinantes para generar confianza y permitir que los usuarios registren información relacionada con su bienestar.
+
+7. Un modelo que combine funcionalidades básicas accesibles con características adicionales mediante una suscripción podría ser viable, siempre que los usuarios perciban valor continuo en las funciones ofrecidas.
+
+8. Los canales digitales, principalmente redes sociales, contenido relacionado con bienestar y recomendaciones entre usuarios, pueden constituir mecanismos adecuados para dar a conocer inicialmente NeuroZen.
+
+9. La diferenciación de NeuroZen dependerá menos de ofrecer una gran cantidad de funcionalidades y más de proporcionar una experiencia integrada, sencilla y capaz de demostrar valor continuo al usuario.
+
+10. Uno de los principales riesgos del producto será conseguir que los usuarios mantengan el hábito de registrar información y utilizar las funcionalidades después de las primeras interacciones.
+
+11. Otro riesgo relevante será que los usuarios interpreten las autoevaluaciones como diagnósticos clínicos, por lo que la comunicación del producto deberá diferenciar claramente entre acompañamiento orientativo y atención profesional.
+
+##### User Assumptions
+
+1. **¿Quién es el usuario?**
+
+   El usuario principal es una persona laboralmente activa que experimenta situaciones de estrés relacionadas con su trabajo y desea comprender mejor cómo estas situaciones influyen en su bienestar.
+
+2. **¿Qué problema necesita resolver?**
+
+   Necesita una forma sencilla de reconocer cambios en su bienestar, registrar situaciones que puedan estar relacionadas con el estrés, observar su evolución y encontrar acciones que pueda incorporar a su rutina.
+
+3. **¿Qué información considera valiosa?**
+
+   Se asume que el usuario valorará conocer la evolución de sus autoevaluaciones, los factores de estrés registrados con mayor frecuencia, las actividades realizadas y patrones identificables a partir de su información histórica.
+
+4. **¿Qué características pueden ser importantes?**
+
+   Se consideran inicialmente relevantes:
+
+   - Autoevaluaciones periódicas.
+   - Historial y visualización de evolución.
+   - Registro de situaciones o factores asociados al estrés.
+   - Actividades breves de bienestar y relajación.
+   - Recursos informativos.
+   - Recordatorios configurables.
+   - Información sobre profesionales y mecanismos para solicitar orientación.
+
+5. **¿Dónde encaja NeuroZen en la vida del usuario?**
+
+   NeuroZen busca incorporarse como una herramienta complementaria dentro de la rutina del usuario y no como una actividad que requiera una dedicación extensa. Su uso podría darse antes, durante o después de la jornada laboral según la funcionalidad utilizada.
+
+6. **¿Cuándo sería utilizado el producto?**
+
+   Se asume que el usuario podría utilizar NeuroZen:
+
+   - Al percibir un incremento del estrés.
+   - Al finalizar una jornada laboral.
+   - Durante pausas o momentos de descanso.
+   - Al realizar una autoevaluación periódica.
+   - Al registrar una situación que considere relevante.
+   - Al consultar su evolución.
+   - Al buscar una actividad de bienestar.
+   - Al considerar que necesita orientación profesional.
+
+7. **¿Cómo debe comportarse el producto?**
+
+   La experiencia debe ser sencilla, calmada y comprensible, evitando incrementar la carga cognitiva del usuario. Debe comunicar claramente qué información recopila, por qué se recopila y qué significado tienen los resultados presentados.
+
+8. **¿Qué podría impedir su adopción?**
+
+   Se consideran posibles barreras:
+
+   - Falta de hábito para registrar información.
+   - Desconfianza respecto al tratamiento de datos personales.
+   - Percepción de que las actividades requieren demasiado tiempo.
+   - Resultados difíciles de comprender.
+   - Exceso de notificaciones.
+   - Sensación de que la plataforma no aporta valor después de las primeras interacciones.
+
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
 #### 1.2.2.4. Lean UX Canvas
