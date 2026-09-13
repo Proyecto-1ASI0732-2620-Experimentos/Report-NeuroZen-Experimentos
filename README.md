@@ -442,11 +442,13 @@ Para delimitar el alcance de NeuroZen se establecen las siguientes restricciones
 
 ### 1.2.2. Lean UX Process
 
-El Lean UX Process permite establecer una primera visión del producto a partir de supuestos sobre el problema, los usuarios y el modelo de negocio, buscando identificar tempranamente aquellos aspectos que necesitan ser comprobados mediante investigación y validación.
+El Lean UX Process permite establecer una visión inicial del producto a partir de supuestos sobre el problema, los usuarios y el modelo de negocio, identificando aquellos aspectos que posteriormente deberán ser contrastados mediante investigación y validación.
 
-Para NeuroZen, este proceso parte de la problemática identificada en torno a la dificultad que pueden experimentar las personas laboralmente activas para reconocer, organizar y dar seguimiento continuo a información relacionada con su bienestar frente al estrés laboral.
+Para NeuroZen, este proceso parte de la dificultad que pueden experimentar las personas laboralmente activas para identificar, registrar y gestionar de manera continua situaciones de estrés asociadas con su actividad laboral.
 
-En esta etapa, los elementos descritos no se consideran hechos confirmados. Constituyen supuestos iniciales que posteriormente deberán contrastarse mediante entrevistas, análisis de usuarios, validaciones de experiencia y datos obtenidos a partir del uso del producto.
+A partir de este problema se plantean supuestos relacionados con la utilidad de combinar autoevaluaciones, información sobre factores y señales asociadas al estrés, seguimiento histórico, actividades de gestión y acceso a orientación profesional dentro de una misma plataforma.
+
+Los elementos desarrollados durante esta etapa representan supuestos iniciales y no hechos confirmados. Posteriormente deberán contrastarse mediante entrevistas, análisis de usuarios, validaciones y evidencia obtenida a partir del uso de NeuroZen.
 
 #### 1.2.2.1. Lean UX Problem Statements
 
