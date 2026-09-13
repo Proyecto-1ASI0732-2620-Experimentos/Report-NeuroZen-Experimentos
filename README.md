@@ -301,6 +301,13 @@
 
 ### 1.1.1. Descripción de la Startup
 
+Nuestro startup llamado NeuroDraw está enfocado en una rápida detección del estrés en el ámbito
+laboral de personas entre 20 a 50 años de edad. Abarcando temas como salud mental, presión laboral
+y servicios, el software facilita el tratamiento del estrés laboral.
+Los usuarios pueden realizar un test que recabará información de salud, comportamiento, actitudes y
+patrones en la persona. La plataforma permite el contacto con un psicólogo. Además, fomenta
+diversas actividades para complementar el tratamiento contra el estrés.
+
 ### 1.1.2. Perfiles de integrantes del equipo
 
 ## 1.2. Solution Profile
