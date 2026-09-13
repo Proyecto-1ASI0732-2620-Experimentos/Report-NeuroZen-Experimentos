@@ -337,55 +337,59 @@ Para comprender el contexto en el que se plantea NeuroZen, se aplicó la técnic
 
 #### What — ¿Qué ocurre?
 
-El estrés asociado al trabajo constituye un problema que puede afectar el bienestar y desempeño de las personas laboralmente activas. Factores como una carga laboral elevada, exigencias emocionales, falta de autonomía, poca claridad sobre las funciones y relaciones interpersonales conflictivas pueden generar o incrementar situaciones de estrés.
+El estrés relacionado con el trabajo puede aparecer como consecuencia de diferentes factores asociados con la actividad laboral, como jornadas extensas, sobrecarga de trabajo, presión por resultados, exigencias emocionales, relaciones interpersonales conflictivas, disponibilidad constante o dificultad para separar la vida laboral de la personal.
 
-Aunque existen diferentes recursos de bienestar y atención profesional, las personas no siempre disponen de un medio que les permita centralizar de manera sencilla el reconocimiento de su situación, realizar un seguimiento de su evolución y acceder a alternativas de apoyo dentro de una misma experiencia digital.
+Uno de los principales problemas es que las personas no siempre cuentan con mecanismos continuos que les permitan identificar cómo evoluciona su nivel de estrés, reconocer qué situaciones pueden estar relacionadas con sus cambios y actuar de manera oportuna frente a ellos.
 
 #### Who — ¿A quién afecta?
 
-El problema involucra principalmente a personas laboralmente activas que se encuentran expuestas de manera recurrente a factores de riesgo psicosocial dentro de su actividad laboral.
+La problemática afecta principalmente a personas laboralmente activas expuestas de manera recurrente a situaciones capaces de generar estrés.
 
-También involucra indirectamente a organizaciones, profesionales relacionados con el bienestar y al entorno social de los trabajadores, debido a que las consecuencias del estrés pueden reflejarse en el desempeño laboral, las relaciones interpersonales y la calidad de vida.
+Para NeuroZen se consideran especialmente dos contextos: personas con jornadas laborales extendidas y personas que desarrollan actividades informales, independientes o bajo horarios flexibles.
+
+También pueden verse afectados indirectamente el entorno familiar, social y laboral de estas personas, así como las organizaciones con las que se relacionan.
 
 #### Where — ¿Dónde ocurre?
 
-Las situaciones de estrés pueden presentarse en distintos entornos de trabajo, tanto presenciales como remotos o híbridos, y no dependen exclusivamente de una industria o profesión determinada.
+Las situaciones relacionadas con estrés laboral pueden presentarse en diferentes modalidades de trabajo, incluyendo entornos presenciales, remotos e híbridos.
 
-Para el alcance inicial de NeuroZen, el análisis se orientará al contexto de trabajadores en Perú y a usuarios que puedan acceder a servicios digitales mediante dispositivos móviles o navegadores web.
+También pueden producirse fuera del espacio físico de trabajo cuando las responsabilidades laborales, la disponibilidad permanente o las preocupaciones relacionadas con la actividad profesional continúan afectando al usuario después de finalizar su jornada.
+
+El alcance inicial de NeuroZen se encuentra orientado al contexto peruano.
 
 #### When — ¿Cuándo ocurre?
 
-El estrés relacionado con el trabajo puede manifestarse durante períodos de alta carga laboral, cumplimiento de plazos, cambios organizacionales, conflictos interpersonales, jornadas extensas o situaciones en las que el trabajador perciba un bajo nivel de control sobre sus actividades.
+El estrés puede manifestarse durante períodos de alta carga laboral, cumplimiento de plazos, jornadas extensas, conflictos interpersonales, cambios organizacionales, incertidumbre económica o períodos en los que el trabajador dispone de poco control sobre sus actividades.
 
-También puede desarrollarse de manera progresiva cuando dichos factores se mantienen durante períodos prolongados y no existen mecanismos adecuados para reconocerlos y gestionarlos oportunamente.
+También puede desarrollarse progresivamente cuando estos factores se mantienen durante un período prolongado sin que la persona cuente con mecanismos para reconocer su evolución.
 
 #### Why — ¿Por qué es importante atenderlo?
 
-El bienestar mental en el trabajo tiene consecuencias tanto para las personas como para las organizaciones y la sociedad. Un manejo inadecuado de factores relacionados con el estrés puede afectar el desempeño, incrementar el ausentismo y contribuir a problemas de salud mental.
+El estrés relacionado con el trabajo puede afectar el bienestar de las personas y generar consecuencias sobre su desempeño, relaciones interpersonales y calidad de vida.
 
-La Organización Mundial de la Salud señala que los ambientes laborales deficientes, las cargas excesivas de trabajo, el bajo control sobre las tareas y la inseguridad laboral constituyen riesgos para la salud mental. Asimismo, estima que la depresión y la ansiedad provocan aproximadamente 12 mil millones de días laborales perdidos cada año a nivel mundial.
+La identificación temprana de cambios y factores asociados puede facilitar que la persona adopte acciones orientadas a gestionar estas situaciones antes de que se intensifiquen.
 
-En este contexto, disponer de mecanismos accesibles que favorezcan el reconocimiento temprano de situaciones de estrés y promuevan prácticas de bienestar representa una oportunidad para apoyar a los trabajadores antes de que las dificultades se intensifiquen.
+Por ello, resulta relevante disponer de herramientas accesibles que permitan registrar información, observar cambios y proporcionar alternativas de apoyo sin presentar estos mecanismos como sustitutos de la atención profesional.
 
-#### How — ¿Cómo se manifiesta actualmente el problema?
+#### How — ¿Cómo se aborda actualmente?
 
-Actualmente, una persona que busca gestionar su estrés puede recurrir a diferentes alternativas de manera independiente: contenido disponible en Internet, aplicaciones de bienestar, técnicas de relajación, registros personales o atención con profesionales.
+Actualmente, una persona puede recurrir a distintas alternativas de forma independiente, como aplicaciones de relajación, cuestionarios, contenido informativo, registros personales, ejercicios de respiración o atención con profesionales.
 
-Esta fragmentación puede dificultar que el usuario mantenga continuidad sobre su propio proceso, relacione los factores que influyen en su bienestar y observe su evolución a través del tiempo.
+Sin embargo, estas alternativas pueden encontrarse distribuidas entre diferentes herramientas y no necesariamente permiten relacionar autoevaluaciones, señales percibidas, factores desencadenantes, actividades realizadas y evolución histórica dentro de un mismo proceso.
 
-NeuroZen busca abordar esta situación mediante una plataforma que integre mecanismos de autoevaluación, seguimiento personal, actividades de bienestar, recursos informativos y acceso a orientación profesional dentro de una experiencia digital unificada.
+NeuroZen busca abordar esta fragmentación mediante una plataforma que permita integrar estos elementos y proporcionar al usuario una visión más organizada de su relación con el estrés laboral.
 
 #### How Much — ¿Cuál es la magnitud del problema?
 
-La información disponible evidencia que el estrés laboral representa una problemática relevante tanto en el contexto nacional como internacional.
+La información disponible evidencia que el estrés relacionado con el trabajo constituye una problemática relevante.
 
-En Perú, EsSalud informó que, entre enero y septiembre de 2024, evaluó a 927 trabajadores asegurados de diferentes empresas de Lima y encontró que aproximadamente el **84 % presentaba algún grado de estrés laboral**. Entre los factores identificados se encontraban la excesiva carga de trabajo, las altas exigencias emocionales, la falta de autonomía y las relaciones interpersonales conflictivas (EsSalud, 2024).
+En Perú, EsSalud informó que, entre enero y septiembre de 2024, evaluó a 927 trabajadores asegurados pertenecientes a diferentes empresas de Lima y encontró que aproximadamente el **84 % presentaba algún grado de estrés laboral**. Entre los factores señalados se encontraban la excesiva carga de trabajo, las altas exigencias emocionales, la falta de autonomía y las relaciones interpersonales conflictivas.
 
-Asimismo, el Instituto Nacional de Salud Mental “Honorio Delgado - Hideyo Noguchi” señaló que durante 2023 el Ministerio de Salud atendió **más de 42 000 casos de estrés severo** en el país (INSM, 2025).
+Asimismo, el Instituto Nacional de Salud Mental “Honorio Delgado - Hideyo Noguchi” señaló que durante 2023 se atendieron más de **42 000 casos de estrés severo** en el país.
 
-A nivel internacional, la Organización Mundial de la Salud estima que cada año se pierden alrededor de **12 mil millones de días de trabajo debido a la depresión y la ansiedad**, generando aproximadamente **US$1 billón anuales en pérdida de productividad** (OMS, 2024).
+A nivel internacional, la Organización Mundial de la Salud estima que la depresión y la ansiedad generan aproximadamente **12 mil millones de días laborales perdidos anualmente**, representando alrededor de **US$1 billón en pérdida de productividad**.
 
-Estas cifras permiten dimensionar la relevancia de desarrollar alternativas que contribuyan al cuidado y seguimiento del bienestar de las personas dentro del contexto laboral.
+Estas cifras permiten dimensionar la importancia de promover herramientas y estrategias que contribuyan a reconocer y gestionar oportunamente situaciones relacionadas con el estrés.
 
 #### Antecedentes
 
