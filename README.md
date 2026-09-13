@@ -433,6 +433,61 @@ En esta etapa, los elementos descritos no se consideran hechos confirmados. Cons
 
 #### 1.2.2.1. Lean UX Problem Statements
 
+##### Domain
+
+NeuroZen se desarrolla dentro del dominio del **bienestar digital aplicado al contexto laboral**, específicamente en la gestión personal del estrés relacionado con las actividades de trabajo.
+
+El producto se encuentra en la intersección entre tecnología, bienestar personal y acceso a recursos de orientación, buscando aprovechar experiencias web y móviles para ofrecer acompañamiento continuo al usuario.
+
+##### Customer Segments
+
+Como punto de partida se consideran dos grupos de personas laboralmente activas:
+
+- **Trabajadores dependientes:** personas que realizan sus actividades dentro de una organización y están sujetas a horarios, responsabilidades, objetivos, relaciones laborales y condiciones determinadas por su entorno de trabajo.
+- **Trabajadores independientes:** personas que desarrollan actividades laborales por cuenta propia, con mayor autonomía sobre sus horarios pero expuestas a factores como variabilidad de ingresos, carga de trabajo irregular, gestión simultánea de responsabilidades y dificultad para separar el tiempo laboral del personal.
+
+La caracterización definitiva de estos segmentos se desarrollará posteriormente mediante investigación y entrevistas.
+
+##### Pain Points
+
+A partir de la problemática analizada se plantean inicialmente los siguientes puntos de dolor:
+
+- Dificultad para reconocer oportunamente cambios relacionados con el nivel de estrés.
+- Falta de continuidad al registrar y observar la evolución del bienestar personal.
+- Dificultad para identificar situaciones o factores laborales que se repiten y pueden estar relacionados con episodios de estrés.
+- Uso de recursos de bienestar provenientes de diferentes plataformas sin un seguimiento común.
+- Falta de claridad sobre qué actividades pueden incorporarse a la rutina diaria para gestionar situaciones de estrés.
+- Fricción al momento de buscar información u orientación profesional cuando el usuario considera que necesita apoyo adicional.
+- Preocupación por la privacidad al utilizar plataformas que recopilan información relacionada con el bienestar personal.
+
+##### Gap
+
+Actualmente existen aplicaciones de bienestar, contenido informativo, herramientas de relajación y servicios profesionales que pueden atender individualmente algunas de estas necesidades. Sin embargo, el usuario puede terminar utilizando diferentes medios sin contar con una experiencia que le permita mantener continuidad entre su autoevaluación, el registro de situaciones relevantes, las actividades realizadas y la evolución percibida de su bienestar.
+
+Se identifica, por lo tanto, una oportunidad para integrar estos elementos dentro de una experiencia digital que permita mantener una visión organizada y continua del proceso personal del usuario.
+
+##### Vision and Strategy
+
+NeuroZen busca convertirse en una plataforma digital de acompañamiento que permita a las personas laboralmente activas comprender mejor su relación con el estrés laboral y adoptar acciones orientadas a su bienestar.
+
+La estrategia inicial consiste en proporcionar una experiencia sencilla y accesible que combine autoevaluación, seguimiento personal, registro de factores asociados al estrés, actividades de bienestar, contenido informativo y mecanismos para facilitar el acceso a orientación profesional.
+
+La evolución del producto estará dirigida por investigación con usuarios, análisis de comportamiento y experimentación, evitando asumir que una funcionalidad genera valor únicamente por haber sido implementada.
+
+##### Initial Segment
+
+Como segmento inicial para las primeras actividades de investigación se priorizarán **personas laboralmente activas en Perú que utilizan habitualmente dispositivos móviles o aplicaciones web y que manifiestan haber experimentado situaciones de estrés relacionadas con su trabajo**.
+
+Dentro de este grupo se buscará incluir tanto trabajadores dependientes como independientes para identificar similitudes y diferencias en sus necesidades y comportamientos.
+
+##### Problem Statement
+
+Las personas laboralmente activas pueden experimentar situaciones de estrés relacionadas con sus responsabilidades y condiciones de trabajo, pero no siempre cuentan con mecanismos continuos que les permitan reconocer cambios en su bienestar, registrar los factores asociados, observar su evolución y acceder de manera organizada a alternativas de apoyo.
+
+Actualmente, estas necesidades pueden atenderse mediante herramientas y recursos separados, lo cual dificulta mantener una visión integrada del proceso personal del usuario.
+
+NeuroZen busca abordar esta brecha mediante una experiencia digital que centralice mecanismos de autoevaluación, seguimiento, registro de factores asociados al estrés, actividades y recursos de bienestar y acceso a orientación profesional, permitiendo que el usuario disponga de información organizada para tomar decisiones más conscientes sobre su bienestar.
+
 #### 1.2.2.2. Lean UX Assumptions
 
 #### 1.2.2.3. Lean UX Hypothesis Statements
