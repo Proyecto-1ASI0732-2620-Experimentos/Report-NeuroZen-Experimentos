@@ -608,7 +608,39 @@ A partir de los supuestos anteriores se plantean las siguientes hipótesis inici
 
 ## 1.3. Segmentos objetivo
 
-<div style="page-break-after: always;"></div>
+NeuroZen se dirige a personas laboralmente activas que se encuentran expuestas a situaciones de estrés relacionadas con las características de su trabajo y que pueden beneficiarse de herramientas digitales para identificar, dar seguimiento y gestionar dicho estrés.
+
+Tomando como base el dominio del problema, se consideran inicialmente dos segmentos objetivo: **personas laboralmente activas con jornadas extendidas** y **personas con trabajo informal, independiente o con horarios flexibles**.
+
+Esta segmentación busca representar dos contextos laborales diferentes en los que pueden presentarse factores de estrés. La caracterización definitiva de sus comportamientos, necesidades, objetivos y frustraciones será contrastada posteriormente mediante entrevistas y el proceso de Needfinding.
+
+### Segmento 1: Personas laboralmente activas con jornadas extendidas
+
+Este segmento está conformado por adultos que desarrollan actividades laborales con jornadas prolongadas, alta carga de trabajo o períodos frecuentes de exigencia laboral.
+
+Puede incluir trabajadores de organizaciones públicas o privadas, independientemente de que su modalidad sea presencial, híbrida o remota. Entre las características que diferencian inicialmente a este segmento se encuentran la exposición a horarios extensos, cumplimiento de objetivos, presión por resultados, responsabilidades acumuladas y dificultad para mantener límites claros entre las actividades laborales y personales.
+
+Los proyectos anteriores de NeuroZen también identificaron este segmento como uno de los principales grupos de interés del producto, especialmente por la exposición prolongada a situaciones laborales capaces de generar estrés y por la necesidad de disponer de herramientas que puedan incorporarse dentro de rutinas con disponibilidad limitada. :contentReference[oaicite:1]{index=1}
+
+Para la investigación actual se priorizarán adultos laboralmente activos dentro del rango aproximado de **20 a 50 años**, manteniendo continuidad con el público considerado en las versiones anteriores de NeuroZen.
+
+### Segmento 2: Personas con trabajo informal, independiente o con horarios flexibles
+
+Este segmento está conformado por adultos cuyas actividades laborales no necesariamente siguen una jornada fija o una estructura organizacional tradicional.
+
+Puede incluir trabajadores independientes, freelancers, trabajadores informales, emprendedores, prestadores de servicios u otras personas cuya carga laboral y horarios dependan de proyectos, clientes, demanda o necesidades económicas.
+
+Los antecedentes de NeuroZen identificaron que este tipo de trabajador puede enfrentarse a una disponibilidad laboral continua, horarios variables y límites poco claros entre trabajo y vida personal. El análisis de entrevistas del proyecto anterior también mostró interés por herramientas digitales que pudieran adaptarse a rutinas irregulares y requerir poco tiempo de uso. :contentReference[oaicite:2]{index=2}
+
+Al igual que en el primer segmento, para las actividades iniciales de investigación se considerarán principalmente adultos entre **20 y 50 años**.
+
+### Sustento de los segmentos
+
+La elección de ambos segmentos responde al propósito original de NeuroZen de abordar la identificación y gestión del estrés asociado con el contexto laboral.
+
+Mientras que el primer segmento permite analizar situaciones relacionadas con jornadas extensas, presión organizacional y alta carga de trabajo, el segundo permite estudiar escenarios caracterizados por horarios variables, autonomía laboral, disponibilidad constante y menor separación entre las actividades laborales y personales.
+
+La existencia de estas diferencias permitirá posteriormente comparar cómo se manifiesta el estrés laboral en ambos contextos y determinar si los mecanismos de autoevaluación, seguimiento, identificación de factores asociados, actividades de gestión del estrés y acceso a orientación profesional deben adaptarse de manera diferente para cada segmento.
 
 # Capítulo II: Requirements Elicitation & Analysis
 
