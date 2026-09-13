@@ -299,9 +299,9 @@
 
 ## 1.1. Startup Profile
 
-NeuroDraw es una startup tecnológica orientada al desarrollo de soluciones digitales que contribuyan al bienestar de las personas frente a situaciones de estrés asociadas con su actividad laboral. La startup busca aprovechar las capacidades de las plataformas web y móviles para ofrecer experiencias accesibles que permitan a los usuarios comprender mejor su estado de bienestar, adoptar prácticas para gestionar el estrés y acceder a recursos de apoyo desde un mismo ecosistema digital.
+NeuroDraw es una startup tecnológica orientada al desarrollo de soluciones digitales para la identificación, seguimiento y gestión del estrés relacionado con el contexto laboral. La startup busca aprovechar las capacidades de las aplicaciones web y móviles para proporcionar a las personas herramientas que les permitan comprender mejor las situaciones que afectan su bienestar, reconocer patrones asociados al estrés y acceder a alternativas que contribuyan a su gestión.
 
-Como parte de esta visión, NeuroDraw desarrolla NeuroZen, una plataforma digital enfocada en acompañar a personas que experimentan estrés dentro de su vida laboral. NeuroZen constituye el producto principal de la startup y concentra las funcionalidades y servicios mediante los cuales se busca materializar su propuesta de valor.
+Como parte de esta visión, NeuroDraw desarrolla **NeuroZen**, una plataforma digital enfocada en personas laboralmente activas expuestas a situaciones de estrés relacionadas con sus actividades de trabajo. NeuroZen constituye el producto principal de la startup y reúne diferentes mecanismos de autoevaluación, seguimiento, identificación de factores asociados al estrés, actividades orientadas a su gestión y acceso a recursos de apoyo profesional.
 
 ### 1.1.1. Descripción de la Startup
 
