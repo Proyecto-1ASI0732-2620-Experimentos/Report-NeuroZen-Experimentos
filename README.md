@@ -321,11 +321,15 @@ Asimismo, debido a la naturaleza de la información que puede ser registrada en 
 
 ## 1.2. Solution Profile
 
-NeuroZen plantea una solución digital orientada a apoyar a personas laboralmente activas en la gestión de situaciones de estrés relacionadas con su actividad laboral. La propuesta parte de reconocer que factores como la sobrecarga de trabajo, las altas exigencias emocionales, la falta de autonomía y las relaciones interpersonales conflictivas pueden afectar el bienestar de los trabajadores.
+NeuroZen propone una solución digital orientada a apoyar a personas laboralmente activas en la identificación, seguimiento y gestión del estrés asociado con sus actividades de trabajo.
 
-La plataforma busca concentrar en una experiencia digital accesible herramientas que permitan al usuario conocer mejor su situación actual, realizar un seguimiento personal, acceder a actividades y recursos relacionados con el bienestar y encontrar orientación profesional cuando lo considere necesario.
+La propuesta parte de reconocer que las situaciones de estrés no siempre se presentan como eventos aislados y que pueden relacionarse con diferentes factores laborales, físicos y emocionales. Por ello, NeuroZen busca proporcionar al usuario mecanismos que le permitan registrar información sobre su situación, realizar autoevaluaciones, identificar factores asociados, observar cambios a través del tiempo y acceder a actividades y recursos que contribuyan a gestionar el estrés.
 
-La propuesta se concibe como una plataforma de acompañamiento y prevención, y no como un sistema destinado a realizar diagnósticos médicos o sustituir la intervención de profesionales de la salud. Su evolución estará guiada por investigación con usuarios, análisis de información y experimentación controlada, manteniendo como principios la privacidad, la transparencia y el uso responsable de los datos.
+La plataforma busca integrar estas capacidades dentro de una experiencia web y móvil accesible, permitiendo que el usuario mantenga continuidad sobre su información y pueda reconocer patrones que podrían resultar difíciles de observar mediante registros aislados.
+
+NeuroZen no tiene como objetivo realizar diagnósticos médicos, psicológicos o psiquiátricos. La información presentada por el producto tendrá carácter orientativo y de acompañamiento, complementándose con mecanismos para facilitar el acceso a profesionales cuando el usuario considere necesaria una orientación especializada.
+
+La evolución de la solución será guiada por investigación con usuarios, análisis de datos y experimentación, buscando comprobar mediante evidencia si las funcionalidades propuestas generan valor y contribuyen efectivamente a las necesidades identificadas.
 
 ### 1.2.1. Antecedentes y problemática
 
