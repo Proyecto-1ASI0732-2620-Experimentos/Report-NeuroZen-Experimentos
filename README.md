@@ -508,89 +508,80 @@ NeuroZen busca abordar esta brecha mediante una plataforma que permita registrar
 
 #### 1.2.2.2. Lean UX Assumptions
 
-Los siguientes supuestos representan creencias iniciales del equipo sobre el negocio y los futuros usuarios de NeuroZen. Estos elementos deberán ser contrastados posteriormente mediante investigación, entrevistas y validación del producto.
+Los siguientes supuestos representan creencias iniciales del equipo y deberán ser contrastados posteriormente mediante investigación con usuarios.
 
 ##### Business Assumptions
 
-1. Existe un grupo de personas laboralmente activas que reconoce el estrés relacionado con el trabajo como un problema relevante y estaría dispuesto a utilizar una herramienta digital para realizar seguimiento de su bienestar.
+1. Existen personas laboralmente activas que consideran relevante identificar y dar seguimiento a situaciones de estrés relacionadas con su trabajo.
 
-2. La centralización de autoevaluaciones, seguimiento, registro de factores asociados al estrés, actividades de bienestar y recursos dentro de una misma plataforma puede generar mayor valor para los usuarios que el uso independiente de diferentes herramientas.
+2. Integrar autoevaluaciones, registro de señales y factores asociados, seguimiento histórico y actividades de gestión dentro de una misma plataforma puede proporcionar mayor valor que utilizar diferentes herramientas de forma aislada.
 
-3. La disponibilidad de información histórica sobre el bienestar puede favorecer el uso recurrente de NeuroZen, debido a que el valor del producto aumenta conforme el usuario registra información a través del tiempo.
+3. El registro histórico permitirá que el valor percibido de NeuroZen aumente a medida que el usuario acumule información y pueda reconocer patrones.
 
-4. Las actividades breves que puedan incorporarse durante o después de una jornada laboral tendrán mayor probabilidad de ser utilizadas que aquellas que requieran períodos extensos de tiempo.
+4. Relacionar situaciones laborales con señales físicas o emocionales percibidas puede facilitar que los usuarios comprendan mejor los factores asociados con su estrés.
 
-5. Facilitar información y acceso a profesionales puede incrementar la confianza en NeuroZen al ofrecer una alternativa de apoyo adicional cuando las herramientas de autogestión no sean suficientes para las necesidades del usuario.
+5. Las actividades breves y fáciles de incorporar a la rutina tendrán una mayor probabilidad de utilización.
 
-6. La privacidad, seguridad y transparencia sobre el uso de los datos serán factores determinantes para generar confianza y permitir que los usuarios registren información relacionada con su bienestar.
+6. Facilitar el acceso a profesionales puede proporcionar una alternativa adicional para los usuarios que consideren insuficientes las herramientas de autogestión.
 
-7. Un modelo que combine funcionalidades básicas accesibles con características adicionales mediante una suscripción podría ser viable, siempre que los usuarios perciban valor continuo en las funciones ofrecidas.
+7. La privacidad, transparencia y control sobre la información serán factores fundamentales para generar confianza.
 
-8. Los canales digitales, principalmente redes sociales, contenido relacionado con bienestar y recomendaciones entre usuarios, pueden constituir mecanismos adecuados para dar a conocer inicialmente NeuroZen.
+8. Uno de los principales riesgos será lograr que los usuarios mantengan continuidad en el registro de información.
 
-9. La diferenciación de NeuroZen dependerá menos de ofrecer una gran cantidad de funcionalidades y más de proporcionar una experiencia integrada, sencilla y capaz de demostrar valor continuo al usuario.
+9. Otro riesgo será que los usuarios interpreten evaluaciones o patrones como diagnósticos clínicos.
 
-10. Uno de los principales riesgos del producto será conseguir que los usuarios mantengan el hábito de registrar información y utilizar las funcionalidades después de las primeras interacciones.
-
-11. Otro riesgo relevante será que los usuarios interpreten las autoevaluaciones como diagnósticos clínicos, por lo que la comunicación del producto deberá diferenciar claramente entre acompañamiento orientativo y atención profesional.
+10. Las funcionalidades relacionadas con señales físicas o biométricas solo generarán confianza si el usuario comprende qué información se recopila, cómo se utiliza y cuáles son sus limitaciones.
 
 ##### User Assumptions
 
 1. **¿Quién es el usuario?**
 
-   El usuario principal es una persona laboralmente activa que experimenta situaciones de estrés relacionadas con su trabajo y desea comprender mejor cómo estas situaciones influyen en su bienestar.
+   Una persona laboralmente activa que experimenta situaciones de estrés relacionadas con sus actividades de trabajo.
 
 2. **¿Qué problema necesita resolver?**
 
-   Necesita una forma sencilla de reconocer cambios en su bienestar, registrar situaciones que puedan estar relacionadas con el estrés, observar su evolución y encontrar acciones que pueda incorporar a su rutina.
+   Necesita comprender cómo evoluciona su estrés, reconocer factores recurrentes y disponer de alternativas que puedan contribuir a gestionarlo.
 
-3. **¿Qué información considera valiosa?**
+3. **¿Qué información podría resultarle útil?**
 
-   Se asume que el usuario valorará conocer la evolución de sus autoevaluaciones, los factores de estrés registrados con mayor frecuencia, las actividades realizadas y patrones identificables a partir de su información histórica.
+   - Resultados históricos de autoevaluaciones.
+   - Factores desencadenantes registrados.
+   - Señales físicas o emocionales percibidas.
+   - Frecuencia de determinados episodios.
+   - Actividades realizadas.
+   - Cambios observados a través del tiempo.
 
-4. **¿Qué características pueden ser importantes?**
+4. **¿Qué funcionalidades pueden resultar importantes?**
 
-   Se consideran inicialmente relevantes:
-
-   - Autoevaluaciones periódicas.
-   - Historial y visualización de evolución.
-   - Registro de situaciones o factores asociados al estrés.
-   - Actividades breves de bienestar y relajación.
+   - Autoevaluaciones.
+   - Registro de factores desencadenantes.
+   - Registro de señales físicas y emocionales.
+   - Historial y visualización de tendencias.
+   - Actividades de respiración, relajación u otras estrategias de gestión.
    - Recursos informativos.
    - Recordatorios configurables.
-   - Información sobre profesionales y mecanismos para solicitar orientación.
+   - Información y acceso a profesionales.
 
-5. **¿Dónde encaja NeuroZen en la vida del usuario?**
+5. **¿Cuándo podría utilizar NeuroZen?**
 
-   NeuroZen busca incorporarse como una herramienta complementaria dentro de la rutina del usuario y no como una actividad que requiera una dedicación extensa. Su uso podría darse antes, durante o después de la jornada laboral según la funcionalidad utilizada.
-
-6. **¿Cuándo sería utilizado el producto?**
-
-   Se asume que el usuario podría utilizar NeuroZen:
-
-   - Al percibir un incremento del estrés.
+   - Cuando perciba un incremento del estrés.
    - Al finalizar una jornada laboral.
-   - Durante pausas o momentos de descanso.
+   - Durante pausas.
+   - Al registrar una situación laboral relevante.
    - Al realizar una autoevaluación periódica.
-   - Al registrar una situación que considere relevante.
-   - Al consultar su evolución.
-   - Al buscar una actividad de bienestar.
-   - Al considerar que necesita orientación profesional.
+   - Al revisar su evolución.
+   - Al buscar una actividad que le ayude a gestionar una situación.
+   - Al considerar necesario recibir orientación profesional.
 
-7. **¿Cómo debe comportarse el producto?**
-
-   La experiencia debe ser sencilla, calmada y comprensible, evitando incrementar la carga cognitiva del usuario. Debe comunicar claramente qué información recopila, por qué se recopila y qué significado tienen los resultados presentados.
-
-8. **¿Qué podría impedir su adopción?**
-
-   Se consideran posibles barreras:
+6. **¿Qué puede impedir su adopción?**
 
    - Falta de hábito para registrar información.
-   - Desconfianza respecto al tratamiento de datos personales.
-   - Percepción de que las actividades requieren demasiado tiempo.
-   - Resultados difíciles de comprender.
+   - Preocupación por la privacidad.
+   - Evaluaciones demasiado extensas.
    - Exceso de notificaciones.
-   - Sensación de que la plataforma no aporta valor después de las primeras interacciones.
+   - Resultados difíciles de interpretar.
+   - Sensación de no obtener información útil después de registrar datos.
+   - Desconfianza frente a mecanismos que procesen información personal o biométrica.
 
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
