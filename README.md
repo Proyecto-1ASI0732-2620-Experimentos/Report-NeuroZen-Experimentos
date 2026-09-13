@@ -314,6 +314,8 @@ diversas actividades para complementar el tratamiento contra el estrés.
 
 ### 1.2.1. Antecedentes y problemática
 
+El estrés laboral constituye una problemática de salud pública de alcance global que afecta de manera directa a la población económicamente activa. Se estima que el 15% de los adultos en edad de trabajar padece algún trastorno mental, siendo el entorno laboral uno de sus principales determinantes (OMS, 2024), mientras que anualmente se pierden alrededor de 12,000 millones de días de trabajo a causa de la depresión y la ansiedad, con un costo aproximado de un billón de dólares para la economía mundial (OIT, 2022). Frente a este escenario, el proyecto Neuro Zen propone un sistema de identificación y gestión del estrés laboral dirigido a adultos de entre 20 y 50 años, mediante el registro de señales corporales visibles —como postura, tensión muscular facial, cambios respiratorios, sudoración, temblores y rojeces en la piel— integradas en una aplicación móvil que permite al usuario autoevaluar su nivel de estrés, recibir recomendaciones personalizadas y acceder a estrategias prácticas, con el fin de mejorar el bienestar del trabajador, prevenir el estrés crónico y fortalecer la productividad organizacional.
+
 ### 1.2.2. Lean UX Process
 
 #### 1.2.2.1. Lean UX Problem Statements
