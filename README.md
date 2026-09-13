@@ -836,6 +836,10 @@ su sustento económico.
 
 ## 2.3. Needfinding
 
+Al recopilar toda la información de los segmentos objetivo y realizar las entrevistas se hará
+un análisis de estos mismos haciendo uso de User Persona, Task Matrix, Journey Mapping,
+Empathy Mapping y As-Is Scenario Mapping.
+
 ### 2.3.1. User Personas
 
 ### 2.3.2. User Task Matrix
