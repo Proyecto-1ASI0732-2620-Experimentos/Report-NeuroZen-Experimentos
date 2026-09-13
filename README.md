@@ -425,6 +425,12 @@ Para delimitar el alcance inicial del producto se establecen las siguientes rest
 
 ### 1.2.2. Lean UX Process
 
+El Lean UX Process permite establecer una primera visión del producto a partir de supuestos sobre el problema, los usuarios y el modelo de negocio, buscando identificar tempranamente aquellos aspectos que necesitan ser comprobados mediante investigación y validación.
+
+Para NeuroZen, este proceso parte de la problemática identificada en torno a la dificultad que pueden experimentar las personas laboralmente activas para reconocer, organizar y dar seguimiento continuo a información relacionada con su bienestar frente al estrés laboral.
+
+En esta etapa, los elementos descritos no se consideran hechos confirmados. Constituyen supuestos iniciales que posteriormente deberán contrastarse mediante entrevistas, análisis de usuarios, validaciones de experiencia y datos obtenidos a partir del uso del producto.
+
 #### 1.2.2.1. Lean UX Problem Statements
 
 #### 1.2.2.2. Lean UX Assumptions
