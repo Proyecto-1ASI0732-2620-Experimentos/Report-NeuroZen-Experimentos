@@ -585,31 +585,31 @@ Los siguientes supuestos representan creencias iniciales del equipo y deberán s
 
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
-A partir de los supuestos anteriores se plantean las siguientes hipótesis iniciales. Los porcentajes definidos representan criterios preliminares de éxito y deberán ser revisados conforme el equipo obtenga evidencia mediante investigación y uso del producto.
+A partir de los supuestos planteados se definen las siguientes hipótesis iniciales. Los criterios establecidos representan umbrales preliminares y deberán contrastarse posteriormente mediante investigación y validación.
 
-##### Hypothesis 01 — Seguimiento del bienestar
+##### Hypothesis 01 — Seguimiento e identificación de patrones
 
-**Creemos que** permitir a las personas realizar autoevaluaciones y consultar visualmente su evolución facilitará que mantengan un seguimiento más consciente de su bienestar relacionado con el estrés laboral.
+**Creemos que** permitir a los usuarios registrar autoevaluaciones, factores asociados y señales percibidas, y posteriormente visualizar su evolución, facilitará que reconozcan patrones relacionados con su estrés laboral.
 
-**Sabremos que hemos tenido éxito cuando** al menos el **70 % de los usuarios que completen una primera autoevaluación consulte posteriormente su historial o realice una nueva autoevaluación durante las siguientes dos semanas**.
+**Sabremos que hemos tenido éxito cuando** al menos el **70 % de los participantes que utilicen el seguimiento histórico pueda identificar al menos un patrón o factor recurrente relacionado con sus situaciones de estrés**.
 
-##### Hypothesis 02 — Actividades de bienestar
+##### Hypothesis 02 — Continuidad del seguimiento
 
-**Creemos que** ofrecer actividades breves que puedan incorporarse fácilmente a la rutina laboral ayudará a los usuarios a adoptar acciones concretas frente a situaciones de estrés.
+**Creemos que** ofrecer un historial sencillo y comprensible incentivará a los usuarios a mantener un seguimiento periódico de su nivel de estrés.
 
-**Sabremos que hemos tenido éxito cuando** al menos el **60 % de los usuarios que reciban o consulten actividades complete al menos una actividad durante una semana y la mayoría de ellos la valore positivamente**.
+**Sabremos que hemos tenido éxito cuando** al menos el **60 % de los usuarios que completen una primera autoevaluación realice una nueva evaluación o registro durante las siguientes dos semanas**.
 
-##### Hypothesis 03 — Identificación de factores asociados al estrés
+##### Hypothesis 03 — Actividades para gestionar el estrés
 
-**Creemos que** permitir al usuario registrar situaciones o factores relacionados con episodios de estrés y posteriormente visualizar patrones le ayudará a comprender mejor qué elementos de su actividad laboral afectan con mayor frecuencia su bienestar.
+**Creemos que** proporcionar actividades breves y contextualizadas permitirá que los usuarios incorporen con mayor facilidad acciones orientadas a gestionar situaciones de estrés dentro de su rutina.
 
-**Sabremos que hemos tenido éxito cuando** al menos el **60 % de los usuarios activos registre tres o más situaciones durante el período de observación y pueda reconocer al menos un patrón relevante al consultar su historial**.
+**Sabremos que hemos tenido éxito cuando** al menos el **60 % de los usuarios que consulte una actividad complete al menos una durante el período de observación y la mayoría la valore como útil**.
 
 ##### Hypothesis 04 — Acceso a orientación profesional
 
-**Creemos que** proporcionar información clara sobre profesionales y reducir la cantidad de pasos necesarios para solicitar orientación disminuirá la fricción de los usuarios que consideran necesario buscar apoyo especializado.
+**Creemos que** proporcionar información clara sobre profesionales y un proceso sencillo para solicitar orientación reducirá la fricción de los usuarios que consideren necesario buscar apoyo especializado.
 
-**Sabremos que hemos tenido éxito cuando** al menos el **80 % de los usuarios participantes en pruebas de usabilidad pueda localizar información de un profesional e iniciar el proceso de solicitud de una cita sin asistencia externa**.
+**Sabremos que hemos tenido éxito cuando** al menos el **80 % de los participantes en pruebas de usabilidad pueda localizar información de un profesional e iniciar el proceso de solicitud de orientación sin asistencia externa**.
 
 #### 1.2.2.4. Lean UX Canvas
 
