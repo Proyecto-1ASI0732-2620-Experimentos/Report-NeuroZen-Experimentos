@@ -991,17 +991,92 @@ Conclusión:
 Los testimonios recibidos de los entrevistados revelan una realidad laboral cada vez más común: trabajadores con horarios flexibles que enfrentan una constante disponibilidad laboral mediada por dispositivos móviles, generando una difuminación de límites entre trabajo y vida personal que impacta negativamente su bienestar. Esta situación crea un ciclo donde la inestabilidad económica los impulsa a aceptar más trabajo, intensificando el estrés y deteriorando su salud física y mental. Sus casos evidencian la necesidad urgente de desarrollar herramientas y estrategias específicamente diseñadas para trabajadores con horarios irregulares, que sean accesibles desde dispositivos móviles, requieran poco tiempo de implementación y ayuden efectivamente a establecer límites saludables sin comprometer su sustento económico.
 
 
-## 2.3. Needfinding
+# 2.3. Needfinding
 
-### 2.3.1. User Personas
+Al recopilar toda la información de los segmentos objetivo y realizar las entrevistas se hará
+un análisis de estos mismos haciendo uso de User Persona, Task Matrix, Journey Mapping,
+Empathy Mapping y As-Is Scenario Mapping.
 
-### 2.3.2. User Task Matrix
 
-### 2.3.3. User Journey Mapping
+### 2.3.1. User Personas.
 
-### 2.3.4. Empathy Mapping
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/laura.png" alt="User persona for Laura" width="700px" /></p>
+</div>
 
-### 2.3.5. As-is Scenario Mapping
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/andres.png" alt="User persona for Andres" width="700px" /></p>
+</div>
+
+
+### 2.3.2. User Task Matrix.
+
+| Tareas                                                     | Laura Méndez |             | Andrés Luján |             |
+| :--------------------------------------------------------- | :----------- | :---------- | :----------- | :---------- |
+|                                                            | Frecuencia   | Importancia | Frecuencia   | Importancia |
+| **Registrar señales corporales de estrés**                 | Media        | Media       | Alta         | Alta        |
+| **Completar autoevaluación de niveles de estrés**          | Media        | Alta        | Alta         | Media       |
+| **Consultar análisis de patrones de estrés**               | Alta         | Media       | Media        | Alta        |
+| **Acceder a recomendaciones personalizadas**               | Media        | Alta        | Alta         | Alta        |
+| **Registrar seguimiento de implementación de estrategias** | Media        | Alta        | Alta         | Alta        |
+
+
+### 2.3.3. User Journey Mapping.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-1.png" alt="Journey mapping part 1" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-2.png" alt="Journey mapping part 2" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-3.png" alt="Journey mapping part 3" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-4.png" alt="Journey mapping part 4" width="700px" /></p>
+</div>
+
+
+### 2.3.4. Empathy Mapping.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-1.png" alt="Empathy mapping part 1" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-2.png" alt="Empathy mapping part 2" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-3.png" alt="Empathy mapping part 3" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-4.png" alt="Empathy mapping part 4" width="700px" /></p>
+</div>
+
+
+### 2.3.5. As-is Scenario Mapping.
+
+**As-is Scenario Mapping de Laura Méndez**
+
+| Phases       | Registrar señales corporales de estrés                | Completar autoevaluación de niveles de estrés   | Consultar análisis de patrones de estrés            | Acceder a recomendaciones personalizadas                         | Registrar seguimiento de implementación de estrategias                |
+| :----------- | :---------------------------------------------------- | :---------------------------------------------- | :-------------------------------------------------- | :--------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| **Doing**    | Toma fotos de su postura durante horas de trabajo.    | Completa cuestionarios rápidos entre proyectos. | Revisa los gráficos semanales de estrés.            | Accede a recomendaciones desde su teléfono móvil.                | Registra la efectividad de las técnicas implementadas.                |
+| **Thinking** | Duda si está estresada o solo cansada.                | Evalúa si está aceptando demasiados proyectos.  | Busca patrones relacionados con ciertos clientes.   | Cuestiona si las recomendaciones se adaptan a su estilo de vida. | Se pregunta si está siendo constante con las técnicas.                |
+| **Feeling**  | Se siente abrumada al notar signos físicos de estrés. | Siente alivio al cuantificar su estrés.         | Muestra curiosidad al descubrir patrones de estrés. | Experimenta esperanza al recibir nuevas estrategias.             | Siente orgullo cuando logra implementar estrategias consistentemente. |
+
+**As-is Scenario Mapping de Andrés Luján**
+
+| Phases       | Registrar señales corporales de estrés                          | Completar autoevaluación de niveles de estrés                            | Consultar análisis de patrones de estrés                                | Acceder a recomendaciones personalizadas                                   | Registrar seguimiento de implementación de estrategias                   |
+| :----------- | :-------------------------------------------------------------- | :----------------------------------------------------------------------- | :---------------------------------------------------------------------- | :------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| **Doing**    | Documenta su tensión muscular después de reuniones prolongadas. | Realiza evaluaciones al final de su jornada laboral.                     | Analiza tendencias de estrés durante diferentes períodos académicos.    | Revisa el coaching emocional personalizado entre reuniones.                | Registra diariamente la efectividad de las estrategias implementadas.    |
+| **Thinking** | Se pregunta si su fatiga es visible para su equipo.             | Considera cómo los cambios institucionales afectan su nivel de estrés.   | Reflexiona sobre la relación entre sus horas de trabajo y su bienestar. | Evalúa qué recomendaciones son viables con su apretada agenda.             | Analiza qué técnicas funcionan mejor durante temporadas de alta presión. |
+| **Feeling**  | Se siente frustrado al reconocer signos físicos de agotamiento. | Experimenta preocupación al constatar altos niveles de estrés sostenido. | Siente determinación al identificar patrones problemáticos.             | Muestra optimismo al encontrar soluciones adaptadas a su rol de liderazgo. | Siente satisfacción cuando logra incorporar nuevos hábitos a su rutina.  |
+
 
 ## 2.4. Ubiquitous Language
 
