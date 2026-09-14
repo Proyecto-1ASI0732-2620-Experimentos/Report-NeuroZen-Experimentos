@@ -661,6 +661,14 @@ La existencia de estas diferencias permitirá posteriormente comparar cómo se m
 
 ## 2.2. Entrevistas
 
+Con el propósito de comprender las experiencias, necesidades y comportamientos de los segmentos objetivo de NeuroZen, se realizaron entrevistas a representantes de ambos grupos identificados durante el análisis inicial.
+
+La investigación busca contrastar los supuestos establecidos previamente sobre las situaciones de estrés relacionadas con el trabajo, las estrategias utilizadas actualmente por los participantes y las características que podrían generar valor dentro de una solución digital.
+
+Las entrevistas fueron estructuradas de acuerdo con las particularidades de cada segmento y posteriormente analizadas para identificar patrones objetivos y subjetivos que servirán como insumo para el proceso de Needfinding.
+
+---
+
 ### 2.2.1. Diseño de entrevistas
 
 ### 2.2.2. Registro de entrevistas
