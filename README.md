@@ -1956,7 +1956,26 @@ Para lograr el despliegue seguimos lo siguientes pasos:
 
 ### 5.2.6. Implemented RESTful API and/or Serverless Backend Evidence
 
+La documentación técnica fue actualizada para reflejar los nuevos Bounded Contexts y asegurar la integración con los clientes Android y Flutter.
+
+Se expandió el backend para incluir nueva lógica del negocio.
+
+  - **Dashboard:** Gestión de reporte de estadísticas del usuario.
+  - **Subscriptions:** Gestión de suscripciones del usuario.
+
 ### 5.2.7. RESTful API documentation
+
+  - **URL Swagger UI:** https://neurozen-backend-mobile.onrender.com/swagger/index.html
+
+  - **Entorno de Producción:** Render
+
+**Evidencia de Documentación:**
+
+<img src="assets/cap4/swagger/swagger1.jpg" alt="swagger1" width="600px"/>
+
+<img src="assets/cap4/swagger/swagger2.jpg" alt="swagger2" width="600px"/>
+
+<img src="assets/cap4/swagger/swagger3.png" alt="swagger3" width="600px"/>
 
 ### 5.2.8. Team Collaboration Insights
 
