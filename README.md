@@ -1463,44 +1463,110 @@ La arquitectura de software orientada al dominio es un enfoque de diseño que se
 
 ### 4.8.1. Software Architecture Context Diagram
 
-**Descripción:**  
-El sistema **NeuroZen** está al centro y muestra su relación con actores humanos y sistemas externos (pagos, correo, contenidos de ejercicios).
+En esta sección se presenta el diagrama de contexto del sistema NeuroZen, el cual permite visualizar de manera general la interacción entre la plataforma y los diferentes actores externos que participan en su funcionamiento. Este tipo de diagrama es fundamental dentro de la arquitectura de software, ya que delimita el alcance del sistema y muestra sus relaciones con usuarios y servicios externos, sin entrar en detalles internos de implementación.
 
----
-
-#### Diagrama
-
-<p align="center"><img src="assets/diagrams/primer-diagrama.png" alt="Stress test mockup" width="700px" /></p>
-
----
-
-#### Explicación
-
-- **Actores:**
-
-  - Paciente/Usuario
-  - Psicólogo
-  - Administrador
-
-- **Sistemas externos:**
-
-  - Pasarela de pagos
-  - Servicio de correo (SMTP/Provider)
-  - API de ejercicios/meditación
-
-- **Interacciones clave:**
-  - Los usuarios interactúan con **NeuroZen**.
-  - La plataforma se integra con servicios externos para pagos, notificaciones y contenidos.
+El sistema NeuroZen se representa como un único bloque central, actuando como una plataforma digital enfocada en la detección temprana, monitoreo continuo y gestión del estrés laboral. A través de la integración de tecnologías de análisis biométrico, evaluaciones psicológicas y herramientas de bienestar, el sistema busca mejorar la calidad de vida de los usuarios en entornos laborales exigentes.
+<img src="assets/cap2/software-architecture/SoftwareArchitectureContextLevelDiagrams.png" alt="Software Architecture Context Level Diagram" style="width:100%;">
 
 ---
 
 ### 4.8.2. Software Architecture Container Diagrams
 
+
+El diagrama de contenedores de NeuroZen muestra los principales bloques tecnológicos de la plataforma. Incluye una Landing Page (React) como punto de entrada informativo, una aplicación móvil (Flutter) como cliente principal, un backend único (Spring Boot/Node.js) que centraliza toda la lógica de negocio, una base de datos PostgreSQL y cuatro sistemas externos: Payment Gateway, Cloud Storage, Biometric API y Notification Provider.
+
+La comunicación se da así: los actores acceden a la Landing Page y a la app móvil; la Landing Page redirige a la app; la app se comunica por HTTPS/REST con el backend; y el backend interactúa con la base de datos y con los cuatro sistemas externos para pagos, archivos, biometría y notificaciones.
+
+<img src="assets/cap2/software-architecture/SoftwareArchitectureContainerLevelDiagrams.png" alt="Software Architecture Container Level Diagram" style="width:100%;">
+
 ### 4.8.3. Software Architecture Components Diagrams
+
+En esta sección se detallan los diagramas de despliegue, componentes internos, flujo de mensajes y spikes técnicos que especifican la distribución física y lógica de los servicios que componen el ecosistema de NeuroZen.
+
+##### Component Diagram – Backend Internal Structure
+
+El siguiente diagrama muestra la estructura interna del contenedor único **Backend**, desglosado en sus componentes principales: IAM, Assessments, Recommendations, Analytics, Professionals, Appointments, Community y Notification. Cada componente se comunica con la base de datos NeuroZen DB y, en algunos casos, con servicios externos especializados.
+
+<img src="assets/images/cap2/software-architecture/ComponentDiagramBackendInternal.png" alt="Component Diagram Backend Internal" style="width:100%;">
+
+A continuación se presentan los diagramas de cada contexto de dominio que opera dentro del backend, mostrando sus relaciones específicas con la base de datos y servicios externos.
+
+
+##### Identity & Access Management (IAM) Context
+
+Para la seguridad, roles y cuentas de usuario.
+<img src="assets/cap2/software-architecture/1-IAM.png" alt="IAM Diagram" style="width:100%;">
+
+##### Assessments Context
+
+Para los tests psicológicos y cuestionarios.
+<img src="assets/cap2/software-architecture/2-AssessmentsContext.png" alt="Assessments Diagram" style="width:100%;">
+
+##### Recommendations & Activities Context
+
+Para las pausas activas y ejercicios de respiración.
+<img src="assets/cap2/software-architecture/3-Recommendations.png" alt="Recommendations Diagram" style="width:100%;">
+
+##### Health Tracking & Dashboard Context
+
+Para el historial, estadísticas y reportes.
+<img src="assets/cap2/software-architecture/4-Health Tracking.png" alt="Health Tracking Diagram" style="width:100%;">
+
+##### Professionals & Appointments Context
+
+Para el directorio de psicólogos y gestión de citas.
+<img src="assets/cap2/software-architecture/5-Professionals.png" alt="Professionals Diagram" style="width:100%;">
+
+##### Community & Resources Context
+
+Para los foros de apoyo y artículos de bienestar.
+<img src="assets/cap2/software-architecture/6-Community.png" alt="Community Diagram" style="width:100%;">
+
+##### Notification Context
+
+Para las alertas, recordatorios y correos.
+<img src="assets/cap2/software-architecture/7-Notification.png" alt="Notification Diagram" style="width:100%;">
+
+### Spike Stories
+
+Para mitigar riesgos técnicos y validar decisiones de arquitectura, se ejecutaron los siguientes spikes:
+
+- **Spike: Integración con Biometric API**  
+  *Objetivo:* Verificar disponibilidad, latencia y formato de datos de la API externa de procesamiento biométrico.  
+  *Resultado:* Se implementó un cliente de prueba con latencia media de 300 ms.  
+  *Decisión:* Se usará comunicación asíncrona mediante cola de mensajes (RabbitMQ).
+
+- **Spike: Rendimiento del backend único**  
+  *Objetivo:* Evaluar si un único backend (Spring Boot/Node.js) soporta 1000 usuarios concurrentes.  
+  *Resultado:* Pruebas con JMeter dieron 180 ms de respuesta promedio bajo carga normal.  
+  *Decisión:* El backend único es suficiente inicialmente, con capacidad de escalado horizontal mediante réplicas.
+
+- **Spike: Autenticación con JWT**  
+  *Objetivo:* Definir flujo de emisión, validación y renovación de tokens.  
+  *Resultado:* Prototipo con Spring Security y JWT; expiración 24h + refresh token con validez de 7 días.  
+  *Decisión:* Se implementará JWT con almacenamiento de refresh tokens en base de datos.
+
+- **Spike: Notificaciones push**  
+  *Objetivo:* Comparar Firebase Cloud Messaging (FCM) y OneSignal para envío de notificaciones a la app móvil.  
+  *Resultado:* FCM tiene mejor integración con Flutter y menor costo.  
+  *Decisión:* Se elige Firebase Cloud Messaging como proveedor de notificaciones.
+
 
 ## 4.9. Software Object-Oriented Design
 
+En esta sección se muestran y describen los **diagramas de clases** que detallan la implementación de los componentes en cada _bounded context_.
+
+La propuesta incluye las **clases, interfaces y enumeraciones**, junto con sus relaciones.  
+Se representan los **atributos, métodos y niveles de visibilidad** (public, private, protected).  
+Además, se indican las **multiplicidades y asociaciones** entre clases, garantizando que estén alineadas con los _bounded contexts_ definidos anteriormente.
+
+---
+
 ### 4.9.1. Class Diagrams
+
+![class_diagram](assets/cap3/diagrams/class_diagram_en.png)
+
+---
 
 ### 4.9.2. Class Dictionary
 
