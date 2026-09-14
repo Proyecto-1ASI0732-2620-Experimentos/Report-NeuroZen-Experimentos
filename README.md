@@ -1021,7 +1021,24 @@ Empathy Mapping y As-Is Scenario Mapping.
 | **Registrar seguimiento de implementación de estrategias** | Media        | Alta        | Alta         | Alta        |
 
 
-### 2.3.3. User Journey Mapping
+### 2.3.3. User Journey Mapping.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-1.png" alt="Journey mapping part 1" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-2.png" alt="Journey mapping part 2" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-3.png" alt="Journey mapping part 3" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Journey-4.png" alt="Journey mapping part 4" width="700px" /></p>
+</div>
+
 
 ### 2.3.4. Empathy Mapping
 
