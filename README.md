@@ -1257,7 +1257,9 @@ Nuestro Landing Page:
 ## [● Link: [https://neurozen-home.netlify.app](https://neurozen-home.netlify.app)]
 
 
-## 4.4. Mobile Applications UX/UI Design
+### 4.4. Mobile Applications UX/UI Design
+
+El diseño de experiencia de usuario (UX) y de interfaz de usuario (UI) busca ofrecer una interacción digital clara, sencilla y motivadora. La UX se enfoca en entender las necesidades de las personas que buscan manejar su estrés y en crear flujos que les permitan registrar sus datos, evaluar su estado y recibir recomendaciones de forma rápida. La UI complementa esta experiencia con un diseño visual relajante y ordenado, usando colores, íconos y botones que transmiten calma y profesionalismo. Al combinar funcionalidad intuitiva con una estética agradable, se logra que el usuario se sienta acompañado y en control de su bienestar.
 
 ### 4.4.1. Mobile Applications Wireframes
 
