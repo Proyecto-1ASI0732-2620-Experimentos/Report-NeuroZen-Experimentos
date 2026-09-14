@@ -1487,7 +1487,7 @@ En esta sección se detallan los diagramas de despliegue, componentes internos, 
 
 El siguiente diagrama muestra la estructura interna del contenedor único **Backend**, desglosado en sus componentes principales: IAM, Assessments, Recommendations, Analytics, Professionals, Appointments, Community y Notification. Cada componente se comunica con la base de datos NeuroZen DB y, en algunos casos, con servicios externos especializados.
 
-<img src="assets/images/cap2/software-architecture/ComponentDiagramBackendInternal.png" alt="Component Diagram Backend Internal" style="width:100%;">
+<img src="assets/cap2/software-architecture/ComponentDiagramBackendInternal.png" alt="Component Diagram Backend Internal" style="width:100%;">
 
 A continuación se presentan los diagramas de cada contexto de dominio que opera dentro del backend, mostrando sus relaciones específicas con la base de datos y servicios externos.
 
@@ -1646,6 +1646,10 @@ Registra citas agendadas con psicólogos
 ---
 
 ### 4.10.1. Relational/Non-Relational Database Diagram
+
+![database_diagram](assets/cap3/diagrams/database_diagram_en.png)
+
+---
 
 <div style="page-break-after: always;"></div>
 
