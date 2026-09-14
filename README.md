@@ -1114,7 +1114,13 @@ Como equipo, hemos decidido incorporar el patrón de diseño en forma de Z para 
 
 #### 4.1.3.2. Android Mobile Style Guidelines
 
-## 4.2. Information Architecture
+## 4.2. Information Architecture.
+
+NeuroZen detecta el estrés laboral combinando datos biométricos (postura, tensión facial, respiración) con autoevaluaciones emocionales para generar un perfil de estrés personalizado. La app ofrece recomendaciones y ejercicios para reducir los síntomas, envía notificaciones en tiempo real ante aumentos de estrés y permite revisar un historial de tendencias para identificar patrones.
+
+A futuro, se integrará con psicólogos y programas de bienestar laboral para empresas, convirtiéndose en una herramienta completa de prevención y gestión del estrés.
+
+---
 
 ### 4.2.1. Organization Systems
 
