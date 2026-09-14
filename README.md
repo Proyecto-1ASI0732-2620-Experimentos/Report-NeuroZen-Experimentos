@@ -1037,6 +1037,7 @@ Como equipo, hemos decidido incorporar el patrón de diseño en forma de Z para 
 NeuroZen detecta el estrés laboral combinando datos biométricos (postura, tensión facial, respiración) con autoevaluaciones emocionales para generar un perfil de estrés personalizado. La app ofrece recomendaciones y ejercicios para reducir los síntomas, envía notificaciones en tiempo real ante aumentos de estrés y permite revisar un historial de tendencias para identificar patrones.
 
 A futuro, se integrará con psicólogos y programas de bienestar laboral para empresas, convirtiéndose en una herramienta completa de prevención y gestión del estrés.
+
 ---
 
 ### 4.2.1. Organization Systems
@@ -1046,6 +1047,7 @@ La información se organiza de forma lógica para que el usuario encuentre rápi
 Estructura basada en módulos claros: inicio, autoevaluación, recomendaciones, profesionales, comunidad y recursos.
 
 Jerarquización de contenidos: lo más usado (tests y recomendaciones) aparece en posiciones destacadas.
+
 ---
 
 ### 4.2.2. Labeling Systems
@@ -1061,6 +1063,16 @@ Consistencia en los nombres en toda la app y web.
 ---
 
 ### 4.2.3. SEO Tags and Meta Tags
+
+Meta títulos: deben incluir palabras clave relacionadas con salud mental, estrés laboral y bienestar.
+
+Meta descripciones: claras, con llamado a la acción (ejemplo: “Evalúa tu nivel de estrés y recibe recomendaciones personalizadas”).
+
+Etiquetas alt en imágenes con descripciones concisas.
+
+Uso de headings (H1, H2, H3) para mejorar la indexación en buscadores.
+
+---
 
 ### 4.2.4. Searching Systems
 
