@@ -929,7 +929,67 @@ Resumen de los puntos clave en la entrevista:
 La entrevista con José Feliciano, un trabajador independiente en software de 56 años, muestra las dificultades de mantener equilibrio entre la vida laboral y personal cuando se trabaja por cuenta propia. Su rutina varía constantemente, sin horarios fijos, lo que le genera complicaciones para desconectarse del trabajo. José comenta que su celular y laptop son herramientas esenciales pero también fuentes de distracción y presión constante. Entre los principales factores de estrés menciona los plazos ajustados, los cambios imprevistos y la falta de pausas reales durante el día. Describe su nivel de estrés como medio, con aumentos en épocas de alta carga laboral. Este estilo de trabajo flexible le otorga libertad, pero también incrementa su dificultad para descansar y cuidar su salud, notando síntomas como dolores de cabeza y cansancio. Para manejar el estrés recurre a caminatas, música y pausas cortas, además de apoyarse en herramientas digitales como Google Calendar y Notion. Considera que los mejores momentos para relajarse son las noches o las mañanas antes de empezar la jornada.
 
 
-### 2.2.3. Análisis de entrevistas
+## 2.2.3. Análisis de entrevistas
+
+**Segmento 1: Personas activas en el ámbito laboral con jornadas extendidas**
+
+Hallazgos:
+
+● Los profesionales experimentan jornadas laborales extendidas de 10-12 horas diarias,
+sin límites claros entre vida laboral y personal.
+
+● Enfrentan presión constante por resultados inmediatos ante cambios que requieren
+tiempo.
+
+● Presentan síntomas físicos y emocionales similares: fatiga mental, insomnio, tensión
+muscular, irritabilidad y dolores de cabeza.
+
+● Las empresas ofrecen poco o nulo apoyo real para el manejo del estrés laboral.
+
+● Aunque intentan implementar técnicas de manejo del estrés, la carga laboral impide
+ser constantes.
+
+● Valoran soluciones digitales accesibles, rápidas y adaptables a sus horarios saturados.
+
+Conclusión:
+
+Los profesionales con jornadas extendidas constituyen un segmento vulnerable al estrés
+crónico debido a la combinación de largas horas de trabajo, disponibilidad permanente y
+presión por resultados inmediatos. Sus intentos individuales de manejar el estrés mediante
+técnicas convencionales resultan insuficientes ante la falta de límites laborales claros y apoyo
+institucional. Este grupo necesita soluciones tecnológicas personalizadas que se integren
+fácilmente a su rutina, ofrezcan intervenciones breves pero efectivas, y proporcionen tanto
+seguimiento automatizado como acceso a apoyo profesional cuando sea necesario. La
+aplicación debe enfocarse en crear micro hábitos de bienestar que puedan sostenerse incluso
+en entornos laborales exigentes, permitiéndoles recuperar el equilibrio sin comprometer su
+desempeño profesional.
+
+**Segmento 2: Adultos entre 20 y 50 años con trabajo informal o sin horarios definidos**
+
+Hallazgos:
+
+● Ausencia de límites trabajo-vida personal: Los entrevistados experimentan una fusión entre su vida laboral y personal, con el teléfono móvil como vínculo constante al trabajo.
+
+● Horarios irregulares: Ninguno tiene un horario fijo, organizándose según demanda y
+necesidades económicas.
+
+● Principales factores de estrés: Comparten preocupaciones por la inestabilidad
+económica, las expectativas de disponibilidad constante y la dificultad para
+desconectar.
+
+● Impacto en la salud: Los entrevistados reportan efectos negativos como dolores físicos,
+cansancio e irritabilidad.
+
+● Estrategias de afrontamiento inconsistentes: Aunque intentan aplicar métodos para
+manejar el estrés (música, ejercicio, yoga), no logran mantenerlos de forma regular.
+
+● Necesidad de herramientas adaptables: Los dos expresan interés en explorar
+soluciones que se ajusten a sus horarios variables.
+
+Conclusión:
+
+Los testimonios recibidos de los entrevistados revelan una realidad laboral cada vez más común: trabajadores con horarios flexibles que enfrentan una constante disponibilidad laboral mediada por dispositivos móviles, generando una difuminación de límites entre trabajo y vida personal que impacta negativamente su bienestar. Esta situación crea un ciclo donde la inestabilidad económica los impulsa a aceptar más trabajo, intensificando el estrés y deteriorando su salud física y mental. Sus casos evidencian la necesidad urgente de desarrollar herramientas y estrategias específicamente diseñadas para trabajadores con horarios irregulares, que sean accesibles desde dispositivos móviles, requieran poco tiempo de implementación y ayuden efectivamente a establecer límites saludables sin comprometer su sustento económico.
+
 
 ## 2.3. Needfinding
 
