@@ -1550,6 +1550,71 @@ Para lograr el despliegue seguimos lo siguientes pasos:
 
 ### 5.2.1. Sprint Backlogs
 
+**Sprint 3**
+   - **Sprint Goal:** Proveer a los psicólogos la estructura base de la aplicación móvil, permitiéndoles crear su cuenta, gestionar su perfil profesional y visualizar sus próximas sesiones en un dashboard centralizado, soportado por una actualización integral de los servicios del backend para la sincronización de datos.
+   - **Velocity:** 42 story points.
+
+**Sprint Backlog Table:**
+
+<div align="center">
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Titles</th>
+      <th>Estimation(h)</th>
+      <th>Assigned To</th>
+      <th>Status</th>
+      <th>Story Points</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>US18</td>
+      <td>Bounded Context: Auth & Profile</td>
+      <td>4</td>
+      <td>Carlos Paredes</td>
+      <td>Done</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>US18</td>
+      <td>Bounded Context: Auth & Profile</td>
+      <td>4</td>
+      <td>Jean Pool</td>
+      <td>Done</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>US19</td>
+      <td>Bounded Context: Dashboard & Navigation</td>
+      <td>3</td>
+      <td>Diego Requena</td>
+      <td>Done</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>US11</td>
+      <td>Bounded Context: Service Booking</td>
+      <td>6</td>
+      <td>Joao Castro</td>
+      <td>Done</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>US11</td>
+      <td>ervice Booking Endpoints</td>
+      <td>7</td>
+      <td>Miguel Vila</td>
+      <td>Done</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
 ### 5.2.2. Implemented Landing Page Evidence
 
 ### 5.2.3. Implemented Frontend-Web Application Evidence
