@@ -1331,7 +1331,13 @@ Este wireflow representa el flujo de navegación desde la pantalla Home hacia la
 ![](assets/img/chapter-4-images/home-product.png)
 
 
-### 4.4.3. Mobile Applications Mock-ups
+#### 4.4.3. Mobile Applications Mock-ups
+
+Los mock-ups muestran la versión visual detallada de las pantallas, aplicando la identidad visual de NeuroZen (colores, tipografías y estilos inclusivos). Aquí se evidencian las decisiones finales de diseño.
+
+![](assets/img/chapter-4-images/mockup1.jpeg)
+
+![](assets/img/chapter-4-images/mockup2.jpeg)
 
 ### 4.4.4. Mobile Applications User Flow Diagrams
 
