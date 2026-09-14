@@ -1297,7 +1297,7 @@ Registra citas agendadas con psicólogos
 
 ## 5.1. Software Configuration Management
 
-En esta sección se mencionan las decisiones y convenciones las cuales permitirán mantener una consistencia durante el desarrollo del proyecto.
+El equipo ha establecido un ecosistema de desarrollo estandarizado para garantizar la trazabilidad, colaboración y calidad del software. Se detallan a continuación las herramientas y normativas que rigen el ciclo de vida del producto.
 
 
 ### 5.1.1. Software Development Environment Configuration
@@ -1306,7 +1306,10 @@ En esta sección se mencionan las decisiones y convenciones las cuales permitir�
 
 La gestión de los proyectos tiene como objetivo mejorar los procesos y su entorno para alcanzar los resultados esperados.
 
-- **Trello:** Es una herramienta visual que permite gestionar cualquier tipo de proyecto y el flujo de trabajo que el equipo desarrollador seguirá para implementar correctamente las tareas de código para el Landing Page y el web Application.
+- **Project Management:  Trello** es una herramienta visual que permite gestionar cualquier tipo de proyecto y el flujo de trabajo que el equipo desarrollador seguirá para implementar correctamente las tareas de código para el Landing Page y el web Application.
+- **Product UX/UI Design: Figma** para el prototipado interactivo y **UXPressia** para el mapeo de la experiencia de usuario (User Personas y Journey Maps).
+- **Software Development: Android Studio** como IDE principal para la construcción y depuración de la aplicación móvil nativa.
+- **Software Testing: Gherkin (Cucumber)** para la definición de criterios de aceptación bajo el enfoque BDD, asegurando que las funcionalidades cumplan con los requerimientos de negocio.
 
 <table>
     <tbody>
