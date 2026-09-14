@@ -1339,7 +1339,15 @@ Los mock-ups muestran la versión visual detallada de las pantallas, aplicando l
 
 ![](assets/img/chapter-4-images/mockup2.jpeg)
 
-### 4.4.4. Mobile Applications User Flow Diagrams
+#### 4.4.4. Mobile Applications User Flow Diagrams
+
+Los **User Flow Diagrams** representan los caminos que siguen los usuarios dentro de la aplicación para cumplir sus objetivos.  
+Estos flujos integran los **mock-ups** y los **wireflows**, mostrando tanto la ruta esperada (**happy path**) como las rutas alternativas en caso de error (**unhappy path**).
+
+A continuación, presentamos los principales **User Goals** identificados y sus respectivos flujos:
+
+![](assets/img/chapter-4-images/diagram-mockup.jpeg)
+---
 
 ## 4.5. Mobile Applications Prototyping
 
