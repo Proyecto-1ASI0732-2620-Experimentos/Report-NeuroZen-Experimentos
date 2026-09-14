@@ -991,7 +991,12 @@ Conclusión:
 Los testimonios recibidos de los entrevistados revelan una realidad laboral cada vez más común: trabajadores con horarios flexibles que enfrentan una constante disponibilidad laboral mediada por dispositivos móviles, generando una difuminación de límites entre trabajo y vida personal que impacta negativamente su bienestar. Esta situación crea un ciclo donde la inestabilidad económica los impulsa a aceptar más trabajo, intensificando el estrés y deteriorando su salud física y mental. Sus casos evidencian la necesidad urgente de desarrollar herramientas y estrategias específicamente diseñadas para trabajadores con horarios irregulares, que sean accesibles desde dispositivos móviles, requieran poco tiempo de implementación y ayuden efectivamente a establecer límites saludables sin comprometer su sustento económico.
 
 
-## 2.3. Needfinding
+# 2.3. Needfinding
+
+Al recopilar toda la información de los segmentos objetivo y realizar las entrevistas se hará
+un análisis de estos mismos haciendo uso de User Persona, Task Matrix, Journey Mapping,
+Empathy Mapping y As-Is Scenario Mapping.
+
 
 ### 2.3.1. User Personas
 
