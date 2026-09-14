@@ -1733,6 +1733,47 @@ Para lograr el despliegue seguimos lo siguientes pasos:
 
 ### 5.2.2. Implemented Landing Page Evidence
 
+<div align="center">
+
+<table>
+  <thead>
+    <tr>
+      <th>Funcionalidad</th>
+      <th>Descripción</th>
+      <th>Evidencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Login y Registro</td>
+      <td>Gestión de identidad, control de acceso y registro de nuevos usuarios (psicólogos).</td>
+      <td><img src="assets/sprint3/loginF.jpeg" alt="LoginF" width="400px"/></td>
+    </tr>
+    <tr>
+      <td>Login y Registro</td>
+      <td>Gestión de identidad, control de acceso y registro de nuevos usuarios (psicólogos).</td>
+      <td><img src="assets/sprint3/registroF.jpeg" alt="RegistroF" width="400px"/></td>
+    </tr>
+    <tr>
+      <td>Auth & Profile</td>
+      <td>Muestra la información personal y profesional del usuario (biografía, experiencia, precio por sesión, valoración).</td>
+      <td><img src="assets/sprint3/PerfilUsu.jpeg" alt="PerfilUsu" width="400px"/></td>
+    </tr>
+    <tr>
+      <td>Service Booking</td>
+      <td>Muestra las citas programadas con los pacientes, los motivos y el estado de la cita (Confirmada, Pendiente)</td>
+      <td><img src="assets/sprint3/pacienteF.jpeg" alt="pacienteF" width="400px"/></td>
+    </tr>
+    <tr>
+      <td>Dashboard & Navigation</td>
+      <td>Obtiene el saludo y el estado del perfil, del contexto de Auth & Profile. Además del Service Booking.</td>
+      <td><img src="assets/sprint3/patanllaPrincipal.jpeg" alt="patanllaPrincipal" width="400px"/></td>
+    </tr>
+  </tbody>
+</table>
+ 
+</div>
+
 ### 5.2.3. Implemented Frontend-Web Application Evidence
 
 ### 5.2.4. Acuerdo de Servicio - SaaS
