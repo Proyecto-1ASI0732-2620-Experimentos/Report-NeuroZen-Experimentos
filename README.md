@@ -1564,6 +1564,10 @@ Para lograr el despliegue seguimos lo siguientes pasos:
 
 ## 5.3. Video About-the-Product
 
+- Link: https://drive.google.com/file/d/1-_v0KUTrHYfdEqTVUWcZBBUHyfarLtC4/view?usp=sharing
+
+---
+
 <div style="page-break-after: always;"></div>
 
 # Parte II: Verification, Validation & Pipeline
