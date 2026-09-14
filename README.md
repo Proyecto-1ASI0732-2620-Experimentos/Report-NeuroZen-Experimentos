@@ -1043,6 +1043,20 @@ _Orden de User Stories y Technical Stories_
 
 ## 3.4. Impact Mapping
 
+Impact Mapping - Segmento 1
+
+<div>
+  <p align="center"><img src="assets/images/cap2/impact-map/ImpactMapping_s1.png" alt="Impact mapping segmento 1" width="700px" /></p>
+</div>
+
+Impact Mapping - Segmento 2
+
+<div>
+  <p align="center"><img src="assets/images/cap2/impact-map/ImpactMapping_s2.png" alt="Impact mapping segmento 2" width="700px" /></p>
+</div>
+
+---
+
 <div style="page-break-after: always;"></div>
 
 # Capítulo IV: Product Design
