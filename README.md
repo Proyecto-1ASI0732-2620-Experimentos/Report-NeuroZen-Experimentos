@@ -1040,7 +1040,24 @@ Empathy Mapping y As-Is Scenario Mapping.
 </div>
 
 
-### 2.3.4. Empathy Mapping
+### 2.3.4. Empathy Mapping.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-1.png" alt="Empathy mapping part 1" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-2.png" alt="Empathy mapping part 2" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-3.png" alt="Empathy mapping part 3" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/Empathy-4.png" alt="Empathy mapping part 4" width="700px" /></p>
+</div>
+
 
 ### 2.3.5. As-is Scenario Mapping
 
