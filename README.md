@@ -1021,11 +1021,92 @@ Los testimonios recibidos de los entrevistados revelan una realidad laboral cada
 
 # Capítulo IV: Product Design
 
-## 4.1. Style Guidelines
+## 4.1. Style Guidelines.
 
-### 4.1.1. General Style Guidelines
+NeuroDraw, dedicado a la detección rápida y manejo del estrés laboral, transmite calma, confianza y profesionalismo. Nuestra identidad visual combina tonos azules y verdes para evocar tranquilidad, con tipografía clara y espacios limpios. Comunicamos con un lenguaje accesible pero riguroso, transformando conceptos complejos de neurociencia en soluciones prácticas para el bienestar laboral.
 
-### 4.1.2. Web Style Guidelines
+---
+
+
+### 4.1.1. General Style Guidelines.
+
+Logo: El logo de NeuroZen fusiona elementos neurológicos y serenidad en un diseño significativo. La silueta de perfil humano en Verde Bosque muestra circuitos cerebrales que simbolizan cómo nuestra plataforma conecta ciencia y bienestar mental.
+
+<div>
+  <p align="center"><img src="assets/md-images/logoneurozen.png" alt="Neurozen's main logo" width="250px" /></p>
+</div>
+
+Tipografía:
+
+La tipografía de la página debe ser fácil de leer, adaptándose al dispositivo en el que se encuentre. Para ello, se emplearán dos fuentes sans-serif (sin remates decorativos) porque son más legibles y claras. Además, el contenido mostrado debe de resaltar.
+
+Color Guide:
+
+1. Verde Bosque (#2D5A4A)
+Representación: El verde bosque simboliza estabilidad, crecimiento y conexión con la naturaleza. En el contexto de NeuroZen, este color representa la base sólida que ofrece la plataforma para ayudar a los usuarios a manejar su estrés. Se utiliza en elementos principales como el logotipo y encabezados, transmitiendo confianza y un ambiente relajante que invita a la calma mental.
+<div>
+  <p align="center"><img src="assets/md-images/colors/verdebosque.png" alt="Forest green color" width="450px" /></p>
+</div>
+
+2. Verde Menta (#A2C4B5)
+Representación: El verde menta evoca frescura, renovación y claridad mental. Este color más suave complementa al verde bosque y se utiliza en áreas secundarias de la plataforma. Representa la sensación refrescante que experimentan los usuarios al reducir su estrés mediante las técnicas proporcionadas por NeuroZen, creando un ambiente digital que respira tranquilidad.
+<div>
+  <p align="center"><img src="assets/md-images/colors/verdementa.png" alt="Mint green color" width="450px" /></p>
+</div>
+
+3. Beige Cálido (#F1E9D4)
+Representación: El beige cálido transmite neutralidad, confort y serenidad. En NeuroZen, este color se utiliza para fondos y espacios de descanso visual, proporcionando un ambiente acogedor que reduce la fatiga visual durante las sesiones de meditación o ejercicios anti-estrés. El beige crea un entorno digital que se siente como un refugio seguro.
+<div>
+  <p align="center"><img src="assets/md-images/colors/beigecalido.png" alt="Warm beige color" width="450px" /></p>
+</div>
+
+4. Turquesa Profundo (#1A6F78)
+Representación: El turquesa profundo simboliza la profundidad emocional, la comunicación y la sabiduría. Este color representa el componente científico y psicológico de NeuroZen, destacando las herramientas basadas en evidencia para el manejo del estrés. Se utiliza en elementos interactivos y botones de acción, invitando a los usuarios a explorar soluciones más profundas.
+<div>
+  <p align="center"><img src="assets/md-images/colors/turquesa.png" alt="Deep turquoise color" width="450px" /></p>
+</div>
+
+5. Gris Piedra (#8C9893)
+Representación: El gris piedra evoca neutralidad, equilibrio y estabilidad. En NeuroZen, este color funciona como un ancla visual que equilibra los verdes y turquesas más expresivos. Se utiliza para texto secundario y elementos de interfaz sutiles, aportando sofisticación sin competir con los colores principales que transmiten calma y bienestar.
+<div>
+  <p align="center"><img src="assets/md-images/colors/grispiedra.png" alt="Pale gray color" width="450px" /></p>
+</div>
+
+La paleta de colores de NeuroZen combina verdes y turquesas para transmitir naturaleza y tecnología, beige para crear un entorno acogedor y gris piedra para aportar profesionalismo. En conjunto, el diseño busca generar una experiencia visual relajante y coherente con la misión de reducir el estrés del usuario.
+
+Buttons:
+
+La plataforma NeuroZen para control del estrés presenta una interfaz intuitiva con botones fácilmente identificables en toda la experiencia. Los botones principales utilizan Verde Bosque (#2D5A4A) para acciones importantes como iniciar meditaciones, mientras que los secundarios aparecen en Verde Menta (#A2C4B5), creando jerarquía visual. El fondo en Beige Cálido (#F1E9D4) proporciona un ambiente relajante, complementado por elementos interactivos en Turquesa Profundo (#1A6F78) para funciones especiales y Gris Piedra (#8C9893) para textos y detalles sutiles. Todos los botones tienen formas redondeadas y tamaños generosos, facilitando su uso incluso en momentos de estrés, mientras que los estados de hover y feedback ofrecen respuestas visuales claras que refuerzan la sensación de calma y control que define la experiencia de NeuroZen.
+
+Variaciones del logo en diferentes representaciones:
+
+<div>
+  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen1.png" alt="Neurozen logo v-2" width="250px" /></p>
+</div>
+-Una opción minimalista, sin muchos detalles y relajante a la vista.
+<div>
+  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen2.png" alt="Neurozen logo v-3" width="250px" /></p>
+</div>
+-Una opción con mejor detalle y uso de colores.
+<div>
+  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen3.png" alt="Neurozen logo v-4" width="250px" /></p>
+</div>
+-Una representación más abstracta que inspira relajación.
+<div>
+  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen4.png" alt="Neurozen logo v-5" width="250px" /></p>
+</div>
+-Una opción que combina las dos primeras ideas.
+
+---
+
+
+### 4.1.2. Web Style Guidelines.
+
+Para NeuroZen, estamos desarrollando una plataforma web y una landing page enfocada en el bienestar laboral. Por ello, implementaremos un diseño adaptable (Web Responsive Design) que optimice la presentación de la información en cualquier dispositivo, ya sea computadora, tablet o smartphone. Esto garantizará que el contenido sea accesible y claro en todo momento, mejorando la experiencia de los usuarios.
+
+Como equipo, hemos decidido incorporar el patrón de diseño en forma de Z para la página principal. Esta técnica es ideal para dirigir la atención de los visitantes hacia los elementos más importantes de NeuroZen, como el objetivo del proyecto, el acceso al test de estrés y los beneficios de la plataforma. Colocaremos el logotipo de NeuroZen en la esquina superior izquierda para reforzar el reconocimiento de marca, mientras que en la esquina superior derecha estará la barra de navegación y un botón de llamado a la acción destacado que invite a registrarse o probar el test inicial.
+
+---
 
 ### 4.1.3. Mobile Style Guidelines
 
@@ -1033,23 +1114,126 @@ Los testimonios recibidos de los entrevistados revelan una realidad laboral cada
 
 #### 4.1.3.2. Android Mobile Style Guidelines
 
-## 4.2. Information Architecture
+## 4.2. Information Architecture.
+
+NeuroZen detecta el estrés laboral combinando datos biométricos (postura, tensión facial, respiración) con autoevaluaciones emocionales para generar un perfil de estrés personalizado. La app ofrece recomendaciones y ejercicios para reducir los síntomas, envía notificaciones en tiempo real ante aumentos de estrés y permite revisar un historial de tendencias para identificar patrones.
+
+A futuro, se integrará con psicólogos y programas de bienestar laboral para empresas, convirtiéndose en una herramienta completa de prevención y gestión del estrés.
+
+---
 
 ### 4.2.1. Organization Systems
 
+La información se organiza de forma lógica para que el usuario encuentre rápido lo que necesita:
+
+Estructura basada en módulos claros: inicio, autoevaluación, recomendaciones, profesionales, comunidad y recursos.
+
+Jerarquización de contenidos: lo más usado (tests y recomendaciones) aparece en posiciones destacadas.
+
+---
+
+
 ### 4.2.2. Labeling Systems
+
+El etiquetado debe ser claro, breve y familiar para los usuarios:
+
+Uso de términos simples como: Inicio, Test de Estrés, Recomendaciones, Comunidad, Psicólogos, Recursos.
+
+Evitar tecnicismos clínicos, priorizando un lenguaje cotidiano.
+
+Consistencia en los nombres en toda la app y web.
+
+---
 
 ### 4.2.3. SEO Tags and Meta Tags
 
+Meta títulos: deben incluir palabras clave relacionadas con salud mental, estrés laboral y bienestar.
+
+Meta descripciones: claras, con llamado a la acción (ejemplo: “Evalúa tu nivel de estrés y recibe recomendaciones personalizadas”).
+
+Etiquetas alt en imágenes con descripciones concisas.
+
+Uso de headings (H1, H2, H3) para mejorar la indexación en buscadores.
+
+---
+
+
 ### 4.2.4. Searching Systems
+
+Búsqueda interna intuitiva, con autocompletado y sugerencias rápidas.
+
+Posibilidad de filtrar resultados (ejemplo: artículos, psicólogos, recursos, ejercicios).
+
+Optimización para resultados relevantes según la necesidad del usuario.
+
+---
+
 
 ### 4.2.5. Navigation Systems
 
-## 4.3. Landing Page UI Design
+Menú principal: siempre visible, con las secciones clave (Inicio, Autoevaluación, Recomendaciones, Comunidad, Contacto).
 
-### 4.3.1. Landing Page Wireframe
+Breadcrumbs para indicar dónde se encuentra el usuario.
 
-### 4.3.2. Landing Page Mock-up
+CTA (Call To Action) claros y visibles, guiando al usuario hacia las acciones más importantes (hacer test, contactar especialista, unirse a un grupo).
+
+Compatibilidad responsive, manteniendo la navegación fluida en móviles y escritorio.
+
+---
+
+## 4.3. Landing Page UI Design.
+
+El diseño de la interfaz de usuario para la landing page de NeuroZen será un elemento clave, ya que representará la primera impresión que recibirán los usuarios sobre la aplicación. Su objetivo es ofrecer una experiencia visual atractiva y fácil de usar que despierte el interés de los visitantes y los motive a conocer más sobre las funciones de la plataforma.
+
+---
+
+### 4.3.1. Landing Page Wireframe.
+
+Los Wireframes de la página son una versión simplificada de la manera en la que se organizará la información. Se hace una organización de la estructura visual de todos los componentes previo a centrarse en la parte visual de la página. Gracias a esto, podemos observar que cosas se necesitan cambiar si fuera necesario, agilizando el tiempo de organizar los datos.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe1.png" alt="Home page wireframe" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe2.png" alt="Sign Up wireframe" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe3.png" alt="Log In wireframe" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe4.png" alt="Stress test wireframe" width="700px" /></p>
+</div>
+
+---
+
+
+### 4.3.2. Landing Page Mock-up.
+
+Un mockup es una representación visual de un producto que muestra cómo lucirá, a diferencia de un wireframe, que se enfoca en la estructura. Aunque no es interactivo, puede ser de media o alta fidelidad y ayuda a tomar decisiones finales sobre aspectos como esquemas de colores, estilo visual y tipografía. Es una herramienta valiosa en el proceso de diseño para alinear expectativas y obtener retroalimentación antes de la implementación.
+
+<div>
+  <p align="center"><img src="assets/md-images/landing/mockup/mockup1.png" alt="Home page mockup" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/md-images/landing/mockup/mockup2.png" alt="Sign Up mockup" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/md-images/landing/mockup/mockup3.png" alt="Log In mockup" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/md-images/landing/mockup/mockup4.png" alt="Stress test mockup" width="700px" /></p>
+</div>
+
+Nuestro Landing Page:
+
+## [● Link: [https://neurozen-home.netlify.app](https://neurozen-home.netlify.app)]
+
 
 ## 4.4. Mobile Applications UX/UI Design
 
