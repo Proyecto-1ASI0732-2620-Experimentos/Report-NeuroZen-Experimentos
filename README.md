@@ -1952,6 +1952,20 @@ Para lograr el despliegue seguimos lo siguientes pasos:
 
 ### 5.2.4. Acuerdo de Servicio - SaaS
 
+El presente Acuerdo de Nivel de Servicio (SLA) establece los compromisos de calidad, disponibilidad y soporte que el startup NeuroDraw garantiza para el producto NeuroZen, ofrecido bajo el modelo de Software como Servicio (SaaS) a usuarios finales (trabajadores formales e informales) y profesionales de la salud mental.
+
+ - **DisDisponibilidad del Servicio (Uptime)**
+   NeuroZen garantiza una disponibilidad del servicio del 99.9% mensual para las funciones principales, incluyendo el acceso a la plataforma web y aplicaciones móviles, las autoevaluaciones de estrés y el agendamiento de citas con psicólogos.
+   
+ - **Privacidad y Seguridad de la Información**
+   NeuroZen se compromete a aplicar protocolos estrictos de encriptación de extremo a extremo.
+   
+ - **Mantenimiento y Despliegues**
+   Cualquier actualización de la plataforma o tarea de despliegue continuo se realizará en horarios de menor actividad (ej. madrugada) para minimizar el impacto en la experiencia del usuario.
+   
+ - **Responsabilidad y Limitación del Servicio**
+   NeuroZen es una herramienta preventiva enfocada en la identificación y gestión del estrés laboral. Se deja constancia de que los tests y análisis de la plataforma no sustituyen un diagnóstico psiquiátrico oficial ni la atención de emergencia para crisis severas de salud mental.
+
 ### 5.2.5. Implemented Native-Mobile Application Evidence
 
 ### 5.2.6. Implemented RESTful API and/or Serverless Backend Evidence
