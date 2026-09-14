@@ -1463,6 +1463,37 @@ La arquitectura de software orientada al dominio es un enfoque de diseño que se
 
 ### 4.8.1. Software Architecture Context Diagram
 
+**Descripción:**  
+El sistema **NeuroZen** está al centro y muestra su relación con actores humanos y sistemas externos (pagos, correo, contenidos de ejercicios).
+
+---
+
+#### Diagrama
+
+<p align="center"><img src="assets/diagrams/primer-diagrama.png" alt="Stress test mockup" width="700px" /></p>
+
+---
+
+#### Explicación
+
+- **Actores:**
+
+  - Paciente/Usuario
+  - Psicólogo
+  - Administrador
+
+- **Sistemas externos:**
+
+  - Pasarela de pagos
+  - Servicio de correo (SMTP/Provider)
+  - API de ejercicios/meditación
+
+- **Interacciones clave:**
+  - Los usuarios interactúan con **NeuroZen**.
+  - La plataforma se integra con servicios externos para pagos, notificaciones y contenidos.
+
+---
+
 ### 4.8.2. Software Architecture Container Diagrams
 
 ### 4.8.3. Software Architecture Components Diagrams
