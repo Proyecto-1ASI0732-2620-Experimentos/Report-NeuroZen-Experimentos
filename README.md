@@ -1009,7 +1009,17 @@ Empathy Mapping y As-Is Scenario Mapping.
 </div>
 
 
-### 2.3.2. User Task Matrix
+### 2.3.2. User Task Matrix.
+
+| Tareas                                                     | Laura Méndez |             | Andrés Luján |             |
+| :--------------------------------------------------------- | :----------- | :---------- | :----------- | :---------- |
+|                                                            | Frecuencia   | Importancia | Frecuencia   | Importancia |
+| **Registrar señales corporales de estrés**                 | Media        | Media       | Alta         | Alta        |
+| **Completar autoevaluación de niveles de estrés**          | Media        | Alta        | Alta         | Media       |
+| **Consultar análisis de patrones de estrés**               | Alta         | Media       | Media        | Alta        |
+| **Acceder a recomendaciones personalizadas**               | Media        | Alta        | Alta         | Alta        |
+| **Registrar seguimiento de implementación de estrategias** | Media        | Alta        | Alta         | Alta        |
+
 
 ### 2.3.3. User Journey Mapping
 
