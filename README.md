@@ -979,8 +979,32 @@ Este glosario define los términos clave que usamos en el proyecto para mantener
 
 ---
 
-
 ## 3.3. Product Backlog
+
+_Orden de User Stories y Technical Stories_
+
+| Orden | ID   | User Story / Technical Story               | Story Points | Bounded Context |
+| ----- | ---- | ------------------------------------------ | ------------ | --------------- |
+| 01    | US01 | Registrar cuenta de usuario                | 3            | IAM             |
+| 02    | US02 | Configurar perfil biométrico               | 5            | Biometrics      |
+| 03    | US03 | Completar cuestionario inicial de salud    | 3            | Assessments     |
+| 04    | US04 | Realizar test de autoevaluación de estrés  | 5            | Assessments     |
+| 05    | US05 | Análisis biométrico de señales de estrés   | 5            | Biometrics      |
+| 06    | US06 | Registrar síntomas físicos                 | 3            | Health Tracking |
+| 07    | US07 | Recibir recomendaciones personalizadas     | 5            | Recommendations |
+| 08    | US08 | Realizar ejercicios de respiración guiados | 3            | Activities      |
+| 09    | US09 | Programar pausas activas laborales         | 3            | Activities      |
+| 10    | US10 | Visualizar dashboard personal de estrés    | 5            | Dashboard       |
+| 11    | US11 | Generar informes de progreso               | 5            | Reports         |
+| 12    | US12 | Registrar desencadenantes de estrés        | 3            | Health Tracking |
+| 13    | US13 | Buscar psicólogos especializados           | 3            | Professionals   |
+| 14    | US14 | Programar cita con psicólogo               | 5            | Appointments    |
+| 15    | US15 | Compartir informes con especialistas       | 3            | Reports         |
+| 16    | US16 | Participar en grupos de apoyo              | 3            | Community       |
+| 17    | US17 | Acceder a biblioteca de recursos           | 2            | Resources       |
+| 18    | US18 | Participar en desafíos antiestrés          | 3            | Community       |
+| 19    | US19 | Analizar carga laboral                     | 5            | Analytics       |
+| 20    | US20 | Recibir recordatorios de ergonomía         | 2            | Notifications   |
 
 ## 3.4. Impact Mapping
 
