@@ -1098,6 +1098,10 @@ Compatibilidad responsive, manteniendo la navegación fluida en móviles y escri
 
 ## 4.3. Landing Page UI Design
 
+El diseño de la interfaz de usuario para la landing page de NeuroZen será un elemento clave, ya que representará la primera impresión que recibirán los usuarios sobre la aplicación. Su objetivo es ofrecer una experiencia visual atractiva y fácil de usar que despierte el interés de los visitantes y los motive a conocer más sobre las funciones de la plataforma.
+
+---
+
 ### 4.3.1. Landing Page Wireframe
 
 ### 4.3.2. Landing Page Mock-up
