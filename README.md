@@ -1484,6 +1484,39 @@ Es el acto de examinar los artefactos y el comportamiento del software bajo prue
 
 ### 5.1.2. Source Code Management
 
+En esta sección se presenta la gestión de código fuente o como es conocido por sus siglas en inglés SCM (Source Code Management). Su función principal es realizar un seguimiento de las modificaciones que el equipo realizará a lo largo del desarrollo de sus proyectos en los repositorios de código fuente. Se emplea como un sistema de control de versiones que permite dar seguimiento a los cambios que cada integrante o desarrollador realice en el proyecto. Asimismo, cabe resaltar que para el sistema de control de versiones emplearemos GitHub.
+
+**GitFlow**
+
+Es el modelo alternativo de creación de ramas en Git que en los últimos años se ha vuelto una herramienta indispensable para muchos desarrolladores. Este flujo de trabajo de control de versiones utiliza ramas y fue publicado y popularizado por Vincent Driessen. Su principal función es ayudar en la organización de la versión de un código, permitiendo la creación de nuevos Features y Hotfixes de manera organizada.
+
+**Main Branches:**
+
+- **main:** es la rama principal, a partir de ella se recorrerán todas las ramas y contendrá la última versión y las anteriores creadas por los desarrolladores.
+
+- **Develop:** Esta rama puede ser creada a partir de la rama main(master) y contará con todos los Features estables. Esto significa que a través de esta rama el equipo podrá integrar las funciones.
+
+**Support Branches:**
+
+- **Feature:** se ramifica de developer y al finalizar debe fusionarse de nuevo en develop. Se emplea para desarrollar nuevas funciones que se integrarán en versiones posteriores.
+
+- **Release:** también se ramifica de develop, es la rama que admite la preparación de una nueva versión de producción.
+
+- **Hotfix:** también está destinado a una nueva versión de producción, pero esta se ramifica de main. Su función es reparar rápidamente las publicaciones de producción.
+
+**Conventional Commits:**
+
+Son una convención para nombrar mensajes de commit en Git de forma estructurada, clara y semántica.
+
+- feat: Se añade una nueva funcionalidad.
+- fix: Se corrige un error.
+- docs: Cambios en la documentación.
+- style: Cambios de formato o estilo de código (sin impacto en la lógica).
+- refactor: Mejoras en el código que no añaden nuevas funcionalidades ni corrigen errores.
+- test: Añadir o modificar tests.
+- chore: Cambios menores sin impacto en el código de producción (actualización de dependencias, configuración, etc.).
+
+
 ### 5.1.3. Source Code Style Guide & Conventions
 
 ### 5.1.4. Software Deployment Configuration
