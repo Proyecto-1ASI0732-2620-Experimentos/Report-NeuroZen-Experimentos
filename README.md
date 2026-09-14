@@ -1261,7 +1261,38 @@ Nuestro Landing Page:
 
 El diseño de experiencia de usuario (UX) y de interfaz de usuario (UI) busca ofrecer una interacción digital clara, sencilla y motivadora. La UX se enfoca en entender las necesidades de las personas que buscan manejar su estrés y en crear flujos que les permitan registrar sus datos, evaluar su estado y recibir recomendaciones de forma rápida. La UI complementa esta experiencia con un diseño visual relajante y ordenado, usando colores, íconos y botones que transmiten calma y profesionalismo. Al combinar funcionalidad intuitiva con una estética agradable, se logra que el usuario se sienta acompañado y en control de su bienestar.
 
-### 4.4.1. Mobile Applications Wireframes
+#### 4.4.1. Mobile Applications Wireframes
+
+Los wireframes representan la estructura básica de las pantallas clave de la aplicación web, evidenciando la aplicación de principios de simplicidad, consistencia visual y accesibilidad.
+
+**Boarding**
+
+![](assets/img/chapter-4-images/boarding.png) 
+
+**Login / Registro**
+
+![](assets/img/chapter-4-images/login.png)
+
+**Home**
+
+![](assets/img/chapter-4-images/Home.png)
+
+**Sessions**
+
+![](assets/img/chapter-4-images/sessions.png)
+
+**Breathing**
+
+![](assets/img/chapter-4-images/Breathing.png)
+
+**Profile**
+
+![](assets/img/chapter-4-images/profilie.png)
+
+**Product Detail**
+
+![](assets/img/chapter-4-images/productoDetail.png)
+
 
 ### 4.4.2. Mobile Applications Wireflow Diagrams
 
