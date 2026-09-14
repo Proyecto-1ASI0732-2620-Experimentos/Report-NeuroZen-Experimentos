@@ -1521,6 +1521,29 @@ Son una convención para nombrar mensajes de commit en Git de forma estructurada
 
 ### 5.1.4. Software Deployment Configuration
 
+Como se mencionó previamente, la gestión de nuestro código fuente se realizará a través de GitHub. Asimismo, se utilizará GitHub Pages para la publicación y despliegue de la página.
+
+Para el desarrollo del Landing Page de NeuroZen se han usado las siguientes herramientas:
+
+- HTML: lenguaje con el cual está estructurado nuestro landing page.
+
+- CSS: diseño y formato para el html desarrollado.
+
+El despliegue de nuestro landing page es posible gracias a la herramienta de Github Pages. El cual es un servicio que nos permite alojar nuestro landing directamente desde el
+repositorio de GitHub.
+
+Para lograr el despliegue seguimos lo siguientes pasos:
+
+1. Dirigirnos al repositorio de la página y entrar en la sección de configuración.
+
+2. Ir a la opción de “Pages”, donde se encontrarán todas las opciones de publicación de página.
+
+3. Se debe seleccionar la rama la cual se va a publicar en el vínculo. También se debe seleccionar la carpeta donde se localizara la publicación.
+
+4. Finalmente, el link vínculo de nuestra página aparecerá en la parte superior.
+
+---
+
 ## 5.2. Product Implementation & Deployment
 
 ### 5.2.1. Sprint Backlogs
