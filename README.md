@@ -1294,7 +1294,42 @@ Los wireframes representan la estructura básica de las pantallas clave de la ap
 ![](assets/img/chapter-4-images/productoDetail.png)
 
 
-### 4.4.2. Mobile Applications Wireflow Diagrams
+#### 4.4.2. Mobile Applications Wireflow Diagrams
+
+Los wireflows ilustran cómo se enlazan los wireframes a través de interacciones típicas de los usuarios (User Goals).
+
+**Wireflow 1: Boarding e inicio de sesión**
+
+Este wireflow representa el proceso inicial de acceso a la aplicación. El usuario comienza visualizando la pantalla de bienvenida (Boarding), donde conoce las principales funcionalidades y beneficios de la plataforma. Desde esta ventana puede continuar hacia la pantalla de Login para autenticarse y acceder a una experiencia personalizada dentro de la aplicación.
+
+![](assets/img/chapter-4-images/boarding-login.png)
+
+**Wireflow 2: Inicio de sesión y acceso al Home**
+
+Este wireflow muestra el proceso mediante el cual el usuario inicia sesión dentro de la aplicación y accede a la pantalla principal Home. Una vez autenticado, el usuario puede visualizar las principales funcionalidades y navegar hacia sesiones, ejercicios de respiración, perfil y recursos disponibles dentro de la plataforma.
+
+![](assets/img/chapter-4-images/login-home.png)
+
+
+**Wireflow 3: Navegación hacia sesiones y ejercicios de respiración**
+
+Este wireflow representa la navegación principal desde la pantalla Home hacia las funcionalidades de sesiones guiadas y ejercicios de respiración. El usuario puede acceder rápidamente a herramientas enfocadas en el bienestar, relajación y seguimiento de actividades de mindfulness dentro de la aplicación.
+
+![](assets/img/chapter-4-images/home-breathing-session.png)
+
+**Wireflow 4: Acceso al perfil de usuario**
+
+Este wireflow muestra el recorrido del usuario desde la pantalla Home hacia la sección Profile. Dentro de esta ventana, el usuario puede visualizar y administrar su información personal, configuraciones, preferencias y progreso registrado dentro de la plataforma.
+
+![](assets/img/chapter-4-images/home-profie.png)
+
+
+**Wireflow 5: Visualización de detalle de producto o recurso**
+
+Este wireflow representa el flujo de navegación desde la pantalla Home hacia la visualización detallada de un producto, recurso o contenido específico de la aplicación. El usuario puede revisar información relevante y explorar contenido relacionado antes de interactuar con el recurso seleccionado.
+
+![](assets/img/chapter-4-images/home-product.png)
+
 
 ### 4.4.3. Mobile Applications Mock-ups
 
