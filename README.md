@@ -1046,13 +1046,13 @@ _Orden de User Stories y Technical Stories_
 Impact Mapping - Segmento 1
 
 <div>
-  <p align="center"><img src="assets/images/cap2/impact-map/ImpactMapping_s1.png" alt="Impact mapping segmento 1" width="700px" /></p>
+  <p align="center"><img src="assets/cap2/impact-map/ImpactMapping_s1.png" alt="Impact mapping segmento 1" width="700px" /></p>
 </div>
 
 Impact Mapping - Segmento 2
 
 <div>
-  <p align="center"><img src="assets/images/cap2/impact-map/ImpactMapping_s2.png" alt="Impact mapping segmento 2" width="700px" /></p>
+  <p align="center"><img src="assets/cap2/impact-map/ImpactMapping_s2.png" alt="Impact mapping segmento 2" width="700px" /></p>
 </div>
 
 ---
@@ -1066,6 +1066,75 @@ Impact Mapping - Segmento 2
 NeuroDraw, dedicado a la detección rápida y manejo del estrés laboral, transmite calma, confianza y profesionalismo. Nuestra identidad visual combina tonos azules y verdes para evocar tranquilidad, con tipografía clara y espacios limpios. Comunicamos con un lenguaje accesible pero riguroso, transformando conceptos complejos de neurociencia en soluciones prácticas para el bienestar laboral.
 
 ### 4.1.1. General Style Guidelines
+
+Logo: El logo de NeuroZen fusiona elementos neurológicos y serenidad en un diseño significativo. La silueta de perfil humano en Verde Bosque muestra circuitos cerebrales que simbolizan cómo nuestra plataforma conecta ciencia y bienestar mental.
+
+<div>
+  <p align="center"><img src="assets/cap3/neurozen-logos/logo.png" alt="Neurozen's main logo" width="250px" /></p>
+</div>
+
+Tipografía:
+
+La tipografía de la página debe ser fácil de leer, adaptándose al dispositivo en el que se encuentre. Para ello, se emplearán dos fuentes sans-serif (sin remates decorativos) porque son más legibles y claras. Además, el contenido mostrado debe de resaltar.
+
+Color Guide:
+
+1. Verde Bosque (#2D5A4A)
+Representación: El verde bosque simboliza estabilidad, crecimiento y conexión con la naturaleza. En el contexto de NeuroZen, este color representa la base sólida que ofrece la plataforma para ayudar a los usuarios a manejar su estrés. Se utiliza en elementos principales como el logotipo y encabezados, transmitiendo confianza y un ambiente relajante que invita a la calma mental.
+<div>
+  <p align="center"><img src="assets/cap3/colors/verdebosque.png" alt="Forest green color" width="450px" /></p>
+</div>
+
+2. Verde Menta (#A2C4B5)
+Representación: El verde menta evoca frescura, renovación y claridad mental. Este color más suave complementa al verde bosque y se utiliza en áreas secundarias de la plataforma. Representa la sensación refrescante que experimentan los usuarios al reducir su estrés mediante las técnicas proporcionadas por NeuroZen, creando un ambiente digital que respira tranquilidad.
+<div>
+  <p align="center"><img src="assets/cap3/colors/verdementa.png" alt="Mint green color" width="450px" /></p>
+</div>
+
+3. Beige Cálido (#F1E9D4)
+Representación: El beige cálido transmite neutralidad, confort y serenidad. En NeuroZen, este color se utiliza para fondos y espacios de descanso visual, proporcionando un ambiente acogedor que reduce la fatiga visual durante las sesiones de meditación o ejercicios anti-estrés. El beige crea un entorno digital que se siente como un refugio seguro.
+<div>
+  <p align="center"><img src="assets/cap3/colors/beigecalido.png" alt="Warm beige color" width="450px" /></p>
+</div>
+
+4. Turquesa Profundo (#1A6F78)
+Representación: El turquesa profundo simboliza la profundidad emocional, la comunicación y la sabiduría. Este color representa el componente científico y psicológico de NeuroZen, destacando las herramientas basadas en evidencia para el manejo del estrés. Se utiliza en elementos interactivos y botones de acción, invitando a los usuarios a explorar soluciones más profundas.
+<div>
+  <p align="center"><img src="assets/cap3/colors/turquesa.png" alt="Deep turquoise color" width="450px" /></p>
+</div>
+
+5. Gris Piedra (#8C9893)
+Representación: El gris piedra evoca neutralidad, equilibrio y estabilidad. En NeuroZen, este color funciona como un ancla visual que equilibra los verdes y turquesas más expresivos. Se utiliza para texto secundario y elementos de interfaz sutiles, aportando sofisticación sin competir con los colores principales que transmiten calma y bienestar.
+<div>
+  <p align="center"><img src="assets/cap3/colors/grispiedra.png" alt="Pale gray color" width="450px" /></p>
+</div>
+
+La paleta de colores de NeuroZen combina verdes y turquesas para transmitir naturaleza y tecnología, beige para crear un entorno acogedor y gris piedra para aportar profesionalismo. En conjunto, el diseño busca generar una experiencia visual relajante y coherente con la misión de reducir el estrés del usuario.
+
+Buttons:
+
+La plataforma NeuroZen para control del estrés presenta una interfaz intuitiva con botones fácilmente identificables en toda la experiencia. Los botones principales utilizan Verde Bosque (#2D5A4A) para acciones importantes como iniciar meditaciones, mientras que los secundarios aparecen en Verde Menta (#A2C4B5), creando jerarquía visual. El fondo en Beige Cálido (#F1E9D4) proporciona un ambiente relajante, complementado por elementos interactivos en Turquesa Profundo (#1A6F78) para funciones especiales y Gris Piedra (#8C9893) para textos y detalles sutiles. Todos los botones tienen formas redondeadas y tamaños generosos, facilitando su uso incluso en momentos de estrés, mientras que los estados de hover y feedback ofrecen respuestas visuales claras que refuerzan la sensación de calma y control que define la experiencia de NeuroZen.
+
+Variaciones del logo en diferentes representaciones:
+
+<div>
+  <p align="center"><img src="assets/cap3/neurozen-logos/neurozen1.png" alt="Neurozen logo v-2" width="250px" /></p>
+</div>
+-Una opción minimalista, sin muchos detalles y relajante a la vista.
+<div>
+  <p align="center"><img src="assets/cap3/neurozen-logos/neurozen2.png" alt="Neurozen logo v-3" width="250px" /></p>
+</div>
+-Una opción con mejor detalle y uso de colores.
+<div>
+  <p align="center"><img src="assets/cap3/neurozen-logos/neurozen3.png" alt="Neurozen logo v-4" width="250px" /></p>
+</div>
+-Una representación más abstracta que inspira relajación.
+<div>
+  <p align="center"><img src="assets/cap3/neurozen-logos/neurozen4.png" alt="Neurozen logo v-5" width="250px" /></p>
+</div>
+-Una opción que combina las dos primeras ideas.
+
+---
 
 ### 4.1.2. Web Style Guidelines
 
