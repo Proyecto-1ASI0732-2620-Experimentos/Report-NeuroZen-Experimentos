@@ -1187,7 +1187,27 @@ El diseño de la interfaz de usuario para la landing page de NeuroZen será un e
 
 ---
 
-### 4.3.1. Landing Page Wireframe
+### 4.3.1. Landing Page Wireframe.
+
+Los Wireframes de la página son una versión simplificada de la manera en la que se organizará la información. Se hace una organización de la estructura visual de todos los componentes previo a centrarse en la parte visual de la página. Gracias a esto, podemos observar que cosas se necesitan cambiar si fuera necesario, agilizando el tiempo de organizar los datos.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe1.png" alt="Home page wireframe" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe2.png" alt="Sign Up wireframe" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe3.png" alt="Log In wireframe" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/wireframe4.png" alt="Stress test wireframe" width="700px" /></p>
+</div>
+
+---
 
 ### 4.3.2. Landing Page Mock-up
 
