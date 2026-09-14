@@ -2038,23 +2038,28 @@ Para lograr el despliegue seguimos lo siguientes pasos:
   <tbody>
     <tr>
       <td>Inicio</td>
-      <td>Página de presentación de nuestra landing page.</td>
-      <td><img src="assets/landing/neurozen1.jpeg" alt="neurozen1" width="400px"/></td>
+      <td>Menú Principal de Neurozen, presentando un atajo a todas las funcionalidades y un reporte estadístico.</td>
+      <td><img src="assets/frontend1/menu1.png" alt="menu1" width="400px"/></td>
     </tr>
     <tr>
-      <td>Sobre Nosotros</td>
-      <td>Sección para darnos a conocer como  equipo, y videos probando el producto en distintas plataformas.</td>
-      <td><img src="assets/landing/nosotros.jpeg" alt="nosotros" width="400px"/></td>
+      <td>Perfil</td>
+      <td>Perfil del usuario(paciente) mostrando detalles como su suscripción</td>
+      <td><img src="assets/frontend1/perfil.png" alt="perfil" width="400px"/></td>
     </tr>
     <tr>
-      <td>Planes</td>
-      <td>Sección para mostrar los distintos planes que ofrecemos a los clientes.</td>
-      <td><img src="assets/landing/planes.jpeg" alt="planes" width="400px"/></td>
+      <td>Ejercicios</td>
+      <td>Apartado de ejercicios que puede realizar el usuario.</td>
+      <td><img src="assets/frontend1/respiracion.png" alt="respiracion" width="400px"/></td>
     </tr>
     <tr>
-      <td>Profesionales</td>
-      <td>Sección para dar a conocer algunos de los profesionales que trabajan usando nuestra plataforma.</td>
-      <td><img src="assets/landing/profesionales.jpeg" alt="profesionales" width="400px"/></td>
+      <td>Reservar Cita</td>
+      <td>Apartado para iniciar con la reserva de una cita en la plataforma.</td>
+      <td><img src="assets/frontend1/cita.png" alt="cita" width="400px"/></td>
+    </tr>
+    <tr>
+      <td>Configuracion</td>
+      <td>Apartado para que el usuario pueda configurar el diseño de la plataforma.</td>
+      <td><img src="assets/frontend1/configuracion.png" alt="configuracion" width="400px"/></td>
     </tr>
   </tbody>
 </table>
