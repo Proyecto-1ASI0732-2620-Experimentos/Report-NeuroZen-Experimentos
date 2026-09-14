@@ -1879,9 +1879,7 @@ Son una convención para nombrar mensajes de commit en Git de forma estructurada
 - chore: Cambios menores sin impacto en el código de producción (actualización de dependencias, configuración, etc.).
 
 
-### 5.1.3. Source Code Style Guide & Conventions
-
-### 5.1.4. Software Deployment Configuration
+### 5.1.3. Software Deployment Configuration
 
 Como se mencionó previamente, la gestión de nuestro código fuente se realizará a través de GitHub. Asimismo, se utilizará GitHub Pages para la publicación y despliegue de la página.
 
