@@ -844,6 +844,10 @@ Empathy Mapping y As-Is Scenario Mapping.
 
 ### 2.3.1. User Personas
 
+<img src="assets/cap2/user-persona/andres.png" alt="User Persona Andres"><br>
+
+<img src="assets/cap2/user-persona/laura.png" alt="User Persona Laura"><br>
+
 ### 2.3.2. User Task Matrix
 
 | Tareas                                                 | Laura Frecuencia | Laura Importancia | Andrés Frecuencia | Andrés Importancia |
