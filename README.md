@@ -1257,15 +1257,97 @@ Nuestro Landing Page:
 ## [● Link: [https://neurozen-home.netlify.app](https://neurozen-home.netlify.app)]
 
 
-## 4.4. Mobile Applications UX/UI Design
+### 4.4. Mobile Applications UX/UI Design
 
-### 4.4.1. Mobile Applications Wireframes
+El diseño de experiencia de usuario (UX) y de interfaz de usuario (UI) busca ofrecer una interacción digital clara, sencilla y motivadora. La UX se enfoca en entender las necesidades de las personas que buscan manejar su estrés y en crear flujos que les permitan registrar sus datos, evaluar su estado y recibir recomendaciones de forma rápida. La UI complementa esta experiencia con un diseño visual relajante y ordenado, usando colores, íconos y botones que transmiten calma y profesionalismo. Al combinar funcionalidad intuitiva con una estética agradable, se logra que el usuario se sienta acompañado y en control de su bienestar.
 
-### 4.4.2. Mobile Applications Wireflow Diagrams
+#### 4.4.1. Mobile Applications Wireframes
 
-### 4.4.3. Mobile Applications Mock-ups
+Los wireframes representan la estructura básica de las pantallas clave de la aplicación web, evidenciando la aplicación de principios de simplicidad, consistencia visual y accesibilidad.
 
-### 4.4.4. Mobile Applications User Flow Diagrams
+**Boarding**
+
+![](assets/img/chapter-4-images/boarding.png) 
+
+**Login / Registro**
+
+![](assets/img/chapter-4-images/login.png)
+
+**Home**
+
+![](assets/img/chapter-4-images/Home.png)
+
+**Sessions**
+
+![](assets/img/chapter-4-images/sessions.png)
+
+**Breathing**
+
+![](assets/img/chapter-4-images/Breathing.png)
+
+**Profile**
+
+![](assets/img/chapter-4-images/profilie.png)
+
+**Product Detail**
+
+![](assets/img/chapter-4-images/productoDetail.png)
+
+
+#### 4.4.2. Mobile Applications Wireflow Diagrams
+
+Los wireflows ilustran cómo se enlazan los wireframes a través de interacciones típicas de los usuarios (User Goals).
+
+**Wireflow 1: Boarding e inicio de sesión**
+
+Este wireflow representa el proceso inicial de acceso a la aplicación. El usuario comienza visualizando la pantalla de bienvenida (Boarding), donde conoce las principales funcionalidades y beneficios de la plataforma. Desde esta ventana puede continuar hacia la pantalla de Login para autenticarse y acceder a una experiencia personalizada dentro de la aplicación.
+
+![](assets/img/chapter-4-images/boarding-login.png)
+
+**Wireflow 2: Inicio de sesión y acceso al Home**
+
+Este wireflow muestra el proceso mediante el cual el usuario inicia sesión dentro de la aplicación y accede a la pantalla principal Home. Una vez autenticado, el usuario puede visualizar las principales funcionalidades y navegar hacia sesiones, ejercicios de respiración, perfil y recursos disponibles dentro de la plataforma.
+
+![](assets/img/chapter-4-images/login-home.png)
+
+
+**Wireflow 3: Navegación hacia sesiones y ejercicios de respiración**
+
+Este wireflow representa la navegación principal desde la pantalla Home hacia las funcionalidades de sesiones guiadas y ejercicios de respiración. El usuario puede acceder rápidamente a herramientas enfocadas en el bienestar, relajación y seguimiento de actividades de mindfulness dentro de la aplicación.
+
+![](assets/img/chapter-4-images/home-breathing-session.png)
+
+**Wireflow 4: Acceso al perfil de usuario**
+
+Este wireflow muestra el recorrido del usuario desde la pantalla Home hacia la sección Profile. Dentro de esta ventana, el usuario puede visualizar y administrar su información personal, configuraciones, preferencias y progreso registrado dentro de la plataforma.
+
+![](assets/img/chapter-4-images/home-profie.png)
+
+
+**Wireflow 5: Visualización de detalle de producto o recurso**
+
+Este wireflow representa el flujo de navegación desde la pantalla Home hacia la visualización detallada de un producto, recurso o contenido específico de la aplicación. El usuario puede revisar información relevante y explorar contenido relacionado antes de interactuar con el recurso seleccionado.
+
+![](assets/img/chapter-4-images/home-product.png)
+
+
+#### 4.4.3. Mobile Applications Mock-ups
+
+Los mock-ups muestran la versión visual detallada de las pantallas, aplicando la identidad visual de NeuroZen (colores, tipografías y estilos inclusivos). Aquí se evidencian las decisiones finales de diseño.
+
+![](assets/img/chapter-4-images/mockup1.jpeg)
+
+![](assets/img/chapter-4-images/mockup2.jpeg)
+
+#### 4.4.4. Mobile Applications User Flow Diagrams
+
+Los **User Flow Diagrams** representan los caminos que siguen los usuarios dentro de la aplicación para cumplir sus objetivos.  
+Estos flujos integran los **mock-ups** y los **wireflows**, mostrando tanto la ruta esperada (**happy path**) como las rutas alternativas en caso de error (**unhappy path**).
+
+A continuación, presentamos los principales **User Goals** identificados y sus respectivos flujos:
+
+![](assets/img/chapter-4-images/diagram-mockup.jpeg)
+---
 
 ## 4.5. Mobile Applications Prototyping
 
