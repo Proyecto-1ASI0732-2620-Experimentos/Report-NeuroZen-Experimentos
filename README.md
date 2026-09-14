@@ -1307,9 +1307,6 @@ El equipo ha establecido un ecosistema de desarrollo estandarizado para garantiz
 La gestión de los proyectos tiene como objetivo mejorar los procesos y su entorno para alcanzar los resultados esperados.
 
 - **Project Management:  Trello** es una herramienta visual que permite gestionar cualquier tipo de proyecto y el flujo de trabajo que el equipo desarrollador seguirá para implementar correctamente las tareas de código para el Landing Page y el web Application.
-- **Product UX/UI Design: Figma** para el prototipado interactivo y **UXPressia** para el mapeo de la experiencia de usuario (User Personas y Journey Maps).
-- **Software Development: Android Studio** como IDE principal para la construcción y depuración de la aplicación móvil nativa.
-- **Software Testing: Gherkin (Cucumber)** para la definición de criterios de aceptación bajo el enfoque BDD, asegurando que las funcionalidades cumplan con los requerimientos de negocio.
 
 <table>
     <tbody>
