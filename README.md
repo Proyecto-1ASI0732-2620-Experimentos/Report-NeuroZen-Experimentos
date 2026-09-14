@@ -998,7 +998,16 @@ un análisis de estos mismos haciendo uso de User Persona, Task Matrix, Journey 
 Empathy Mapping y As-Is Scenario Mapping.
 
 
-### 2.3.1. User Personas
+### 2.3.1. User Personas.
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/laura.png" alt="User persona for Laura" width="700px" /></p>
+</div>
+
+<div>
+  <p align="center"><img src="assets/img/chapter-2-images/andres.png" alt="User persona for Andres" width="700px" /></p>
+</div>
+
 
 ### 2.3.2. User Task Matrix
 
