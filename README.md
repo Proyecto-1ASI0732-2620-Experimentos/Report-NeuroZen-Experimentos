@@ -1979,6 +1979,10 @@ Se expandió el backend para incluir nueva lógica del negocio.
 
 ### 5.2.8. Team Collaboration Insights
 
+El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: Backend, Android Nativo y Flutter.
+
+<img src="assets/sprint3/Insights.jpeg" alt="insights" width="700px"/>
+
 ## 5.3. Video About-the-Product
 
 - Link: https://drive.google.com/file/d/1-_v0KUTrHYfdEqTVUWcZBBUHyfarLtC4/view?usp=sharing
