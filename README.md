@@ -1303,6 +1303,117 @@ El objetivo es asegurar que tanto la aplicación para pacientes (Flutter) como l
 
 
 #### 4.1.3.1. iOS Mobile Style Guidelines
+#### Introducción
+
+Las guías de estilo para iOS se basan en los **Human Interface Guidelines (HIG)** de Apple, adaptadas a la identidad visual de NeuroZen. El objetivo es ofrecer una experiencia familiar para usuarios de iPhone, respetando las convenciones de navegación, gestos y componentes nativos de iOS.
+
+#### Navegación iOS
+
+| Elemento | Implementación | Justificación |
+|---|---|---|
+| Tab Bar | Barra inferior con 5 ítems (Inicio, Citas, ZenBot, Sesiones, Perfil). | Convención iOS para navegación principal. |
+| Navigation Bar | Barra superior con título y botón de retroceso. | Estándar iOS para jerarquía de navegación. |
+| Swipe back | Gesto de deslizar desde el borde izquierdo para volver. | Convención nativa iOS. |
+| Modales | Presentación de modales con animación de abajo hacia arriba. | Patrón iOS para tareas secundarias. |
+| Action Sheet | Para opciones contextuales (ej. cerrar sesión). | Convención iOS para acciones destructivas. |
+
+#### Componentes iOS Específicos
+
+| Componente | Descripción | Implementación |
+|---|---|---|
+| Segmented Control | Selector de opciones (ej. Día/Semana/Mes en dashboard). | UISegmentedControl |
+| Date Picker | Selector de fecha para agendar citas. | UIDatePicker |
+| Switch | Toggle para activar/desactivar notificaciones. | UISwitch |
+| Activity Indicator | Spinner durante carga de datos. | UIActivityIndicatorView |
+| Pull to Refresh | Actualizar dashboard deslizando hacia abajo. | UIRefreshControl |
+| Haptic Feedback | Vibración sutil al completar una actividad. | UIImpactFeedbackGenerator |
+
+#### Tipografía iOS
+
+| Elemento | Fuente | Tamaño | Peso |
+|---|---|---|---|
+| Large Title | SF Pro Display | 34pt | Bold |
+| Title 1 | SF Pro Display | 28pt | Regular |
+| Title 2 | SF Pro Display | 22pt | Regular |
+| Headline | SF Pro Text | 17pt | SemiBold |
+| Body | SF Pro Text | 17pt | Regular |
+| Callout | SF Pro Text | 16pt | Regular |
+| Subhead | SF Pro Text | 15pt | Regular |
+| Footnote | SF Pro Text | 13pt | Regular |
+| Caption | SF Pro Text | 12pt | Regular |
+
+#### Colores iOS (Adaptados a NeuroZen)
+
+| Elemento | Color | Hex |
+|---|---|---|
+| Fondo principal | Beige Cálido | #F1E9D4 |
+| Fondo de tarjetas | Blanco | #FFFFFF |
+| Tint color | Verde Bosque | #2D5A4A |
+| Texto principal | Gris Piedra Oscuro | #2C3E3A |
+| Texto secundario | Gris Piedra | #8C9893 |
+| Separadores | Gris claro | #E0E0E0 |
+| Botón primario | Verde Bosque | #2D5A4A |
+| Botón secundario | Verde Menta | #A2C4B5 |
+| Alerta | Rojo Suave | #E57373 |
+
+#### Iconografía iOS
+
+Se utiliza **SF Symbols** (biblioteca nativa de Apple) para garantizar consistencia visual con el sistema:
+
+| Ícono | SF Symbol | Uso |
+|---|---|---|
+| Inicio | `house.fill` | Tab de inicio |
+| Citas | `calendar` | Tab de citas |
+| ZenBot | `leaf.fill` | Tab de ZenBot |
+| Sesiones | `book.fill` | Tab de sesiones |
+| Perfil | `person.fill` | Tab de perfil |
+| Estrés | `brain.head.profile` | Indicador de estrés |
+| Respiración | `wind` | Ejercicios de respiración |
+| Favoritos | `heart.fill` | Sesiones favoritas |
+| Cerrar sesión | `rectangle.portrait.and.arrow.right` | Cerrar sesión |
+
+#### Accesibilidad iOS
+
+| Característica | Implementación |
+|---|---|
+| VoiceOver | Etiquetas semánticas en todos los componentes interactivos. |
+| Dynamic Type | Soporte para tamaños de texto configurables por el usuario. |
+| Reduce Motion | Respetar la preferencia de reducir animaciones. |
+| Alto Contraste | Soporte para modo de alto contraste. |
+| Dark Mode | Implementación de tema oscuro (opcional en futuras versiones). |
+
+<div align="center">
+
+<table>
+  <tr>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot/Inicio.jpeg" width="400">
+    </td>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot/dashboarde.jpeg" width="400">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot/login.jpeg" width="400">
+    </td>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot/perfil.jpeg" width="400">
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center">
+      <img src="assets/img/chapter-4-images/appScreenshot/sesiones.jpeg" width="400">
+    </td>
+  </tr>
+</table>
+
+</div>
+
+
+
 
 #### 4.1.3.2. Android Mobile Style Guidelines
 
