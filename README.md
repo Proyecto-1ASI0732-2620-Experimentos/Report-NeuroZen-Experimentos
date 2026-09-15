@@ -1130,7 +1130,7 @@ NeuroDraw, dedicado a la detección rápida y manejo del estrés laboral, transm
 Logo: El logo de NeuroZen fusiona elementos neurológicos y serenidad en un diseño significativo. La silueta de perfil humano en Verde Bosque muestra circuitos cerebrales que simbolizan cómo nuestra plataforma conecta ciencia y bienestar mental.
 
 <div>
-  <p align="center"><img src="assets/md-images/logoneurozen.png" alt="Neurozen's main logo" width="250px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/logoneurozen.png" alt="Neurozen's main logo" width="250px" /></p>
 </div>
 
 Tipografía:
@@ -1142,31 +1142,31 @@ Color Guide:
 1. Verde Bosque (#2D5A4A)
 Representación: El verde bosque simboliza estabilidad, crecimiento y conexión con la naturaleza. En el contexto de NeuroZen, este color representa la base sólida que ofrece la plataforma para ayudar a los usuarios a manejar su estrés. Se utiliza en elementos principales como el logotipo y encabezados, transmitiendo confianza y un ambiente relajante que invita a la calma mental.
 <div>
-  <p align="center"><img src="assets/md-images/colors/verdebosque.png" alt="Forest green color" width="450px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/verdebosque.png" alt="Forest green color" width="450px" /></p>
 </div>
 
 2. Verde Menta (#A2C4B5)
 Representación: El verde menta evoca frescura, renovación y claridad mental. Este color más suave complementa al verde bosque y se utiliza en áreas secundarias de la plataforma. Representa la sensación refrescante que experimentan los usuarios al reducir su estrés mediante las técnicas proporcionadas por NeuroZen, creando un ambiente digital que respira tranquilidad.
 <div>
-  <p align="center"><img src="assets/md-images/colors/verdementa.png" alt="Mint green color" width="450px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/verdementa.png" alt="Mint green color" width="450px" /></p>
 </div>
 
 3. Beige Cálido (#F1E9D4)
 Representación: El beige cálido transmite neutralidad, confort y serenidad. En NeuroZen, este color se utiliza para fondos y espacios de descanso visual, proporcionando un ambiente acogedor que reduce la fatiga visual durante las sesiones de meditación o ejercicios anti-estrés. El beige crea un entorno digital que se siente como un refugio seguro.
 <div>
-  <p align="center"><img src="assets/md-images/colors/beigecalido.png" alt="Warm beige color" width="450px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/beigecalido.png" alt="Warm beige color" width="450px" /></p>
 </div>
 
 4. Turquesa Profundo (#1A6F78)
 Representación: El turquesa profundo simboliza la profundidad emocional, la comunicación y la sabiduría. Este color representa el componente científico y psicológico de NeuroZen, destacando las herramientas basadas en evidencia para el manejo del estrés. Se utiliza en elementos interactivos y botones de acción, invitando a los usuarios a explorar soluciones más profundas.
 <div>
-  <p align="center"><img src="assets/md-images/colors/turquesa.png" alt="Deep turquoise color" width="450px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/turquesa.png" alt="Deep turquoise color" width="450px" /></p>
 </div>
 
 5. Gris Piedra (#8C9893)
 Representación: El gris piedra evoca neutralidad, equilibrio y estabilidad. En NeuroZen, este color funciona como un ancla visual que equilibra los verdes y turquesas más expresivos. Se utiliza para texto secundario y elementos de interfaz sutiles, aportando sofisticación sin competir con los colores principales que transmiten calma y bienestar.
 <div>
-  <p align="center"><img src="assets/md-images/colors/grispiedra.png" alt="Pale gray color" width="450px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/grispiedra.png" alt="Pale gray color" width="450px" /></p>
 </div>
 
 La paleta de colores de NeuroZen combina verdes y turquesas para transmitir naturaleza y tecnología, beige para crear un entorno acogedor y gris piedra para aportar profesionalismo. En conjunto, el diseño busca generar una experiencia visual relajante y coherente con la misión de reducir el estrés del usuario.
@@ -1178,19 +1178,19 @@ La plataforma NeuroZen para control del estrés presenta una interfaz intuitiva 
 Variaciones del logo en diferentes representaciones:
 
 <div>
-  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen1.png" alt="Neurozen logo v-2" width="250px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/neurozen1.png" alt="Neurozen logo v-2" width="250px" /></p>
 </div>
 -Una opción minimalista, sin muchos detalles y relajante a la vista.
 <div>
-  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen2.png" alt="Neurozen logo v-3" width="250px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/neurozen2.png" alt="Neurozen logo v-3" width="250px" /></p>
 </div>
 -Una opción con mejor detalle y uso de colores.
 <div>
-  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen3.png" alt="Neurozen logo v-4" width="250px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/neurozen3.png" alt="Neurozen logo v-4" width="250px" /></p>
 </div>
 -Una representación más abstracta que inspira relajación.
 <div>
-  <p align="center"><img src="assets/md-images/neurozen-logos/neurozen4.png" alt="Neurozen logo v-5" width="250px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/guidelines-images/neurozen4.png" alt="Neurozen logo v-5" width="250px" /></p>
 </div>
 -Una opción que combina las dos primeras ideas.
 
@@ -1658,19 +1658,19 @@ Los Wireframes de la página son una versión simplificada de la manera en la qu
 Un mockup es una representación visual de un producto que muestra cómo lucirá, a diferencia de un wireframe, que se enfoca en la estructura. Aunque no es interactivo, puede ser de media o alta fidelidad y ayuda a tomar decisiones finales sobre aspectos como esquemas de colores, estilo visual y tipografía. Es una herramienta valiosa en el proceso de diseño para alinear expectativas y obtener retroalimentación antes de la implementación.
 
 <div>
-  <p align="center"><img src="assets/md-images/landing/mockup/mockup1.png" alt="Home page mockup" width="700px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/mockup1.png" alt="Home page mockup" width="700px" /></p>
 </div>
 
 <div>
-  <p align="center"><img src="assets/md-images/landing/mockup/mockup2.png" alt="Sign Up mockup" width="700px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/mockup2.png" alt="Sign Up mockup" width="700px" /></p>
 </div>
 
 <div>
-  <p align="center"><img src="assets/md-images/landing/mockup/mockup3.png" alt="Log In mockup" width="700px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/mockup3.png" alt="Log In mockup" width="700px" /></p>
 </div>
 
 <div>
-  <p align="center"><img src="assets/md-images/landing/mockup/mockup4.png" alt="Stress test mockup" width="700px" /></p>
+  <p align="center"><img src="assets/img/chapter-4-images/mockup4.png" alt="Stress test mockup" width="700px" /></p>
 </div>
 
 Nuestro Landing Page:
