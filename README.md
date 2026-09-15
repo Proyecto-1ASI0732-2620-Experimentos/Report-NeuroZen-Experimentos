@@ -1772,6 +1772,50 @@ A continuación, presentamos los principales **User Goals** identificados y sus 
 
 ## 4.5. Mobile Applications Prototyping
 
+##### Introducción
+
+En esta sección se presentan los prototipos interactivos de las aplicaciones móviles de NeuroZen, desarrollados para simular la navegación y los principales flujos de interacción definidos en los User Flow Diagrams (sección 3.1.4.4). Los prototipos permiten validar la experiencia de usuario antes de la implementación final, asegurando que los flujos sean intuitivos y alineados con las necesidades de los segmentos objetivo.
+
+##### Criterios de Diseño de Prototipos
+
+| Criterio | Descripción |
+|---|---|
+| Consistencia con la arquitectura de información | Se respetan los sistemas de organización, etiquetado, búsqueda y navegación definidos. |
+| Usabilidad e inclusión | Se prioriza un diseño simple, accesible y claro para completar objetivos sin fricción. |
+| Coherencia visual | Se mantiene el Design System de NeuroZen (colores, tipografía, componentes). |
+| Fidelidad progresiva | Los prototipos evolucionan de baja a alta fidelidad según el sprint. |
+| Validación con usuarios | Los prototipos son probados con usuarios reales en sesiones de validación. |
+
+##### Herramientas Utilizadas
+
+| Herramienta | Propósito |
+|---|---|
+| Figma | Diseño de wireframes, mock-ups y prototipos interactivos. |
+| Flutter | Implementación de la app para pacientes. |
+| Android Studio (Kotlin) | Implementación de la app para psicólogos. |
+| Firebase App Distribution | Distribución de builds para pruebas. |
+
+##### Prototipos Desarrollados
+
+| Prototipo | Descripción | Estado |
+|---|---|---|
+| App Pacientes (Flutter) | Onboarding, login, registro, dashboard, citas, ZenBot, sesiones, perfil, favoritos, planes. | Implementado |
+| App Psicólogos (Android/Kotlin) | Login, registro, dashboard, calendario, pacientes, atención, perfil. | Implementado |
+
+##### Enlaces a Prototipos
+
+| Prototipo | Enlace | Descripción |
+|---|---|---|
+| Figma - App Pacientes |  | Prototipo interactivo de alta fidelidad. |
+| Figma - App Psicólogos |  | Prototipo interactivo de alta fidelidad. |
+| Video Prototipo Pacientes | [![About The Product Android](https://img.shields.io/badge/Video-About%20The%20Product-red?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1-_v0KUTrHYfdEqTVUWcZBBUHyfarLtC4/view) | Demostración de flujos principales. |
+| Video Prototipo Psicólogos | [![About The Product Android](https://img.shields.io/badge/Video-About%20The%20Product-red?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1-_v0KUTrHYfdEqTVUWcZBBUHyfarLtC4/view) | Demostración de flujos principales. |
+
+
+
+
+
+
 ### 4.5.1. Android Mobile Applications Prototyping
 
 ### 4.5.2. iOS Mobile Applications Prototyping
