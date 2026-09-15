@@ -1206,6 +1206,101 @@ Como equipo, hemos decidido incorporar el patrón de diseño en forma de Z para 
 ---
 
 ### 4.1.3. Mobile Style Guidelines
+#### Introducción
+
+Las presentes guías de estilo móvil establecen los lineamientos visuales y de interacción para las aplicaciones móviles de NeuroZen, garantizando consistencia con la identidad de marca de NeuroDraw y una experiencia de usuario coherente en las plataformas iOS y Android. Estas directrices complementan las General Style Guidelines (sección 3.1.1.1) y se alinean con el tono calmante, profesional y accesible que define al producto.
+
+El objetivo es asegurar que tanto la aplicación para pacientes (Flutter) como la aplicación para psicólogos (Android/Kotlin) mantengan una experiencia unificada, respetando las convenciones nativas de cada sistema operativo y priorizando la accesibilidad, la claridad visual y la reducción de la carga cognitiva del usuario.
+
+#### Principios de Diseño Móvil NeuroZen
+
+| Principio | Descripción | Aplicación |
+|---|---|---|
+| Calma visual | Reducir la estimulación visual excesiva para favorecer la relajación. | Uso de paleta verde/beige, espacios amplios, animaciones sutiles. |
+| Claridad inmediata | El usuario debe comprender el estado de su estrés en menos de 3 segundos. | Dashboard con indicadores visuales grandes, tipografía clara. |
+| Accesibilidad | Diseño inclusivo para usuarios con distintas capacidades. | Contraste AA, tamaños táctiles ≥ 48dp, soporte para lectores de pantalla. |
+| Consistencia nativa | Respetar las convenciones de cada plataforma. | Material Design en Android, Human Interface Guidelines en iOS. |
+| Interacción sin fricción | Minimizar pasos para acciones críticas. | Máximo 3 toques para registrar estado de ánimo o iniciar respiración. |
+
+#### Tipografía Móvil
+
+| Elemento | Fuente | Tamaño | Peso | Uso |
+|---|---|---|---|---|
+| Título principal | SF Pro / Roboto | 28sp | Bold | Encabezados de pantalla |
+| Título secundario | SF Pro / Roboto | 22sp | SemiBold | Secciones |
+| Cuerpo de texto | SF Pro / Roboto | 16sp | Regular | Descripciones, párrafos |
+| Etiquetas | SF Pro / Roboto | 14sp | Medium | Botones, tabs, labels |
+| Texto auxiliar | SF Pro / Roboto | 12sp | Regular | Notas, timestamps |
+
+> **Nota:** Se utiliza la fuente nativa de cada plataforma (SF Pro en iOS, Roboto en Android) para garantizar legibilidad y familiaridad, manteniendo la coherencia con el sistema operativo.
+
+#### Paleta de Colores Móvil
+
+| Color | Hex | Uso |
+|---|---|---|
+| Verde Bosque | #2D5A4A | Botones principales, encabezados, íconos activos |
+| Verde Menta | #A2C4B5 | Fondos secundarios, tarjetas, estados hover |
+| Beige Cálido | #F1E9D4 | Fondos de pantalla, áreas de descanso visual |
+| Turquesa Profundo | #1A6F78 | Elementos interactivos, enlaces, acentos |
+| Gris Piedra | #8C9893 | Texto secundario, divisores, íconos inactivos |
+| Blanco | #FFFFFF | Fondos de tarjetas, modales |
+| Rojo Suave | #E57373 | Alertas, errores, cierre de sesión |
+
+<div align="center">
+
+<table>
+  <tr>
+    <td>
+      <img src="assets/img/chapter-3-images/colors/beigecalido.png" width="250">
+    </td>
+    <td>
+      <img src="assets/img/chapter-3-images/colors/grispiedra.png" width="250">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <img src="assets/img/chapter-3-images/colors/turquesa.png" width="250">
+    </td>
+    <td>
+      <img src="assets/img/chapter-3-images/colors/verdebosque.png" width="250">
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center">
+      <img src="assets/img/chapter-3-images/colors/verdementa.png" width="250">
+    </td>
+  </tr>
+</table>
+
+</div>
+
+#### Componentes Móviles Reutilizables
+
+| Componente | Descripción | Plataforma |
+|---|---|---|
+| Tarjeta de sesión | Tarjeta con imagen, título, duración y nivel. | Flutter / Android |
+| Botón principal | Botón redondeado con color Verde Bosque. | Flutter / Android |
+| Botón secundario | Botón outline con Verde Menta. | Flutter / Android |
+| Indicador de progreso | Círculo animado para racha y equilibrio. | Flutter / Android |
+| Barra de navegación inferior | 5 tabs: Inicio, Citas, ZenBot, Sesiones, Perfil. | Flutter |
+| Barra de navegación inferior (psicólogo) | 4 tabs: Inicio, Pacientes, Horario, Perfil. | Android |
+| Snackbar | Notificación breve en la parte inferior. | Flutter / Android |
+| Diálogo de confirmación | Modal con acciones "Cancelar" y "Confirmar". | Flutter / Android |
+
+#### Espaciado y Grid
+
+| Elemento | Valor |
+|---|---|
+| Margen lateral | 16dp |
+| Espacio entre secciones | 24dp |
+| Espacio entre tarjetas | 12dp |
+| Radio de bordes | 16dp (tarjetas), 24dp (botones) |
+| Altura mínima de botón | 48dp |
+| Área táctil mínima | 48x48dp |
+
+
 
 #### 4.1.3.1. iOS Mobile Style Guidelines
 
