@@ -1390,7 +1390,21 @@ Estos prototipos simulan la navegación y los principales flujos de interacción
 
 ### 4.5.1. Android Mobile Applications Prototyping
 
+En esta sección se expone el prototipo interactivo de alta fidelidad orientado al sistema operativo Android. Este modelo funcional materializa los flujos de usuario (User Flows) definidos en etapas previas, integrando la identidad visual del proyecto y los componentes basados en los lineamientos de Material Design 3. El objetivo de este prototipo es simular la experiencia de usuario final, permitiendo la validación de la navegación, la legibilidad de la información biométrica y la correcta respuesta de los elementos interactivos (formularios, botones flotantes y barras de navegación) en un entorno que emula las dimensiones y el comportamiento de un dispositivo Android.
+
+**Enlace de simulación interactiva:**
+[Prototipo Interactivo Android - NeuroZen (Figma)](https://www.figma.com/proto/3qSFFC8I2yfjeDz3pt3k2Y/Neurozen?node-id=1-2&p=f&t=vDeMhU3mg5UDftzt-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2)
+
+---
+
 ### 4.5.2. iOS Mobile Applications Prototyping
+
+En este apartado se presenta el prototipo interactivo correspondiente al ecosistema iOS. El diseño ha sido validado considerando los principios de las Human Interface Guidelines (HIG) de Apple, asegurando que la distribución espacial de los componentes respete los márgenes de seguridad (Safe Areas) y la integración de elementos de hardware específicos de la marca. A través de este entorno de simulación, es posible evaluar la adaptabilidad transversal de la interfaz gráfica, el comportamiento de las jerarquías de navegación y la coherencia visual de la aplicación multiplataforma dentro de los estándares exigidos para dispositivos iPhone.
+
+**Enlace de simulación interactiva:**
+[Prototipo Interactivo iOS - NeuroZen (Figma)](https://www.figma.com/proto/3qSFFC8I2yfjeDz3pt3k2Y/Neurozen?node-id=1-2&p=f&t=vDeMhU3mg5UDftzt-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2)
+
+---
 
 ## 4.6. Web Applications UX/UI Design
 
