@@ -1416,6 +1416,146 @@ Se utiliza **SF Symbols** (biblioteca nativa de Apple) para garantizar consisten
 
 
 #### 4.1.3.2. Android Mobile Style Guidelines
+##### Introducción
+
+Las guías de estilo para Android se basan en **Material Design 3 (Material You)** de Google, adaptadas a la identidad visual de NeuroZen. El objetivo es ofrecer una experiencia coherente con el ecosistema Android, aprovechando componentes nativos como Jetpack Compose y respetando las convenciones de navegación y gestos de la plataforma.
+
+##### Navegación Android
+
+| Elemento | Implementación | Justificación |
+|---|---|---|
+| Bottom Navigation | Barra inferior con 4 ítems (Inicio, Pacientes, Horario, Perfil). | Convención Material Design para navegación principal. |
+| Top App Bar | Barra superior con título y acciones. | Estándar Material Design. |
+| Navigation Drawer | Menú lateral para opciones secundarias. | Patrón Material Design. |
+| Back gesture | Gesto de deslizar desde el borde para volver. | Convención nativa Android. |
+| FAB (Floating Action Button) | Botón flotante para acciones rápidas. | Patrón Material Design. |
+| Bottom Sheet | Panel deslizante desde abajo para opciones. | Patrón Material Design. |
+
+##### Componentes Android Específicos
+
+| Componente | Descripción | Implementación |
+|---|---|---|
+| Chips | Etiquetas seleccionables (ej. filtros de pacientes). | Material Chip |
+| Date Picker | Selector de fecha para agendar citas. | Material DatePicker |
+| Time Picker | Selector de hora para disponibilidad. | Material TimePicker |
+| Switch | Toggle para activar/desactivar notificaciones. | Material Switch |
+| Circular Progress | Indicador de carga circular. | CircularProgressIndicator |
+| Pull to Refresh | Actualizar dashboard deslizando hacia abajo. | SwipeRefresh |
+| Snackbar | Notificación breve en la parte inferior. | Snackbar |
+| Dialog | Modal de confirmación. | AlertDialog |
+
+##### Tipografía Android
+
+| Elemento | Fuente | Tamaño | Peso |
+|---|---|---|---|
+| Display Large | Roboto | 57sp | Regular |
+| Display Medium | Roboto | 45sp | Regular |
+| Display Small | Roboto | 36sp | Regular |
+| Headline Large | Roboto | 32sp | Regular |
+| Headline Medium | Roboto | 28sp | Regular |
+| Headline Small | Roboto | 24sp | Regular |
+| Title Large | Roboto | 22sp | Regular |
+| Title Medium | Roboto | 16sp | Medium |
+| Title Small | Roboto | 14sp | Medium |
+| Body Large | Roboto | 16sp | Regular |
+| Body Medium | Roboto | 14sp | Regular |
+| Body Small | Roboto | 12sp | Regular |
+| Label Large | Roboto | 14sp | Medium |
+| Label Medium | Roboto | 12sp | Medium |
+| Label Small | Roboto | 11sp | Medium |
+
+##### Colores Android (Material Design 3)
+
+| Rol | Color | Hex |
+|---|---|---|
+| Primary | Verde Bosque | #2D5A4A |
+| On Primary | Blanco | #FFFFFF |
+| Primary Container | Verde Menta | #A2C4B5 |
+| On Primary Container | Verde Oscuro | #1A3A2E |
+| Secondary | Turquesa Profundo | #1A6F78 |
+| On Secondary | Blanco | #FFFFFF |
+| Tertiary | Beige Cálido | #F1E9D4 |
+| On Tertiary | Gris Piedra Oscuro | #2C3E3A |
+| Background | Beige Claro | #FAF7F0 |
+| On Background | Gris Piedra Oscuro | #2C3E3A |
+| Surface | Blanco | #FFFFFF |
+| On Surface | Gris Piedra Oscuro | #2C3E3A |
+| Error | Rojo Suave | #E57373 |
+| On Error | Blanco | #FFFFFF |
+| Outline | Gris Piedra | #8C9893 |
+
+##### Iconografía Android
+
+Se utiliza **Material Symbols** (biblioteca nativa de Google) para garantizar consistencia visual con el sistema:
+
+| Ícono | Material Symbol | Uso |
+|---|---|---|
+| Inicio | `home` | Tab de inicio |
+| Pacientes | `group` | Tab de pacientes |
+| Horario | `schedule` | Tab de horario |
+| Perfil | `person` | Tab de perfil |
+| Citas | `calendar_today` | Citas del día |
+| Disponibilidad | `event_available` | Configurar disponibilidad |
+| Notas | `edit_note` | Registrar atención |
+| Cerrar sesión | `logout` | Cerrar sesión |
+
+##### Accesibilidad Android
+
+| Característica | Implementación |
+|---|---|
+| TalkBack | Etiquetas semánticas en todos los componentes interactivos. |
+| Font Scale | Soporte para tamaños de texto configurables por el usuario. |
+| Reduce Motion | Respetar la preferencia de reducir animaciones. |
+| Alto Contraste | Soporte para modo de alto contraste. |
+| Dark Mode | Implementación de tema oscuro (Material You). |
+
+##### Capturas de Referencia Android
+
+- **Login:** Pantalla de inicio de sesión con logo "NeuroZen Psicólogos", campos de usuario y contraseña.
+- **Registro:** Formulario con nombre de usuario, correo, contraseña y confirmación.
+- **Dashboard:** Saludo "Hola, Trevor Henderson", especialidad, progreso de perfil, citas del día, pacientes activos.
+- **Calendario:** Vista semanal con bloques de disponibilidad y excepciones.
+- **Pacientes:** Lista de pacientes con nombre, especialidad y próxima cita.
+- **Atención:** Registro de notas, diagnóstico y recomendaciones.
+- **Perfil:** Información profesional, biografía, experiencia, precio por sesión.
+<div align="center">
+
+<table>
+  <tr>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot2/PerfilUsu.jpeg" width="400">
+    </td>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot2/atencionF.jpeg" width="400">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot2/calendarioF.jpeg" width="400">
+    </td>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot2/loginF.jpeg" width="400">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot2/pacienteF.jpeg" width="400">
+    </td>
+    <td>
+      <img src="assets/img/chapter-4-images/appScreenshot2/patanllaPrincipal.jpeg" width="400">
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center">
+      <img src="assets/img/chapter-4-images/appScreenshot2/registroF.jpeg" width="400">
+    </td>
+  </tr>
+</table>
+
+</div>
 
 ## 4.2. Information Architecture.
 
