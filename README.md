@@ -1146,9 +1146,19 @@ Como equipo, hemos decidido incorporar el patrón de diseño en forma de Z para 
 
 ### 4.1.3. Mobile Style Guidelines
 
+---
+
 #### 4.1.3.1. iOS Mobile Style Guidelines
 
+Para el entorno de iOS, la interfaz de NeuroZen se regirá bajo las Human Interface Guidelines (HIG) de Apple para garantizar una experiencia nativa y fluida. Se priorizará el uso de la tipografía del sistema (San Francisco) y el estricto respeto por los márgenes de seguridad (Safe Areas) para evitar que la interfaz choque con el hardware (como el notch o la Dynamic Island). La navegación principal se gestionará mediante un Bottom Tab Bar translúcido e incluirá el gesto nativo de retroceso lateral (swipe-to-go-back). Además, se integrarán componentes visuales característicos del ecosistema Apple, como selectores de fecha tipo rodillo (Cupertino) para el agendamiento de citas y desenfoques de fondo (blur) en los modales superpuestos.
+
+---
+
 #### 4.1.3.2. Android Mobile Style Guidelines
+
+Para los dispositivos Android, el diseño visual y funcional de la aplicación se basará en los principios de Material Design 3 de Google. Se utilizará la tipografía Roboto estructurada bajo jerarquías claras, y se aplicará un sistema visual de profundidad mediante sombras y diferentes niveles de elevación para destacar las tarjetas de los psicólogos y los elementos del Dashboard. Toda interacción del usuario generará una respuesta táctil inmediata a través del efecto Ripple (onda de color) en los componentes interactivos. Finalmente, las acciones clave del paciente se centralizarán a través de un Botón Flotante de Acción (FAB) persistente, diseñado con los tonos verdes de la marca para invocar rápidamente al asistente Zenbot.
+
+---
 
 ## 4.2. Information Architecture
 
@@ -1389,7 +1399,6 @@ El diseño de experiencia de usuario (UX) y de interfaz de usuario (UI) busca of
 ---
 
 ### 4.6.1. Web Applications Wireframes
-
 
 ### 4.6.2. Web Applications Wireflow Diagrams
 
