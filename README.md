@@ -1094,17 +1094,38 @@ Empathy Mapping y As-Is Scenario Mapping.
 
 ### 2.3.3. User Journey Mapping
 
+#### User Journey Mapping – Andrés Luján
+
+**Figura 2.3.3.1. Journey Map de Andrés Luján – Parte 1**  
 <div>
-  <p align="center"><img src="assets/cap2/journey-map/Journey-1.png" alt="Journey mapping part 1" width="700px" /></p>
+  <p align="center"><img src="assets/cap2/journey-map/Journey-1.png" alt="Journey Map de Andrés Luján - Parte 1" width="1000px" /></p>
 </div>
+
+**Figura 2.3.3.2. Journey Map de Andrés Luján – Parte 2**  
 <div>
-  <p align="center"><img src="assets/cap2/journey-map/Journey-2.png" alt="Journey mapping part 2" width="700px" /></p>
+  <p align="center"><img src="assets/cap2/journey-map/Journey-2.png" alt="Journey Map de Andrés Luján - Parte 2" width="1000px" /></p>
 </div>
+
+**Figura 2.3.3.3. Journey Map de Andrés Luján – Parte 3**  
 <div>
-  <p align="center"><img src="assets/cap2/journey-map/Journey-3.png" alt="Journey mapping part 3" width="700px" /></p>
+  <p align="center"><img src="assets/cap2/journey-map/Journey-3.png" alt="Journey Map de Andrés Luján - Parte 3" width="1000px" /></p>
 </div>
+
+**Figura 2.3.3.4. Journey Map de Andrés Luján – Parte 4**  
 <div>
-  <p align="center"><img src="assets/cap2/journey-map/Journey-4.png" alt="Journey mapping part 4" width="700px" /></p>
+  <p align="center"><img src="assets/cap2/journey-map/Journey-4.png" alt="Journey Map de Andrés Luján - Parte 4" width="1000px" /></p>
+</div>
+
+#### User Journey Mapping – Laura Méndez
+
+**Figura 2.3.3.5. Journey Map de Laura Méndez – Parte 1**  
+<div>
+  <p align="center"><img src="assets/ImagenesNuevas/Laura-Journey-1.png" alt="Journey Map de Laura Méndez - Parte 1" width="1000px" /></p>
+</div>
+
+**Figura 2.3.3.6. Journey Map de Laura Méndez – Parte 2**  
+<div>
+  <p align="center"><img src="assets/ImagenesNuevas/Laura-Journey-2.png" alt="Journey Map de Laura Méndez - Parte 2" width="1000px" /></p>
 </div>
 
 ### 2.3.4. Empathy Mapping
