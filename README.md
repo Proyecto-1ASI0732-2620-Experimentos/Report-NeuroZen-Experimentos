@@ -2035,7 +2035,13 @@ Registra citas agendadas con psicólogos
 
 ## 4.10. Database Design
 
----
+
+<div>
+  <p align="center"><img src="assets/ImagenesNuevas/neurozen-database-diagram.png" alt="Diagrama relacional de la base de datos de NeuroZen" width="1000" /></p>
+</div>
+
+La estructura mostrada soporta los procesos core del negocio digital: registro y perfil biométrico, autoevaluación de estrés, recomendaciones personalizadas, seguimiento de progreso, conexión con especialistas, comunidad y suscripciones. Cada tabla se relaciona con los servicios definidos en los diagramas de componentes, asegurando que la persistencia de datos sea consistente con la lógica de negocio y los flujos de usuario especificados en los capítulos anteriores.
+
 
 ### 4.10.1. Relational/Non-Relational Database Diagram
 
