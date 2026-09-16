@@ -2730,13 +2730,66 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 
 ## Conclusiones y recomendaciones
 
-## Video App Validation
+1. El análisis del problema confirmó que el estrés laboral afecta tanto a trabajadores formales con jornadas extensas como a trabajadores independientes con horarios irregulares. Las entrevistas, User Personas y Journey Maps evidenciaron que ambos segmentos necesitan una herramienta accesible desde el móvil, flexible y que les ayude a distinguir el estrés del simple cansancio.
+2. El proceso Lean UX (problem statements, assumptions, hipótesis y canvas) permitió definir una propuesta de valor clara para NeuroZen: detección temprana del estrés, recomendaciones personalizadas y conexión con psicólogos.
+3. El análisis competitivo frente a Calm, Wysa y Equoo mostró una oportunidad en el enfoque específico en el estrés laboral y en el acceso directo a profesionales de salud mental dentro de la misma plataforma.
+4. La especificación de requisitos quedó organizada en épicas, User Stories, Technical Stories y Spike Stories con criterios de aceptación en Gherkin, lo que facilitó la planificación de los sprints y la trazabilidad con el Product Backlog.
+5. La arquitectura basada en Domain-Driven Design y el modelo C4 permitió dividir el sistema en bounded contexts (IAM, Assessments, Recommendations, Health Tracking, Professionals & Appointments, Community y Notifications), lo que ordenó el trabajo paralelo del equipo.
+6. A la fecha se cuenta con la Landing Page, la aplicación web, las aplicaciones móviles (Android nativo y Flutter) orientadas al psicólogo y un backend RESTful documentado con Swagger y desplegado en Render, cubriendo autenticación, perfiles, profesionales, citas, suscripciones, desencadenantes y biblioteca de recursos.
+7. El uso de GitFlow, Conventional Commits y guías de estilo por tecnología mejoró la colaboración y la calidad del código entre los repositorios.
+
+**Recomendaciones**
+
+1. Unificar en el informe las tecnologías reales de la Landing Page y del Frontend Web, y publicar las URLs de producción.
+2. Implementar las funcionalidades pendientes de mayor valor para el usuario: análisis biométrico (US05), dashboard personal (US10) e informes de progreso (US11).
+3. Ejecutar pruebas unitarias, de integración y BDD (Capítulo VI) antes de agregar nuevas funcionalidades.
+4. Validar con usuarios reales las oportunidades detectadas en los Journey Maps, en especial las recomendaciones para horarios irregulares y los recordatorios inteligentes.
+5. Reforzar la seguridad y privacidad de los datos de salud (cifrado, consentimiento informado y control de acceso por roles), dado el carácter sensible de la información.
+6. Definir las hipótesis y métricas del Capítulo VIII para guiar el desarrollo basado en experimentos.
 
 ## Video About-the-Team
+
+
 
 <div style="page-break-after: always;"></div>
 
 # Bibliografía
+
+Airbnb. (s. f.). *Airbnb JavaScript Style Guide*. GitHub. https://github.com/airbnb/javascript
+
+Brown, S. (s. f.). *The C4 model for visualising software architecture*. https://c4model.com/
+
+Calm. (s. f.). *Calm – Sleep, meditate, relax*. https://www.calm.com/
+
+Cohn, M. (2004). *User stories applied: For agile software development*. Addison-Wesley.
+
+Conventional Commits. (s. f.). *Conventional Commits 1.0.0*. https://www.conventionalcommits.org/en/v1.0.0/
+
+Dart. (s. f.). *Effective Dart*. https://dart.dev/effective-dart
+
+Driessen, V. (2010). *A successful Git branching model*. https://nvie.com/posts/a-successful-git-branching-model/
+
+Evans, E. (2003). *Domain-driven design: Tackling complexity in the heart of software*. Addison-Wesley.
+
+Google. (s. f.). *Google HTML/CSS Style Guide*. https://google.github.io/styleguide/htmlcssguide.html
+
+Gothelf, J., & Seiden, J. (2021). *Lean UX: Designing great products with agile teams* (3.ª ed.). O'Reilly Media.
+
+JetBrains. (s. f.). *Kotlin coding conventions*. https://kotlinlang.org/docs/coding-conventions.html
+
+Microsoft. (s. f.). *Common C# code conventions*. Microsoft Learn. https://learn.microsoft.com/dotnet/csharp/fundamentals/coding-style/coding-conventions
+
+Organización Mundial de la Salud. (2024). *La salud mental en el trabajo* [Nota descriptiva]. https://www.who.int/es/news-room/fact-sheets/detail/mental-health-at-work
+
+Organización Mundial de la Salud & Organización Internacional del Trabajo. (2022). *Mental health at work: Policy brief*. https://www.who.int/publications/i/item/9789240057944
+
+SmartBear. (s. f.). *OpenAPI Specification*. Swagger. https://swagger.io/specification/
+
+Vernon, V. (2013). *Implementing domain-driven design*. Addison-Wesley.
+
+Vue.js. (s. f.). *Style Guide*. https://vuejs.org/style-guide/
+
+Wysa. (s. f.). *Wysa – Everyday mental health*. https://www.wysa.com/
 
 <div style="page-break-after: always;"></div>
 
@@ -2744,14 +2797,76 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 
 ## Anexo A. Estructura para la sección Objetivo del Estudiante (Student Outcome)
 
+La sección **Student Outcome** del informe sigue la estructura solicitada: criterio ABET – EAC – Student Outcome 4, criterios específicos 4.c.1 y 4.c.2, acciones realizadas por cada integrante y conclusiones del equipo por hito. Para los siguientes hitos se agregará una nueva línea de acciones (TB1, AV2, TB2) debajo de las del AV1, sin borrar las anteriores.
+
 ## Anexo B. Estructura para el Informe de participación
+
+Evidencia de participación del equipo en el repositorio del informe y en los repositorios del producto:
+
+<!-- Imágenes de commits y colaboración - descomentar cuando estén disponibles -->
+
+<p align="center">
+  <img src="assets/Sprint1/commit1er.png" alt="Commits AV1" width="1000">
+</p>
+<p align="center">
+  <img src="assets/Sprint1/committers.png" alt="Colaboración AV1" width="1000">
+</p>
+
+
+
+| Integrante | Contribución principal (a la fecha) |
+| :--- | :--- |
+| Castro Picón, Manuel Fernando Joao | Arquitectura de software, base de datos y Service Booking. |
+| Huaman De La Cruz, Jean Pool | Frontend Web Application, Auth & Profile y User Personas. |
+| Paredes Chavez, Carlos Augusto | Auth & Profile y análisis competitivo. |
+| Requena Gutiérrez, Diego Gabriel | Dashboard & Navigation e Impact Mapping. |
+| Vila Guillen, Miguel Angel | Endpoints de Service Booking y configuración de despliegue. |
 
 ## Anexo C. Indicaciones para secciones que incluyen Videos
 
+| Video | Sección | Duración sugerida | Link |
+| :--- | :--- | :--- | :--- |
+| About-the-Product | 5.3 | 3–5 min | https://drive.google.com/file/d/1-_v0KUTrHYfdEqTVUWcZBBUHyfarLtC4/view?usp=sharing |
+
+Todos los videos deben estar en Google Drive o YouTube con acceso público ("Cualquier persona con el enlace"), incluir subtítulos o narración en español y mostrar a los integrantes que participaron.
+
 ## Anexo D. Formato para Evaluación de User Experience según Heurísticas
+
+
+
+| # | Problema | Escala de severidad (0–4) | Heurística violada | Recomendación |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | | | | |
 
 ## Anexo E. Errores típicos en la traducción y uso de términos para Ingeniería de Software
 
+| Término en inglés | Uso correcto en el informe | Evitar |
+| :--- | :--- | :--- |
+| Software | software | "el programa" |
+| Framework | framework | "marco de trabajo" (en contexto técnico) |
+| Bounded Context | bounded context | "contexto limitado" |
+| Endpoint | endpoint | "punto final" |
+| Deployment | despliegue | "desplegamiento" |
+| Wireframe / Mock-up | wireframe / mock-up | "maqueta de alambre" |
+| User Story | User Story / historia de usuario | "cuento de usuario" |
+| Commit | commit | "cometer" |
+| Feature | funcionalidad | "característica" (cuando es funcionalidad) |
+| Library | biblioteca | "librería" |
+
 ## Anexo F. Matriz de Evaluación Ética y de Impacto
 
+
+| Dimensión | Riesgo | Impacto | Medida de mitigación |
+| :--- | :--- | :--- | :--- |
+| Privacidad | Filtración de datos de salud y biométricos | Alto | Cifrado, control de acceso por roles y consentimiento informado. |
+| Salud del usuario | Que el usuario reemplace la atención profesional por la app | Alto | Aviso de que NeuroZen no sustituye un diagnóstico; derivación a psicólogos. |
+| Social | Exclusión de usuarios sin smartphone o sin conexión estable | Medio | Versión web liviana y plan gratuito. |
+| Económico | Costo de los planes para trabajadores informales | Medio | Plan Free y planes corporativos. |
+| Ambiental | Consumo de recursos en la nube | Bajo | Despliegue optimizado y escalado solo bajo demanda. |
+
 ## Anexo G. Videos de Exposiciones
+
+| Hito | Link |
+| :--- | :--- |
+| AV1 | *Pendiente* |
+
