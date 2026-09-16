@@ -2142,7 +2142,21 @@ _Orden de User Stories y Technical Stories_
 | 20    | US20 | Recibir recordatorios de ergonomía         | 2            | Notifications   |
 
 
-## 3.4. Impact Mapping
+### 3.4. Impact Mapping
+
+Impact Mapping - Segmento 1
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/ImpactMapping_s1.png" alt="Impact mapping segmento 1" width="700px" /></p>
+</div>
+
+Impact Mapping - Segmento 2
+
+<div>
+  <p align="center"><img src="assets/img/chapter-4-images/ImpactMapping_s2.png" alt="Impact mapping segmento 2" width="700px" /></p>
+</div>
+
+---
 
 <div style="page-break-after: always;"></div>
 
