@@ -60,29 +60,244 @@
 
 ---
 <div style="page-break-after: always;"></div>
-
-## Registro de Versiones del Informe
-
-| Versión | Fecha | Autores | Descripción |
-|---------|-------|---------|-------------|
-|  |  |  |  |
-
----
-
-## Project Report Collaboration Insights
-
-<!-- URL del repositorio del informe, explicación por entrega y capturas de analíticos de colaboración/commits -->
-
-### Contribuciones por integrante
-
+<!--Registro de versiones-->
+<h1 align="left">Registro de versiones del Informe</h1>
+</br>
 <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
   <tr>
-    <td align="center" style="border: 1px solid #ddd; padding: 8px;">Integrante</td>
-    <td align="center" style="border: 1px solid #ddd; padding: 8px;">Tareas Asignadas</td>
+    <td align="center" style="border: 1px solid #ddd; padding: 8px;">Versión</td>
+    <td align="center" style="border: 1px solid #ddd; padding: 8px;">Fecha</td>
+    <td align="center" style="border: 1px solid #ddd; padding: 8px;">Autores</td>
+    <td align="center" style="border: 1px solid #ddd; padding: 8px;">Descripción</td>
   </tr>
   <tr>
-    <td style="border: 1px solid #ddd; padding: 8px;"></td>
-    <td style="border: 1px solid #ddd; padding: 8px;"></td>
+    <td style="border: 1px solid #ddd; padding: 8px;">AV1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">15/09/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Requena Gutiérrez, Diego Gabriel</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">            
+      <ul>
+        <li>Capítulo I: 1.1 Startup Profile, 1.2 Solution Profile, 1.3 Segmentos objetivo</li>
+        <li>Capítulo II: 2.1 Competidores, 2.2 Entrevistas, 2.3 Needfinding, 2.4 Ubiquitous Language</li>
+        <li>Capítulo III: 3.1 To-Be Scenario Mapping, 3.2 User Stories, 3.3 Product Backlog, 3.4 Impact Mapping</li>
+        <li>Capítulo IV: 4.1 Style Guidelines, 4.2 Information Architecture, 4.3 Landing Page UI Design, 4.6 Web Applications UX/UI Design, 4.8 Domain-Driven Software Architecture, 4.9 Software Object-Oriented Design, 4.10 Database Design</li>
+        <li>Capítulo V: 5.1 Software Configuration Management, 5.3 Video About-the-Product</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">AV1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">15/09/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Vila Guillen, Miguel Angel</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">            
+      <ul>
+        <li>Capítulo V: 5.1.1 Software Development Environment Configuration, 5.2 Product Implementation & Deployment, 5.2.1 Sprint Backlogs, 5.2.2 Implemented Landing Page Evidence, 5.2.3 Implemented Frontend-Web Application Evidence, 5.2.4 Acuerdo de Servicio - SaaS, 5.2.5 Implemented Native-Mobile Application Evidence, 5.2.6 Implemented RESTful API and/or Serverless Backend Evidence, 5.2.7 RESTful API documentation, 5.2.8 Team Collaboration Insights</li>
+        <li>Imágenes de apoyo para Capítulos I, II, III y IV</li>
+        <li>Mock-ups images</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">AV1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">15/09/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Castro Picón, Manuel Fernando Joao</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">            
+      <ul>
+        <li>Student Outcome / Matriz de Evaluación Ética y de Impacto</li>
+        <li>Capítulo IV: 4.6.1 Web Applications Wireframes, 4.6.3 Web Applications Mock-ups</li>
+        <li>Actualizaciones de README</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">AV1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">15/09/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Jean Pool Huaman de la Cruz</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">            
+      <ul>
+        <li>Estructura inicial del repositorio, tabla de contenidos (Contenido)</li>
+        <li>Carátula, Student Outcome</li>
+        <li>Capítulo IV: 4.1.3 Mobile Style Guidelines, 4.1.3.1 iOS Mobile Style Guidelines, 4.1.3.2 Android Mobile Style Guidelines, 4.5 Mobile Applications Prototyping</li>
+        <li>Assets</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">AV1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">15/09/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Paredes Chavez, Carlos Augusto</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">            
+      <ul>
+        <li>Capítulo I: 1.2 Solution Profile (refinamiento Lean UX)</li>
+        <li>Capítulo II: 2.1 Competidores, 2.2 Entrevistas, 2.3 Needfinding, 2.4 Ubiquitous Language</li>
+        <li>Capítulo IV: 4.1 Style Guidelines, 4.2 Information Architecture, 4.3 Landing Page UI Design, 4.4 Mobile Applications UX/UI Design, 4.5 Mobile Applications Prototyping</li>
+        <li>Integración de ramas y revisión de PRs</li>
+      </ul>
+    </td>
+  </tr>
+</table><br>
+
+
+<h1>Project Report Collaboration Insights</h1>
+
+<h2>AV1</h2>
+
+<p>Para el desarrollo del informe perteneciente a la entrega AV1, se dividió la implementación de secciones de los Capítulos I, II, III, IV y V en bloques de trabajo, asignando cada conjunto de secciones a un integrante del equipo.</p>
+
+<!-- Imágenes de commits y colaboración - descomentar cuando estén disponibles -->
+
+<p align="center">
+  <img src="assets/Sprint1/commit1er.png" alt="Commits AV1" width="1000">
+</p>
+<p align="center">
+  <img src="assets/Sprint1/committers.png" alt="Colaboración AV1" width="1000">
+</p>
+
+
+<table align="center" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <td align="center"><strong>Integrante</strong></td>
+    <td align="center"><strong>Tareas Asignadas</strong></td>
+  </tr>
+
+  <!-- BLOQUE 1 -->
+  <tr>
+    <td>Requena Gutiérrez, Diego Gabriel</td>
+    <td>
+      <ul>
+        <li><strong>Capítulo I: Introducción</strong></li>
+        <li>1.1 Startup Profile</li>
+        <li>1.1.1 Descripción de la Startup</li>
+        <li>1.1.2 Perfiles de integrantes del equipo</li>
+        <li>1.2 Solution Profile</li>
+        <li>1.2.1 Antecedentes y problemática</li>
+        <li>1.2.2 Lean UX Process</li>
+        <li>1.2.2.1 Lean UX Problem Statements</li>
+        <li>1.2.2.2 Lean UX Assumptions</li>
+        <li>1.2.2.3 Lean UX Hypothesis Statements</li>
+        <li>1.2.2.4 Lean UX Canvas</li>
+        <li>1.3 Segmentos objetivo</li>
+        <li><strong>Capítulo II: Requirements Elicitation & Analysis</strong></li>
+        <li>2.1 Competidores</li>
+        <li>2.2 Entrevistas</li>
+        <li>2.3 Needfinding</li>
+        <li>2.4 Ubiquitous Language</li>
+        <li><strong>Capítulo III: Requirements Specification</strong></li>
+        <li>3.1 To-Be Scenario Mapping</li>
+        <li>3.2 User Stories</li>
+        <li>3.3 Product Backlog</li>
+        <li>3.4 Impact Mapping</li>
+        <li><strong>Capítulo IV: Product Design</strong></li>
+        <li>4.1 Style Guidelines</li>
+        <li>4.2 Information Architecture</li>
+        <li>4.3 Landing Page UI Design</li>
+        <li>4.6 Web Applications UX/UI Design</li>
+        <li>4.8 Domain-Driven Software Architecture</li>
+        <li>4.9 Software Object-Oriented Design</li>
+        <li>4.10 Database Design</li>
+        <li><strong>Capítulo V: Product Implementation</strong></li>
+        <li>5.1 Software Configuration Management</li>
+        <li>5.3 Video About-the-Product</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- BLOQUE 2 -->
+  <tr>
+    <td>Vila Guillen, Miguel Angel</td>
+    <td>
+      <ul>
+        <li><strong>Capítulo V: Product Implementation</strong></li>
+        <li>5.1.1 Software Development Environment Configuration</li>
+        <li>5.2 Product Implementation & Deployment</li>
+        <li>5.2.1 Sprint Backlogs</li>
+        <li>5.2.2 Implemented Landing Page Evidence</li>
+        <li>5.2.3 Implemented Frontend-Web Application Evidence</li>
+        <li>5.2.4 Acuerdo de Servicio - SaaS</li>
+        <li>5.2.5 Implemented Native-Mobile Application Evidence</li>
+        <li>5.2.6 Implemented RESTful API and/or Serverless Backend Evidence</li>
+        <li>5.2.7 RESTful API documentation</li>
+        <li>5.2.8 Team Collaboration Insights</li>
+        <li>Imágenes de apoyo para Capítulos I, II, III y IV</li>
+        <li>Mock-ups images</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- BLOQUE 3 -->
+  <tr>
+    <td>Castro Picón, Manuel Fernando Joao</td>
+    <td>
+      <ul>
+        <li><strong>Student Outcome</strong></li>
+        <li>Matriz de Evaluación Ética y de Impacto</li>
+        <li><strong>Capítulo IV: Product Design</strong></li>
+        <li>4.6.1 Web Applications Wireframes</li>
+        <li>4.6.3 Web Applications Mock-ups</li>
+        <li>Actualizaciones de README</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- BLOQUE 4 -->
+  <tr>
+    <td>Jean Pool Huaman de la Cruz</td>
+    <td>
+      <ul>
+        <li><strong>Estructura del informe</strong></li>
+        <li>Carátula</li>
+        <li>Tabla de contenidos (Contenido)</li>
+        <li>Student Outcome</li>
+        <li><strong>Capítulo IV: Product Design</strong></li>
+        <li>4.1.3 Mobile Style Guidelines</li>
+        <li>4.1.3.1 iOS Mobile Style Guidelines</li>
+        <li>4.1.3.2 Android Mobile Style Guidelines</li>
+        <li>4.5 Mobile Applications Prototyping</li>
+        <li>Assets</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- BLOQUE 5 -->
+  <tr>
+    <td>Paredes Chavez, Carlos Augusto</td>
+    <td>
+      <ul>
+        <li><strong>Capítulo I: Introducción</strong></li>
+        <li>1.2 Solution Profile (refinamiento Lean UX)</li>
+        <li><strong>Capítulo II: Requirements Elicitation & Analysis</strong></li>
+        <li>2.1 Competidores</li>
+        <li>2.2 Entrevistas</li>
+        <li>2.3 Needfinding</li>
+        <li>2.4 Ubiquitous Language</li>
+        <li><strong>Capítulo IV: Product Design</strong></li>
+        <li>4.1 Style Guidelines</li>
+        <li>4.2 Information Architecture</li>
+        <li>4.3 Landing Page UI Design</li>
+        <li>4.4 Mobile Applications UX/UI Design</li>
+        <li>4.5 Mobile Applications Prototyping</li>
+        <li>Integración de ramas y revisión de PRs</li>
+      </ul>
+    </td>
   </tr>
 </table>
 
