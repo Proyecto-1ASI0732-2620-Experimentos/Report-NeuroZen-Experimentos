@@ -1191,7 +1191,928 @@ Este glosario define los términos clave que usamos en el proyecto para mantener
 ---
 
 
-## 3.2. User Stories
+### 3.2. User Stories
+
+
+### US01 - Registrar cuenta de usuario
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US01</td>
+    <td>Nuevo usuario</td>
+    <td>Por definir</td>
+    <td>EP01 - Registro y Configuración de Cuenta</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Registrar cuenta de usuario</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como nuevo usuario, quiero registrar una cuenta con mi correo o número de teléfono, para acceder a las funciones de la aplicación.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Registro exitoso</b><br>
+      Given que el usuario no tiene cuenta,<br>
+      When ingresa sus datos obligatorios y acepta términos,<br>
+      Then el sistema crea la cuenta y envía verificación.<br><br>
+      <b>Scenario 2: Registro fallido</b><br>
+      Given que el usuario ingresa datos inválidos,<br>
+      When intenta registrarse,<br>
+      Then el sistema muestra mensaje de error y no crea cuenta.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US02 - Configurar perfil biométrico
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US02</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP01 - Registro y Configuración de Cuenta</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Configurar perfil biométrico</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero registrar mis datos biométricos para personalizar el análisis de estrés.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Configuración inicial</b><br>
+      Given que el usuario tiene cuenta activa,<br>
+      When registra o sincroniza datos biométricos,<br>
+      Then el sistema los guarda y usa en futuros análisis.<br><br>
+      <b>Scenario 2: Error de sincronización</b><br>
+      Given que el usuario conecta un dispositivo,<br>
+      When ocurre un error,<br>
+      Then el sistema muestra advertencia y permite reintentar.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US03 - Completar cuestionario inicial de salud
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US03</td>
+    <td>Usuario nuevo</td>
+    <td>Por definir</td>
+    <td>EP01 - Registro y Configuración de Cuenta</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Completar cuestionario inicial de salud</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario nuevo, quiero completar un cuestionario de salud para generar mi plan inicial.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Cuestionario completado</b><br>
+      Given que el usuario accede al cuestionario inicial,<br>
+      When responde todas las preguntas,<br>
+      Then el sistema guarda respuestas y genera perfil.<br><br>
+      <b>Scenario 2: Cuestionario incompleto</b><br>
+      Given que el usuario abandona el cuestionario,<br>
+      When vuelve a ingresar,<br>
+      Then el sistema permite retomar desde el progreso guardado.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US04 - Realizar test de autoevaluación de estrés
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US04</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP02 - Detección y Evaluación del Estrés</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Realizar test de autoevaluación de estrés</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero realizar un test de estrés para conocer mi nivel actual.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Test completado</b><br>
+      Given que el usuario accede al test,<br>
+      When responde todas las preguntas,<br>
+      Then el sistema muestra resultado inmediato.<br><br>
+      <b>Scenario 2: Test incompleto</b><br>
+      Given que el usuario abandona el test,<br>
+      When regresa,<br>
+      Then el sistema guarda progreso y permite retomarlo.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US05 - Análisis biométrico de señales de estrés
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US05</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP02 - Detección y Evaluación del Estrés</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Análisis biométrico de señales de estrés</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero que la app analice mis datos biométricos para detectar estrés automáticamente.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Análisis exitoso</b><br>
+      Given que el usuario sincronizó su dispositivo,<br>
+      When los datos se reciben,<br>
+      Then el sistema calcula nivel de estrés.<br><br>
+      <b>Scenario 2: Datos insuficientes</b><br>
+      Given que faltan datos,<br>
+      When se intenta analizar,<br>
+      Then el sistema notifica al usuario.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US06 - Registro de síntomas físicos
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US06</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP02 - Detección y Evaluación del Estrés</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Registro de síntomas físicos</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero registrar manualmente mis síntomas físicos para complementar el análisis.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Registro exitoso</b><br>
+      Given que el usuario accede a “Síntomas”,<br>
+      When ingresa información,<br>
+      Then el sistema guarda los datos.<br><br>
+      <b>Scenario 2: Validación</b><br>
+      Given que el usuario omite un campo obligatorio,<br>
+      When intenta guardar,<br>
+      Then el sistema solicita completar el campo.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US07 - Recibir recomendaciones personalizadas
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US07</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP03 - Recomendaciones y Gestión del Estrés</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Recibir recomendaciones personalizadas</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero recibir recomendaciones basadas en mi perfil de estrés.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Recomendaciones generadas</b><br>
+      Given que el usuario completó cuestionario y biometría,<br>
+      When accede a recomendaciones,<br>
+      Then el sistema muestra sugerencias personalizadas.<br><br>
+      <b>Scenario 2: Falta de datos</b><br>
+      Given que el usuario no completó su perfil,<br>
+      When intenta ver recomendaciones,<br>
+      Then el sistema muestra mensaje indicando datos faltantes.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US08 - Realizar ejercicios de respiración guiados
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US08</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP03 - Recomendaciones y Gestión del Estrés</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Realizar ejercicios de respiración guiados</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero realizar ejercicios guiados para reducir el estrés.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Ejercicio completado</b><br>
+      Given que el usuario selecciona un ejercicio,<br>
+      When lo finaliza,<br>
+      Then el sistema registra la actividad.<br><br>
+      <b>Scenario 2: Interrupción</b><br>
+      Given que el usuario abandona el ejercicio,<br>
+      When regresa,<br>
+      Then el sistema permite reiniciar o continuar.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US09 - Programar pausas activas laborales
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US09</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP03 - Recomendaciones y Gestión del Estrés</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Programar pausas activas laborales</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero programar pausas para reducir mi carga laboral y estrés.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Pausa programada</b><br>
+      Given que el usuario accede a la agenda,<br>
+      When programa una pausa,<br>
+      Then el sistema guarda recordatorio.<br><br>
+      <b>Scenario 2: Notificación</b><br>
+      Given que se acerca la pausa,<br>
+      When llega la hora,<br>
+      Then el sistema envía recordatorio.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US10 - Visualizar dashboard personal de estrés
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US10</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP04 - Seguimiento y Análisis del Progreso</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Visualizar dashboard personal de estrés</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero ver mi estado actual de estrés en un dashboard.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Dashboard con datos</b><br>
+      Given que el usuario tiene registros,<br>
+      When ingresa al dashboard,<br>
+      Then el sistema muestra sus métricas.<br><br>
+      <b>Scenario 2: Sin datos</b><br>
+      Given que no hay registros,<br>
+      When accede,<br>
+      Then el sistema indica que aún no hay información.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US11 - Generar informes de progreso
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US11</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP04 - Seguimiento y Análisis del Progreso</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Generar informes de progreso</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero generar informes para evaluar mis avances.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Informe generado</b><br>
+      Given que el usuario selecciona un periodo,<br>
+      When solicita un informe,<br>
+      Then el sistema genera reporte descargable.<br><br>
+      <b>Scenario 2: Falta de datos</b><br>
+      Given que el usuario no tiene registros,<br>
+      When intenta generar,<br>
+      Then el sistema muestra advertencia.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US12 - Registrar desencadenantes de estrés
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US12</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP04 - Seguimiento y Análisis del Progreso</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Registrar desencadenantes de estrés</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero registrar situaciones que detonan mi estrés para analizarlas.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Registro exitoso</b><br>
+      Given que el usuario accede a “Desencadenantes”,<br>
+      When ingresa información,<br>
+      Then el sistema guarda el registro.<br><br>
+      <b>Scenario 2: Registro incompleto</b><br>
+      Given que el usuario no llena campos obligatorios,<br>
+      When intenta guardar,<br>
+      Then el sistema solicita completar.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US13 - Buscar psicólogos especializados
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US13</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP05 - Conexión con Especialistas en Salud Mental</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Buscar psicólogos especializados</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero buscar psicólogos según especialidad para recibir apoyo.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Búsqueda exitosa</b><br>
+      Given que el usuario accede a la búsqueda,<br>
+      When ingresa criterios,<br>
+      Then el sistema muestra psicólogos disponibles.<br><br>
+      <b>Scenario 2: Sin resultados</b><br>
+      Given que no hay coincidencias,<br>
+      When busca,<br>
+      Then el sistema muestra mensaje indicando que no hay psicólogos.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US14 - Reservar cita con psicólogo
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US14</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP05 - Conexión con Especialistas en Salud Mental</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Reservar cita con psicólogo</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero reservar una cita en línea con un psicólogo.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Cita programada</b><br>
+      Given que el usuario selecciona especialista y horario,<br>
+      When confirma,<br>
+      Then el sistema guarda la cita.<br><br>
+      <b>Scenario 2: Conflicto de horario</b><br>
+      Given que ya existe una cita en ese horario,<br>
+      When intenta reservar,<br>
+      Then el sistema muestra error y solicita otra opción.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US15 - Compartir informes con especialistas
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US15</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP05 - Conexión con Especialistas en Salud Mental</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Compartir informes con especialistas</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero compartir mis informes de progreso con un psicólogo.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Informe compartido</b><br>
+      Given que el usuario selecciona un informe,<br>
+      When lo envía,<br>
+      Then el especialista recibe acceso.<br><br>
+      <b>Scenario 2: Error de envío</b><br>
+      Given que ocurre una falla,<br>
+      When intenta compartir,<br>
+      Then el sistema muestra mensaje de error.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US16 - Participar en grupos de apoyo
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US16</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP06 - Comunidad y Soporte Social</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Participar en grupos de apoyo</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero unirme a grupos de apoyo para compartir experiencias.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Unión exitosa</b><br>
+      Given que el usuario accede a grupos,<br>
+      When selecciona uno,<br>
+      Then el sistema lo agrega.<br><br>
+      <b>Scenario 2: Grupo cerrado</b><br>
+      Given que el grupo requiere aprobación,<br>
+      When solicita unirse,<br>
+      Then el sistema notifica que debe esperar confirmación.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US17 - Acceder a biblioteca de recursos
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US17</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP06 - Comunidad y Soporte Social</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Acceder a biblioteca de recursos</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero acceder a artículos y videos sobre manejo del estrés.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Acceso exitoso</b><br>
+      Given que el usuario accede a la biblioteca,<br>
+      When selecciona un recurso,<br>
+      Then el sistema lo abre.<br><br>
+      <b>Scenario 2: Recurso no disponible</b><br>
+      Given que un recurso fue eliminado,<br>
+      When el usuario lo selecciona,<br>
+      Then el sistema notifica indisponibilidad.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US18 - Participar en desafíos antiestrés
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US18</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP06 - Comunidad y Soporte Social</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Participar en desafíos antiestrés</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero unirme a retos que me ayuden a mejorar mi salud mental.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Unión a desafío</b><br>
+      Given que el usuario accede a desafíos,<br>
+      When selecciona uno,<br>
+      Then el sistema lo registra.<br><br>
+      <b>Scenario 2: Desafío finalizado</b><br>
+      Given que el reto ya concluyó,<br>
+      When intenta unirse,<br>
+      Then el sistema notifica que no está disponible.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US19 - Analizar carga laboral
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US19</td>
+    <td>Empleado</td>
+    <td>Por definir</td>
+    <td>EP07 - Integración con Entorno Laboral</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Analizar carga laboral</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como empleado, quiero registrar y analizar mi carga laboral para identificar estrés laboral.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Registro exitoso</b><br>
+      Given que el usuario ingresa horas trabajadas,<br>
+      When guarda la información,<br>
+      Then el sistema calcula carga laboral.<br><br>
+      <b>Scenario 2: Validación</b><br>
+      Given que el usuario omite datos requeridos,<br>
+      When intenta guardar,<br>
+      Then el sistema solicita completarlos.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### US20 - Recibir recordatorios de ergonomía
+
+<table>
+  <tr>
+    <th>Story ID</th>
+    <th>User</th>
+    <th>Priority</th>
+    <th>Epic</th>
+  </tr>
+  <tr>
+    <td>US20</td>
+    <td>Usuario</td>
+    <td>Por definir</td>
+    <td>EP07 - Integración con Entorno Laboral</td>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <td colspan="3">Recibir recordatorios de ergonomía</td>
+  </tr>
+  <tr>
+    <th colspan="4">Description</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      Como usuario, quiero recibir recordatorios de ergonomía para cuidar mi postura en el trabajo.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="4">Acceptance Criteria</th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <b>Scenario 1: Recordatorio enviado</b><br>
+      Given que el usuario configuró notificaciones,<br>
+      When llega el horario programado,<br>
+      Then el sistema envía recordatorio.<br><br>
+      <b>Scenario 2: Notificaciones desactivadas</b><br>
+      Given que el usuario desactiva recordatorios,<br>
+      When llega el horario,<br>
+      Then el sistema no envía notificación.
+    </td>
+  </tr>
+</table>
+
+
 
 ## 3.3. Product Backlog
 
