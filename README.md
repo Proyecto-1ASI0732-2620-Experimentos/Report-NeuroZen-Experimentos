@@ -514,7 +514,7 @@
 
 **Criterio:** La capacidad de reconocer responsabilidades éticas y profesionales en situaciones de ingeniería y hacer juicios informados, que deben considerar el impacto de las soluciones de ingeniería en contextos globales, económicos, ambientales y sociales.
 
-En el siguiente cuadro se describen las acciones realizadas y enunciados de conclusiones por parte del equipo del proyecto **AniTec**, que permiten sustentar el haber alcanzado el logro del ABET – EAC - Student Outcome 4 durante el **Primer Hito: AVANCE 1 - Sprint Review**.
+En el siguiente cuadro se describen las acciones realizadas y enunciados de conclusiones por parte del equipo del proyecto **NeuroZen**, que permiten sustentar el haber alcanzado el logro del ABET – EAC - Student Outcome 4 durante el **Primer Hito: AVANCE 1 - Sprint Review**.
 
 <br>
 
@@ -663,7 +663,7 @@ Lean UX Canvas es una de las herramientas que hemos utilizado para comprender a 
 
 #### Segmento objetivo #1: Trabajadores formales con jornadas extensas
 
-Este segmento está compuesto por personas que cumplen horarios laborales prolongados, generalmente mayores a 8 horas diarias, y que enfrentan altos niveles de presión psicológica en su entorno profesional. La sobrecarga de trabajo y la falta de límites claros entre lo personal y lo laboral generan cuadros de estrés que afectan su rendimiento y calidad de vida. Según estudios realizados en distintos sectores, alrededor del 70% de los trabajadores presenta síntomas de estrés agudo en sus actividades cotidianas (Estudio LATAM, 2020). Este grupo constituye un eje clave para el éxito de la plataforma, al ser los principales beneficiarios de las capacidades que propone MinDora.
+Este segmento está compuesto por personas que cumplen horarios laborales prolongados, generalmente mayores a 8 horas diarias, y que enfrentan altos niveles de presión psicológica en su entorno profesional. La sobrecarga de trabajo y la falta de límites claros entre lo personal y lo laboral generan cuadros de estrés que afectan su rendimiento y calidad de vida. Según estudios realizados en distintos sectores, alrededor del 70% de los trabajadores presenta síntomas de estrés agudo en sus actividades cotidianas (Estudio LATAM, 2020). Este grupo constituye un eje clave para el éxito de la plataforma, al ser los principales beneficiarios de las capacidades que propone NeuroZen.
 
 #### Segmento objetivo #2: Trabajadores informales o con horarios flexibles
 
