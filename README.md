@@ -291,6 +291,33 @@
 
 ## Student Outcome
 
+<div align="center">
+
+## ABET – EAC - Student Outcome 4
+
+</div>
+
+**Criterio:** La capacidad de reconocer responsabilidades éticas y profesionales en situaciones de ingeniería y hacer juicios informados, que deben considerar el impacto de las soluciones de ingeniería en contextos globales, económicos, ambientales y sociales.
+
+En el siguiente cuadro se describen las acciones realizadas y enunciados de conclusiones por parte del equipo del proyecto **AniTec**, que permiten sustentar el haber alcanzado el logro del ABET – EAC - Student Outcome 4 durante el **Primer Hito: AVANCE 1 - Sprint Review**.
+
+<br>
+
+| Criterio específico | Acciones realizadas | Conclusiones |
+| :--- | :--- | :--- |
+| **4.c.1 Reconoce responsabilidad ética y profesional en situaciones de ingeniería de software** | **Castro Picón, Manuel Fernando Joao**<br><br>**AV1**<br>Diseñó la arquitectura de software y la base de datos asegurando la privacidad de los datos de salud y perfiles biométricos de los usuarios[cite: 1]. | El diseño arquitectónico demuestra responsabilidad ética al priorizar la confidencialidad de la información médica de los trabajadores[cite: 1]. |
+| | **Huaman De La Cruz, Jean Pool**<br><br>**AV1**<br>Implementó módulos del Frontend Web Application garantizando una experiencia de usuario segura y un manejo ético de las sesiones de los psicólogos[cite: 1]. | El desarrollo de interfaces seguras refleja una práctica profesional que protege la integridad de las sesiones terapéuticas. |
+| | **Paredes Chavez, Carlos Augusto**<br><br>**AV1**<br>Configuró el contexto de *Auth & Profile*, asegurando que el registro y el manejo de datos personales cumplan con los estándares éticos de privacidad[cite: 1]. | La gestión de identidad implementada evidencia un alto grado de ética profesional en el tratamiento de datos altamente sensibles. |
+| | **Requena Gutiérrez, Diego Gabriel**<br><br>**AV1**<br>Diseñó el *Dashboard & Navigation*, aplicando principios éticos para que el usuario visualice sus métricas de estrés laboral de forma segura y privada[cite: 1]. | La creación de un panel de control privado garantiza el respeto por la información personal del usuario, cumpliendo estándares profesionales. |
+| | **Vila Guillen, Miguel Angel**<br><br>**AV1**<br>Desarrolló los *endpoints* de la API para el *Service Booking*, siguiendo convenciones de código profesional y asegurando transacciones seguras[cite: 1]. | El cumplimiento de estándares de codificación y seguridad en la API demuestra responsabilidad técnica y ética en la ingeniería de software. |
+| **4.c.2 Emite juicios informados considerando el impacto de las soluciones de ingeniería de software en contextos globales, económicos, ambientales y sociales** | **Castro Picón, Manuel Fernando Joao**<br><br>**AV1**<br>Evaluó el impacto económico en el *Startup Profile*, determinando que NeuroZen aumentará la productividad y reducirá el ausentismo laboral[cite: 1]. | Se emitió un juicio económico fundamentado sobre cómo la plataforma reducirá las pérdidas monetarias causadas por el estrés en las empresas[cite: 1]. |
+| | **Huaman De La Cruz, Jean Pool**<br><br>**AV1**<br>Analizó el impacto social al estructurar las *User Personas*, enfocándose en cómo el estrés afecta la calidad de vida de los profesionales[cite: 1]. | El análisis demuestra una profunda comprensión del impacto social de la herramienta en el bienestar integral de los trabajadores[cite: 1]. |
+| | **Paredes Chavez, Carlos Augusto**<br><br>**AV1**<br>Realizó el análisis competitivo, evaluando el impacto global de soluciones de salud mental existentes en el mercado digital[cite: 1]. | El estudio competitivo refleja un juicio informado sobre el contexto económico global de las aplicaciones orientadas al bienestar mental[cite: 1]. |
+| | **Requena Gutiérrez, Diego Gabriel**<br><br>**AV1**<br>Diseñó el *Impact Mapping* emitiendo juicios sobre el impacto social en el segmento de trabajadores informales que carecen de horarios fijos[cite: 1]. | El diseño del producto incluye juicios informados sobre las necesidades sociales de sectores laborales con alta vulnerabilidad al estrés[cite: 1]. |
+| | **Vila Guillen, Miguel Angel**<br><br>**AV1**<br>Planificó la infraestructura tecnológica (*Deployment Configuration*), tomando decisiones sobre el despliegue en la nube[cite: 1]. | La arquitectura de despliegue evidencia responsabilidad ambiental al elegir tecnologías que optimizan el consumo de recursos de los servidores. |
+
+<br>
+
 <div style="page-break-after: always;"></div>
 
 # Parte I: As-Is Software Project
