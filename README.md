@@ -1802,6 +1802,29 @@ A continuación, presentamos los principales **User Goals** identificados y sus 
 
 
 ## 4.7. Web Applications Prototyping
+En esta sección se presenta el prototipo interactivo de alta fidelidad para la aplicación web de NeuroZen, desarrollado en la herramienta Figma. El objetivo principal de este prototipo es simular la navegación y las interacciones clave del usuario, permitiendo validar la arquitectura de información y la experiencia de usuario (UX) antes de la implementación final.
+
+##### Criterios de Interacción y Navegación
+
+Las decisiones de interacción se basaron en la necesidad de ofrecer una experiencia fluida, intuitiva y libre de fricciones para los trabajadores que buscan gestionar su estrés. Se optó por un diseño responsive que se adapta a navegadores de escritorio y móviles. La interacción principal se da a través de clics y toques (tap), representados en el diagrama mediante flechas que conectan cada pantalla. El sistema de navegación se centraliza en un **Menú principal** (Hub de navegación), desde el cual el usuario puede acceder a los módulos funcionales de manera rápida y sin pasos innecesarios.
+
+##### Descripción del Flujo del Prototipo (Happy Path)
+
+El flujo modelado en el prototipo abarca desde la adquisición del usuario hasta la gestión de su bienestar, estructurado de la siguiente manera:
+
+1. **Punto de Entrada y Autenticación:** El usuario ingresa a través de la *Landing Page* (1), se registra (2) y luego inicia sesión (3).
+2. **Núcleo de Navegación:** Al autenticarse, el usuario accede al *Menú principal* (4), que actúa como el centro de operaciones. Desde aquí se despliegan las funcionalidades clave:
+   - **Evaluación:** El usuario puede realizar el *Test de estrés* (5), correspondiente a la User Story US04.
+   - **Gestión y Bienestar:** Accede a la sección de *Actividades* (6) (US07), selecciona una *Actividad* específica (7) (US08) y puede interactuar con el soporte emocional a través de *ZenBot IA* (8).
+   - **Soporte Profesional y Administración:** El usuario puede contactar a *Psicólogos* (9) (US13/US14), revisar los *Planes* de suscripción (10), gestionar su *Perfil* (11) y revisar sus *Favoritos* (12).
+
+##### Relación con la Arquitectura de Información y User Flows
+
+Este prototipo materializa los Wireflows y User Flow Diagrams previamente definidos en la sección 4.6. La estructura jerárquica del menú principal responde a los sistemas de organización y etiquetado (Labeling Systems) establecidos, asegurando que los términos utilizados (Actividades, Psicólogos, Planes, ZenBot) sean claros y consistentes con el lenguaje ubicuo del proyecto. La navegación entre los módulos 5 al 12 demuestra la ruta esperada (happy path) para que los User Personas (Laura y Andrés) logren sus objetivos de bienestar laboral dentro de la plataforma.
+
+![Figura 4.7.1. Flujo de navegación del prototipo web de NeuroZen en Figma.](assets/ImagenesNuevas/web-prototype-flow.png)
+
+
 
 ## 4.8. Domain-Driven Software Architecture
 
