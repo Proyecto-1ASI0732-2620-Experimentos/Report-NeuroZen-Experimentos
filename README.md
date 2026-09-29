@@ -2872,9 +2872,12 @@ Todos los videos deben estar en Google Drive o YouTube con acceso público ("Cua
 | Económico | Costo de los planes para trabajadores informales | Medio | Plan Free y planes corporativos. |
 | Ambiental | Consumo de recursos en la nube | Bajo | Despliegue optimizado y escalado solo bajo demanda. |
 
-## Anexo G. Videos de Exposiciones
+## Anexo G. Enlaces de Productos Desplegados
 
-| Hito | Link |
+| Producto | Enlace |
 | :--- | :--- |
-| AV1 | *Pendiente* |
+| Landing Page | [https://neurozen-landing.netlify.app/](https://neurozen-landing.netlify.app/) |
+| Frontend | *Pendiente* |
+| Backend | *Pendiente* |
+| Aplicación Móvil | *Pendiente* |
 
