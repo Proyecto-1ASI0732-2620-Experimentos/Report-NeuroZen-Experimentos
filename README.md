@@ -2575,12 +2575,16 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 ## 6.1. Testing Suites & Validation
 
 ### 6.1.1. Core Entities Unit Tests
+Debes especificar la creación y ejecución de pruebas unitarias para las entidades principales de tu sistema (modelos de datos, clases y funciones clave). El objetivo es validar que cada componente individual funciona correctamente en aislamiento, cumple con los requisitos funcionales y no presenta errores en su lógica interna.
 
 ### 6.1.2. Core Integration Tests
+Debes detallar la realización de las pruebas de integración para asegurar que los diferentes módulos de tu sistema funcionan correctamente cuando interactúan entre sí. Esto incluye obligatoriamente validar la comunicación entre el frontend y el backend, así como la interacción entre servicios o APIs.
 
 ### 6.1.3. Core Behavior-Driven Development
+Debes aplicar BDD para definir y probar el comportamiento del sistema desde la perspectiva del usuario. Esto implica escribir pruebas basadas en escenarios utilizando herramientas como Cucumber o SpecFlow, elaborando los archivos .feature en lenguaje Gherkin y explicando con qué User Stories se relacionan.
 
 ### 6.1.4. Core System Tests
+Debes evidenciar las pruebas de sistema realizadas para validar que la aplicación funciona correctamente en su totalidad, tanto en el entorno web como en el móvil. Estas pruebas deben cubrir flujos y funcionalidades completas, incluyendo la navegación, la interacción con las APIs y la respuesta general del sistema ante diferentes escenarios.
 
 ## 6.2. Static testing & Verification
 
@@ -2627,20 +2631,26 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 ## 7.1. Continuous Integration
 
 ### 7.1.1. Tools and Practices
+Describe las herramientas seleccionadas (por ejemplo, GitHub Actions) y las prácticas (ej. validación automática por cada commit o Pull Request) utilizadas para integrar el código de tu equipo de forma continua.
 
 ### 7.1.2. Build & Test Suite Pipeline Components
+Documenta (con capturas o fragmentos de código YAML) los jobs o pasos exactos de tu pipeline encargados de compilar (build) el código y ejecutar automáticamente las pruebas (unitarias e integración) descritas en el Capítulo 6.
 
 ## 7.2. Continuous Delivery
 
 ### 7.2.1. Tools and Practices
+Explica las herramientas y estrategias utilizadas para asegurar que el código que pasa la integración continua esté siempre listo para ser desplegado en entornos de prueba o pre-producción.
 
 ### 7.2.2. Stages Deployment Pipeline Components
+Muestra los componentes de tu pipeline que automatizan el despliegue hacia entornos intermedios (Stages/Staging) para que el equipo de QA o el cliente puedan revisar los cambios antes de publicarlos.
 
 ## 7.3. Continuous deployment
 
 ### 7.3.1. Tools and Practices
+Define cómo automatizas la liberación final del software hacia los usuarios finales (por ejemplo, usando servicios de hosting como Render, Vercel o Netlify conectados a tu rama main).
 
 ### 7.3.2. Production Deployment Pipeline Components
+Detalla los scripts o pasos finales en tu pipeline que empujan automáticamente la versión aprobada hacia el entorno de Producción real (las URLs públicas que usarán los usuarios).
 
 ## 7.4. Continuous Monitoring
 
