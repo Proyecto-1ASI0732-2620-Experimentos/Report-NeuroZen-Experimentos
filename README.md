@@ -2602,7 +2602,7 @@ Se implementaron pruebas unitarias con **Vitest** y **Vue Test Utils**, enfocada
  
 **Aplicación Móvil (Android nativo) — Responsable: Manuel Fernando Joao Castro**
  
-La aplicación fue desarrollada íntegramente en **Android Studio**. Se emplearon pruebas unitarias locales con **JUnit 4** y **MockK** (o Mockito, si el equipo trabaja en Java), ubicadas en `app/src/test`, para validar los modelos de datos locales, los ViewModels y la lógica de procesamiento inicial de los datos biométricos antes de la sincronización con el backend. Se ejecutan en la JVM, sin necesidad de emulador.
+La aplicación móvil fue desarrollada en Android Studio en lenguaje Kotlin nativo. Se implementaron pruebas unitarias locales con JUnit 4, ubicadas en app/src/test, para validar de forma aislada e independiente las entidades clave del dominio: User (autenticación y persistencia de token JWT), CheckIn / HealthMetric (evaluación de datos biométricos de frecuencia cardíaca, sueño y cálculo del umbral de nivel de estrés), Psychologist (validación de tarifas y especialidad) y Session (duración y recursos multimedia). Todas las pruebas fueron ejecutadas con éxito en la JVM local sin requerir un emulador activo.
  
 > *Evidencia de Pruebas Unitarias Móvil:*
 > `[Insertar captura de Android Studio (ventana Run) o de ./gradlew testDebugUnitTest con los resultados exitosos]`
