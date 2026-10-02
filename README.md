@@ -2835,12 +2835,17 @@ Se utilizó **Testcontainers** para levantar una instancia real de PostgreSQL du
  
 **Comunicación Cliente-Servidor (Frontend/Móvil con RESTful API)**
  
-Se validó que los clientes web (Vue) y móvil (Android) envíen correctamente los *requests* HTTP (POST, GET) al backend y manejen los códigos de respuesta (200 OK en un inicio de sesión exitoso, 401 Unauthorized ante tokens inválidos). Se utilizaron **Postman** (colecciones ejecutadas con Collection Runner) y pruebas automatizadas con Axios en web y con **Retrofit/OkHttp** en Android (simulando el servidor con **MockWebServer** para verificar requests y códigos de respuesta).
- 
-> *Evidencia de Integración Cliente-API:*
-> `[Insertar captura de Postman Runner o de la pestaña Network mostrando una petición exitosa de login o registro de estrés]`
- 
----
+Se validó que los clientes web (Vue.js) y móvil (Android Nativo con Kotlin) envíen correctamente las peticiones HTTP (GET, POST) hacia la API RESTful del backend y gestionen de forma adecuada los códigos de respuesta del protocolo (200 OK en autenticación y operaciones exitosas, y 401 Unauthorized ante intentos de acceso no autorizados sin token JWT).
+Para la aplicación móvil Android, se implementaron clientes de red basados en Retrofit y OkHttp, utilizando la herramienta Network Inspector de Android Studio para auditar el tráfico en tiempo real sobre un dispositivo físico (ZTE). Asimismo, se validaron los contratos de datos mediante MockWebServer y pruebas unitarias automáticas. Por su parte, la aplicación web (Vue.js) utilizó Axios para el consumo de servicios web.
+
+Evidencia de Integración Cliente Web - API (Vue.js)
+Se ejecutaron pruebas de comunicación desde el cliente web mediante peticiones asíncronas con Axios y la suite de pruebas de Postman (Collection Runner), validando el intercambio de datos en formato JSON y el almacenamiento del token de autorización en el cliente web.
+[INSERTAR AQUÍ CAPTURA DE POSTMAN RUNNER O NETWORK INSPECTOR DEL NAVEGADOR PARA VUE WEB]
+
+Evidencia de Integración Cliente Móvil - API (Android Nativo)
+Se verificó el flujo completo de autenticación y consumo de recursos desde el dispositivo móvil hacia el backend local (http://192.168.0.90:5059/api/v1/). La captura de la herramienta Network Inspector confirma la emisión de la solicitud POST al endpoint /authentication/sign-in y la recepción correcta del código 200 OK junto con el objeto JSON que contiene el identificador de usuario y el token de sesión JWT.
+
+<img src="assets/cap6/pruebaApiTestMovil.png" alt="insights" width="700px"/>
  
 ### 6.1.3. Core Behavior-Driven Development
  
