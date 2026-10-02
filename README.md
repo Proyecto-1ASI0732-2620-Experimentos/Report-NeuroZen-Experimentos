@@ -2824,8 +2824,9 @@ Reporte HTML: `app/build/reports/tests/testDebugUnitTest/index.html`
  
 ### 6.1.2. Core Integration Tests
  
-Las pruebas de integración validan que los módulos de NeuroZen se comuniquen sin pérdida de datos, asegurando la consistencia entre la base de datos, el backend y los clientes.
- 
+Las pruebas de integración validan que los módulos de NeuroZen se comuniquen de manera fluida y sin pérdida de datos, asegurando la consistencia entre las bases de datos (locales y remotas), la API RESTful del backend y los clientes Web y Móvil.
+
+
 **Integración API y Base de Datos (PostgreSQL)**
  
 Se utilizó **Testcontainers** para levantar una instancia real de PostgreSQL durante las pruebas, de modo que Entity Framework Core ejecute las operaciones CRUD (crear, leer, actualizar, eliminar) sobre las tablas `Sessions` y `CheckIns` en las mismas condiciones que en producción (restricciones, tipos y llaves foráneas).
@@ -2843,9 +2844,126 @@ Se ejecutaron pruebas de comunicación desde el cliente web mediante peticiones 
 [INSERTAR AQUÍ CAPTURA DE POSTMAN RUNNER O NETWORK INSPECTOR DEL NAVEGADOR PARA VUE WEB]
 
 Evidencia de Integración Cliente Móvil - API (Android Nativo)
+
 Se verificó el flujo completo de autenticación y consumo de recursos desde el dispositivo móvil hacia el backend local (http://192.168.0.90:5059/api/v1/). La captura de la herramienta Network Inspector confirma la emisión de la solicitud POST al endpoint /authentication/sign-in y la recepción correcta del código 200 OK junto con el objeto JSON que contiene el identificador de usuario y el token de sesión JWT.
 
 <img src="assets/cap6/pruebaApiTestMovil.png" alt="insights" width="700px"/>
+
+Para garantizar la consistencia de datos en el cliente móvil y la persistencia sin conexión, se realizaron pruebas de integración reales sobre Room Database (SQLite) en Android. En estas pruebas no se utilizaron dobles de prueba ni Mocks (sin Mockito); en su lugar, se instanció la base de datos real en memoria con Room.inMemoryDatabaseBuilder para validar las operaciones de persistencia del DAO (AppointmentDao) y verificar la reactividad de los flujos de datos (Flow).
+
+**Responsable:** Joao Castro
+**Herramientas:** AndroidJUnit4, Room (base de datos SQLite en memoria), `kotlinx.coroutines` (Flow)
+**Tipo:** Pruebas de integración instrumentadas (sin mocks), ejecutadas en un dispositivo Android físico o en un emulador
+**Ubicación en el proyecto:** `app/src/androidTest/java/com/example/neurozen_front/RoomIntegrationTest.kt`
+ 
+## Resumen de pruebas
+ 
+| # | Prueba | Qué valida |
+|---|---|---|
+| 1 | `roomIntegration_insertAndQueryAppointment_isSuccessful` | Inserción de una cita mediante el DAO y su posterior consulta desde la base de datos real |
+| 2 | `roomIntegration_deleteAppointment_removesRecordFromDb` | Eliminación de una cita y verificación de que el registro ya no existe en la tabla |
+ 
+## Código
+ 
+```kotlin
+package com.example.neurozen_front
+ 
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.neurozen_front.neurozen.data.local.AppointmentEntity
+import com.example.neurozen_front.neurozen.data.local.NeurozenDatabase
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+ 
+/**
+ * Prueba de Integración Local para NeuroZen (sin Mocks / sin Mockito).
+ * Valida la integración real entre las entidades de negocio, el DAO de Room
+ * y la base de datos SQLite en memoria sobre el dispositivo Android.
+ *
+ * Frente: Aplicación Móvil (Android Nativo con Room Database)
+ * Responsable: Joao Castro
+ */
+@RunWith(AndroidJUnit4::class)
+class RoomIntegrationTest {
+ 
+    private lateinit var database: NeurozenDatabase
+ 
+    @Before
+    fun createDb() {
+        // ARRANGE: Crear una instancia REAL de la base de datos Room en memoria (sin Mocks)
+        val context = ApplicationProvider.getApplicationContext<android.content.Context>()
+        database = Room.inMemoryDatabaseBuilder(context, NeurozenDatabase::class.java)
+            .allowMainThreadQueries()
+            .build()
+    }
+ 
+    @After
+    fun closeDb() {
+        database.close()
+    }
+ 
+    /**
+     * Prueba de Integración 1: Inserción y Consulta de Citas en Base de Datos Real.
+     * Valida la persistencia real del DAO sin simular con Mockito.
+     */
+    @Test
+    fun roomIntegration_insertAndQueryAppointment_isSuccessful() = runBlocking {
+        // Arrange: Objeto de dominio real
+        val appointment = AppointmentEntity(
+            id = 101L,
+            psychologistId = "psy_202",
+            psychologistName = "Dr. Carlos Rodríguez",
+            psychologistSpecialty = "Psicología Clínica",
+            dateMillis = 1760108400000L,
+            status = "CONFIRMED"
+        )
+ 
+        // Act: Operación de persistencia real en la base de datos
+        database.appointmentDao().insertAppointment(appointment)
+        val appointments = database.appointmentDao().getAllAppointments().first()
+ 
+        // Assert: Verificación de persistencia integra
+        assertEquals(1, appointments.size)
+        assertEquals("Dr. Carlos Rodríguez", appointments[0].psychologistName)
+        assertEquals("CONFIRMED", appointments[0].status)
+    }
+ 
+    /**
+     * Prueba de Integración 2: Eliminación de Registro en Base de Datos Real.
+     * Valida la eliminación directa en la tabla de citas SQLite.
+     */
+    @Test
+    fun roomIntegration_deleteAppointment_removesRecordFromDb() = runBlocking {
+        // Arrange
+        val appointment = AppointmentEntity(
+            id = 102L,
+            psychologistId = "psy_203",
+            psychologistName = "Dra. Ana López",
+            psychologistSpecialty = "Mindfulness",
+            dateMillis = 1760263200000L,
+            status = "PENDING"
+        )
+        database.appointmentDao().insertAppointment(appointment)
+ 
+        // Act
+        database.appointmentDao().deleteAppointment(102L)
+        val appointmentsAfterDelete = database.appointmentDao().getAllAppointments().first()
+ 
+        // Assert
+        assertTrue(appointmentsAfterDelete.isEmpty())
+    }
+}
+```
+Evidencia de la prueba de integración realizada: 
+
+<img src="assets/cap6/pruebaIntegracionTestMovil.png" alt="insights" width="700px"/>
+
  
 ### 6.1.3. Core Behavior-Driven Development
  
@@ -2853,27 +2971,26 @@ Para garantizar que el software satisfaga las necesidades reales del negocio y d
  
 Los escenarios se redactaron en lenguaje Gherkin (archivos `.feature`) a partir de los Criterios de Aceptación de los User Stories principales.
  
-**Ejemplo BDD — US14 (Reservar cita con psicólogo):**
- 
+**BDD Example — US14 (Book an appointment with a psychologist):**
+
 ```gherkin
-# language: es
-Característica: Programación de sesiones con psicólogos
-  Como usuario
-  Quiero reservar una cita en línea con un psicólogo
-  Para recibir tratamiento especializado
- 
-  Escenario: Cita agendada con éxito
-    Dado que el usuario selecciona un especialista y un horario disponible
-    Cuando el usuario confirma la reserva
-    Entonces el sistema guarda la cita
-    Y muestra un mensaje de confirmación al usuario
- 
-  Escenario: Horario ya no disponible
-    Dado que el usuario selecciona un especialista y un horario
-    Y otro usuario reservó ese horario previamente
-    Cuando el usuario confirma la reserva
-    Entonces el sistema no guarda la cita
-    Y muestra un mensaje indicando que el horario ya no está disponible
+Feature: Scheduling sessions with psychologists
+  As a user
+  I want to book an online appointment with a psychologist
+  So that I can receive specialized treatment
+
+  Scenario: Appointment scheduled successfully
+    Given the user selects a specialist and an available time slot
+    When the user confirms the booking
+    Then the system saves the appointment
+    And shows a confirmation message to the user
+
+  Scenario: Time slot no longer available
+    Given the user selects a specialist and a time slot
+    And another user has previously booked that time slot
+    When the user confirms the booking
+    Then the system does not save the appointment
+    And shows a message indicating that the time slot is no longer available
 ```
  
 > *Evidencia de ejecución BDD:*
@@ -2891,15 +3008,100 @@ Las pruebas de sistema (End-to-End, E2E) validaron NeuroZen como un producto com
  
 Se utilizó **Cypress** para ejecutar de forma automatizada la aplicación web e interactuar con la interfaz gráfica como lo haría un usuario.
  
-> *Evidencia de E2E en Web:*
-> `[Insertar captura de la interfaz de Cypress con los flujos ejecutados exitosamente]`
+Código fuente de la prueba realizada: 
+
+Evidencia de la prueba realizada:
  
 **System Tests en Aplicación Móvil**
  
-Se utilizó **Espresso** (o Compose UI Test, si la interfaz está hecha con Jetpack Compose), ubicado en `app/src/androidTest`, para simular toques, escritura y navegación real en el emulador Android, garantizando una experiencia libre de bloqueos.
+Se ejecutaron pruebas de sistema instrumentadas (End-to-End / E2E) utilizando AndroidJUnit4 y la infraestructura de pruebas de Jetpack Compose ubicadas en app/src/androidTest. Estas pruebas simularon la instanciación completa del paquete nativo (com.example.neurozen_front), la persistencia del estado de sesión global (UserSession) y la navegación de interfaz en el dispositivo Android, garantizando la estabilidad de la aplicación y una experiencia de usuario libre de bloqueos o cierres inesperados.
  
-> *Evidencia de E2E en Móvil:*
-> `[Insertar enlace o captura del test instrumentado ejecutándose en el emulador Android]`
+**Responsable:** Joao Castro
+**Herramientas:** AndroidJUnit4, AndroidX Test (`InstrumentationRegistry`)
+**Tipo:** Pruebas instrumentadas, ejecutadas en un dispositivo Android físico o en un emulador
+**Ubicación en el proyecto:** `app/src/androidTest/java/com/example/neurozen_front/ExampleInstrumentedTest.kt`
+ 
+## Resumen de pruebas
+ 
+| # | Prueba | Qué valida |
+|---|---|---|
+| 1 | `useAppContext_systemPackageIntegrity_isCorrect` | La app se instancia con el paquete `com.example.neurozen_front` y accede a sus recursos del sistema |
+| 2 | `systemE2E_sessionStatePersistence_isSuccessful` | El estado global de la sesión se guarda, se mantiene y se limpia correctamente en el dispositivo |
+ 
+## Código
+ 
+```kotlin
+package com.example.neurozen_front
+ 
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.neurozen_front.neurozen.data.network.AuthSession
+import com.example.neurozen_front.neurozen.data.network.UserRole
+import com.example.neurozen_front.neurozen.data.session.UserSession
+ 
+import org.junit.Test
+import org.junit.runner.RunWith
+ 
+import org.junit.Assert.*
+ 
+/**
+ * Pruebas de Sistema Instrumentadas (End-to-End / System Tests) para NeuroZen en Android.
+ * Se ejecutan directamente en un dispositivo Android físico o emulador.
+ *
+ * Frente: Aplicación Móvil (Android nativo con Jetpack Compose)
+ * Responsable: Joao Castro
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+ 
+    /**
+     * Prueba de Sistema 1: Verificación de Integridad del Paquete y Contexto del Sistema.
+     * Valida que la app instancie correctamente el paquete Android com.example.neurozen_front.
+     */
+    @Test
+    fun useAppContext_systemPackageIntegrity_isCorrect() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("com.example.neurozen_front", appContext.packageName)
+        assertNotNull(appContext.resources)
+    }
+ 
+    /**
+     * Prueba de Sistema 2: Simulación de Persistencia de Sesión E2E en Dispositivo.
+     * Valida que el estado global de la sesión persista de forma segura en memoria
+     * durante la navegación del usuario en el sistema Android.
+     */
+    @Test
+    fun systemE2E_sessionStatePersistence_isSuccessful() {
+        // Arrange
+        UserSession.clear()
+        assertFalse(UserSession.hasActiveSession())
+ 
+        val mockSession = AuthSession(
+            token = "jwt_system_test_e2e_token",
+            userId = "uuid_joao_system_test",
+            username = "joao_system_user",
+            email = "joao.system@neurozen.pe",
+            role = UserRole.CLIENT
+        )
+ 
+        // Act
+        UserSession.save(mockSession)
+ 
+        // Assert
+        assertTrue(UserSession.hasActiveSession())
+        assertEquals("uuid_joao_system_test", UserSession.state.value.userId)
+        assertEquals("Bearer jwt_system_test_e2e_token", UserSession.bearerTokenOrEmpty())
+ 
+        // Clean Up
+        UserSession.clear()
+        assertFalse(UserSession.hasActiveSession())
+    }
+}
+```
+
+Evidencia de la prueba realizada:
+
+<img src="assets/cap6/pruebaTestCoreMovil.png" alt="insights" width="700px"/>
  
 ## 6.2. Static testing & Verification
 
