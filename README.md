@@ -2572,7 +2572,7 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 
 # Capítulo VI: Product Verification & Validation
  
-En este capítulo se detallan las estrategias, herramientas y resultados de las pruebas realizadas para garantizar la calidad, fiabilidad y correcto funcionamiento de la plataforma **NeuroZen**. El proceso de validación abarca los tres frentes tecnológicos del proyecto: Aplicación Móvil (Flutter/Android), Frontend Web (Vue.js) y Backend (C# ASP.NET Core).
+En este capítulo se detallan las estrategias, herramientas y resultados de las pruebas realizadas para garantizar la calidad, fiabilidad y correcto funcionamiento de la plataforma **NeuroZen**. El proceso de validación abarca los tres frentes tecnológicos del proyecto: Aplicación Móvil (Android nativo), Frontend Web (Vue.js) y Backend (C# ASP.NET Core).
  
 ## 6.1. Testing Suites & Validation
  
@@ -2584,7 +2584,7 @@ Para asegurar que la lógica interna de los componentes clave de NeuroZen funcio
 |---|---|---|
 | Backend API (C# / ASP.NET Core) | xUnit + Moq | Miguel Vila |
 | Frontend Web (Vue.js) | Vitest + Vue Test Utils | Jean Pool Huaman |
-| Aplicación Móvil (Flutter) | flutter_test + mocktail | Manuel Fernando Joao Castro |
+| Aplicación Móvil (Android nativo, Android Studio) | JUnit 4 + MockK | Manuel Fernando Joao Castro |
  
 **Backend API (C# / ASP.NET Core) — Responsable: Miguel Vila**
  
@@ -2600,13 +2600,14 @@ Se implementaron pruebas unitarias con **Vitest** y **Vue Test Utils**, enfocada
 > *Evidencia de Pruebas Unitarias Frontend:*
 > `[Insertar captura de la terminal con el reporte de coverage y los tests aprobados]`
  
-**Aplicación Móvil (Flutter) — Responsable: Manuel Fernando Joao Castro**
+**Aplicación Móvil (Android nativo) — Responsable: Manuel Fernando Joao Castro**
  
-Se empleó `flutter_test` para validar los modelos de datos locales y la lógica de procesamiento inicial de los datos biométricos antes de la sincronización con el backend.
+La aplicación fue desarrollada íntegramente en **Android Studio**. Se emplearon pruebas unitarias locales con **JUnit 4** y **MockK** (o Mockito, si el equipo trabaja en Java), ubicadas en `app/src/test`, para validar los modelos de datos locales, los ViewModels y la lógica de procesamiento inicial de los datos biométricos antes de la sincronización con el backend. Se ejecutan en la JVM, sin necesidad de emulador.
  
 > *Evidencia de Pruebas Unitarias Móvil:*
-> `[Insertar captura de la ejecución de flutter test con resultados exitosos]`
+> `[Insertar captura de Android Studio (ventana Run) o de ./gradlew testDebugUnitTest con los resultados exitosos]`
  
+---
  
 ### 6.1.2. Core Integration Tests
  
@@ -2621,11 +2622,12 @@ Se utilizó **Testcontainers** para levantar una instancia real de PostgreSQL du
  
 **Comunicación Cliente-Servidor (Frontend/Móvil con RESTful API)**
  
-Se validó que los clientes web (Vue) y móvil (Flutter) envíen correctamente los *requests* HTTP (POST, GET) al backend y manejen los códigos de respuesta (200 OK en un inicio de sesión exitoso, 401 Unauthorized ante tokens inválidos). Se utilizaron **Postman** (colecciones ejecutadas con Collection Runner) y pruebas automatizadas con Axios en web y `http`/`dio` en Flutter.
+Se validó que los clientes web (Vue) y móvil (Android) envíen correctamente los *requests* HTTP (POST, GET) al backend y manejen los códigos de respuesta (200 OK en un inicio de sesión exitoso, 401 Unauthorized ante tokens inválidos). Se utilizaron **Postman** (colecciones ejecutadas con Collection Runner) y pruebas automatizadas con Axios en web y con **Retrofit/OkHttp** en Android (simulando el servidor con **MockWebServer** para verificar requests y códigos de respuesta).
  
 > *Evidencia de Integración Cliente-API:*
 > `[Insertar captura de Postman Runner o de la pestaña Network mostrando una petición exitosa de login o registro de estrés]`
  
+---
  
 ### 6.1.3. Core Behavior-Driven Development
  
@@ -2676,12 +2678,11 @@ Se utilizó **Cypress** para ejecutar de forma automatizada la aplicación web e
  
 **System Tests en Aplicación Móvil**
  
-Se utilizó `integration_test` de Flutter para simular gestos, toques y navegación real en el emulador Android, garantizando una experiencia libre de bloqueos.
+Se utilizó **Espresso** (o Compose UI Test, si la interfaz está hecha con Jetpack Compose), ubicado en `app/src/androidTest`, para simular toques, escritura y navegación real en el emulador Android, garantizando una experiencia libre de bloqueos.
  
 > *Evidencia de E2E en Móvil:*
-> `[Insertar enlace o captura del test automatizado ejecutándose en el emulador Android]`
+> `[Insertar enlace o captura del test instrumentado ejecutándose en el emulador Android]`
  
-
 ## 6.2. Static testing & Verification
 
 ### 6.2.1. Static Code Analysis
@@ -2719,6 +2720,8 @@ Se utilizó `integration_test` de Flutter para simular gestos, toques y navegaci
 #### 6.4.2.3. Contenido de auditoría recibida
 
 #### 6.4.2.4. Resumen de modificaciones para subsanar hallazgos
+
+---
 
 <div style="page-break-after: always;"></div>
 
@@ -2837,7 +2840,7 @@ jobs:
           wait-on: 'http://localhost:4173'
 ```
  
-**Aplicación Móvil (Flutter)** — `.github/workflows/ci-mobile.yml`
+**Aplicación Móvil (Android nativo)** — `.github/workflows/ci-mobile.yml`
  
 ```yaml
 name: CI - Mobile
@@ -2859,17 +2862,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
  
-      - uses: subosito/flutter-action@v2
+      - uses: actions/setup-java@v4
         with:
-          channel: stable
-          cache: true
+          distribution: temurin
+          java-version: 17
  
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test --coverage
+      - uses: gradle/actions/setup-gradle@v4   # caché de Gradle
+ 
+      - name: Permisos de gradlew
+        run: chmod +x gradlew
+ 
+      - name: Lint
+        run: ./gradlew lintDebug
+ 
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest
+ 
       - name: Build APK (debug)
-        run: flutter build apk --debug
+        run: ./gradlew assembleDebug
 ```
+ 
+> Las pruebas instrumentadas con Espresso requieren emulador; se ejecutan localmente desde Android Studio (y opcionalmente en CI con `reactivecircus/android-emulator-runner`).
  
 > *Evidencia:*
 > `[Insertar captura de la pestaña Actions de GitHub con los workflows en verde]`
@@ -2887,7 +2900,7 @@ jobs:
 | **Docker** | Empaqueta el backend para que sea idéntico en todos los entornos |
 | **Render (servicio Staging)** | Hospeda el backend y la base de datos PostgreSQL de pruebas |
 | **Vercel / Netlify (Preview)** | Publica el frontend web de staging |
-| **Firebase App Distribution** (o artefacto de GitHub) | Distribuye el APK de pruebas al equipo y al cliente |
+| **Gradle + artefactos de GitHub** (opcional: Firebase App Distribution) | Genera y distribuye el APK de pruebas al equipo y al cliente |
 | **GitHub Environments** | Variables y secretos separados por entorno (`staging`, `production`) |
  
 **Prácticas aplicadas:**
@@ -2952,15 +2965,19 @@ jobs:
         working-directory: mobile
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with: { channel: stable, cache: true }
-      - run: flutter pub get
-      - run: flutter build apk --release --dart-define=API_URL=${{ secrets.STAGING_API_URL }}
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew
+      - name: Build APK (staging)
+        run: ./gradlew assembleDebug -PAPI_URL=${{ secrets.STAGING_API_URL }}
       - uses: actions/upload-artifact@v4
         with:
           name: neurozen-staging-apk
-          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          path: mobile/app/build/outputs/apk/debug/app-debug.apk
 ```
+ 
+> La URL del API se inyecta mediante un `buildConfigField` en `app/build.gradle` leyendo la propiedad `API_URL`.
  
 > *Evidencia:*
 > `[Insertar captura del despliegue en Render (Staging) y de la URL de staging funcionando]`
@@ -3043,13 +3060,24 @@ jobs:
         working-directory: mobile
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with: { channel: stable, cache: true }
-      - run: flutter pub get
-      - run: flutter build apk --release --dart-define=API_URL=${{ secrets.PROD_API_URL }}
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew
+ 
+      - name: Decodificar keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/release.jks
+ 
+      - name: Build APK firmado
+        run: ./gradlew assembleRelease -PAPI_URL=${{ secrets.PROD_API_URL }}
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+ 
       - uses: softprops/action-gh-release@v2
         with:
-          files: mobile/build/app/outputs/flutter-apk/app-release.apk
+          files: mobile/app/build/outputs/apk/release/app-release.apk
 ```
  
 **URLs de producción:**
@@ -3072,6 +3100,8 @@ jobs:
 ### 7.4.3. Alerting Pipeline Components
 
 ### 7.4.4. Notification Pipeline Components
+
+---
 
 <div style="page-break-after: always;"></div>
 
