@@ -2571,20 +2571,116 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 # Parte II: Verification, Validation & Pipeline
 
 # Capítulo VI: Product Verification & Validation
-
+ 
+En este capítulo se detallan las estrategias, herramientas y resultados de las pruebas realizadas para garantizar la calidad, fiabilidad y correcto funcionamiento de la plataforma **NeuroZen**. El proceso de validación abarca los tres frentes tecnológicos del proyecto: Aplicación Móvil (Flutter/Android), Frontend Web (Vue.js) y Backend (C# ASP.NET Core).
+ 
 ## 6.1. Testing Suites & Validation
-
+ 
 ### 6.1.1. Core Entities Unit Tests
-Debes especificar la creación y ejecución de pruebas unitarias para las entidades principales de tu sistema (modelos de datos, clases y funciones clave). El objetivo es validar que cada componente individual funciona correctamente en aislamiento, cumple con los requisitos funcionales y no presenta errores en su lógica interna.
-
+ 
+Para asegurar que la lógica interna de los componentes clave de NeuroZen funcione correctamente en aislamiento, se diseñaron y ejecutaron pruebas unitarias enfocadas en las entidades principales del dominio (`User`, `CheckIn`, `Psychologist` y `Session`).
+ 
+| Frente | Framework | Responsable |
+|---|---|---|
+| Backend API (C# / ASP.NET Core) | xUnit + Moq | Miguel Vila |
+| Frontend Web (Vue.js) | Vitest + Vue Test Utils | Jean Pool Huaman |
+| Aplicación Móvil (Flutter) | flutter_test + mocktail | Manuel Fernando Joao Castro |
+ 
+**Backend API (C# / ASP.NET Core) — Responsable: Miguel Vila**
+ 
+Se utilizó **xUnit** junto con **Moq** para aislar la lógica de controladores y servicios. Se validó la correcta instanciación de las entidades, las reglas de validación de datos (formato de correo, contraseñas) y el cálculo de niveles de estrés, sin depender de la base de datos real.
+ 
+> *Evidencia de Pruebas Unitarias Backend:*
+> `[Insertar captura del Test Explorer de Visual Studio o salida de dotnet test con las pruebas en verde]`
+ 
+**Frontend Web (Vue.js) — Responsable: Jean Pool Huaman**
+ 
+Se implementaron pruebas unitarias con **Vitest** y **Vue Test Utils**, enfocadas en los componentes visuales críticos y en el gestor de estado (**Pinia**). Se probaron funciones clave como el cálculo de las respuestas del test de autoevaluación antes de ser enviadas al backend.
+ 
+> *Evidencia de Pruebas Unitarias Frontend:*
+> `[Insertar captura de la terminal con el reporte de coverage y los tests aprobados]`
+ 
+**Aplicación Móvil (Flutter) — Responsable: Manuel Fernando Joao Castro**
+ 
+Se empleó `flutter_test` para validar los modelos de datos locales y la lógica de procesamiento inicial de los datos biométricos antes de la sincronización con el backend.
+ 
+> *Evidencia de Pruebas Unitarias Móvil:*
+> `[Insertar captura de la ejecución de flutter test con resultados exitosos]`
+ 
+ 
 ### 6.1.2. Core Integration Tests
-Debes detallar la realización de las pruebas de integración para asegurar que los diferentes módulos de tu sistema funcionan correctamente cuando interactúan entre sí. Esto incluye obligatoriamente validar la comunicación entre el frontend y el backend, así como la interacción entre servicios o APIs.
-
+ 
+Las pruebas de integración validan que los módulos de NeuroZen se comuniquen sin pérdida de datos, asegurando la consistencia entre la base de datos, el backend y los clientes.
+ 
+**Integración API y Base de Datos (PostgreSQL)**
+ 
+Se utilizó **Testcontainers** para levantar una instancia real de PostgreSQL durante las pruebas, de modo que Entity Framework Core ejecute las operaciones CRUD (crear, leer, actualizar, eliminar) sobre las tablas `Sessions` y `CheckIns` en las mismas condiciones que en producción (restricciones, tipos y llaves foráneas).
+ 
+> *Evidencia de Integración Backend-BD:*
+> `[Insertar captura de los tests de integración exitosos en el backend]`
+ 
+**Comunicación Cliente-Servidor (Frontend/Móvil con RESTful API)**
+ 
+Se validó que los clientes web (Vue) y móvil (Flutter) envíen correctamente los *requests* HTTP (POST, GET) al backend y manejen los códigos de respuesta (200 OK en un inicio de sesión exitoso, 401 Unauthorized ante tokens inválidos). Se utilizaron **Postman** (colecciones ejecutadas con Collection Runner) y pruebas automatizadas con Axios en web y `http`/`dio` en Flutter.
+ 
+> *Evidencia de Integración Cliente-API:*
+> `[Insertar captura de Postman Runner o de la pestaña Network mostrando una petición exitosa de login o registro de estrés]`
+ 
+ 
 ### 6.1.3. Core Behavior-Driven Development
-Debes aplicar BDD para definir y probar el comportamiento del sistema desde la perspectiva del usuario. Esto implica escribir pruebas basadas en escenarios utilizando herramientas como Cucumber o SpecFlow, elaborando los archivos .feature en lenguaje Gherkin y explicando con qué User Stories se relacionan.
-
+ 
+Para garantizar que el software satisfaga las necesidades reales del negocio y de los usuarios (Laura y Andrés), se aplicó el enfoque BDD. **Carlos Paredes** lideró la estructuración de los escenarios, que fueron implementados por los desarrolladores con **Reqnroll** (sucesor de SpecFlow, para C#) en el backend y **Cucumber** (cypress-cucumber-preprocessor) en el frontend web.
+ 
+Los escenarios se redactaron en lenguaje Gherkin (archivos `.feature`) a partir de los Criterios de Aceptación de los User Stories principales.
+ 
+**Ejemplo BDD — US14 (Reservar cita con psicólogo):**
+ 
+```gherkin
+# language: es
+Característica: Programación de sesiones con psicólogos
+  Como usuario
+  Quiero reservar una cita en línea con un psicólogo
+  Para recibir tratamiento especializado
+ 
+  Escenario: Cita agendada con éxito
+    Dado que el usuario selecciona un especialista y un horario disponible
+    Cuando el usuario confirma la reserva
+    Entonces el sistema guarda la cita
+    Y muestra un mensaje de confirmación al usuario
+ 
+  Escenario: Horario ya no disponible
+    Dado que el usuario selecciona un especialista y un horario
+    Y otro usuario reservó ese horario previamente
+    Cuando el usuario confirma la reserva
+    Entonces el sistema no guarda la cita
+    Y muestra un mensaje indicando que el horario ya no está disponible
+```
+ 
+> *Evidencia de ejecución BDD:*
+> `[Insertar captura del reporte de Reqnroll/Cucumber con los escenarios aprobados]`
+ 
+---
+ 
 ### 6.1.4. Core System Tests
-Debes evidenciar las pruebas de sistema realizadas para validar que la aplicación funciona correctamente en su totalidad, tanto en el entorno web como en el móvil. Estas pruebas deben cubrir flujos y funcionalidades completas, incluyendo la navegación, la interacción con las APIs y la respuesta general del sistema ante diferentes escenarios.
+ 
+**Responsables:** Joao Castro (Móvil), Jean Pool Huaman (Web) y Carlos Paredes (Consolidación)
+ 
+Las pruebas de sistema (End-to-End, E2E) validaron NeuroZen como un producto completo, simulando el recorrido de un usuario real desde que abre la aplicación hasta que completa un flujo crítico de negocio (por ejemplo: registro → inicio de sesión → check-in de estrés → reserva de cita).
+ 
+**System Tests en Frontend Web**
+ 
+Se utilizó **Cypress** para ejecutar de forma automatizada la aplicación web e interactuar con la interfaz gráfica como lo haría un usuario.
+ 
+> *Evidencia de E2E en Web:*
+> `[Insertar captura de la interfaz de Cypress con los flujos ejecutados exitosamente]`
+ 
+**System Tests en Aplicación Móvil**
+ 
+Se utilizó `integration_test` de Flutter para simular gestos, toques y navegación real en el emulador Android, garantizando una experiencia libre de bloqueos.
+ 
+> *Evidencia de E2E en Móvil:*
+> `[Insertar enlace o captura del test automatizado ejecutándose en el emulador Android]`
+ 
 
 ## 6.2. Static testing & Verification
 
@@ -2627,30 +2723,345 @@ Debes evidenciar las pruebas de sistema realizadas para validar que la aplicaci�
 <div style="page-break-after: always;"></div>
 
 # Capítulo VII: DevOps Practices
-
+ 
 ## 7.1. Continuous Integration
-
+ 
 ### 7.1.1. Tools and Practices
-Describe las herramientas seleccionadas (por ejemplo, GitHub Actions) y las prácticas (ej. validación automática por cada commit o Pull Request) utilizadas para integrar el código de tu equipo de forma continua.
-
+ 
+| Herramienta | Uso en NeuroZen |
+|---|---|
+| **GitHub** | Repositorio de código y control de versiones |
+| **GitHub Actions** | Ejecución automática de los pipelines de CI/CD |
+| **GitFlow simplificado** | Ramas `feature/*` → `develop` → `main` |
+| **Branch protection rules** | Impiden hacer merge a `develop`/`main` si el pipeline falla o no hay revisión |
+| **Conventional Commits** | Mensajes estandarizados (`feat:`, `fix:`, `test:`, `docs:`, `ci:`) |
+| **Testcontainers** | PostgreSQL real dentro del pipeline para las pruebas de integración |
+ 
+**Prácticas aplicadas:**
+ 
+- **Integración frecuente:** cada integrante trabaja en una rama `feature/*` y la integra a `develop` mediante Pull Request.
+- **Validación automática:** el pipeline se ejecuta en cada `push` y en cada Pull Request hacia `develop` y `main`.
+- **Pull Request obligatorio:** requiere al menos 1 revisión de otro integrante y todos los checks en verde antes del merge.
+- **Feedback rápido:** si una compilación o prueba falla, el PR queda bloqueado hasta corregirlo.
+- **Pipelines por componente:** backend, frontend y móvil tienen workflows independientes que se activan solo cuando cambian sus carpetas (`paths`), reduciendo tiempos de ejecución.
+---
+ 
 ### 7.1.2. Build & Test Suite Pipeline Components
-Documenta (con capturas o fragmentos de código YAML) los jobs o pasos exactos de tu pipeline encargados de compilar (build) el código y ejecutar automáticamente las pruebas (unitarias e integración) descritas en el Capítulo 6.
-
+ 
+El pipeline de CI compila cada componente y ejecuta las pruebas descritas en el Capítulo VI.
+ 
+**Backend (C# / ASP.NET Core)** — `.github/workflows/ci-backend.yml`
+ 
+```yaml
+name: CI - Backend
+ 
+on:
+  push:
+    branches: [develop, main]
+    paths: ['backend/**']
+  pull_request:
+    branches: [develop, main]
+    paths: ['backend/**']
+ 
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+ 
+      - name: Restore
+        run: dotnet restore
+ 
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+ 
+      - name: Unit tests
+        run: dotnet test --no-build -c Release --filter "Category=Unit"
+ 
+      # Testcontainers usa Docker, disponible en ubuntu-latest
+      - name: Integration tests
+        run: dotnet test --no-build -c Release --filter "Category=Integration"
+ 
+      - name: BDD tests (Reqnroll)
+        run: dotnet test --no-build -c Release --filter "Category=BDD"
+```
+ 
+**Frontend Web (Vue.js)** — `.github/workflows/ci-frontend.yml`
+ 
+```yaml
+name: CI - Frontend
+ 
+on:
+  push:
+    branches: [develop, main]
+    paths: ['frontend/**']
+  pull_request:
+    branches: [develop, main]
+    paths: ['frontend/**']
+ 
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+ 
+      - run: npm ci
+      - run: npm run lint
+      - name: Unit tests + coverage
+        run: npx vitest run --coverage
+      - name: Build
+        run: npm run build
+ 
+      - name: E2E (Cypress)
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: frontend
+          start: npm run preview
+          wait-on: 'http://localhost:4173'
+```
+ 
+**Aplicación Móvil (Flutter)** — `.github/workflows/ci-mobile.yml`
+ 
+```yaml
+name: CI - Mobile
+ 
+on:
+  push:
+    branches: [develop, main]
+    paths: ['mobile/**']
+  pull_request:
+    branches: [develop, main]
+    paths: ['mobile/**']
+ 
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+ 
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test --coverage
+      - name: Build APK (debug)
+        run: flutter build apk --debug
+```
+ 
+> *Evidencia:*
+> `[Insertar captura de la pestaña Actions de GitHub con los workflows en verde]`
+> `[Insertar captura de un Pull Request mostrando los checks aprobados]`
+ 
+---
+ 
 ## 7.2. Continuous Delivery
-
+ 
 ### 7.2.1. Tools and Practices
-Explica las herramientas y estrategias utilizadas para asegurar que el código que pasa la integración continua esté siempre listo para ser desplegado en entornos de prueba o pre-producción.
-
+ 
+| Herramienta | Uso |
+|---|---|
+| **GitHub Actions** | Orquesta el despliegue automático a staging |
+| **Docker** | Empaqueta el backend para que sea idéntico en todos los entornos |
+| **Render (servicio Staging)** | Hospeda el backend y la base de datos PostgreSQL de pruebas |
+| **Vercel / Netlify (Preview)** | Publica el frontend web de staging |
+| **Firebase App Distribution** (o artefacto de GitHub) | Distribuye el APK de pruebas al equipo y al cliente |
+| **GitHub Environments** | Variables y secretos separados por entorno (`staging`, `production`) |
+ 
+**Prácticas aplicadas:**
+ 
+- La rama `develop` siempre debe estar en estado desplegable: solo se integra código con el pipeline de CI en verde.
+- Cada merge a `develop` despliega automáticamente en **staging**.
+- Los entornos tienen configuraciones y bases de datos separadas; las credenciales se guardan en *GitHub Secrets*, nunca en el repositorio.
+- Staging es el entorno donde QA y el cliente validan nuevas funcionalidades antes de publicarlas.
+- Las migraciones de base de datos (EF Core) se aplican de forma automática en staging, para verificarlas antes de llegar a producción.
+---
+ 
 ### 7.2.2. Stages Deployment Pipeline Components
-Muestra los componentes de tu pipeline que automatizan el despliegue hacia entornos intermedios (Stages/Staging) para que el equipo de QA o el cliente puedan revisar los cambios antes de publicarlos.
-
-## 7.3. Continuous deployment
-
+ 
+Se despliega a staging cada vez que hay un push a `develop`, una vez que la CI pasa correctamente.
+ 
+**Backend → Render (Staging)** — `.github/workflows/cd-staging-backend.yml`
+ 
+```yaml
+name: CD - Staging Backend
+ 
+on:
+  workflow_run:
+    workflows: ['CI - Backend']
+    branches: [develop]
+    types: [completed]
+ 
+jobs:
+  deploy-staging:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Trigger Render deploy (staging)
+        run: curl -fsS -X POST "${{ secrets.RENDER_STAGING_DEPLOY_HOOK }}"
+```
+ 
+**Frontend → Vercel/Netlify (Staging)**
+ 
+El proyecto de hosting se conecta al repositorio y toma la rama `develop` como entorno de staging. Cada Pull Request genera además una URL de *preview* para revisar los cambios antes del merge.
+ 
+```yaml
+# Variables de entorno del entorno staging
+VITE_API_URL: https://neurozen-api-staging.onrender.com
+```
+ 
+**Móvil → APK de pruebas** — `.github/workflows/cd-staging-mobile.yml`
+ 
+```yaml
+name: CD - Staging Mobile
+ 
+on:
+  push:
+    branches: [develop]
+    paths: ['mobile/**']
+ 
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    environment: staging
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - run: flutter pub get
+      - run: flutter build apk --release --dart-define=API_URL=${{ secrets.STAGING_API_URL }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neurozen-staging-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+```
+ 
+> *Evidencia:*
+> `[Insertar captura del despliegue en Render (Staging) y de la URL de staging funcionando]`
+ 
+---
+ 
+## 7.3. Continuous Deployment
+ 
 ### 7.3.1. Tools and Practices
-Define cómo automatizas la liberación final del software hacia los usuarios finales (por ejemplo, usando servicios de hosting como Render, Vercel o Netlify conectados a tu rama main).
-
+ 
+| Herramienta | Uso |
+|---|---|
+| **GitHub Actions** | Dispara el despliegue automático al integrar en `main` |
+| **Render** | Hosting de producción del backend (ASP.NET Core en Docker) y PostgreSQL |
+| **Vercel / Netlify** | Hosting de producción del frontend web, conectado a la rama `main` |
+| **GitHub Releases** | Publicación del APK versionado de la aplicación móvil |
+| **Semantic Versioning** | Versionado de releases (`v1.0.0`, `v1.1.0`, …) |
+ 
+**Prácticas aplicadas:**
+ 
+- Solo se hace merge a `main` desde `develop` mediante Pull Request aprobado, con CI en verde y validación previa en staging.
+- Cada push a `main` despliega automáticamente a producción, sin pasos manuales.
+- Cada release se etiqueta con un tag semántico, lo que permite identificar la versión y hacer *rollback* redeplegando un commit/tag anterior.
+- Las variables y secretos de producción (cadena de conexión, clave JWT) están aislados en el entorno `production` de GitHub y en el panel de Render.
+- Se verifica la salud del servicio tras el despliegue mediante un endpoint `/health`.
+---
+ 
 ### 7.3.2. Production Deployment Pipeline Components
-Detalla los scripts o pasos finales en tu pipeline que empujan automáticamente la versión aprobada hacia el entorno de Producción real (las URLs públicas que usarán los usuarios).
+ 
+**Backend → Render (Producción)** — `.github/workflows/cd-production-backend.yml`
+ 
+```yaml
+name: CD - Production Backend
+ 
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+ 
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Trigger Render deploy (production)
+        run: curl -fsS -X POST "${{ secrets.RENDER_PROD_DEPLOY_HOOK }}"
+ 
+      - name: Health check
+        run: |
+          sleep 90
+          curl -fsS https://neurozen-api.onrender.com/health
+```
+ 
+**Frontend → Vercel/Netlify (Producción)**
+ 
+El hosting está conectado a la rama `main`: cada merge dispara automáticamente el build (`npm run build`) y publica en la URL pública.
+ 
+```yaml
+# Variables de entorno del entorno production
+VITE_API_URL: https://neurozen-api.onrender.com
+```
+ 
+**Móvil → GitHub Release** — `.github/workflows/cd-production-mobile.yml`
+ 
+```yaml
+name: CD - Production Mobile
+ 
+on:
+  push:
+    tags: ['v*.*.*']
+ 
+jobs:
+  release-apk:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - run: flutter pub get
+      - run: flutter build apk --release --dart-define=API_URL=${{ secrets.PROD_API_URL }}
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: mobile/build/app/outputs/flutter-apk/app-release.apk
+```
+ 
+**URLs de producción:**
+ 
+| Componente | URL |
+|---|---|
+| Backend API | `https://neurozen-api.onrender.com` *(reemplazar por la real)* |
+| Frontend Web | `https://neurozen.vercel.app` *(reemplazar por la real)* |
+| App Móvil | `https://github.com/<org>/<repo>/releases/latest` *(reemplazar)* |
+ 
+> *Evidencia:*
+> `[Insertar captura del despliegue en producción (Render/Vercel) y de las URLs públicas funcionando]`
 
 ## 7.4. Continuous Monitoring
 
