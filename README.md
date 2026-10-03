@@ -3260,7 +3260,7 @@ jobs:
           wait-on: 'http://localhost:4173'
 ```
  
-Pipeline de Integración Continua para Aplicación Móvil (Android)
+**Pipeline de Integración Continua para Aplicación Móvil (Android)**
 
 Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/ci-mobile.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en la rama main o develop, ejecutando la suite de pruebas unitarias (./gradlew testDebugUnitTest) y generando la compilación de depuración del paquete Android (./gradlew assembleDebug) sobre un contenedor virtual de Ubuntu con Java 17. 
 
@@ -3360,7 +3360,7 @@ El proyecto de hosting se conecta al repositorio y toma la rama `develop` como e
 VITE_API_URL: https://neurozen-api-staging.onrender.com
 ```
  
-Móvil → Generación y Despliegue de APK de Pruebas (Staging)
+**Móvil → Generación y Despliegue de APK de Pruebas (Staging)**
 
 Para la aplicación móvil de NeuroZen, se configuró el pipeline de Despliegue Continuo (CD) en el archivo .github/workflows/cd-staging-mobile.yml. Cada vez que se integra código en las ramas de trabajo (develop o main), GitHub Actions compila automáticamente el paquete ejecutable (./gradlew assembleDebug) y publica el artefacto resultante (neurozen-staging-apk) en la plataforma.
 Este proceso automatizado permite al equipo de QA, desarrolladores y clientes descargar e instalar la versión más reciente de la aplicación móvil en sus dispositivos físicos directamente desde los artefactos de GitHub sin necesidad de compilar manualmente.
@@ -3465,45 +3465,47 @@ El hosting está conectado a la rama `main`: cada merge dispara automáticamente
 VITE_API_URL: https://neurozen-api.onrender.com
 ```
  
-**Móvil → GitHub Release** — `.github/workflows/cd-production-mobile.yml`
+**Móvil → Despliegue en Producción y GitHub Release (v1.0.0)**
+
+Para la aplicación móvil de NeuroZen, se implementó el pipeline de Despliegue Continuo a Producción en el archivo .github/workflows/cd-production-mobile.yml. El flujo se activa automáticamente ante la creación de etiquetas semánticas de versión (tags v*.*.*).
+Cuando se publica una nueva versión oficial, GitHub Actions compila el paquete de la aplicación y utiliza softprops/action-gh-release para publicar de forma automatizada una Release oficial en GitHub, adjuntando el APK distribuible para la instalación en dispositivos móviles de producción.
+name: CD - Production Mobile
+on: push: tags: ['v*..']
+jobs: release-apk: runs-on: ubuntu-latest permissions: contents: write steps: - uses: actions/checkout@v4
+
  
 ```yaml
-name: CD - Production Mobile
- 
-on:
-  push:
-    tags: ['v*.*.*']
- 
-jobs:
-  release-apk:
-    runs-on: ubuntu-latest
-    environment: production
-    permissions:
-      contents: write
-    defaults:
-      run:
-        working-directory: mobile
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: 17 }
-      - uses: gradle/actions/setup-gradle@v4
-      - run: chmod +x gradlew
- 
-      - name: Decodificar keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/release.jks
- 
-      - name: Build APK firmado
-        run: ./gradlew assembleRelease -PAPI_URL=${{ secrets.PROD_API_URL }}
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
- 
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: mobile/app/build/outputs/apk/release/app-release.apk
+ - uses: actions/setup-java@v4
+    with:
+      distribution: temurin
+      java-version: 17
+
+  - uses: gradle/actions/setup-gradle@v4
+
+  - name: Permisos de gradlew
+    run: chmod +x gradlew
+
+  - name: Build APK (Release/Debug)
+    run: ./gradlew assembleDebug
+
+  - name: Create GitHub Release
+    uses: softprops/action-gh-release@v2
+    with:
+      files: app/build/outputs/apk/debug/app-debug.apk
+      name: NeuroZen Mobile Release ${{ github.ref_name }}
+      draft: false
+      prerelease: false
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+Evidencia de Despliegue Continuo a Producción (GitHub Release):
+
+<img src="assets/cap6/gitActionsProduction1.png" alt="insights" width="900px"/>
+
+<img src="assets/cap6/gitActionsProduction2.png" alt="insights" width="900px"/>
+
+> *Evidencia:*
+> [Release v1.0.0 publicado en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0)
  
 **URLs de producción:**
  
@@ -3511,7 +3513,7 @@ jobs:
 |---|---|
 | Backend API | `https://neurozen-api.onrender.com` *(reemplazar por la real)* |
 | Frontend Web | `https://neurozen.vercel.app` *(reemplazar por la real)* |
-| App Móvil | `https://github.com/<org>/<repo>/releases/latest` *(reemplazar)* |
+| App Móvil | [Release v1.0.0 publicado en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0) |
  
 > *Evidencia:*
 > `[Insertar captura del despliegue en producción (Render/Vercel) y de las URLs públicas funcionando]`
