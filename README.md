@@ -3360,42 +3360,53 @@ El proyecto de hosting se conecta al repositorio y toma la rama `develop` como e
 VITE_API_URL: https://neurozen-api-staging.onrender.com
 ```
  
-**Móvil → APK de pruebas** — `.github/workflows/cd-staging-mobile.yml`
+Móvil → Generación y Despliegue de APK de Pruebas (Staging)
+
+Para la aplicación móvil de NeuroZen, se configuró el pipeline de Despliegue Continuo (CD) en el archivo .github/workflows/cd-staging-mobile.yml. Cada vez que se integra código en las ramas de trabajo (develop o main), GitHub Actions compila automáticamente el paquete ejecutable (./gradlew assembleDebug) y publica el artefacto resultante (neurozen-staging-apk) en la plataforma.
+Este proceso automatizado permite al equipo de QA, desarrolladores y clientes descargar e instalar la versión más reciente de la aplicación móvil en sus dispositivos físicos directamente desde los artefactos de GitHub sin necesidad de compilar manualmente.
  
 ```yaml
 name: CD - Staging Mobile
- 
+
 on:
   push:
-    branches: [develop]
-    paths: ['mobile/**']
- 
+    branches: [develop, main]
+
 jobs:
   build-apk:
     runs-on: ubuntu-latest
-    environment: staging
-    defaults:
-      run:
-        working-directory: mobile
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: 17 }
+        with:
+          distribution: temurin
+          java-version: 17
+
       - uses: gradle/actions/setup-gradle@v4
-      - run: chmod +x gradlew
+
+      - name: Permisos de gradlew
+        run: chmod +x gradlew
+
       - name: Build APK (staging)
-        run: ./gradlew assembleDebug -PAPI_URL=${{ secrets.STAGING_API_URL }}
-      - uses: actions/upload-artifact@v4
+        run: ./gradlew assembleDebug
+
+      - name: Upload Staging APK Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: neurozen-staging-apk
-          path: mobile/app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
 ```
  
-> La URL del API se inyecta mediante un `buildConfigField` en `app/build.gradle` leyendo la propiedad `API_URL`.
- 
+Evidencia de Despliegue Continuo en Móvil:
+
+<img src="assets/cap6/gitActionsApK1.png" alt="insights" width="900px"/>
+
+<img src="assets/cap6/gitActionsApK2.png" alt="insights" width="900px"/>
+
 > *Evidencia:*
-> `[Insertar captura del despliegue en Render (Staging) y de la URL de staging funcionando]`
- 
+> [CI - NeuroZen App Móvil: ejecución #37090257267](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/actions/runs/37090257267)
+
 ---
  
 ## 7.3. Continuous Deployment
