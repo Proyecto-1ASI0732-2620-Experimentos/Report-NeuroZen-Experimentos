@@ -3260,53 +3260,46 @@ jobs:
           wait-on: 'http://localhost:4173'
 ```
  
-**Aplicación Móvil (Android nativo)** — `.github/workflows/ci-mobile.yml`
- 
+Pipeline de Integración Continua para Aplicación Móvil (Android)
+Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/ci-mobile.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en la rama main o develop, ejecutando la suite de pruebas unitarias (./gradlew testDebugUnitTest) y generando la compilación de depuración del paquete Android (./gradlew assembleDebug) sobre un contenedor virtual de Ubuntu con Java 17. 
+
 ```yaml
 name: CI - Mobile
- 
+
 on:
   push:
     branches: [develop, main]
-    paths: ['mobile/**']
   pull_request:
     branches: [develop, main]
-    paths: ['mobile/**']
- 
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mobile
     steps:
       - uses: actions/checkout@v4
- 
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
- 
-      - uses: gradle/actions/setup-gradle@v4   # caché de Gradle
- 
+
+      - uses: gradle/actions/setup-gradle@v4
+
       - name: Permisos de gradlew
         run: chmod +x gradlew
- 
-      - name: Lint
-        run: ./gradlew lintDebug
- 
+
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
- 
+
       - name: Build APK (debug)
         run: ./gradlew assembleDebug
 ```
  
-> Las pruebas instrumentadas con Espresso requieren emulador; se ejecutan localmente desde Android Studio (y opcionalmente en CI con `reactivecircus/android-emulator-runner`).
- 
-> *Evidencia:*
-> `[Insertar captura de la pestaña Actions de GitHub con los workflows en verde]`
-> `[Insertar captura de un Pull Request mostrando los checks aprobados]`
+Evidencia de Integración Continua en Móvil:
+
+<img src="assets/cap6/gitActionsMovil.png" alt="insights" width="700px"/>
+
+Ejecución exitosa del pipeline de CI/CD para la aplicación móvil Android (CI - Mobile) en GitHub Actions, validando las pruebas unitarias y la compilación automatizada del APK en 5m 15s.
  
 ---
  
