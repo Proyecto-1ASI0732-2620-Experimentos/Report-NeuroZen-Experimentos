@@ -2815,11 +2815,11 @@ class ExampleUnitTest {
  
 Reporte HTML: `app/build/reports/tests/testDebugUnitTest/index.html`
 
-<img src="assets/cap6/prubaTestMovilIndex.png" alt="insights" width="700px"/>
+<img src="assets/cap6/prubaTestMovilIndex.png" alt="insights" width="900px"/>
  
 > *Evidencia de Pruebas Unitarias Móvil:*
 
-<img src="assets/cap6/pruebaTestMovil.png" alt="insights" width="700px"/>
+<img src="assets/cap6/pruebaTestMovil.png" alt="insights" width="900px"/>
  
  
 ### 6.1.2. Core Integration Tests
@@ -2847,7 +2847,7 @@ Evidencia de Integración Cliente Móvil - API (Android Nativo)
 
 Se verificó el flujo completo de autenticación y consumo de recursos desde el dispositivo móvil hacia el backend local (http://192.168.0.90:5059/api/v1/). La captura de la herramienta Network Inspector confirma la emisión de la solicitud POST al endpoint /authentication/sign-in y la recepción correcta del código 200 OK junto con el objeto JSON que contiene el identificador de usuario y el token de sesión JWT.
 
-<img src="assets/cap6/pruebaApiTestMovil.png" alt="insights" width="700px"/>
+<img src="assets/cap6/pruebaApiTestMovil.png" alt="insights" width="900px"/>
 
 Para garantizar la consistencia de datos en el cliente móvil y la persistencia sin conexión, se realizaron pruebas de integración reales sobre Room Database (SQLite) en Android. En estas pruebas no se utilizaron dobles de prueba ni Mocks (sin Mockito); en su lugar, se instanció la base de datos real en memoria con Room.inMemoryDatabaseBuilder para validar las operaciones de persistencia del DAO (AppointmentDao) y verificar la reactividad de los flujos de datos (Flow).
 
@@ -2962,7 +2962,7 @@ class RoomIntegrationTest {
 ```
 Evidencia de la prueba de integración realizada: 
 
-<img src="assets/cap6/pruebaIntegracionTestMovil.png" alt="insights" width="700px"/>
+<img src="assets/cap6/pruebaIntegracionTestMovil.png" alt="insights" width="900px"/>
 
  
 ### 6.1.3. Core Behavior-Driven Development
@@ -3101,7 +3101,7 @@ class ExampleInstrumentedTest {
 
 Evidencia de la prueba realizada:
 
-<img src="assets/cap6/pruebaTestCoreMovil.png" alt="insights" width="700px"/>
+<img src="assets/cap6/pruebaTestCoreMovil.png" alt="insights" width="900px"/>
  
 ## 6.2. Static testing & Verification
 
@@ -3261,6 +3261,7 @@ jobs:
 ```
  
 Pipeline de Integración Continua para Aplicación Móvil (Android)
+
 Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/ci-mobile.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en la rama main o develop, ejecutando la suite de pruebas unitarias (./gradlew testDebugUnitTest) y generando la compilación de depuración del paquete Android (./gradlew assembleDebug) sobre un contenedor virtual de Ubuntu con Java 17. 
 
 ```yaml
@@ -3297,7 +3298,7 @@ jobs:
  
 Evidencia de Integración Continua en Móvil:
 
-<img src="assets/cap6/gitActionsMovil.png" alt="insights" width="700px"/>
+<img src="assets/cap6/gitActionsMovil.png" alt="insights" width="900px"/>
 
 Ejecución exitosa del pipeline de CI/CD para la aplicación móvil Android (CI - Mobile) en GitHub Actions, validando las pruebas unitarias y la compilación automatizada del APK en 5m 15s.
  
