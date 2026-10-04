@@ -3385,48 +3385,59 @@ Evidencia de la prueba realizada:
 El pipeline de CI compila cada componente y ejecuta las pruebas descritas en el Capítulo VI.
  
 **Backend (C# / ASP.NET Core)** — `.github/workflows/ci-backend.yml`
+
+Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/main_neurozen-api.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en la rama main o develop, ejecutando la suite de pruebas unitarias (./neurozen.API.Tests) generando un DB MySQL en la VM de GithubActions para permitir las pruebas integrales dondse será necesario.
  
 ```yaml
 name: CI - Backend
- 
+
 on:
   push:
     branches: [develop, main]
-    paths: ['backend/**']
   pull_request:
     branches: [develop, main]
-    paths: ['backend/**']
- 
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
+    env:
+      ConnectionStrings__DefaultConnection: "server=127.0.0.1;port=3306;user=root;password=root;database=neurozenIntegrationTests"
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: neurozenIntegrationTests
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
       - uses: actions/checkout@v4
- 
-      - name: Setup .NET
+
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
- 
-      - name: Restore
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
         run: dotnet restore
- 
+
       - name: Build
         run: dotnet build --no-restore --configuration Release
- 
-      - name: Unit tests
-        run: dotnet test --no-build -c Release --filter "Category=Unit"
- 
-      # Testcontainers usa Docker, disponible en ubuntu-latest
-      - name: Integration tests
-        run: dotnet test --no-build -c Release --filter "Category=Integration"
- 
-      - name: BDD tests (Reqnroll)
-        run: dotnet test --no-build -c Release --filter "Category=BDD"
+
+      # Ejecuta todas las pruebas del proyecto (Unitarias, Integrales y BDD si existen)
+      - name: Run all tests
+        run: dotnet test --no-build -c Release
 ```
+Evidencia de Despliegue Continuo en el repositorio del Backend:
+
+<img src="assets/cap6/gitActionsBackend1.jpeg" alt="insights" width="900px"/>
  
 **Frontend Web (Vue.js)** — `.github/workflows/ci-frontend.yml`
  
