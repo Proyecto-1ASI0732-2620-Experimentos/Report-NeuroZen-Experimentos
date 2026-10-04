@@ -4111,29 +4111,63 @@ Evidencia de Despliegue Continuo en Móvil:
  
 ### 7.3.2. Production Deployment Pipeline Components
  
-**Backend → Render (Producción)** — `.github/workflows/cd-production-backend.yml`
+**Backend → Render (Producción)** — `.github/workflows/deploy-production.yml`
  
 ```yaml
 name: CD - Production Backend
- 
+
 on:
-  push:
+  workflow_run:
+    workflows: ["CI - Backend"]
     branches: [main]
-    paths: ['backend/**']
- 
+    types: [completed]
+
 jobs:
   deploy-production:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
-    environment: production
+    environment:
+      name: production
+
     steps:
+      - name: Validate Render deploy hook
+        env:
+          RENDER_PROD_DEPLOY_HOOK: ${{ secrets.RENDER_PROD_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_PROD_DEPLOY_HOOK" ]; then
+            echo "::error::The RENDER_PROD_DEPLOY_HOOK secret is missing from the production environment."
+            exit 1
+          fi
+
       - name: Trigger Render deploy (production)
-        run: curl -fsS -X POST "${{ secrets.RENDER_PROD_DEPLOY_HOOK }}"
- 
+        env:
+          RENDER_PROD_DEPLOY_HOOK: ${{ secrets.RENDER_PROD_DEPLOY_HOOK }}
+        run: |
+          curl --fail --show-error --silent \
+            --request POST \
+            "$RENDER_PROD_DEPLOY_HOOK"
+
       - name: Health check
         run: |
-          sleep 90
-          curl -fsS https://neurozen-api.onrender.com/health
+          for attempt in {1..18}; do
+            if curl --fail --show-error --silent \
+              "https://neurozen-api.onrender.com/health"; then
+              exit 0
+            fi
+            echo "Production is not ready yet (attempt $attempt/18)."
+            sleep 10
+          done
+          echo "::error::Production health check failed after 180 seconds."
+          exit 1
 ```
+Evidencia de Despliegue Continuo a Producción (Render):
+
+<img src="assets/cap6/gitActionsProductionBackend1.jpeg" alt="insights" width="900px"/>
+
+<img src="assets/cap6/gitActionsProductionBackend2.jpeg" alt="insights" width="900px"/>
  
 **Frontend → Vercel/Netlify (Producción)**
  
