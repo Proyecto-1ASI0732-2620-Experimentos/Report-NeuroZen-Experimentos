@@ -3005,12 +3005,45 @@ Reporte HTML: `app/build/reports/tests/testDebugUnitTest/index.html`
 Las pruebas de integración validan que los módulos de NeuroZen se comuniquen de manera fluida y sin pérdida de datos, asegurando la consistencia entre las bases de datos (locales y remotas), la API RESTful del backend y los clientes Web y Móvil.
 
 
-**Integración API y Base de Datos (PostgreSQL)**
+**Integración API y Base de Datos (MySQL)**
  
-Se utilizó **Testcontainers** para levantar una instancia real de PostgreSQL durante las pruebas, de modo que Entity Framework Core ejecute las operaciones CRUD (crear, leer, actualizar, eliminar) sobre las tablas `Sessions` y `CheckIns` en las mismas condiciones que en producción (restricciones, tipos y llaves foráneas).
+Se utilizó **WebApplicationFactory** para levantar una instancia real de MySQL durante las pruebas, de modo que Entity Framework Core ejecute las operaciones CRUD (crear, leer, actualizar, eliminar) sobre las tablas `Sessions` y `CheckIns` en las mismas condiciones que en producción (restricciones, tipos y llaves foráneas).
  
 > *Evidencia de Integración Backend-BD:*
-> `[Insertar captura de los tests de integración exitosos en el backend]`
+```C#
+public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory<Program>
+{
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureAppConfiguration((_, configuration) =>
+        {
+            var currentConfiguration = configuration.Build();
+            var connectionString = currentConfiguration.GetConnectionString("DefaultConnection");
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("DefaultConnection is required for integration tests.");
+
+            var testConnectionString = connectionString
+                .Replace("database=neurozenDev", "database=neurozenIntegrationTests",
+                    StringComparison.OrdinalIgnoreCase);
+
+            configuration.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["ConnectionStrings:DefaultConnection"] = testConnectionString
+            });
+        });
+    }
+}
+```
+## Resumen de pruebas
+ 
+| # | Prueba | Qué valida |
+|---|---|---|
+| 1 | `CreateTrigger_StressLevelGreaterThan10_ReturnsBadRequest` | `TriggersController` | Integridad del flujo completo de una petición HTTP al endpoint POST de Triggers |
+
+Evidencia de la prueba de integración realizada: 
+
+<img src="assets/cap6/pruebaIntegracion1Backend.jpeg" alt="insights" width="900px"/>
  
 **Comunicación Cliente-Servidor (Frontend/Móvil con RESTful API)**
  
