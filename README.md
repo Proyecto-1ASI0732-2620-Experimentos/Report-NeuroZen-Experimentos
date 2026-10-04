@@ -3002,8 +3002,11 @@ Reporte HTML: `app/build/reports/tests/testDebugUnitTest/index.html`
  **Frontend Web (Vue.js)**
 
 **Responsable:** Jean Pool Huaman
+
 **Herramientas:** Vitest 5, Vue Test Utils, jsdom (navegador simulado), MSW (API simulada)
+
 **Tipo:** Pruebas unitarias locales, sin backend real
+
 **Ubicación en el proyecto:** `tests/unit/`
 
 El frontend web se desarrolló con Vue 3 y Vite. Las pruebas unitarias se enfocaron en las **reglas de negocio** de la plataforma, probando de forma aislada los servicios y utilidades del frontend:
@@ -3446,6 +3449,175 @@ class RoomIntegrationTest {
 Evidencia de la prueba de integración realizada: 
 
 <img src="assets/cap6/pruebaIntegracionTestMovil.png" alt="insights" width="900px"/>
+
+**Frontend Web (Vue.js)**
+
+**Responsable:** Jean Pool Huaman
+
+**Herramientas:** Vitest 5, Vue Test Utils, MSW (Mock Service Worker), jsdom
+
+**Tipo:** Pruebas de integración del frontend, sin backend real
+
+**Ubicación en el proyecto:** `tests/integration/`
+
+Las pruebas de integración validan que los módulos del frontend funcionen **juntos**, tal como lo hacen en la aplicación real. Se usan las piezas reales del frontend:
+
+- las pantallas Vue;
+- los servicios;
+- el cliente HTTP (`HttpClient`, basado en `fetch`);
+- la sesión del usuario;
+- el router y la internacionalización.
+
+Lo único que se simula es el backend, mediante **MSW**, que intercepta las peticiones HTTP a `/api/v1/...` y responde con datos de prueba. Así se verifica que el frontend envía correctamente los datos a la API y reacciona bien a sus respuestas, sin depender de que el backend esté encendido.
+
+### Resumen de pruebas
+
+| # | Prueba | Flujo | Qué valida |
+|---|---|---|---|
+| 1 | `incompleteForm_shouldNotBeSentToApi` | Registro de estrés | Un formulario incompleto muestra errores y **no** llama a la API (equivalente a `verifyNoInteractions`) |
+| 2 | `completeForm_shouldBeSavedAndShownInList` | Registro de estrés | Un registro válido se envía a la API, muestra el mensaje de éxito y aparece en el historial |
+| 3 | `fullFlow_bookASession` | Reserva de sesión | Flujo completo de 4 pasos (profesional, fecha y hora, tipo de sesión, confirmación); la API recibe la cita correcta y se muestra la confirmación |
+
+### Código
+
+**`tests/integration/registerTrigger.spec.js`**
+
+```javascript
+// Pruebas de integración: registrar una situación de estrés
+// (pantalla + servicio + API simulada + sesión trabajando juntos)
+import { StressTriggerService } from '../../src/services/StressTriggerService.js'
+import { openPage, loginAs, waitFor } from '../helpers.js'
+
+describe('RegisterTrigger', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque los registros de estrés alimentan las estadísticas
+   *   del usuario; un registro vacío o incompleto daría información falsa.
+   * - ¿Qué hace esta prueba?: Abre la pantalla real, envía el formulario sin completarlo y
+   *   verifica que se muestran los errores y que el servicio que guarda en la API nunca se llamó.
+   */
+  it('incompleteForm_shouldNotBeSentToApi', async () => {
+    // Arrange: usuario con sesión y espía del método que guarda en la API
+    loginAs()
+    const save = vi.spyOn(StressTriggerService.prototype, 'addStressTrigger')
+    const { page } = await openPage('/stress/triggers')
+
+    // Act: envía el formulario sin categoría ni descripción
+    await page.find('form').trigger('submit')
+
+    // Assert: muestra errores y no llama a la API (como verifyNoInteractions)
+    expect(page.text()).toContain('Este campo es obligatorio.')
+    expect(save).not.toHaveBeenCalled()
+  })
+
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque registrar una situación de estrés es la función
+   *   principal del módulo; el usuario necesita ver que su registro quedó guardado.
+   * - ¿Qué hace esta prueba?: Completa el formulario en la pantalla real, lo envía a la API
+   *   simulada y verifica el mensaje de éxito y que el registro aparece en el historial.
+   */
+  it('completeForm_shouldBeSavedAndShownInList', async () => {
+    // Arrange
+    loginAs()
+    const { page } = await openPage('/stress/triggers')
+
+    // Act: completa y envía el formulario
+    await page.find('#trigger-category').setValue('workOverload')
+    await page.find('#trigger-description').setValue('Tres entregas el mismo día')
+    await page.find('form').trigger('submit')
+
+    // Assert: mensaje de éxito y el registro aparece en el historial
+    await waitFor(() => expect(page.text()).toContain('Desencadenante registrado exitosamente'))
+    expect(page.text()).toContain('Tres entregas el mismo día')
+  })
+})
+```
+
+**Evidencia (registerTrigger.spec.js):** ejecución de integración aprobada.
+
+![Evidencia registerTrigger.spec.js](assets/cap6/testFrontend/registerTrigger.spec.png)
+
+**`tests/integration/bookSession.spec.js`**
+
+```javascript
+// Prueba de integración: flujo completo de reserva de una sesión con un profesional
+// (pantallas + servicios + router + API simulada trabajando juntos)
+import { http, HttpResponse } from 'msw'
+import { server, API } from '../mocks/server.js'
+import { openPage, loginAs, waitFor } from '../helpers.js'
+
+// Busca un botón por su texto
+const button = (page, text) => page.findAll('button').find((b) => b.text().includes(text))
+
+describe('BookSession', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque reservar una sesión con un profesional es el flujo
+   *   de negocio más importante de la plataforma; si falla, el usuario no puede recibir ayuda.
+   * - ¿Qué hace esta prueba?: Recorre los 4 pasos en la pantalla real (profesional, día y hora,
+   *   tipo de sesión y confirmación), verifica que la API recibe la cita con el paciente, el
+   *   profesional y la hora correctos, y que se muestra la confirmación de la cita creada.
+   */
+  it('fullFlow_bookASession', async () => {
+    // Arrange: hoy es 10 de octubre de 2026 y guardamos lo que llega a la API
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date('2026-10-10T10:00:00-05:00'))
+    loginAs()
+    let sent = null
+    server.use(
+      http.post(API + '/appointments', async ({ request }) => {
+        sent = await request.json()
+        return HttpResponse.json({ id: 555 })
+      })
+    )
+    const { page, router } = await openPage('/book-session')
+    await waitFor(() => expect(page.text()).toContain('Dra. Elena Ramírez'))
+
+    // Act - Paso 1: elegir profesional
+    await page.find('[role="radio"]').trigger('click')
+    await button(page, 'Siguiente').trigger('click')
+
+    // Act - Paso 2: elegir el día 20 y las 09:00
+    await page.findAll('.grid-cols-7 button').find((b) => b.text() === '20').trigger('click')
+    await waitFor(() => expect(page.find('button.slot').exists()).toBe(true))
+    await page.find('button.slot').trigger('click')
+    await button(page, 'Siguiente').trigger('click')
+
+    // Act - Paso 3: elegir el tipo de sesión
+    await page.find('[role="radio"]').trigger('click')
+    await button(page, 'Siguiente').trigger('click')
+
+    // Act - Paso 4: confirmar
+    await button(page, 'Confirmar Reserva').trigger('click')
+
+    // Assert: la API recibió la cita correcta (usuario 7, 09:00 Lima = 14:00 UTC)
+    await waitFor(() => expect(sent).not.toBeNull())
+    expect(sent.patientId).toBe(7)
+    expect(sent.professionalId).toBe(1)
+    expect(sent.appointmentDateTime).toBe('2026-10-20T14:00:00.000Z')
+
+    // Assert: se muestra la confirmación de la cita creada
+    await waitFor(() => expect(router.currentRoute.value.path).toBe('/appointment-confirmation/555'))
+  })
+})
+```
+
+**Evidencia (bookSession.spec.js):** ejecución de integración aprobada.
+
+![Evidencia bookSession.spec.js](assets/cap6/testFrontend/bookSession.spec.png)
+
+### Ejecución
+
+```bash
+npm test
+```
+
+**Evidencia general (10 pruebas: 7 unitarias y 3 de integración):**
+
+![Ejecución general de pruebas del frontend](assets/cap6/testFrontend/Test.General.png)
+
+---
 
  
 ### 6.1.3. Core Behavior-Driven Development
