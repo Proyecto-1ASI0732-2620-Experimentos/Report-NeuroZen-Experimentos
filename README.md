@@ -4469,6 +4469,6 @@ Todos los videos deben estar en Google Drive o YouTube con acceso público ("Cua
 | :--- | :--- |
 | Landing Page | [https://neurozen-landing.netlify.app/](https://neurozen-landing.netlify.app/) |
 | Frontend | *Pendiente* |
-| Backend | [https://neurozen-backend-mobile.onrender.com/swagger/index.html] (https://neurozen-backend-mobile.onrender.com/swagger/index.html) |
+| Backend | https://neurozen-backend-mobile.onrender.com/swagger/index.html |
 | Aplicación Móvil | *Pendiente* |
 
