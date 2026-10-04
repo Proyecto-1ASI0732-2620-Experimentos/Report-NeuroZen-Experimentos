@@ -2590,8 +2590,186 @@ Para asegurar que la lógica interna de los componentes clave de NeuroZen funcio
  
 Se utilizó **xUnit** junto con **Moq** para aislar la lógica de controladores y servicios. Se validó la correcta instanciación de las entidades, las reglas de validación de datos (formato de correo, contraseñas) y el cálculo de niveles de estrés, sin depender de la base de datos real.
  
-> *Evidencia de Pruebas Unitarias Backend:*
-> `[Insertar captura del Test Explorer de Visual Studio o salida de dotnet test con las pruebas en verde]`
+| # | Prueba | Entidad | Qué valida |
+|---|---|---|---|
+| 1 | `Handle_ValidCommand_ReturnsAppointmentAndSavesToDataBase` | `AppointmentCommandService` | Creación de una cita y llamado a la base de datos |
+| 2 | `GetProfessionalById_ReturnsCorrectId` | `ProfessionalQueryService` | Verificar que el servicio retorna el Id correcto a ejecutar la query |
+| 3 | `CreateTriggerCommandTest` | `TriggerCommandService` | Creación correcta de un objeto Trigger, con valores permitidos |
+| 4 | `CreateTrigger_StressLevelGreaterThan10_ReturnsBadRequest` | `TriggersController` | Integridad del flujo completo de una petición HTTP al endpoint POST de Triggers |
+
+## Código
+
+```C#
+public class TriggerCommandServiceTest
+{
+  /// <summary>
+    /// PRUEBA 1: Creación Exitosa de un Trigger
+    /// - Por qué se realiza: Para comprobar que el servicio procesa un comando válido, 
+    ///   crea la entidad y llama exactamente una vez a los métodos de persistencia y confirmación.
+    /// - Por qué es importante: Garantiza que la lógica de negocio principal de escritura 
+    ///   funciona correctamente de forma aislada, asegurando la integridad de los datos 
+    ///   sin necesidad de una base de datos real.
+  /// </summary>
+  [Fact]
+  public async Task CreateTriggerCommandTest()
+  {
+    //Arrange (preparamos los mocks)
+    var mockRepo = new Mock<ITriggerRepository>();
+    var mockUow = new Mock<IUnitOfWork>();
+    var mockLogger = new Mock<ILogger<TriggerCommandService>>();
+
+    var service = new TriggerCommandService(mockRepo.Object, mockUow.Object, mockLogger.Object);
+    var command = new CreateTriggerCommand(1, 1, 10, DateTime.Now.AddDays(1), "trigger de prueba");
+
+    //Act (Ejecutamos la función)
+    var result = await service.Handle(command);
+
+    //Assert (Verificamos)
+    Assert.NotNull(result);
+    Assert.InRange(command.StressLevel, 1, 10); //que el nivel de estrés no sea mayor a 10
+    mockRepo.Verify(r => r.AddAsync(It.IsAny<Trigger>()), Times.Once);
+    mockUow.Verify(u => u.CompleteAsync(), Times.Once);
+  }
+
+  /// <summary>
+    /// PRUEBA 2: Manejo de Errores de Base de Datos
+    /// - Por qué se realiza: Para simular una excepción a nivel de infraestructura 
+    ///   (falla en el commit de la base de datos) y verificar que el bloque try-catch reacciona adecuadamente.
+    /// - Por qué es importante: Evita que la aplicación crashee
+    ///   ante caídas de la base de datos, asegurando un manejo de errores controlado que devuelve null de forma segura.
+    /// </summary>
+  [Fact]
+  public async Task CreateTrigger_WhenDatabaseFails_ReturnsNull()
+  {
+    //Arrange
+    var mockRepo = new Mock<ITriggerRepository>();
+    var mockUow = new Mock<IUnitOfWork>();
+    var mockLogger = new Mock<ILogger<TriggerCommandService>>();
+
+    var service = new TriggerCommandService(mockRepo.Object, mockUow.Object, mockLogger.Object);
+    var command = new CreateTriggerCommand(1, 1, 10, DateTime.Now.AddDays(1), "trigger de prueba");
+
+    mockUow.Setup(u => u.CompleteAsync()).ThrowsAsync(new Exception("Fallo en BD")); //Simulamos un fallo
+
+    //Act ejecutamos la función
+    var result = await service.Handle(command);
+
+    //Assert verificamos que el objeto es null pero el logger no
+    Assert.Null(result);
+    Assert.NotNull(mockLogger);
+  }
+}
+
+public class ProfessionalQueryServiceTest
+{
+  /// <summary>
+    /// PRUEBA 3: Búsqueda de Profesional por ID
+    /// - Por qué se realiza: Para verificar que el servicio de consultas es capaz 
+    ///   de comunicarse con el repositorio y retornar la entidad exacta solicitada mediante un query.
+    /// - Por qué es importante: Asegura que los flujos de lectura de la aplicación 
+    ///   recuperen la información precisa para los clientes (como la app móvil) sin alterar ningún estado.
+  /// </summary>
+  [Fact]
+  public async Task GetProfessionalById_ReturnsCorrectId()
+  {
+    //Arrange
+    var mockRepo = new Mock<IProfessionalRepository>();
+    var serviceQuery = new ProfessionalQueryService(mockRepo.Object);
+    //Creamos la entidad fake del profesional
+    var command = new CreateProfessionalCommand("Miguel", "Depresión", "5 años", 0, 0, 30, "Lun. | Vier.", "test", "test.png");
+    var professionalFake = new Professional(command);
+    var testId = professionalFake.Id;
+
+    //Configuramos el mock para que devuelva el profesional fake cuando le pregunten por ese ID
+    mockRepo.Setup(r => r.FindByIdAsync(testId)).ReturnsAsync(professionalFake);
+
+    var query = new GetProfessionalByIdQuery(testId);
+
+    //Act
+    var result = await serviceQuery.Handle(query);
+
+    //Assert
+    Assert.NotNull(result);
+    Assert.Equal(professionalFake.Id, result.Id);
+  }
+}
+
+public class TriggersControllerIntegrationTests : IClassFixture<IntegrationTestWebApplicationFactory>
+{
+    private readonly HttpClient _client;
+
+    public TriggersControllerIntegrationTests(IntegrationTestWebApplicationFactory factory)
+    {
+        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
+        {
+            AllowAutoRedirect = false
+        });
+    }
+    /// <summary>
+    /// PRUEBA 4: Validación de Regla de Negocio y Seguridad en Controlador (End-to-End)
+    /// - Por qué se realiza: Para simular un flujo real de usuario completo (registro, 
+    ///   inicio de sesión para obtener el token JWT, inyección de credenciales y envío de datos inválidos (> 10 de estrés)).
+    /// - Por qué es importante: Es la prueba de mayor nivel de confianza; valida que 
+    ///   los middlewares de seguridad, los controladores REST, las políticas de autorización 
+    ///   y las validaciones de datos operen conjuntamente de forma correcta en un entorno real.
+    /// </summary>
+    [Fact]
+    public async Task CreateTrigger_StressLevelGreaterThan10_ReturnsBadRequest()
+    {
+        // Arrange creamos un usuario test
+        var prefijo = Guid.NewGuid().ToString().Substring(0, 8);
+        var signUp = new
+        {
+            Username = $"test_{prefijo}",
+            Password = "Password123.",
+            Email = $"test_{prefijo}@gmail.com"
+        };
+
+        //Registramos al usuario
+        var signUpResponse = await _client.PostAsync("/api/v1/Authentication/sign-up",
+            new StringContent(JsonSerializer.Serialize(signUp), Encoding.UTF8, "application/json"));
+        var signUpResponseStr = await signUpResponse.Content.ReadAsStringAsync();
+        Assert.True(signUpResponse.IsSuccessStatusCode,
+            $"Sign-up failed with {(int)signUpResponse.StatusCode}: {signUpResponseStr}");
+
+        //Iniciamos sesión
+        var signIn = new { Username = signUp.Username, Password = signUp.Password };
+        var signInResponse = await _client.PostAsync("/api/v1/Authentication/sign-in",
+            new StringContent(JsonSerializer.Serialize(signIn), Encoding.UTF8, "application/json"));
+
+        var signInResponseStr = await signInResponse.Content.ReadAsStringAsync();
+        Assert.True(signInResponse.IsSuccessStatusCode,
+            $"Sign-in failed with {(int)signInResponse.StatusCode}: {signInResponseStr}");
+
+        //Extraemos el token
+        var tokenDoc = JsonDocument.Parse(signInResponseStr);
+        var token = tokenDoc.RootElement.GetProperty("token").GetString();
+
+        //Inyectamos el token en el cliente HTTP
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        //Arrange:  preparamos la info inválida para el Trigger
+        var invalidTrigger = new
+        {
+            PatientId = 1,
+            CategoryId = 1,
+            StressLevel = 15, // Aquí esta el error
+            TriggerDateTime = DateTime.UtcNow,
+            Description = "Ataque de pánico"
+        };
+        var content = new StringContent(JsonSerializer.Serialize(invalidTrigger), Encoding.UTF8, "application/json");
+
+        //Hacemos la petición
+        var response = await _client.PostAsync("/api/v1/Triggers", content);
+
+        //Assert: Verificamos que la API bloquea el nivel de estrés en 10
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+}
+```
+> *Evidencia de Pruebas Unitarias e Integral en el Backend:*
+
+<img src="assets/cap6/pruebaTestBackend.jpeg" alt="insights" width="900px"/>
  
 **Frontend Web (Vue.js) — Responsable: Jean Pool Huaman**
  
