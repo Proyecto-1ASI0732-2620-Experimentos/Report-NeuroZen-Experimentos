@@ -2998,7 +2998,279 @@ Reporte HTML: `app/build/reports/tests/testDebugUnitTest/index.html`
 > *Evidencia de Pruebas Unitarias Móvil:*
 
 <img src="assets/cap6/pruebaTestMovil.png" alt="insights" width="900px"/>
- 
+
+ **Frontend Web (Vue.js)**
+
+**Responsable:** Jean Pool Huaman
+**Herramientas:** Vitest 5, Vue Test Utils, jsdom (navegador simulado), MSW (API simulada)
+**Tipo:** Pruebas unitarias locales, sin backend real
+**Ubicación en el proyecto:** `tests/unit/`
+
+El frontend web se desarrolló con Vue 3 y Vite. Las pruebas unitarias se enfocaron en las **reglas de negocio** de la plataforma, probando de forma aislada los servicios y utilidades del frontend:
+
+- el cálculo del nivel de estrés del usuario;
+- la programación de las pausas activas;
+- la creación de citas con profesionales (formato de datos y hora);
+- la validación de la tarjeta al suscribirse.
+
+Cuando una prueba depende de la API, esta se reemplaza por **mocks** (`vi.fn()`, equivalente a `mock()` de Mockito) o por un servidor simulado (MSW). Así, las pruebas no dependen del backend. Todas siguen el patrón **AAA (Arrange, Act, Assert)** e incluyen una nota que explica por qué se realizaron y qué validan.
+
+### Resumen de pruebas
+
+| # | Prueba | Módulo | Qué valida |
+|---|---|---|---|
+| 1 | `userWithoutStressData_shouldCalculateFromTriggers` | Dashboard (nivel de estrés) | El nivel de estrés se calcula con los registros reales del usuario y la API se consulta una sola vez |
+| 2 | `breaks_shouldOnlyBeScheduledOnWorkingDays` | Pausas activas | Las pausas se programan en días laborables y no el fin de semana |
+| 3 | `limaLocalTime_shouldBeSentAsCorrectUtc` | Citas (fecha y hora) | Una cita a las 09:00 en Lima se envía a la API como 14:00 UTC |
+| 4 | `appointmentData_shouldUseBackendFormat` | Citas | La cita se envía con el paciente real, el profesional y el tipo de sesión en el formato del backend |
+| 5 | `todaySlots_shouldNotIncludePastHours` | Citas (horarios) | No se ofrecen horarios que ya pasaron en el día actual |
+| 6 | `cardNumberWithWrongDigit_shouldBeRejected` | Suscripciones (pago) | Una tarjeta válida se acepta y una con un dígito erróneo se rechaza (algoritmo de Luhn) |
+| 7 | `cardExpiredLastMonth_shouldBeRejected` | Suscripciones (pago) | Una tarjeta vencida se rechaza y una del mes actual se acepta |
+
+### Código
+
+**`tests/unit/DashboardService.spec.js`**
+
+```javascript
+// Pruebas unitarias: nivel de estrés del Dashboard (src/services/DashboardService.js)
+import { DashboardService } from '../../src/services/DashboardService.js'
+import { setSession } from '../../src/services/session.js'
+import { user } from '../mocks/data.js'
+
+describe('DashboardService', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque el nivel de estrés es el dato principal que ve el
+   *   usuario al entrar a la plataforma. Antes el Dashboard mostraba números aleatorios; ahora debe
+   *   calcularse con las situaciones de estrés que el propio usuario registró.
+   * - ¿Qué hace esta prueba?: Simula (mock) un usuario sin datos de estrés y con dos registros
+   *   (niveles 8 y 4), y verifica que el servicio consulta esos registros una sola vez y calcula
+   *   el nivel actual (80) y el promedio (60).
+   */
+  it('userWithoutStressData_shouldCalculateFromTriggers', async () => {
+    // Arrange: usuario sin datos de estrés y con dos registros (mocks de la API)
+    setSession({ token: 'token', user })
+    const service = new DashboardService()
+    service.httpClient.get = vi.fn().mockResolvedValue({ id: 7 })
+    service.triggerService.getStressTriggers = vi.fn().mockResolvedValue([
+      { stressLevel: 8, triggeredAt: new Date(2026, 9, 8) },
+      { stressLevel: 4, triggeredAt: new Date(2026, 9, 7) }
+    ])
+
+    // Act
+    const data = await service.getStressData('week')
+
+    // Assert: se consultaron los registros una vez (como verify times(1))
+    expect(service.triggerService.getStressTriggers).toHaveBeenCalledTimes(1)
+    // Assert: nivel actual = último registro (8 → 80) y promedio de 80 y 40 = 60
+    expect(data.currentLevel).toBe(80)
+    expect(data.average).toBe(60)
+  })
+})
+```
+
+**Evidencia (DashboardService.spec.js):** ejecución unitaria aprobada.
+
+![Evidencia DashboardService.spec.js](assets/cap6/testFrontend/DashboardService.spec.png)
+
+**`tests/unit/ActiveBreaksService.spec.js`**
+
+```javascript
+// Pruebas unitarias: pausas activas (src/services/ActiveBreaksService.js)
+import { ActiveBreaksService, DEFAULT_CONFIG } from '../../src/services/ActiveBreaksService.js'
+
+const service = new ActiveBreaksService()
+const FRIDAY = new Date(2026, 9, 9) // viernes 9 de octubre de 2026
+const SATURDAY = new Date(2026, 9, 10) // sábado 10 de octubre de 2026
+
+describe('ActiveBreaksService', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque las pausas activas son recordatorios para la
+   *   jornada laboral. Antes se programaban también el fin de semana, avisando al usuario en sus
+   *   días de descanso.
+   * - ¿Qué hace esta prueba?: Con la configuración por defecto (lunes a viernes) pide la agenda
+   *   del viernes y la del sábado, y verifica que el viernes sí tiene pausas y el sábado ninguna.
+   */
+  it('breaks_shouldOnlyBeScheduledOnWorkingDays', () => {
+    // Arrange: configuración por defecto (lunes a viernes, 09:00 a 18:00)
+    const config = structuredClone(DEFAULT_CONFIG)
+
+    // Act
+    const fridaySchedule = service.getSchedule(config, FRIDAY)
+    const saturdaySchedule = service.getSchedule(config, SATURDAY)
+
+    // Assert: el viernes hay pausas y el sábado no
+    expect(fridaySchedule.length).toBeGreaterThan(0)
+    expect(saturdaySchedule).toEqual([])
+  })
+})
+```
+
+**Evidencia (ActiveBreaksService.spec.js):** ejecución unitaria aprobada.
+
+![Evidencia ActiveBreaksService.spec.js](assets/cap6/testFrontend/ActiveBreaksService.spec.png)
+
+**`tests/unit/date.spec.js`**
+
+```javascript
+// Pruebas unitarias: hora de las citas (src/utils/date.js)
+import { toApiDateTime } from '../../src/utils/date.js'
+
+describe('DateUtils', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque la API guarda las citas en hora UTC y el usuario
+   *   las elige en hora de Lima (UTC-5). Antes la hora se enviaba sin convertir y las citas
+   *   quedaban registradas 5 horas antes de lo elegido.
+   * - ¿Qué hace esta prueba?: Convierte una cita del 20 de octubre a las 09:00 (hora de Lima) y
+   *   verifica que se envía como las 14:00 UTC.
+   */
+  it('limaLocalTime_shouldBeSentAsCorrectUtc', () => {
+    // Arrange: el usuario elige el 20 de octubre a las 09:00
+    const date = '2026-10-20'
+    const time = '09:00'
+
+    // Act
+    const result = toApiDateTime(date, time)
+
+    // Assert: 09:00 en Lima son las 14:00 en UTC
+    expect(result).toBe('2026-10-20T14:00:00.000Z')
+  })
+})
+```
+
+**Evidencia (date.spec.js):** ejecución unitaria aprobada.
+
+![Evidencia date.spec.js](assets/cap6/testFrontend/date.spec.png)
+
+**`tests/unit/AppointmentService.spec.js`**
+
+```javascript
+// Pruebas unitarias: servicio de citas (src/services/AppointmentService.js)
+import { http, HttpResponse } from 'msw'
+import { server, API } from '../mocks/server.js'
+import { AppointmentService } from '../../src/services/AppointmentService.js'
+
+describe('AppointmentService', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque la cita debe crearse para el paciente correcto y
+   *   con el formato que exige el backend. Antes se enviaba siempre el usuario 1 y el tipo de
+   *   sesión como texto, por lo que el backend rechazaba la cita o la asignaba a otra persona.
+   * - ¿Qué hace esta prueba?: Arma la cita con los datos del formulario (que llegan como texto) y
+   *   verifica que se envían como números, con el paciente real y la hora en UTC.
+   */
+  it('appointmentData_shouldUseBackendFormat', () => {
+    // Arrange: datos tal como vienen del formulario
+    const service = new AppointmentService()
+    const formData = {
+      patientId: '7',
+      professionalId: '1',
+      date: '2026-10-20',
+      time: '09:00',
+      appointmentType: '1',
+      notes: 'Primera consulta'
+    }
+
+    // Act
+    const payload = service.buildPayload(formData)
+
+    // Assert: formato exacto que espera el backend
+    expect(payload).toEqual({
+      patientId: 7,
+      professionalId: 1,
+      appointmentDateTime: '2026-10-20T14:00:00.000Z',
+      appointmentType: 1,
+      notasAdicionales: 'Primera consulta'
+    })
+  })
+
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque al reservar para el mismo día no se deben ofrecer
+   *   horarios que ya pasaron; el usuario podría elegir una cita imposible de atender.
+   * - ¿Qué hace esta prueba?: Fija la hora actual en las 12:30, pide los horarios de hoy sin
+   *   respuesta del backend (se usan los horarios por defecto) y verifica que todos son
+   *   posteriores a las 12:30.
+   */
+  it('todaySlots_shouldNotIncludePastHours', async () => {
+    // Arrange: son las 12:30 del 10 de octubre y la API no devuelve horarios
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date('2026-10-10T12:30:00-05:00'))
+    server.use(http.get(API + '/professionals/:id/available-slots', () => HttpResponse.json({}, { status: 404 })))
+
+    // Act
+    const slots = await new AppointmentService().getAvailableSlots(1, '2026-10-10')
+
+    // Assert: hay horarios y todos son después de las 12:30
+    expect(slots.length).toBeGreaterThan(0)
+    expect(slots.every((slot) => slot > '12:30')).toBe(true)
+  })
+})
+```
+
+**Evidencia (AppointmentService.spec.js):** ejecución unitaria aprobada.
+
+![Evidencia AppointmentService.spec.js](assets/cap6/testFrontend/AppointmentService.spec.png)
+
+**`tests/unit/validation.spec.js`**
+
+```javascript
+// Pruebas unitarias: validación de la tarjeta al suscribirse (src/utils/validation.js)
+import { isCardNumber, isFutureExpiry } from '../../src/utils/validation.js'
+
+describe('CardValidation', () => {
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque una suscripción no debe enviarse con un número de
+   *   tarjeta mal escrito; el pago fallaría y el usuario no sabría por qué.
+   * - ¿Qué hace esta prueba?: Valida con el algoritmo de Luhn un número correcto y el mismo número
+   *   con un dígito cambiado, y verifica que el primero se acepta y el segundo se rechaza.
+   */
+  it('cardNumberWithWrongDigit_shouldBeRejected', () => {
+    // Arrange: número válido de prueba y el mismo con el último dígito cambiado
+    const validCard = '4111 1111 1111 1111'
+    const wrongCard = '4111 1111 1111 1112'
+
+    // Act
+    const validResult = isCardNumber(validCard)
+    const wrongResult = isCardNumber(wrongCard)
+
+    // Assert: el válido se acepta y el mal escrito se rechaza
+    expect(validResult).toBe(true)
+    expect(wrongResult).toBe(false)
+  })
+
+  /**
+   * NOTA DE PRUEBA:
+   * - ¿Por qué se realizó esta prueba?: Porque una tarjeta vencida no puede pagar la suscripción;
+   *   es mejor avisarlo en el formulario antes de enviar el pago.
+   * - ¿Qué hace esta prueba?: Fija la fecha actual en octubre de 2026 y verifica que una tarjeta
+   *   que vence en septiembre se rechaza y una que vence en octubre todavía se acepta.
+   */
+  it('cardExpiredLastMonth_shouldBeRejected', () => {
+    // Arrange: hoy es 15 de octubre de 2026
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-10-15T12:00:00-05:00'))
+
+    // Act
+    const september = isFutureExpiry('09/26')
+    const october = isFutureExpiry('10/26')
+
+    // Assert: septiembre ya venció, octubre todavía es válido
+    expect(september).toBe(false)
+    expect(october).toBe(true)
+  })
+})
+```
+
+**Evidencia (validation.spec.js):** ejecución unitaria aprobada.
+
+![Evidencia validation.spec.js](assets/cap6/testFrontend/validation.spec.png)
+
+---
+
  
 ### 6.1.2. Core Integration Tests
  
