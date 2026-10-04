@@ -4000,22 +4000,35 @@ Se despliega a staging cada vez que hay un push a `develop`, una vez que la CI p
  
 ```yaml
 name: CD - Staging Backend
- 
+
 on:
   workflow_run:
-    workflows: ['CI - Backend']
+    workflows: ["CI - Backend"]
     branches: [develop]
     types: [completed]
- 
+
 jobs:
   deploy-staging:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'develop'
     runs-on: ubuntu-latest
-    environment: staging
+    environment:
+      name: staging
+
     steps:
-      - name: Trigger Render deploy (staging)
-        run: curl -fsS -X POST "${{ secrets.RENDER_STAGING_DEPLOY_HOOK }}"
+      - name: Trigger Render deploy
+        run: |
+          curl --fail --show-error --silent \
+            --request POST \
+            "${{ secrets.RENDER_STAGING_DEPLOY_HOOK }}"
 ```
+Evidencia de Despliegue Continuo en el Backend:
+
+<img src="assets/cap6/gitActionsBackend2.jpeg" alt="insights" width="900px"/>
+
+<img src="assets/cap6/renderBackend1.jpeg" alt="insights" width="900px"/>
  
 **Frontend → Vercel/Netlify (Staging)**
  
