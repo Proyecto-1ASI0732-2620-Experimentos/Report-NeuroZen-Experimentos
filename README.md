@@ -4224,7 +4224,7 @@ Evidencia de Despliegue Continuo a Producción (GitHub Release):
  
 | Componente | URL |
 |---|---|
-| Backend API | `https://neurozen-api.onrender.com` *(reemplazar por la real)* |
+| Backend API | [neurozen.API v1.0] (https://neurozen-backend-mobile.onrender.com/swagger/index.html) |
 | Frontend Web | `https://neurozen.vercel.app` *(reemplazar por la real)* |
 | App Móvil | [Release v1.0.0 publicado en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0) |
  
