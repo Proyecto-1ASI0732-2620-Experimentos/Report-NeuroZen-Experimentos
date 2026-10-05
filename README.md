@@ -159,7 +159,7 @@
 
 # Project Report Collaboration Insights
 
-El equipo ha trabajado de manera colaborativa en el repositorio de GitHub, registrando avances constantes en la construcción del informe. Repositorio del informe: https://github.com/Proyecto-1ASI0732-2620-Experimentos/Report-NeuroZen-Experimento
+El equipo ha trabajado de manera colaborativa en el repositorio de GitHub, registrando avances constantes en la construcción del informe. Repositorio del informe: [https://github.com/Proyecto-1ASI0732-2620-Experimentos/Report-NeuroZen-Experimento](https://github.com/Proyecto-1ASI0732-2620-Experimentos/Report-NeuroZen-Experimentos)
 
 A continuación, se presentan las evidencias de participación y colaboración de los integrantes:
 
