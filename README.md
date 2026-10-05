@@ -157,149 +157,37 @@
 </table><br>
 
 
-<h1>Project Report Collaboration Insights</h1>
+# Project Report Collaboration Insights
 
-<h2>AV1</h2>
+El equipo ha trabajado de manera colaborativa en el repositorio de GitHub, registrando avances constantes en la construcción del informe. Repositorio del informe: https://github.com/Proyecto-1ASI0732-2620-Experimentos/Report-NeuroZen-Experimento
 
-<p>Para el desarrollo del informe perteneciente a la entrega AV1, se dividió la implementación de secciones de los Capítulos I, II, III, IV y V en bloques de trabajo, asignando cada conjunto de secciones a un integrante del equipo.</p>
+A continuación, se presentan las evidencias de participación y colaboración de los integrantes:
 
-<!-- Imágenes de commits y colaboración - descomentar cuando estén disponibles -->
+- Cada integrante del grupo realizó commits, modificaciones y carga de archivos en distintas secciones del informe.
+- Se refleja la división de tareas entre redacción, correcciones de estilo, incorporación de imágenes y ajustes técnicos en Markdown.
+- Todos los miembros participaron en mayor o menor medida, garantizando que el documento evolucionara de forma colaborativa y transparente.
+- La evidencia gráfica incluye la vista de contribuciones, así como el historial de actividad donde se observa el detalle de commits y cambios en el repositorio.
 
 <p align="center">
-  <img src="assets/Sprint1/commit1er.png" alt="Commits AV1" width="1000">
+  <img src="assets/Sprint1/commitstotal.jpeg" alt="Commits over time" width="1000">
 </p>
 <p align="center">
-  <img src="assets/Sprint1/committers.png" alt="Colaboración AV1" width="1000">
+  <img src="assets/Sprint1/listcommits.jpeg" alt="Commits over time" width="1000">
+</p>
+<p align="center">
+  <img src="assets/Sprint1/committers.png" alt="Contributors GitHub" width="1000">
 </p>
 
+## Contribuciones por integrante
 
-<table align="center" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-  <tr>
-    <td align="center"><strong>Integrante</strong></td>
-    <td align="center"><strong>Tareas Asignadas</strong></td>
-  </tr>
+| Integrante | Tareas Asignadas |
+| :--- | :--- |
+| **Castro Picón, Manuel Fernando Joao** | • **Student Outcome**<br>• **Capítulo I – Introducción**<br>&nbsp;&nbsp;&nbsp;&nbsp;• **1.1 Startup Profile**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.1 Descripción de la Startup<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.2 Perfiles de integrantes del equipo<br>&nbsp;&nbsp;&nbsp;&nbsp;• **1.2 Solution Profile**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2.1 Antecedentes y problemática<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2.2 Lean UX Process<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2.2.1 Lean UX Problem Statements<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2.2.2 Lean UX Assumptions<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2.2.3 Lean UX Hypothesis Statements<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2.2.4 Lean UX Canvas<br>&nbsp;&nbsp;&nbsp;&nbsp;• **1.3 Segmentos objetivo**<br>• **4.1 Style Guidelines**<br>&nbsp;&nbsp;&nbsp;&nbsp;4.1.1 General Style Guidelines<br>&nbsp;&nbsp;&nbsp;&nbsp;4.1.2 Web Style Guidelines<br>&nbsp;&nbsp;&nbsp;&nbsp;4.1.3 Mobile Style Guidelines<br>• **4.9 Software Object-Oriented Design**<br>&nbsp;&nbsp;&nbsp;&nbsp;4.9.1 Class Diagrams<br>&nbsp;&nbsp;&nbsp;&nbsp;4.9.2 Class Dictionary<br>• **6.1 Testing Suites & Validation**<br>&nbsp;&nbsp;&nbsp;&nbsp;6.1.1 Core Entities Unit Tests<br>&nbsp;&nbsp;&nbsp;&nbsp;6.1.2 Core Integration Tests<br>• **7.1 Continuous Integration**<br>&nbsp;&nbsp;&nbsp;&nbsp;7.1.1 Tools and Practices<br>&nbsp;&nbsp;&nbsp;&nbsp;7.1.2 Build & Test Suite Pipeline Components |
+| **Requena Gutiérrez, Diego Gabriel** | • **Capítulo II – Requirements Elicitation & Analysis**<br>&nbsp;&nbsp;&nbsp;&nbsp;• **2.1 Competidores**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.1 Análisis competitivo<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.2 Estrategias y tácticas frente a competidores<br>&nbsp;&nbsp;&nbsp;&nbsp;• **2.2 Entrevistas**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1 Diseño de entrevistas<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.2 Registro de entrevistas<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.3 Análisis de entrevistas<br>• **4.10 Database Design**<br>&nbsp;&nbsp;&nbsp;&nbsp;4.10.1 Relational/Non-Relational Database Diagram<br>• **5.1 Software Configuration Management**<br>&nbsp;&nbsp;&nbsp;&nbsp;5.1.1 Software Development Environment Configuration<br>&nbsp;&nbsp;&nbsp;&nbsp;5.1.2 Source Code Management<br>&nbsp;&nbsp;&nbsp;&nbsp;5.1.3 Source Code Style Guide & Conventions<br>&nbsp;&nbsp;&nbsp;&nbsp;5.1.4 Software Deployment Configuration<br>• **5.2 Product Implementation & Deployment**<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.4 Acuerdo de Servicio - SaaS<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.6 Implemented RESTful API and/or Serverless Backend Evidence<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.7 RESTful API documentation<br>• **6.3 Validation Interviews**<br>&nbsp;&nbsp;&nbsp;&nbsp;6.3.1 Diseño de Entrevistas<br>&nbsp;&nbsp;&nbsp;&nbsp;6.3.2 Registro de Entrevistas<br>&nbsp;&nbsp;&nbsp;&nbsp;6.3.3 Evaluaciones según heurísticas |
+| **Huaman De La Cruz, Jean Pool** | • **2.3 Needfinding**<br>&nbsp;&nbsp;&nbsp;&nbsp;2.3.1 User Personas<br>&nbsp;&nbsp;&nbsp;&nbsp;2.3.2 User Task Matrix<br>&nbsp;&nbsp;&nbsp;&nbsp;2.3.3 User Journey Mapping<br>&nbsp;&nbsp;&nbsp;&nbsp;2.3.4 Empathy Mapping<br>&nbsp;&nbsp;&nbsp;&nbsp;2.3.5 As-is Scenario Mapping<br>• **2.4 Ubiquitous Language**<br>• **4.2 Information Architecture**<br>&nbsp;&nbsp;&nbsp;&nbsp;4.2.1 Organization Systems<br>&nbsp;&nbsp;&nbsp;&nbsp;4.2.2 Labeling Systems<br>&nbsp;&nbsp;&nbsp;&nbsp;4.2.3 SEO Tags and Meta Tags<br>&nbsp;&nbsp;&nbsp;&nbsp;4.2.4 Searching Systems<br>&nbsp;&nbsp;&nbsp;&nbsp;4.2.5 Navigation Systems<br>• **4.5 Mobile Applications Prototyping**<br>&nbsp;&nbsp;&nbsp;&nbsp;4.5.1 Android Mobile Applications Prototyping<br>&nbsp;&nbsp;&nbsp;&nbsp;4.5.2 iOS Mobile Applications Prototyping<br>• **4.7 Web Applications Prototyping**<br>• **6.2 Static testing & Verification**<br>&nbsp;&nbsp;&nbsp;&nbsp;6.2.1 Static Code Analysis<br>&nbsp;&nbsp;&nbsp;&nbsp;6.2.2 Reviews<br>• **6.4 Auditoría de Experiencias de Usuario**<br>&nbsp;&nbsp;&nbsp;&nbsp;6.4.1 Auditoría realizada<br>&nbsp;&nbsp;&nbsp;&nbsp;6.4.2 Auditoría recibida |
+| **Paredes Chavez, Carlos Augusto** | • **Capítulo IV – Product Design**<br>&nbsp;&nbsp;&nbsp;&nbsp;• **4.3 Landing Page UI Design**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.3.1 Landing Page Wireframe<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.3.2 Landing Page Mock-up<br>&nbsp;&nbsp;&nbsp;&nbsp;• **4.4 Mobile Applications UX/UI Design**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4.1 Mobile Applications Wireframes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4.2 Mobile Applications Wireflow Diagrams<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4.3 Mobile Applications Mock-ups<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4.4 Mobile Applications User Flow Diagrams<br>&nbsp;&nbsp;&nbsp;&nbsp;• **4.6 Web Applications UX/UI Design**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.6.1 Web Applications Wireframes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.6.2 Web Applications Wireflow Diagrams<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.6.3 Web Applications Mock-ups<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.6.4 Web Applications User Flow Diagrams<br>• **5.2 Product Implementation & Deployment**<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.2 Implemented Landing Page Evidence<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.3 Implemented Frontend-Web Application Evidence<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.5 Implemented Native-Mobile Application Evidence<br>• **5.3 Video About-the-Product** |
+| **Vila Guillen, Miguel Angel** | • **Capítulo III – Requirements Specification**<br>&nbsp;&nbsp;&nbsp;&nbsp;3.1 To-Be Scenario Mapping<br>&nbsp;&nbsp;&nbsp;&nbsp;3.2 User Stories<br>&nbsp;&nbsp;&nbsp;&nbsp;3.3 Product Backlog<br>&nbsp;&nbsp;&nbsp;&nbsp;3.4 Impact Mapping<br>• **4.8 Domain-Driven Software Architecture**<br>&nbsp;&nbsp;&nbsp;&nbsp;4.8.1 Software Architecture Context Diagram<br>&nbsp;&nbsp;&nbsp;&nbsp;4.8.2 Software Architecture Container Diagrams<br>&nbsp;&nbsp;&nbsp;&nbsp;4.8.3 Software Architecture Components Diagrams<br>• **5.2 Product Implementation & Deployment**<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.1 Sprint Backlogs<br>&nbsp;&nbsp;&nbsp;&nbsp;5.2.8 Team Collaboration Insights<br>• **6.1 Testing Suites & Validation**<br>&nbsp;&nbsp;&nbsp;&nbsp;6.1.3 Core Behavior-Driven Development<br>&nbsp;&nbsp;&nbsp;&nbsp;6.1.4 Core System Tests<br>• **7.2 Continuous Delivery**<br>&nbsp;&nbsp;&nbsp;&nbsp;7.2.1 Tools and Practices<br>&nbsp;&nbsp;&nbsp;&nbsp;7.2.2 Stages Deployment Pipeline Components<br>• **7.3 Continuous deployment**<br>&nbsp;&nbsp;&nbsp;&nbsp;7.3.1 Tools and Practices<br>&nbsp;&nbsp;&nbsp;&nbsp;7.3.2 Production Deployment Pipeline Components |
 
-  <!-- BLOQUE 1 -->
-  <tr>
-    <td>Requena Gutiérrez, Diego Gabriel</td>
-    <td>
-      <ul>
-        <li><strong>Capítulo I: Introducción</strong></li>
-        <li>1.1 Startup Profile</li>
-        <li>1.1.1 Descripción de la Startup</li>
-        <li>1.1.2 Perfiles de integrantes del equipo</li>
-        <li>1.2 Solution Profile</li>
-        <li>1.2.1 Antecedentes y problemática</li>
-        <li>1.2.2 Lean UX Process</li>
-        <li>1.2.2.1 Lean UX Problem Statements</li>
-        <li>1.2.2.2 Lean UX Assumptions</li>
-        <li>1.2.2.3 Lean UX Hypothesis Statements</li>
-        <li>1.2.2.4 Lean UX Canvas</li>
-        <li>1.3 Segmentos objetivo</li>
-        <li><strong>Capítulo II: Requirements Elicitation & Analysis</strong></li>
-        <li>2.1 Competidores</li>
-        <li>2.2 Entrevistas</li>
-        <li>2.3 Needfinding</li>
-        <li>2.4 Ubiquitous Language</li>
-        <li><strong>Capítulo III: Requirements Specification</strong></li>
-        <li>3.1 To-Be Scenario Mapping</li>
-        <li>3.2 User Stories</li>
-        <li>3.3 Product Backlog</li>
-        <li>3.4 Impact Mapping</li>
-        <li><strong>Capítulo IV: Product Design</strong></li>
-        <li>4.1 Style Guidelines</li>
-        <li>4.2 Information Architecture</li>
-        <li>4.3 Landing Page UI Design</li>
-        <li>4.6 Web Applications UX/UI Design</li>
-        <li>4.8 Domain-Driven Software Architecture</li>
-        <li>4.9 Software Object-Oriented Design</li>
-        <li>4.10 Database Design</li>
-        <li><strong>Capítulo V: Product Implementation</strong></li>
-        <li>5.1 Software Configuration Management</li>
-        <li>5.3 Video About-the-Product</li>
-      </ul>
-    </td>
-  </tr>
-
-  <!-- BLOQUE 2 -->
-  <tr>
-    <td>Vila Guillen, Miguel Angel</td>
-    <td>
-      <ul>
-        <li><strong>Capítulo V: Product Implementation</strong></li>
-        <li>5.1.1 Software Development Environment Configuration</li>
-        <li>5.2 Product Implementation & Deployment</li>
-        <li>5.2.1 Sprint Backlogs</li>
-        <li>5.2.2 Implemented Landing Page Evidence</li>
-        <li>5.2.3 Implemented Frontend-Web Application Evidence</li>
-        <li>5.2.4 Acuerdo de Servicio - SaaS</li>
-        <li>5.2.5 Implemented Native-Mobile Application Evidence</li>
-        <li>5.2.6 Implemented RESTful API and/or Serverless Backend Evidence</li>
-        <li>5.2.7 RESTful API documentation</li>
-        <li>5.2.8 Team Collaboration Insights</li>
-        <li>Imágenes de apoyo para Capítulos I, II, III y IV</li>
-        <li>Mock-ups images</li>
-      </ul>
-    </td>
-  </tr>
-
-  <!-- BLOQUE 3 -->
-  <tr>
-    <td>Castro Picón, Manuel Fernando Joao</td>
-    <td>
-      <ul>
-        <li><strong>Student Outcome</strong></li>
-        <li>Matriz de Evaluación Ética y de Impacto</li>
-        <li><strong>Capítulo IV: Product Design</strong></li>
-        <li>4.6.1 Web Applications Wireframes</li>
-        <li>4.6.3 Web Applications Mock-ups</li>
-        <li>Actualizaciones de README</li>
-      </ul>
-    </td>
-  </tr>
-
-  <!-- BLOQUE 4 -->
-  <tr>
-    <td>Jean Pool Huaman de la Cruz</td>
-    <td>
-      <ul>
-        <li><strong>Estructura del informe</strong></li>
-        <li>Carátula</li>
-        <li>Tabla de contenidos (Contenido)</li>
-        <li>Student Outcome</li>
-        <li><strong>Capítulo IV: Product Design</strong></li>
-        <li>4.1.3 Mobile Style Guidelines</li>
-        <li>4.1.3.1 iOS Mobile Style Guidelines</li>
-        <li>4.1.3.2 Android Mobile Style Guidelines</li>
-        <li>4.5 Mobile Applications Prototyping</li>
-        <li>Assets</li>
-      </ul>
-    </td>
-  </tr>
-
-  <!-- BLOQUE 5 -->
-  <tr>
-    <td>Paredes Chavez, Carlos Augusto</td>
-    <td>
-      <ul>
-        <li><strong>Capítulo I: Introducción</strong></li>
-        <li>1.2 Solution Profile (refinamiento Lean UX)</li>
-        <li><strong>Capítulo II: Requirements Elicitation & Analysis</strong></li>
-        <li>2.1 Competidores</li>
-        <li>2.2 Entrevistas</li>
-        <li>2.3 Needfinding</li>
-        <li>2.4 Ubiquitous Language</li>
-        <li><strong>Capítulo IV: Product Design</strong></li>
-        <li>4.1 Style Guidelines</li>
-        <li>4.2 Information Architecture</li>
-        <li>4.3 Landing Page UI Design</li>
-        <li>4.4 Mobile Applications UX/UI Design</li>
-        <li>4.5 Mobile Applications Prototyping</li>
-        <li>Integración de ramas y revisión de PRs</li>
-      </ul>
-    </td>
-  </tr>
-</table>
 
 <div style="page-break-after: always;"></div>
 
