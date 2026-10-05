@@ -2392,7 +2392,7 @@ Para lograr el despliegue seguimos lo siguientes pasos:
 
 ### 5.2.3. Implemented Frontend-Web Application Evidence
 
-**URL en Producción:** 
+**URL en Producción:**  https://neurozen-web-frontend.vercel.app 
 
 **Tecnologías:** Vue & JavaScript.
 
