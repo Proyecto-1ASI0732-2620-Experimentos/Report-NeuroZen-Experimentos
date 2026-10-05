@@ -3730,8 +3730,6 @@ public class NeurozenSteps
 dotnet test ./neurozen.API.Tests --filter "Category=bdd"
 ```
 
-![Evidencia BDD Backend](assets/chapter-6/6.1.3-bdd-backend.png)
-
 #### Frontend Web (Cypress + Cucumber) — `cypress/e2e/features/`
 
 ```gherkin
@@ -3857,7 +3855,6 @@ Then('the URL contains {string}', (path) => cy.url().should('include', path))
 npx cypress run --spec "cypress/e2e/features/**/*.feature"
 ```
 
-![Evidencia BDD Web](assets/chapter-6/6.1.3-bdd-web.png)
 
 #### Repositorios y commits de Testing
 
@@ -3964,7 +3961,6 @@ describe('NeuroZen Web — System Tests', () => {
 })
 ```
 
-![Evidencia System Tests Web](assets/chapter-6/6.1.4-system-web.png)
 
  
 **Responsables:** Joao Castro (Móvil), Jean Pool Huaman (Web) y Carlos Paredes (Consolidación)
