@@ -3871,6 +3871,101 @@ npx cypress run --spec "cypress/e2e/features/**/*.feature"
 ---
 
 ### 6.1.4. Core System Tests
+
+Pruebas End-to-End sobre la aplicación completa, conectada a la API de staging. Validan la navegación, la interacción con la API y la respuesta del sistema en diferentes escenarios.
+
+**Flujo crítico:** registro → inicio de sesión → registro de estrés → reserva de cita → confirmación.
+
+| ID | Frente | Prueba | Cubre |
+|---|---|---|---|
+| ST-W01 | Web | Ruta privada sin sesión redirige a login | Navegación |
+| ST-W02 | Web | Flujo crítico completo | Navegación + API |
+| ST-W03 | Web | Recorrido por todo el menú principal | Navegación + API |
+| ST-W04 | Web | Credenciales inválidas | API + error |
+| ST-W05 | Web | Error 500 al guardar un trigger | API + error |
+| ST-W06 | Web | Logout bloquea rutas privadas | Navegación |
+| ST-M01 | Móvil | Integridad del paquete | Arranque |
+| ST-M02 | Móvil | Persistencia de la sesión | Sesión |
+| ST-M03 | Móvil | La app inicia en login | Navegación |
+| ST-M04 | Móvil | Credenciales inválidas | API + error |
+| ST-M05 | Móvil | Login válido → dashboard + token | Navegación + API |
+| ST-M06 | Móvil | Dashboard → Perfil → Citas | Navegación + API |
+
+#### Frontend Web (Cypress) — Jean Pool Huaman
+
+```js
+// cypress/e2e/system/neurozen-e2e.cy.js
+const login = (u, p = 'Password123.') => {
+  cy.visit('/login')
+  cy.get('[data-cy=login-username]').type(u)
+  cy.get('[data-cy=login-password]').type(p)
+  cy.get('[data-cy=login-submit]').click()
+}
+const newUser = () => {
+  const u = `sys_${Date.now().toString(36)}`
+  cy.request('POST', `${Cypress.env('apiUrl')}/Authentication/sign-up`, { username: u, email: `${u}@gmail.com`, password: 'Password123.' })
+  return u
+}
+
+describe('NeuroZen Web — System Tests', () => {
+  it('ST-W01 private route redirects to login', () => {
+    cy.visit('/book-session')
+    cy.location('pathname').should('eq', '/login')
+  })
+
+  it('ST-W02 full business flow', () => {
+    cy.intercept('POST', /triggers/i).as('trigger')
+    cy.intercept('POST', /appointments/i).as('appointment')
+    login(newUser())
+    cy.get('[data-cy=nav-triggers]').click()
+    cy.get('#trigger-category').select('workOverload')
+    cy.get('#trigger-description').type('Cierre de mes')
+    cy.get('form').submit()
+    cy.wait('@trigger').its('response.statusCode').should('be.oneOf', [200, 201])
+    cy.get('[data-cy=nav-book-session]').click()
+    cy.get('[role="radio"]').first().click(); cy.contains('button', 'Siguiente').click()
+    cy.get('.grid-cols-7 button:not([disabled])').last().click()
+    cy.get('button.slot').first().click(); cy.contains('button', 'Siguiente').click()
+    cy.get('[role="radio"]').first().click(); cy.contains('button', 'Siguiente').click()
+    cy.contains('button', 'Confirmar Reserva').click()
+    cy.wait('@appointment').its('response.statusCode').should('be.oneOf', [200, 201])
+    cy.url().should('include', '/appointment-confirmation/')
+  })
+
+  it('ST-W03 main menu navigation', () => {
+    login(newUser())
+    ;['nav-home', 'nav-profile', 'nav-exercises', 'nav-book-session', 'nav-settings'].forEach((nav) => {
+      cy.get(`[data-cy=${nav}]`).click()
+      cy.get('main').should('be.visible')
+    })
+  })
+
+  it('ST-W04 invalid credentials', () => {
+    login('no_existe', 'Incorrecta1')
+    cy.get('[data-cy=login-error]').should('be.visible')
+  })
+
+  it('ST-W05 server error on save trigger', () => {
+    login(newUser())
+    cy.intercept('POST', /triggers/i, { statusCode: 500 })
+    cy.visit('/stress/triggers')
+    cy.get('#trigger-category').select('workOverload')
+    cy.get('#trigger-description').type('Error')
+    cy.get('form').submit()
+    cy.get('[data-cy=trigger-error]').should('be.visible')
+  })
+
+  it('ST-W06 logout blocks private routes', () => {
+    login(newUser())
+    cy.get('[data-cy=nav-logout]').click()
+    cy.visit('/stress/triggers')
+    cy.location('pathname').should('eq', '/login')
+  })
+})
+```
+
+![Evidencia System Tests Web](assets/chapter-6/6.1.4-system-web.png)
+
  
 **Responsables:** Joao Castro (Móvil), Jean Pool Huaman (Web) y Carlos Paredes (Consolidación)
  
