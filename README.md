@@ -4449,7 +4449,7 @@ Todos los videos deben estar en Google Drive o YouTube con acceso público ("Cua
 | Producto | Enlace |
 | :--- | :--- |
 | Landing Page | [https://neurozen-landing.netlify.app/](https://neurozen-landing.netlify.app/) |
-| Frontend | *Pendiente* |
+| Frontend |  https://neurozen-web-frontend.vercel.app |
 | Backend | https://neurozen-backend-mobile.onrender.com/swagger/index.html |
 Este es un simulador conectado con github:
 | Aplicación Móvil | [https://appetize.io/app/android/com.example.neurozen_front?device=pixel7&osVersion=13.0&toolbar=true](https://appetize.io/app/android/com.example.neurozen_front?device=pixel7&osVersion=13.0&toolbar=true) |
