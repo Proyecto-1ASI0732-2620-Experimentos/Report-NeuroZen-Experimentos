@@ -154,6 +154,85 @@
       </ul>
     </td>
   </tr>
+    <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">TB1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">05/10/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Requena Gutiérrez, Diego Gabriel</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Capítulo IV: elaboración de wireframes y wireflows de las plataformas, correcciones de diseños en Figma y actualización de la documentación relacionada</li>
+        <li>Capítulo V: desarrollo de la landing page, sección 5.2.2 Implemented Landing Page Evidence</li>
+        <li>Capítulo VI: pruebas unitarias e integrales del frontend y backend</li>
+        <li>Correcciones generales del reporte</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">TB1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">05/10/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Vila Guillen, Miguel Angel</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Capítulo VI: pruebas unitarias e integrales del backend, incluyendo pruebas de servicios y del controlador Triggers</li>
+        <li>Capítulo VII: elaboración de archivos YAML para la integración continua y el despliegue del backend</li>
+        <li>Configuración de la ejecución de pruebas y del despliegue del backend en Render</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">TB1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">05/10/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Castro Picón, Manuel Fernando Joao</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Capítulo VI: pruebas unitarias, de integración y automatizadas de la aplicación móvil</li>
+        <li>Capítulo VII: automatización de las pruebas móviles mediante GitHub Actions</li>
+        <li>Coordinación del equipo como Team Leader, distribución de tareas y toma de decisiones</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">TB1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">05/10/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Jean Pool Huaman de la Cruz</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Capítulo VI: pruebas unitarias del frontend web con Vitest y Vue Test Utils</li>
+        <li>Capítulo VI: pruebas de integración del frontend web</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #ddd; padding: 8px;">TB1</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">05/10/2026</td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Paredes Chavez, Carlos Augusto</li>
+      </ul>
+    </td>
+    <td style="border: 1px solid #ddd; padding: 8px;">
+      <ul>
+        <li>Capítulo VI: estructuración de escenarios Gherkin para las pruebas BDD a partir de los criterios de aceptación</li>
+        <li>Capítulo VI: consolidación de las pruebas de sistema</li>
+      </ul>
+    </td>
+  </tr>
 </table><br>
 
 
