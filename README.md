@@ -4451,5 +4451,8 @@ Todos los videos deben estar en Google Drive o YouTube con acceso público ("Cua
 | Landing Page | [https://neurozen-landing.netlify.app/](https://neurozen-landing.netlify.app/) |
 | Frontend | *Pendiente* |
 | Backend | https://neurozen-backend-mobile.onrender.com/swagger/index.html |
-| Aplicación Móvil | *Pendiente* |
+Este es un simulador conectado con github:
+| Aplicación Móvil | [https://appetize.io/app/android/com.example.neurozen_front?device=pixel7&osVersion=13.0&toolbar=true](https://appetize.io/app/android/com.example.neurozen_front?device=pixel7&osVersion=13.0&toolbar=true) |
+Este es nuestro NeuroZen Mobile Release v1.0.0 para descarga directa del apk:
+| Aplicación Móvil | [https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0) |
 
