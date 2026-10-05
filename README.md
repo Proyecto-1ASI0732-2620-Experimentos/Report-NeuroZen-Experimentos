@@ -1,4 +1,4 @@
-# Informe del Trabajo AV1
+# Informe del Trabajo TB1
 <div>
   <p align="center"><img src="assets/upc-logo.png" alt="Logo UPC" width="150px" /></p>
   <p align="center">Universidad Peruana de Ciencias Aplicadas</p>
