@@ -3851,47 +3851,61 @@ Evidencia de Despliegue Continuo en el repositorio del Backend:
 <img src="assets/cap6/gitActionsBackend1.jpeg" alt="insights" width="900px"/>
  
 **Frontend Web (Vue.js)** — `.github/workflows/ci-frontend.yml`
- 
+
+Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/ci-frontend.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en las ramas main, master o develop, y también puede ejecutarse manualmente (workflow_dispatch). Sobre un contenedor virtual de Ubuntu con Node.js 22, instala las dependencias exactas del proyecto (npm ci), ejecuta la suite de 10 pruebas del frontend con Vitest (7 unitarias y 3 de integración) y genera la compilación de producción de la aplicación Vue (npm run build). Si alguna prueba falla, el pipeline se detiene y el cambio no se considera válido.
+
 ```yaml
-name: CI - Frontend
- 
+# Integración continua del frontend de NeuroZen (basado en el workflow visto en clase).
+# En cada push o Pull Request: instala dependencias, ejecuta las pruebas y compila la app.
+# Si alguna prueba falla, el workflow queda en rojo y el cambio no se considera válido.
+name: Vue CI - Tests
+
 on:
   push:
-    branches: [develop, main]
-    paths: ['frontend/**']
+    branches: [main, master, develop]
   pull_request:
-    branches: [develop, main]
-    paths: ['frontend/**']
- 
+    branches: [main, master, develop]
+  workflow_dispatch: # permite ejecutarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: read
+
 jobs:
-  build-and-test:
+  test-and-build:
+    name: Test and build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
+
     steps:
-      - uses: actions/checkout@v4
- 
-      - uses: actions/setup-node@v4
+      # 1. Descarga el código del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Instala Node.js 22 (las herramientas de prueba necesitan Node 22 o superior)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
- 
-      - run: npm ci
-      - run: npm run lint
-      - name: Unit tests + coverage
-        run: npx vitest run --coverage
-      - name: Build
+
+      # 3. Instala las dependencias exactas de package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Ejecuta las pruebas unitarias y de integración (Vitest)
+      - name: Run unit and integration tests
+        run: npx vitest run --reporter=verbose
+
+      # 5. Compila la aplicación para comprobar que el build no se rompe
+      - name: Build Vue app
         run: npm run build
- 
-      - name: E2E (Cypress)
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: frontend
-          start: npm run preview
-          wait-on: 'http://localhost:4173'
 ```
+
+Evidencia de Integración Continua en Frontend Web:
+
+<img src="assets/cap6/testFrontend/Test.Action.png" alt="insights" width="900px"/>
+
+Ejecución exitosa del pipeline de CI para el frontend web (Vue CI - Tests) en GitHub Actions, validando las 10 pruebas unitarias y de integración y la compilación de la aplicación en 31s.
+
  
 **Pipeline de Integración Continua para Aplicación Móvil (Android)**
 
