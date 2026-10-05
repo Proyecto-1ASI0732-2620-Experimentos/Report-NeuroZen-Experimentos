@@ -3589,37 +3589,287 @@ npm test
  
 ### 6.1.3. Core Behavior-Driven Development
  
-Para garantizar que el software satisfaga las necesidades reales del negocio y de los usuarios (Laura y Andrés), se aplicó el enfoque BDD. **Carlos Paredes** lideró la estructuración de los escenarios, que fueron implementados por los desarrolladores con **Reqnroll** (sucesor de SpecFlow, para C#) en el backend y **Cucumber** (cypress-cucumber-preprocessor) en el frontend web.
- 
-Los escenarios se redactaron en lenguaje Gherkin (archivos `.feature`) a partir de los Criterios de Aceptación de los User Stories principales.
- 
-**BDD Example — US14 (Book an appointment with a psychologist):**
+Los escenarios se escribieron en **Gherkin** a partir de los criterios de aceptación de las User Stories. **Carlos Paredes** estructuró los escenarios, que se implementaron con **Reqnroll** en el backend (Miguel Vila) y con **Cypress + Cucumber** en el frontend web (Jean Pool Huaman).
+
+| ID | Feature | User Story | Escenarios | Frente |
+|---|---|---|---|---|
+| F1 | `Authentication.feature` | US01 – Registrar cuenta | 3 | Backend |
+| F2 | `StressTriggers.feature` | US12 – Registrar desencadenantes | 3 | Backend |
+| F3 | `Professionals.feature` | US13 – Buscar psicólogos | 3 | Backend |
+| F4 | `Appointments.feature` | US14 – Programar cita | 2 | Backend |
+| F5 | `US01-account.feature` | US01 – Registrar cuenta | 2 | Web |
+| F6 | `US12-register-trigger.feature` | US12 – Registrar desencadenantes | 2 | Web |
+| F7 | `US13-search-psychologists.feature` | US13 – Buscar psicólogos | 2 | Web |
+| F8 | `US14-book-session.feature` | US14 – Programar cita | 2 | Web |
+| | | | **19** | |
+
+#### Backend (Reqnroll) — `neurozen.API.Tests/BDD/`
 
 ```gherkin
+@bdd @US01
+Feature: User account registration
+  Scenario: Successful registration
+    Given the visitor does not have an account
+    When the visitor registers with a valid username, email and password
+    Then the system creates the account
+  Scenario: Registration with an already used username
+    Given a user is already registered
+    When another visitor registers with the same username
+    Then the system rejects the request
+  Scenario: Sign in with a wrong password
+    Given a user is already registered
+    When the user signs in with a wrong password
+    Then the system rejects the request
+
+@bdd @US12
+Feature: Register stress triggers
+  Background:
+    Given I am an authenticated user
+  Scenario: Trigger registered successfully
+    When I register a trigger with stress level 7
+    Then the system accepts the request
+  Scenario Outline: Stress level out of range
+    When I register a trigger with stress level <level>
+    Then the system responds with status code 400
+    Examples:
+      | level |
+      | 11    |
+      | 15    |
+
+@bdd @US13
+Feature: Search specialized psychologists
+  Scenario: List of psychologists
+    Given I am an authenticated user
+    When I request "/api/v1/professionals"
+    Then the system accepts the request
+  Scenario: Psychologist not found
+    Given I am an authenticated user
+    When I request "/api/v1/professionals/999999"
+    Then the system responds with status code 404
+  Scenario: Search without authentication
+    When I request "/api/v1/professionals"
+    Then the system responds with status code 401
+
+@bdd @US14
 Feature: Scheduling sessions with psychologists
-  As a user
-  I want to book an online appointment with a psychologist
-  So that I can receive specialized treatment
-
+  Background:
+    Given I am an authenticated user
   Scenario: Appointment scheduled successfully
-    Given the user selects a specialist and an available time slot
-    When the user confirms the booking
-    Then the system saves the appointment
-    And shows a confirmation message to the user
-
+    When I book a free slot with the psychologist 1
+    Then the system accepts the request
   Scenario: Time slot no longer available
-    Given the user selects a specialist and a time slot
-    And another user has previously booked that time slot
-    When the user confirms the booking
-    Then the system does not save the appointment
-    And shows a message indicating that the time slot is no longer available
+    Given another user booked a slot with the psychologist 1
+    When I book the same slot
+    Then the system rejects the request
 ```
- 
-> *Evidencia de ejecución BDD:*
-> `[Insertar captura del reporte de Reqnroll/Cucumber con los escenarios aprobados]`
- 
+
+```csharp
+[Binding]
+public class NeurozenSteps
+{
+    private static readonly IntegrationTestWebApplicationFactory Factory = new();
+    private readonly HttpClient _client = Factory.CreateClient();
+    private HttpResponseMessage _res = null!;
+    private string _user = "";
+    private DateTime _slot;
+
+    private Task<HttpResponseMessage> Post(HttpClient c, string url, object body) =>
+        c.PostAsync(url, new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json"));
+
+    private async Task Login(HttpClient c)
+    {
+        var user = $"bdd_{Guid.NewGuid():N}"[..12];
+        await Post(c, "/api/v1/Authentication/sign-up", new { Username = user, Password = "Password123.", Email = $"{user}@gmail.com" });
+        var res = await Post(c, "/api/v1/Authentication/sign-in", new { Username = user, Password = "Password123." });
+        var token = JsonDocument.Parse(await res.Content.ReadAsStringAsync()).RootElement.GetProperty("token").GetString();
+        c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
+
+    [Given("the visitor does not have an account")] public void NoAccount() => _user = $"bdd_{Guid.NewGuid():N}"[..12];
+    [Given("a user is already registered")] public async Task Registered() { NoAccount(); await SignUp(); }
+    [Given("I am an authenticated user")] public Task Authenticated() => Login(_client);
+
+    [When("the visitor registers with a valid username, email and password")]
+    [When("another visitor registers with the same username")]
+    public async Task SignUp() => _res = await Post(_client, "/api/v1/Authentication/sign-up",
+        new { Username = _user, Password = "Password123.", Email = $"{_user}@gmail.com" });
+
+    [When("the user signs in with a wrong password")]
+    public async Task WrongPassword() => _res = await Post(_client, "/api/v1/Authentication/sign-in",
+        new { Username = _user, Password = "Wrong!" });
+
+    [When("I register a trigger with stress level {int}")]
+    public async Task Trigger(int level) => _res = await Post(_client, "/api/v1/Triggers",
+        new { PatientId = 1, CategoryId = 1, StressLevel = level, TriggerDateTime = DateTime.UtcNow, Description = "BDD" });
+
+    [When("I request {string}")] public async Task Get(string url) => _res = await _client.GetAsync(url);
+
+    [Given("another user booked a slot with the psychologist {int}")]
+    public async Task OtherBooked(int id)
+    {
+        var other = Factory.CreateClient(); await Login(other);
+        _slot = DateTime.UtcNow.Date.AddDays(Random.Shared.Next(30, 365)).AddHours(14);
+        await Post(other, "/api/v1/appointments", new { PatientId = 1, ProfessionalId = id, AppointmentDateTime = _slot });
+    }
+
+    [When("I book a free slot with the psychologist {int}")]
+    public Task BookFree(int id) { _slot = DateTime.UtcNow.Date.AddDays(Random.Shared.Next(30, 365)).AddHours(14); return Book(id); }
+
+    [When("I book the same slot")] public Task BookSame() => Book(1);
+    private async Task Book(int id) => _res = await Post(_client, "/api/v1/appointments",
+        new { PatientId = 1, ProfessionalId = id, AppointmentDateTime = _slot });
+
+    [Then("the system creates the account")]
+    [Then("the system accepts the request")] public void Ok() => Assert.True(_res.IsSuccessStatusCode);
+    [Then("the system rejects the request")] public void Rejected() => Assert.False(_res.IsSuccessStatusCode);
+    [Then("the system responds with status code {int}")] public void Status(int code) => Assert.Equal(code, (int)_res.StatusCode);
+}
+```
+
+```bash
+dotnet test ./neurozen.API.Tests --filter "Category=bdd"
+```
+
+![Evidencia BDD Backend](assets/chapter-6/6.1.3-bdd-backend.png)
+
+#### Frontend Web (Cypress + Cucumber) — `cypress/e2e/features/`
+
+```gherkin
+@US01
+Feature: User account registration
+  Scenario: Successful registration
+    Given I visit "/register"
+    When I fill the registration form
+    Then the API responds successfully to "sign-up"
+  Scenario: Incomplete form
+    Given I visit "/register"
+    When I click "register-submit"
+    Then I see "Este campo es obligatorio."
+
+@US12
+Feature: Register stress triggers
+  Background:
+    Given I am logged in
+    And I visit "/stress/triggers"
+  Scenario: Trigger registered successfully
+    When I fill the trigger form
+    Then the API responds successfully to "triggers"
+    And I see "Desencadenante registrado exitosamente"
+  Scenario: Incomplete form
+    When I submit the form
+    Then I see "Este campo es obligatorio."
+
+@US13
+Feature: Search specialized psychologists
+  Scenario: Psychologists are listed
+    Given I am logged in
+    And I visit "/book-session"
+    Then I see at least one psychologist
+  Scenario: No psychologists found
+    Given I am logged in
+    And the API returns no psychologists
+    And I visit "/book-session"
+    Then I see the element "professionals-empty"
+
+@US14
+Feature: Scheduling sessions with psychologists
+  Background:
+    Given I am logged in
+  Scenario: Appointment scheduled successfully
+    Given I visit "/book-session"
+    When I complete the booking
+    Then the API responds successfully to "appointments"
+    And the URL contains "/appointment-confirmation/"
+  Scenario: Time slot no longer available
+    Given the time slot is already taken
+    And I visit "/book-session"
+    When I complete the booking
+    Then I see the element "booking-error"
+```
+
+```js
+// cypress/support/step_definitions/neurozen.steps.js
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
+
+const api = Cypress.env('apiUrl')
+const id = () => `e2e_${Date.now().toString(36)}`
+
+Given('I visit {string}', (url) => {
+  cy.intercept('POST', /\/api\/v1\//i).as('post')
+  cy.visit(url)
+})
+
+Given('I am logged in', () => {
+  const u = id()
+  cy.request('POST', `${api}/Authentication/sign-up`, { username: u, email: `${u}@gmail.com`, password: 'Password123.' })
+  cy.visit('/login')
+  cy.get('[data-cy=login-username]').type(u)
+  cy.get('[data-cy=login-password]').type('Password123.')
+  cy.get('[data-cy=login-submit]').click()
+  cy.location('pathname').should('not.eq', '/login')
+})
+
+Given('the API returns no psychologists', () => {
+  cy.intercept('GET', /\/professionals(\?.*)?$/i, { body: [] })
+})
+
+Given('the time slot is already taken', () => {
+  cy.intercept('POST', /\/appointments/i, { statusCode: 409, body: {} })
+})
+
+When('I fill the registration form', () => {
+  const u = id()
+  cy.get('[data-cy=register-username]').type(u)
+  cy.get('[data-cy=register-email]').type(`${u}@gmail.com`)
+  cy.get('[data-cy=register-password]').type('Password123.')
+  cy.get('[data-cy=register-submit]').click()
+})
+
+When('I fill the trigger form', () => {
+  cy.get('#trigger-category').select('workOverload')
+  cy.get('#trigger-description').type('Tres entregas el mismo día')
+  cy.get('form').submit()
+})
+
+When('I submit the form', () => cy.get('form').submit())
+When('I click {string}', (el) => cy.get(`[data-cy=${el}]`).click())
+
+When('I complete the booking', () => {
+  cy.get('[role="radio"]').first().click(); cy.contains('button', 'Siguiente').click()
+  cy.get('.grid-cols-7 button:not([disabled])').last().click()
+  cy.get('button.slot').first().click(); cy.contains('button', 'Siguiente').click()
+  cy.get('[role="radio"]').first().click(); cy.contains('button', 'Siguiente').click()
+  cy.contains('button', 'Confirmar Reserva').click()
+})
+
+Then('the API responds successfully to {string}', (path) => {
+  cy.wait('@post').its('request.url').should('match', new RegExp(path, 'i'))
+  cy.get('@post').its('response.statusCode').should('be.oneOf', [200, 201])
+})
+
+Then('I see {string}', (text) => cy.contains(text).should('be.visible'))
+Then('I see the element {string}', (el) => cy.get(`[data-cy=${el}]`).should('be.visible'))
+Then('I see at least one psychologist', () => cy.get('[role="radio"]').should('have.length.greaterThan', 0))
+Then('the URL contains {string}', (path) => cy.url().should('include', path))
+```
+
+```bash
+npx cypress run --spec "cypress/e2e/features/**/*.feature"
+```
+
+![Evidencia BDD Web](assets/chapter-6/6.1.3-bdd-web.png)
+
+#### Repositorios y commits de Testing
+
+| Repositorio | Ruta de pruebas | Commit ID | Mensaje | Fecha |
+|---|---|---|---|---|
+| [Backend](https://github.com/Proyecto-1ASI0732-2620-Experimentos/<repo-backend>) | `neurozen.API.Tests/BDD/` | `<hash>` | test(bdd): add Reqnroll features and steps | `<fecha>` |
+| [Frontend Web](https://github.com/Proyecto-1ASI0732-2620-Experimentos/<repo-web>) | `cypress/e2e/` | `<hash>` | test(bdd): add Cucumber features and steps | `<fecha>` |
+| [Frontend Web](https://github.com/Proyecto-1ASI0732-2620-Experimentos/<repo-web>) | `cypress/e2e/system/` | `<hash>` | test(system): add E2E system tests | `<fecha>` |
+| [Móvil](https://github.com/Proyecto-1ASI0732-2620-Experimentos/<repo-mobile>) | `app/src/androidTest/` | `<hash>` | test(system): add Compose E2E tests | `<fecha>` |
+
 ---
- 
+
 ### 6.1.4. Core System Tests
  
 **Responsables:** Joao Castro (Móvil), Jean Pool Huaman (Web) y Carlos Paredes (Consolidación)
