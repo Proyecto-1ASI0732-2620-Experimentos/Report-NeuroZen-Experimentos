@@ -2538,755 +2538,843 @@ El equipo operó en un modelo de desarrollo paralelo para cubrir tres frentes: B
 # Parte II: Verification, Validation & Pipeline
 
 # Capítulo VI: Product Verification & Validation
- 
-En este capítulo se detallan las estrategias, herramientas y resultados de las pruebas realizadas para garantizar la calidad, fiabilidad y correcto funcionamiento de la plataforma **NeuroZen**. El proceso de validación abarca los tres frentes tecnológicos del proyecto: Aplicación Móvil (Android nativo), Frontend Web (Vue.js) y Backend (C# ASP.NET Core).
- 
+
+En este capítulo se detallan las estrategias, herramientas y resultados de las pruebas realizadas para garantizar la calidad, fiabilidad y correcto funcionamiento de la plataforma **NeuroZen**. El proceso de validación abarca los tres frentes tecnológicos del proyecto: **Backend** (C# ASP.NET Core, .NET 9), **Frontend Web** (Vue 3 + Vite) y **Aplicación Móvil** (Android nativo con Kotlin y Jetpack Compose, arquitectura MVVM + Clean Architecture con Hilt).
+
+Todas las pruebas siguen el patrón **AAA (Arrange, Act, Assert)**. En el backend y en el frontend web cada prueba incluye una **NOTA DE PRUEBA** que explica *por qué se realizó* y *qué hace*. Se prueban tanto los casos de éxito como los de error de las reglas de negocio.
+
 ## 6.1. Testing Suites & Validation
- 
-### 6.1.1. Core Entities Unit Tests
- 
-Para asegurar que la lógica interna de los componentes clave de NeuroZen funcione correctamente en aislamiento, se diseñaron y ejecutaron pruebas unitarias enfocadas en las entidades principales del dominio (`User`, `CheckIn`, `Psychologist` y `Session`).
- 
-| Frente | Framework | Responsable |
+
+### Resumen general de la ejecución
+
+| Frente | Framework principal | Responsable | Pruebas ejecutadas | Resultado |
+|---|---|---|---|---|
+| Backend API (C# / ASP.NET Core) | xUnit + Moq + Reqnroll + Testcontainers | Miguel Vila | **106** (72 unitarias, 19 de integración, 15 escenarios BDD) | ✅ 106 / 106 correctas |
+| Frontend Web (Vue 3) | Vitest + Vue Test Utils + MSW | Jean Pool Huaman | **91** (62 unitarias, 29 de integración) | ✅ 91 / 91 correctas |
+| Aplicación Móvil (Android nativo) | JUnit 4 + MockK + MockWebServer + Compose UI Test | Manuel Fernando Joao Castro | **73**: 66 locales en la JVM (56 unitarias, 10 de integración) y 7 instrumentadas en emulador (4 de Room, 3 de Compose) | ✅ 66 / 66 y 7 / 7 correctas |
+
+En total se ejecutaron **270 pruebas** en los tres frentes, todas aprobadas. Las 7 pruebas instrumentadas de la app móvil (`app/src/androidTest/`) se ejecutaron en el emulador Pixel 10 Pro XL y se describen en las secciones 6.1.2 (Room) y 6.1.4 (Jetpack Compose).
+
+| Frente | Comando de ejecución | Tiempo de la ejecución registrada |
 |---|---|---|
-| Backend API (C# / ASP.NET Core) | xUnit + Moq | Miguel Vila |
-| Frontend Web (Vue.js) | Vitest + Vue Test Utils | Jean Pool Huaman |
-| Aplicación Móvil (Android nativo, Android Studio) | JUnit 4 + MockK | Manuel Fernando Joao Castro |
- 
-**Backend API (C# / ASP.NET Core) — Responsable: Miguel Vila**
- 
-Se utilizó **xUnit** junto con **Moq** para aislar la lógica de controladores y servicios. Se validó la correcta instanciación de las entidades, las reglas de validación de datos (formato de correo, contraseñas) y el cálculo de niveles de estrés, sin depender de la base de datos real.
- 
-| # | Prueba | Entidad | Qué valida |
-|---|---|---|---|
-| 1 | `Handle_ValidCommand_ReturnsAppointmentAndSavesToDataBase` | `AppointmentCommandService` | Creación de una cita y llamado a la base de datos |
-| 2 | `GetProfessionalById_ReturnsCorrectId` | `ProfessionalQueryService` | Verificar que el servicio retorna el Id correcto a ejecutar la query |
-| 3 | `CreateTriggerCommandTest` | `TriggerCommandService` | Creación correcta de un objeto Trigger, con valores permitidos |
-| 4 | `CreateTrigger_StressLevelGreaterThan10_ReturnsBadRequest` | `TriggersController` | Integridad del flujo completo de una petición HTTP al endpoint POST de Triggers |
-
-## Código
-
-```C#
-public class TriggerCommandServiceTest
-{
-  /// <summary>
-    /// PRUEBA 1: Creación Exitosa de un Trigger
-    /// - Por qué se realiza: Para comprobar que el servicio procesa un comando válido, 
-    ///   crea la entidad y llama exactamente una vez a los métodos de persistencia y confirmación.
-    /// - Por qué es importante: Garantiza que la lógica de negocio principal de escritura 
-    ///   funciona correctamente de forma aislada, asegurando la integridad de los datos 
-    ///   sin necesidad de una base de datos real.
-  /// </summary>
-  [Fact]
-  public async Task CreateTriggerCommandTest()
-  {
-    //Arrange (preparamos los mocks)
-    var mockRepo = new Mock<ITriggerRepository>();
-    var mockUow = new Mock<IUnitOfWork>();
-    var mockLogger = new Mock<ILogger<TriggerCommandService>>();
-
-    var service = new TriggerCommandService(mockRepo.Object, mockUow.Object, mockLogger.Object);
-    var command = new CreateTriggerCommand(1, 1, 10, DateTime.Now.AddDays(1), "trigger de prueba");
-
-    //Act (Ejecutamos la función)
-    var result = await service.Handle(command);
-
-    //Assert (Verificamos)
-    Assert.NotNull(result);
-    Assert.InRange(command.StressLevel, 1, 10); //que el nivel de estrés no sea mayor a 10
-    mockRepo.Verify(r => r.AddAsync(It.IsAny<Trigger>()), Times.Once);
-    mockUow.Verify(u => u.CompleteAsync(), Times.Once);
-  }
-
-  /// <summary>
-    /// PRUEBA 2: Manejo de Errores de Base de Datos
-    /// - Por qué se realiza: Para simular una excepción a nivel de infraestructura 
-    ///   (falla en el commit de la base de datos) y verificar que el bloque try-catch reacciona adecuadamente.
-    /// - Por qué es importante: Evita que la aplicación crashee
-    ///   ante caídas de la base de datos, asegurando un manejo de errores controlado que devuelve null de forma segura.
-    /// </summary>
-  [Fact]
-  public async Task CreateTrigger_WhenDatabaseFails_ReturnsNull()
-  {
-    //Arrange
-    var mockRepo = new Mock<ITriggerRepository>();
-    var mockUow = new Mock<IUnitOfWork>();
-    var mockLogger = new Mock<ILogger<TriggerCommandService>>();
-
-    var service = new TriggerCommandService(mockRepo.Object, mockUow.Object, mockLogger.Object);
-    var command = new CreateTriggerCommand(1, 1, 10, DateTime.Now.AddDays(1), "trigger de prueba");
-
-    mockUow.Setup(u => u.CompleteAsync()).ThrowsAsync(new Exception("Fallo en BD")); //Simulamos un fallo
-
-    //Act ejecutamos la función
-    var result = await service.Handle(command);
-
-    //Assert verificamos que el objeto es null pero el logger no
-    Assert.Null(result);
-    Assert.NotNull(mockLogger);
-  }
-}
-
-public class ProfessionalQueryServiceTest
-{
-  /// <summary>
-    /// PRUEBA 3: Búsqueda de Profesional por ID
-    /// - Por qué se realiza: Para verificar que el servicio de consultas es capaz 
-    ///   de comunicarse con el repositorio y retornar la entidad exacta solicitada mediante un query.
-    /// - Por qué es importante: Asegura que los flujos de lectura de la aplicación 
-    ///   recuperen la información precisa para los clientes (como la app móvil) sin alterar ningún estado.
-  /// </summary>
-  [Fact]
-  public async Task GetProfessionalById_ReturnsCorrectId()
-  {
-    //Arrange
-    var mockRepo = new Mock<IProfessionalRepository>();
-    var serviceQuery = new ProfessionalQueryService(mockRepo.Object);
-    //Creamos la entidad fake del profesional
-    var command = new CreateProfessionalCommand("Miguel", "Depresión", "5 años", 0, 0, 30, "Lun. | Vier.", "test", "test.png");
-    var professionalFake = new Professional(command);
-    var testId = professionalFake.Id;
-
-    //Configuramos el mock para que devuelva el profesional fake cuando le pregunten por ese ID
-    mockRepo.Setup(r => r.FindByIdAsync(testId)).ReturnsAsync(professionalFake);
-
-    var query = new GetProfessionalByIdQuery(testId);
-
-    //Act
-    var result = await serviceQuery.Handle(query);
-
-    //Assert
-    Assert.NotNull(result);
-    Assert.Equal(professionalFake.Id, result.Id);
-  }
-}
-
-public class TriggersControllerIntegrationTests : IClassFixture<IntegrationTestWebApplicationFactory>
-{
-    private readonly HttpClient _client;
-
-    public TriggersControllerIntegrationTests(IntegrationTestWebApplicationFactory factory)
-    {
-        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            AllowAutoRedirect = false
-        });
-    }
-    /// <summary>
-    /// PRUEBA 4: Validación de Regla de Negocio y Seguridad en Controlador (End-to-End)
-    /// - Por qué se realiza: Para simular un flujo real de usuario completo (registro, 
-    ///   inicio de sesión para obtener el token JWT, inyección de credenciales y envío de datos inválidos (> 10 de estrés)).
-    /// - Por qué es importante: Es la prueba de mayor nivel de confianza; valida que 
-    ///   los middlewares de seguridad, los controladores REST, las políticas de autorización 
-    ///   y las validaciones de datos operen conjuntamente de forma correcta en un entorno real.
-    /// </summary>
-    [Fact]
-    public async Task CreateTrigger_StressLevelGreaterThan10_ReturnsBadRequest()
-    {
-        // Arrange creamos un usuario test
-        var prefijo = Guid.NewGuid().ToString().Substring(0, 8);
-        var signUp = new
-        {
-            Username = $"test_{prefijo}",
-            Password = "Password123.",
-            Email = $"test_{prefijo}@gmail.com"
-        };
-
-        //Registramos al usuario
-        var signUpResponse = await _client.PostAsync("/api/v1/Authentication/sign-up",
-            new StringContent(JsonSerializer.Serialize(signUp), Encoding.UTF8, "application/json"));
-        var signUpResponseStr = await signUpResponse.Content.ReadAsStringAsync();
-        Assert.True(signUpResponse.IsSuccessStatusCode,
-            $"Sign-up failed with {(int)signUpResponse.StatusCode}: {signUpResponseStr}");
-
-        //Iniciamos sesión
-        var signIn = new { Username = signUp.Username, Password = signUp.Password };
-        var signInResponse = await _client.PostAsync("/api/v1/Authentication/sign-in",
-            new StringContent(JsonSerializer.Serialize(signIn), Encoding.UTF8, "application/json"));
-
-        var signInResponseStr = await signInResponse.Content.ReadAsStringAsync();
-        Assert.True(signInResponse.IsSuccessStatusCode,
-            $"Sign-in failed with {(int)signInResponse.StatusCode}: {signInResponseStr}");
-
-        //Extraemos el token
-        var tokenDoc = JsonDocument.Parse(signInResponseStr);
-        var token = tokenDoc.RootElement.GetProperty("token").GetString();
-
-        //Inyectamos el token en el cliente HTTP
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-        //Arrange:  preparamos la info inválida para el Trigger
-        var invalidTrigger = new
-        {
-            PatientId = 1,
-            CategoryId = 1,
-            StressLevel = 15, // Aquí esta el error
-            TriggerDateTime = DateTime.UtcNow,
-            Description = "Ataque de pánico"
-        };
-        var content = new StringContent(JsonSerializer.Serialize(invalidTrigger), Encoding.UTF8, "application/json");
-
-        //Hacemos la petición
-        var response = await _client.PostAsync("/api/v1/Triggers", content);
-
-        //Assert: Verificamos que la API bloquea el nivel de estrés en 10
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-}
-```
-> *Evidencia de Pruebas Unitarias e Integral en el Backend:*
-
-<img src="assets/cap6/pruebaTestBackend.jpeg" alt="insights" width="900px"/>
- 
-**Frontend Web (Vue.js) — Responsable: Jean Pool Huaman**
- 
-Se implementaron pruebas unitarias con **Vitest** y **Vue Test Utils**, enfocadas en los componentes visuales críticos y en el gestor de estado (**Pinia**). Se probaron funciones clave como el cálculo de las respuestas del test de autoevaluación antes de ser enviadas al backend.
- 
-> *Evidencia de Pruebas Unitarias Frontend:*
-> `[Insertar captura de la terminal con el reporte de coverage y los tests aprobados]`
- 
-**Aplicación Móvil (Android nativo) — Responsable: Manuel Fernando Joao Castro**
- 
-La aplicación móvil fue desarrollada en Android Studio en lenguaje Kotlin nativo. Se implementaron pruebas unitarias locales con JUnit 4, ubicadas en app/src/test, para validar de forma aislada e independiente las entidades clave del dominio: User (autenticación y persistencia de token JWT), CheckIn / HealthMetric (evaluación de datos biométricos de frecuencia cardíaca, sueño y cálculo del umbral de nivel de estrés), Psychologist (validación de tarifas y especialidad) y Session (duración y recursos multimedia). Todas las pruebas fueron ejecutadas con éxito en la JVM local sin requerir un emulador activo.
- 
-## Resumen de pruebas
- 
-| # | Prueba | Entidad | Qué valida |
-|---|---|---|---|
-| 1 | `userEntity_creationAndSessionPersistence_isCorrect` | `User` | Creación del usuario y persistencia de la sesión en memoria (token JWT, ID, rol y header `Bearer`) |
-| 2 | `checkInHealthMetric_stressLevelThresholdCalculation_isCorrect` | `CheckIn` | Un nivel de estrés mayor a 7 se clasifica como "Nivel alto" y calcula el progreso proporcional |
-| 3 | `psychologistEntity_repositoryGetProfessionalsWithMockito_returnsList` | `Psychologist` | El repositorio obtiene la lista de profesionales usando un servicio REST simulado con Mockito |
-| 4 | `sessionEntity_durationAndResourceMapping_isCorrect` | `Session` | Integridad de la duración, el título y la URL del recurso de audio (MP3) |
-
-## Código
- 
-```kotlin
-package com.example.neurozen_front
- 
-import com.example.neurozen_front.neurozen.data.network.AuthSession
-import com.example.neurozen_front.neurozen.data.network.HealthMetricRequest
-import com.example.neurozen_front.neurozen.data.network.MeditationResource
-import com.example.neurozen_front.neurozen.data.network.NeurozenApiService
-import com.example.neurozen_front.neurozen.data.network.NeurozenRepository
-import com.example.neurozen_front.neurozen.data.network.ProfessionalResource
-import com.example.neurozen_front.neurozen.data.network.UserRole
-import com.example.neurozen_front.neurozen.data.session.UserSession
-import com.example.neurozen_front.neurozen.home.presentation.home.HealthMetric
-import com.example.neurozen_front.neurozen.home.presentation.home.NeurozenUser
-import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Response
- 
-/**
- * Pruebas Unitarias para Entidades Core de NeuroZen utilizando JUnit 4, Mockito y el patrón AAA.
- *
- * Frente: Aplicación Móvil (Android nativo)
- * Responsable: Manuel Fernando Joao Castro
- */
-@RunWith(MockitoJUnitRunner::class)
-class ExampleUnitTest {
- 
-    @Mock
-    private lateinit var mockApiService: NeurozenApiService
- 
-    private lateinit var repository: NeurozenRepository
- 
-    @Before
-    fun setUp() {
-        // ARRANGE Global: Limpiar la sesión en memoria e inicializar el repositorio mockeado
-        UserSession.clear()
-        repository = NeurozenRepository(mockApiService)
-    }
- 
-    /**
-     * NOTA DE PRUEBA:
-     * - ¿Por qué se realizó esta prueba?: Para garantizar que el modelo User y la sesión en memoria
-     *   almacenen correctamente la información crítica del usuario autenticado (Token JWT, ID y Rol)
-     *   sin corrupción de datos antes de permitir la navegación en la app.
-     * - ¿Qué hace esta prueba?: Valida la instanciación de la entidad User y verifica que UserSession
-     *   persista de forma consistente el perfil y formatee el Header de autorización Bearer.
-     */
-    @Test
-    fun userEntity_creationAndSessionPersistence_isCorrect() {
-        // 1. ARRANGE (Preparación)
-        val user = NeurozenUser(
-            name = "joao",
-            email = "joao@neurozen.pe",
-            streakDays = 5,
-            minutesToday = 20,
-            subscriptionPlan = "Zen+"
-        )
-        val authSession = AuthSession(
-            token = "jwt_mock_token_joao_123",
-            userId = "uuid_joao_castro",
-            username = user.name,
-            email = user.email,
-            role = UserRole.CLIENT
-        )
- 
-        // 2. ACT (Ejecución)
-        UserSession.save(authSession)
-        val currentState = UserSession.state.value
- 
-        // 3. ASSERT (Verificación)
-        assertEquals("joao", user.name)
-        assertEquals("joao@neurozen.pe", user.email)
-        assertTrue(UserSession.hasActiveSession())
-        assertEquals("uuid_joao_castro", currentState.userId)
-        assertEquals(UserRole.CLIENT, currentState.role)
-        assertEquals("Bearer jwt_mock_token_joao_123", UserSession.bearerTokenOrEmpty())
-    }
- 
-    /**
-     * NOTA DE PRUEBA:
-     * - ¿Por qué se realizó esta prueba?: Para validar la regla de negocio crítica del módulo CheckIn,
-     *   donde un nivel de estrés superior a 7 debe clasificarse automáticamente como "Nivel alto"
-     *   y calcular la barra de progreso proporcional.
-     * - ¿Qué hace esta prueba?: Procesa un objeto HealthMetricRequest con nivel de estrés 8 y confirma
-     *   que la lógica de mapeo evalúa correctamente el indicador visual de riesgo emocional.
-     */
-    @Test
-    fun checkInHealthMetric_stressLevelThresholdCalculation_isCorrect() {
-        // 1. ARRANGE (Preparación)
-        val metricReq = HealthMetricRequest(
-            userId = "uuid_joao_castro",
-            stressLevel = 8,
-            heartRate = 92,
-            sleepHours = 5,
-            notes = "Semana de exámenes universitarios"
-        )
- 
-        // 2. ACT (Ejecución)
-        val isHighStress = metricReq.stressLevel > 7
-        val metricDisplay = HealthMetric(
-            label = "Estrés",
-            value = "${metricReq.stressLevel}/10",
-            detail = if (isHighStress) "Nivel alto" else "Bajo control",
-            progress = metricReq.stressLevel / 10f
-        )
- 
-        // 3. ASSERT (Verificación)
-        assertEquals(8, metricReq.stressLevel)
-        assertTrue(isHighStress)
-        assertEquals("8/10", metricDisplay.value)
-        assertEquals("Nivel alto", metricDisplay.detail)
-        assertEquals(0.8f, metricDisplay.progress, 0.01f)
-    }
- 
-    /**
-     * NOTA DE PRUEBA:
-     * - ¿Por qué se realizó esta prueba?: Para asegurar que la consulta de profesionales mediante el
-     *   repositorio utilice Mockito para simular la respuesta del servicio REST `getProfessionals`
-     *   garantizando el desacoplamiento de la red.
-     * - ¿Qué hace esta prueba?: Mockea el servicio Retrofit para retornar una lista de psicólogos,
-     *   ejecuta la llamada a través del repositorio y verifica con Mockito que la API fue invocada.
-     */
-    @Test
-    fun psychologistEntity_repositoryGetProfessionalsWithMockito_returnsList() {
-        runBlocking {
-            // 1. ARRANGE (Preparación con Mockito)
-            val mockProfessional = ProfessionalResource(
-                id = 102,
-                firstName = "Carlos",
-                lastName = "Rodríguez",
-                specialization = "Psicología Clínica",
-                price = 45.0,
-                rating = 4.8,
-                email = "carlos.rodriguez@neurozen.com"
-            )
-            val mockList = listOf(mockProfessional)
-            val token = "Bearer jwt_mock_token_joao_123"
- 
-            `when`(mockApiService.getProfessionals(token)).thenReturn(Response.success(mockList))
- 
-            // 2. ACT (Ejecución)
-            val result = repository.getProfessionals(token)
- 
-            // 3. ASSERT (Verificación)
-            assertTrue(result.isSuccess)
-            val list = result.getOrNull()
-            assertNotNull(list)
-            assertEquals(1, list?.size)
-            assertEquals("Carlos", list?.first()?.firstName)
-            assertEquals(45.0, list?.first()?.price ?: 0.0, 0.01)
- 
-            // Verificación de interacción con Mockito
-            verify(mockApiService, times(1)).getProfessionals(token)
-        }
-    }
- 
-    /**
-     * NOTA DE PRUEBA:
-     * - ¿Por qué se realizó esta prueba?: Para certificar que las sesiones de meditación mantengan
-     *   la integridad de sus atributos (duración, título e URL del recurso multimedia en formato MP3).
-     * - ¿Qué hace esta prueba?: Crea un objeto MeditationResource y corrobora sus valores de propiedad.
-     */
-    @Test
-    fun sessionEntity_durationAndResourceMapping_isCorrect() {
-        // 1. ARRANGE (Preparación)
-        val meditation = MeditationResource(
-            id = 301,
-            title = "Calma Mental y Mindfulness",
-            description = "Sesión guiada para reducir la rumiación cognitiva.",
-            durationMinutes = 15,
-            imageUrl = "https://images.unsplash.com/photo-1518199266791",
-            audioUrl = "https://neurozen.app/audio/calma.mp3"
-        )
- 
-        // 2. ACT (Ejecución)
-        val durationInSeconds = meditation.durationMinutes * 60
-        val isMp3Audio = meditation.audioUrl.endsWith(".mp3")
- 
-        // 3. ASSERT (Verificación)
-        assertEquals(301, meditation.id)
-        assertEquals(15, meditation.durationMinutes)
-        assertEquals(900, durationInSeconds)
-        assertTrue(isMp3Audio)
-    }
-}
-```
-
-## Ejecución
- 
-```bash
-./gradlew testDebugUnitTest
-```
- 
-Reporte HTML: `app/build/reports/tests/testDebugUnitTest/index.html`
-
-<img src="assets/cap6/prubaTestMovilIndex.png" alt="insights" width="900px"/>
- 
-> *Evidencia de Pruebas Unitarias Móvil:*
-
-<img src="assets/cap6/pruebaTestMovil.png" alt="insights" width="900px"/>
-
- **Frontend Web (Vue.js)**
-
-**Responsable:** Jean Pool Huaman
-
-**Herramientas:** Vitest 5, Vue Test Utils, jsdom (navegador simulado), MSW (API simulada)
-
-**Tipo:** Pruebas unitarias locales, sin backend real
-
-**Ubicación en el proyecto:** `tests/unit/`
-
-El frontend web se desarrolló con Vue 3 y Vite. Las pruebas unitarias se enfocaron en las **reglas de negocio** de la plataforma, probando de forma aislada los servicios y utilidades del frontend:
-
-- el cálculo del nivel de estrés del usuario;
-- la programación de las pausas activas;
-- la creación de citas con profesionales (formato de datos y hora);
-- la validación de la tarjeta al suscribirse.
-
-Cuando una prueba depende de la API, esta se reemplaza por **mocks** (`vi.fn()`, equivalente a `mock()` de Mockito) o por un servidor simulado (MSW). Así, las pruebas no dependen del backend. Todas siguen el patrón **AAA (Arrange, Act, Assert)** e incluyen una nota que explica por qué se realizaron y qué validan.
-
-### Resumen de pruebas
-
-| # | Prueba | Módulo | Qué valida |
-|---|---|---|---|
-| 1 | `userWithoutStressData_shouldCalculateFromTriggers` | Dashboard (nivel de estrés) | El nivel de estrés se calcula con los registros reales del usuario y la API se consulta una sola vez |
-| 2 | `breaks_shouldOnlyBeScheduledOnWorkingDays` | Pausas activas | Las pausas se programan en días laborables y no el fin de semana |
-| 3 | `limaLocalTime_shouldBeSentAsCorrectUtc` | Citas (fecha y hora) | Una cita a las 09:00 en Lima se envía a la API como 14:00 UTC |
-| 4 | `appointmentData_shouldUseBackendFormat` | Citas | La cita se envía con el paciente real, el profesional y el tipo de sesión en el formato del backend |
-| 5 | `todaySlots_shouldNotIncludePastHours` | Citas (horarios) | No se ofrecen horarios que ya pasaron en el día actual |
-| 6 | `cardNumberWithWrongDigit_shouldBeRejected` | Suscripciones (pago) | Una tarjeta válida se acepta y una con un dígito erróneo se rechaza (algoritmo de Luhn) |
-| 7 | `cardExpiredLastMonth_shouldBeRejected` | Suscripciones (pago) | Una tarjeta vencida se rechaza y una del mes actual se acepta |
-
-### Código
-
-**`tests/unit/DashboardService.spec.js`**
-
-```javascript
-// Pruebas unitarias: nivel de estrés del Dashboard (src/services/DashboardService.js)
-import { DashboardService } from '../../src/services/DashboardService.js'
-import { setSession } from '../../src/services/session.js'
-import { user } from '../mocks/data.js'
-
-describe('DashboardService', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque el nivel de estrés es el dato principal que ve el
-   *   usuario al entrar a la plataforma. Antes el Dashboard mostraba números aleatorios; ahora debe
-   *   calcularse con las situaciones de estrés que el propio usuario registró.
-   * - ¿Qué hace esta prueba?: Simula (mock) un usuario sin datos de estrés y con dos registros
-   *   (niveles 8 y 4), y verifica que el servicio consulta esos registros una sola vez y calcula
-   *   el nivel actual (80) y el promedio (60).
-   */
-  it('userWithoutStressData_shouldCalculateFromTriggers', async () => {
-    // Arrange: usuario sin datos de estrés y con dos registros (mocks de la API)
-    setSession({ token: 'token', user })
-    const service = new DashboardService()
-    service.httpClient.get = vi.fn().mockResolvedValue({ id: 7 })
-    service.triggerService.getStressTriggers = vi.fn().mockResolvedValue([
-      { stressLevel: 8, triggeredAt: new Date(2026, 9, 8) },
-      { stressLevel: 4, triggeredAt: new Date(2026, 9, 7) }
-    ])
-
-    // Act
-    const data = await service.getStressData('week')
-
-    // Assert: se consultaron los registros una vez (como verify times(1))
-    expect(service.triggerService.getStressTriggers).toHaveBeenCalledTimes(1)
-    // Assert: nivel actual = último registro (8 → 80) y promedio de 80 y 40 = 60
-    expect(data.currentLevel).toBe(80)
-    expect(data.average).toBe(60)
-  })
-})
-```
-
-**Evidencia (DashboardService.spec.js):** ejecución unitaria aprobada.
-
-![Evidencia DashboardService.spec.js](assets/cap6/testFrontend/DashboardService.spec.png)
-
-**`tests/unit/ActiveBreaksService.spec.js`**
-
-```javascript
-// Pruebas unitarias: pausas activas (src/services/ActiveBreaksService.js)
-import { ActiveBreaksService, DEFAULT_CONFIG } from '../../src/services/ActiveBreaksService.js'
-
-const service = new ActiveBreaksService()
-const FRIDAY = new Date(2026, 9, 9) // viernes 9 de octubre de 2026
-const SATURDAY = new Date(2026, 9, 10) // sábado 10 de octubre de 2026
-
-describe('ActiveBreaksService', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque las pausas activas son recordatorios para la
-   *   jornada laboral. Antes se programaban también el fin de semana, avisando al usuario en sus
-   *   días de descanso.
-   * - ¿Qué hace esta prueba?: Con la configuración por defecto (lunes a viernes) pide la agenda
-   *   del viernes y la del sábado, y verifica que el viernes sí tiene pausas y el sábado ninguna.
-   */
-  it('breaks_shouldOnlyBeScheduledOnWorkingDays', () => {
-    // Arrange: configuración por defecto (lunes a viernes, 09:00 a 18:00)
-    const config = structuredClone(DEFAULT_CONFIG)
-
-    // Act
-    const fridaySchedule = service.getSchedule(config, FRIDAY)
-    const saturdaySchedule = service.getSchedule(config, SATURDAY)
-
-    // Assert: el viernes hay pausas y el sábado no
-    expect(fridaySchedule.length).toBeGreaterThan(0)
-    expect(saturdaySchedule).toEqual([])
-  })
-})
-```
-
-**Evidencia (ActiveBreaksService.spec.js):** ejecución unitaria aprobada.
-
-![Evidencia ActiveBreaksService.spec.js](assets/cap6/testFrontend/ActiveBreaksService.spec.png)
-
-**`tests/unit/date.spec.js`**
-
-```javascript
-// Pruebas unitarias: hora de las citas (src/utils/date.js)
-import { toApiDateTime } from '../../src/utils/date.js'
-
-describe('DateUtils', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque la API guarda las citas en hora UTC y el usuario
-   *   las elige en hora de Lima (UTC-5). Antes la hora se enviaba sin convertir y las citas
-   *   quedaban registradas 5 horas antes de lo elegido.
-   * - ¿Qué hace esta prueba?: Convierte una cita del 20 de octubre a las 09:00 (hora de Lima) y
-   *   verifica que se envía como las 14:00 UTC.
-   */
-  it('limaLocalTime_shouldBeSentAsCorrectUtc', () => {
-    // Arrange: el usuario elige el 20 de octubre a las 09:00
-    const date = '2026-10-20'
-    const time = '09:00'
-
-    // Act
-    const result = toApiDateTime(date, time)
-
-    // Assert: 09:00 en Lima son las 14:00 en UTC
-    expect(result).toBe('2026-10-20T14:00:00.000Z')
-  })
-})
-```
-
-**Evidencia (date.spec.js):** ejecución unitaria aprobada.
-
-![Evidencia date.spec.js](assets/cap6/testFrontend/date.spec.png)
-
-**`tests/unit/AppointmentService.spec.js`**
-
-```javascript
-// Pruebas unitarias: servicio de citas (src/services/AppointmentService.js)
-import { http, HttpResponse } from 'msw'
-import { server, API } from '../mocks/server.js'
-import { AppointmentService } from '../../src/services/AppointmentService.js'
-
-describe('AppointmentService', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque la cita debe crearse para el paciente correcto y
-   *   con el formato que exige el backend. Antes se enviaba siempre el usuario 1 y el tipo de
-   *   sesión como texto, por lo que el backend rechazaba la cita o la asignaba a otra persona.
-   * - ¿Qué hace esta prueba?: Arma la cita con los datos del formulario (que llegan como texto) y
-   *   verifica que se envían como números, con el paciente real y la hora en UTC.
-   */
-  it('appointmentData_shouldUseBackendFormat', () => {
-    // Arrange: datos tal como vienen del formulario
-    const service = new AppointmentService()
-    const formData = {
-      patientId: '7',
-      professionalId: '1',
-      date: '2026-10-20',
-      time: '09:00',
-      appointmentType: '1',
-      notes: 'Primera consulta'
-    }
-
-    // Act
-    const payload = service.buildPayload(formData)
-
-    // Assert: formato exacto que espera el backend
-    expect(payload).toEqual({
-      patientId: 7,
-      professionalId: 1,
-      appointmentDateTime: '2026-10-20T14:00:00.000Z',
-      appointmentType: 1,
-      notasAdicionales: 'Primera consulta'
-    })
-  })
-
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque al reservar para el mismo día no se deben ofrecer
-   *   horarios que ya pasaron; el usuario podría elegir una cita imposible de atender.
-   * - ¿Qué hace esta prueba?: Fija la hora actual en las 12:30, pide los horarios de hoy sin
-   *   respuesta del backend (se usan los horarios por defecto) y verifica que todos son
-   *   posteriores a las 12:30.
-   */
-  it('todaySlots_shouldNotIncludePastHours', async () => {
-    // Arrange: son las 12:30 del 10 de octubre y la API no devuelve horarios
-    vi.useFakeTimers({ toFake: ['Date'] })
-    vi.setSystemTime(new Date('2026-10-10T12:30:00-05:00'))
-    server.use(http.get(API + '/professionals/:id/available-slots', () => HttpResponse.json({}, { status: 404 })))
-
-    // Act
-    const slots = await new AppointmentService().getAvailableSlots(1, '2026-10-10')
-
-    // Assert: hay horarios y todos son después de las 12:30
-    expect(slots.length).toBeGreaterThan(0)
-    expect(slots.every((slot) => slot > '12:30')).toBe(true)
-  })
-})
-```
-
-**Evidencia (AppointmentService.spec.js):** ejecución unitaria aprobada.
-
-![Evidencia AppointmentService.spec.js](assets/cap6/testFrontend/AppointmentService.spec.png)
-
-**`tests/unit/validation.spec.js`**
-
-```javascript
-// Pruebas unitarias: validación de la tarjeta al suscribirse (src/utils/validation.js)
-import { isCardNumber, isFutureExpiry } from '../../src/utils/validation.js'
-
-describe('CardValidation', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque una suscripción no debe enviarse con un número de
-   *   tarjeta mal escrito; el pago fallaría y el usuario no sabría por qué.
-   * - ¿Qué hace esta prueba?: Valida con el algoritmo de Luhn un número correcto y el mismo número
-   *   con un dígito cambiado, y verifica que el primero se acepta y el segundo se rechaza.
-   */
-  it('cardNumberWithWrongDigit_shouldBeRejected', () => {
-    // Arrange: número válido de prueba y el mismo con el último dígito cambiado
-    const validCard = '4111 1111 1111 1111'
-    const wrongCard = '4111 1111 1111 1112'
-
-    // Act
-    const validResult = isCardNumber(validCard)
-    const wrongResult = isCardNumber(wrongCard)
-
-    // Assert: el válido se acepta y el mal escrito se rechaza
-    expect(validResult).toBe(true)
-    expect(wrongResult).toBe(false)
-  })
-
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque una tarjeta vencida no puede pagar la suscripción;
-   *   es mejor avisarlo en el formulario antes de enviar el pago.
-   * - ¿Qué hace esta prueba?: Fija la fecha actual en octubre de 2026 y verifica que una tarjeta
-   *   que vence en septiembre se rechaza y una que vence en octubre todavía se acepta.
-   */
-  it('cardExpiredLastMonth_shouldBeRejected', () => {
-    // Arrange: hoy es 15 de octubre de 2026
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date('2026-10-15T12:00:00-05:00'))
-
-    // Act
-    const september = isFutureExpiry('09/26')
-    const october = isFutureExpiry('10/26')
-
-    // Assert: septiembre ya venció, octubre todavía es válido
-    expect(september).toBe(false)
-    expect(october).toBe(true)
-  })
-})
-```
-
-**Evidencia (validation.spec.js):** ejecución unitaria aprobada.
-
-![Evidencia validation.spec.js](assets/cap6/testFrontend/validation.spec.png)
+| Backend | `dotnet test --logger "console;verbosity=detailed"` | 1,36 minutos (81,9 s) |
+| Frontend Web | `npm run test` (ejecuta `vitest run`) | 81,04 s |
+| Móvil (JVM) | `.\gradlew.bat testDebugUnitTest --rerun-tasks --console=plain` | 14,610 s de pruebas (compilación completa: 5 min 5 s) |
+| Móvil (instrumentadas) | `.\gradlew.bat connectedDebugAndroidTest` | 45,536 s de pruebas (compilación completa: 4 min 7 s) |
 
 ---
 
- 
-### 6.1.2. Core Integration Tests
- 
-Las pruebas de integración validan que los módulos de NeuroZen se comuniquen de manera fluida y sin pérdida de datos, asegurando la consistencia entre las bases de datos (locales y remotas), la API RESTful del backend y los clientes Web y Móvil.
+### 6.1.1. Core Entities Unit Tests
 
+Las pruebas unitarias validan, de forma aislada, la lógica interna de las entidades y servicios principales del dominio de NeuroZen: usuarios y autenticación, test de estrés (PSS-10), desencadenantes de estrés, citas, profesionales, reseñas, informes y suscripciones. Las dependencias externas (repositorios, red, base de datos) se reemplazan por **dobles de prueba** (mocks), de modo que cada prueba solo depende del código que valida.
 
-**Integración API y Base de Datos (MySQL)**
- 
-Se utilizó **WebApplicationFactory** para levantar una instancia real de MySQL durante las pruebas, de modo que Entity Framework Core ejecute las operaciones CRUD (crear, leer, actualizar, eliminar) sobre las tablas `Sessions` y `CheckIns` en las mismas condiciones que en producción (restricciones, tipos y llaves foráneas).
- 
-> *Evidencia de Integración Backend-BD:*
-```C#
-public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory<Program>
+#### Backend API (C# / ASP.NET Core) — Responsable: Miguel Vila
+
+**Herramientas:** xUnit 2.9.2, Moq 4.20.72, Entity Framework Core InMemory 9.0.0 (solo para la consulta del directorio)  
+**Ubicación en el proyecto:** `neurozen.API.Tests/Unit/`  
+**Ejecución sin Docker ni MySQL:** `dotnet test --filter "FullyQualifiedName~Unit"`
+
+Se utilizó **xUnit** junto con **Moq** para aislar los *command services* y *query services* de cada *bounded context*. Los repositorios y la unidad de trabajo (`IUnitOfWork`) se simulan, y con `Verify(..., Times.Once)` y `Times.Never` se comprueba que los datos se guardan solo cuando la operación es válida. Se usan dos ayudas propias: `FakeCurrentUser` (el usuario autenticado que normalmente vendría en el JWT) y `TestEntities.PassThroughUnitOfWork()` (una unidad de trabajo que ejecuta la operación y permite saber si algo ocurrió dentro de la transacción).
+
+| # | Clase de prueba | Prueba | Casos | Qué valida |
+|---|---|---|---|---|
+| 1 | `HashingServiceTests` | `PasswordHash_ShouldNeverStorePlainText` | 1 | La contraseña se guarda como hash BCrypt de costo 12, nunca en texto plano |
+| 2 | `PasswordPolicyTests` | `PasswordPolicy_WithLettersAndNumbers_ShouldBeValid` | 1 | Una contraseña con letras y números cumple la política |
+| 3 | `PasswordPolicyTests` | `PasswordPolicy_ShortOrOnlyLettersOrOnlyNumbers_ShouldBeInvalid` | 4 | Se rechazan contraseñas cortas, solo letras, solo números o vacías |
+| 4 | `PasswordResetCommandServiceTests` | `ForgotPassword_UnknownEmail_ShouldNotFailNorSendEmail` | 1 | «Olvidé mi contraseña» no revela qué correos están registrados |
+| 5 | `PasswordResetCommandServiceTests` | `ForgotPassword_KnownEmail_ShouldStoreHashedTokenAndSendOnce` | 1 | Se guarda solo el hash SHA-256 del token, vence en 1 hora y el correo se envía una vez |
+| 6 | `PasswordResetCommandServiceTests` | `ResetPassword_ValidToken_ShouldChangePasswordAndMarkTokenUsed` | 1 | Con un enlace válido cambia la contraseña y el token queda usado |
+| 7 | `PasswordResetCommandServiceTests` | `ResetPassword_ExpiredOrUsedToken_ShouldBeRejected` | 2 | Un enlace vencido o ya usado se rechaza sin cambiar nada |
+| 8 | `UserAccountCommandServiceTests` | `ChangePassword_WrongCurrentPassword_ShouldThrowValidationNotUnauthorized` | 1 | Contraseña actual incorrecta = error 400 (no 401, que cerraría la sesión) |
+| 9 | `UserCommandServiceSignInTests` | `SignIn_ValidCredentials_ShouldReturnTokenWithSubRoleAndExp` | 1 | El JWT incluye `sub`, `role` y una expiración de 2 horas |
+| 10 | `UserCommandServiceSignInTests` | `SignIn_WrongPasswordOrUnknownEmail_ShouldReturnSameError` | 1 | Correo inexistente y contraseña incorrecta dan el mismo error (evita enumerar cuentas) |
+| 11 | `UserCommandServiceSignUpTests` | `SignUp_Worker_ShouldCreateUserWithUserRole` | 1 | El trabajador se registra con rol `USER` y sin perfil profesional |
+| 12 | `UserCommandServiceSignUpTests` | `SignUp_Psychologist_ShouldCreateProfessionalInPendingInSameTransaction` | 1 | Usuario y perfil `PENDING` del psicólogo se crean en la misma transacción |
+| 13 | `UserCommandServiceSignUpTests` | `SignUp_WithAdminRole_ShouldThrowValidation` | 1 | Nadie puede crearse una cuenta `ADMIN` desde el registro público |
+| 14 | `UserCommandServiceSignUpTests` | `SignUp_WithoutAcceptedTerms_ShouldThrowValidation` | 1 | Sin aceptar los términos (Ley 29733) no se crea la cuenta |
+| 15 | `UserCommandServiceSignUpTests` | `SignUp_DuplicateEmail_ShouldThrowConflict` | 1 | Un correo ya registrado devuelve 409 |
+| 16 | `UserCommandServiceSignUpTests` | `SignUp_DuplicateLicense_ShouldThrowConflictMentioningColegiatura` | 1 | Una colegiatura ya registrada devuelve 409 |
+| 17 | `AppointmentCommandServiceTests` | `Book_WithVerifiedProfessionalFutureFreeSlot_ShouldCreatePending` | 1 | Reserva válida (US14): la cita se crea en estado `PENDING` |
+| 18 | `AppointmentCommandServiceTests` | `Book_WithPendingProfessional_ShouldThrowNotFound` | 1 | No se puede reservar con un psicólogo no verificado (404) |
+| 19 | `AppointmentCommandServiceTests` | `Book_PastDate_ShouldThrowValidation` | 1 | No se puede reservar en el pasado |
+| 20 | `AppointmentCommandServiceTests` | `Book_AlreadyTakenSlot_ShouldThrowConflict` | 1 | Doble reserva: horario ocupado devuelve 409 |
+| 21 | `AppointmentCommandServiceTests` | `Confirm_ByOwnPsychologist_ShouldChangePendingToConfirmed` | 1 | El psicólogo de la cita la confirma (`PENDING` → `CONFIRMED`) |
+| 22 | `AppointmentCommandServiceTests` | `Complete_BeforeAppointmentDate_ShouldBeRejected` | 1 | Una cita no puede marcarse como atendida antes de su hora |
+| 23 | `AppointmentCommandServiceTests` | `Cancel_ByPatient_ShouldBeAllowed` | 1 | El paciente cancela su cita y el horario queda libre |
+| 24 | `AppointmentCommandServiceTests` | `Patient_TryingToConfirmOrComplete_ShouldBeForbidden` | 2 | El paciente no puede confirmar ni completar (403) |
+| 25 | `AppointmentCommandServiceTests` | `ChangeStatus_FromFinalState_ShouldBeRejected` | 2 | `CANCELLED` y `COMPLETED` son estados finales |
+| 26 | `AssessmentTests` | `Assessment_ShouldRecalculateScoreWithReversedQuestions4578` | 2 | El puntaje PSS-10 se calcula en el servidor con las preguntas 4, 5, 7 y 8 invertidas |
+| 27 | `AssessmentTests` | `Assessment_LevelBoundaries_13_14_26_27` | 4 | Cortes de nivel: 0-13 bajo, 14-26 moderado, 27-40 alto |
+| 28 | `AssessmentTests` | `Assessment_NotTenAnswersOrOutOfRange_ShouldThrowValidation` | 5 | El test exige exactamente 10 respuestas entre 0 y 4 |
+| 29 | `ReportCommandServiceTests` | `Report_ForOwnActiveAppointment_ShouldBeCreated` | 1 | El paciente comparte su informe (US15) con el psicólogo de su cita activa |
+| 30 | `ReportCommandServiceTests` | `Report_ForOthersOrCancelledAppointment_ShouldBeRejected` | 3 | No se puede compartir un informe de otro paciente, a otro profesional o de una cita cancelada |
+| 31 | `ReportCommandServiceTests` | `Report_SecondForSameAppointment_ShouldThrowConflict` | 1 | Un solo informe por cita (409 si se repite) |
+| 32 | `StressTriggerCommandServiceTests` | `Trigger_IntensityShouldBeCalculatedOnServer` | 6 | La intensidad (low/medium/high) se calcula en el servidor según el nivel 1-10 |
+| 33 | `StressTriggerCommandServiceTests` | `Trigger_FutureDateOrShortDescription_ShouldThrowValidation` | 2 | Se rechazan registros con fecha futura o descripción corta |
+| 34 | `ProfessionalProfileCommandServiceTests` | `UpdateMyProfile_ChangingLicense_ShouldReturnToPending` | 1 | Si el psicólogo cambia su colegiatura, vuelve a revisión (`PENDING`) |
+| 35 | `ProfessionalProfileCommandServiceTests` | `UpdateMyProfile_Resubmit_AfterRejected_ShouldReturnToPending` | 1 | Un psicólogo rechazado puede reenviar su solicitud |
+| 36 | `ProfessionalProfileCommandServiceTests` | `UpdateMyProfile_InvalidRanges_ShouldThrowValidation` | 1 | Biografía > 800 caracteres, tarifa > 1000 u horario inválido se rechazan |
+| 37 | `ProfessionalQueryServiceTests` | `Directory_ShouldOnlyReturnVerifiedProfessionals` | 1 | El directorio solo muestra psicólogos verificados |
+| 38 | `ProfessionalQueryServiceTests` | `AvailableSlots_ShouldExcludeBookedAndPastHours` | 1 | No se ofrecen horarios reservados ni horas que ya pasaron |
+| 39 | `ProfessionalQueryServiceTests` | `AvailableSlots_DayOutsideSchedule_ShouldReturnEmpty` | 1 | Sin horarios si el psicólogo no atiende ese día |
+| 40 | `ProfessionalVerificationCommandServiceTests` | `Verify_PendingProfessional_ShouldSetVerifiedWithAuditData` | 1 | El admin verifica al psicólogo y la decisión queda auditada |
+| 41 | `ProfessionalVerificationCommandServiceTests` | `Verify_AlreadyVerified_ShouldThrowConflict` | 1 | No se puede verificar dos veces (409) |
+| 42 | `ProfessionalVerificationCommandServiceTests` | `Reject_WithoutReasonOrShortReason_ShouldThrowValidation` | 3 | Rechazar exige un motivo de al menos 10 caracteres |
+| 43 | `ReviewCommandServiceTests` | `Review_CompletedAppointment_ShouldRecalculateRatingAndMarkReviewed` | 1 | La reseña recalcula la calificación del psicólogo y marca la cita |
+| 44 | `ReviewCommandServiceTests` | `Review_NotCompletedOrSecondTime_ShouldBeRejected` | 2 | Solo se califica una sesión atendida y una sola vez |
+| 45 | `SubscriptionCommandServiceTests` | `Subscription_ShouldStoreOnlyLast4AndNeverCvv` | 1 | PCI DSS: solo se guardan los últimos 4 dígitos, nunca el CVV ni el número completo |
+| 46 | `SubscriptionCommandServiceTests` | `Subscription_InvalidLuhnOrExpiredCard_ShouldThrowValidation` | 2 | Tarjeta que no pasa Luhn o vencida se rechaza |
+| | | **Total** | **72** | |
+
+**Código (extractos de las pruebas unitarias del backend)**
+
+`neurozen.API.Tests/Unit/Appointments/AppointmentCommandServiceTests.cs`
+
+```csharp
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: es el camino feliz de la reserva (US14): profesional verificado, fecha
+///   futura y horario libre deben crear la cita PENDING a nombre del paciente autenticado.
+/// - ¿Qué hace esta prueba?: reserva y comprueba estado, paciente, profesional y que el horario queda ocupado,
+///   con una sola inserción y un solo guardado.
+/// </summary>
+[Fact]
+public async Task Book_WithVerifiedProfessionalFutureFreeSlot_ShouldCreatePending()
 {
+    // Arrange
+    var startUtc = DateTime.UtcNow.AddDays(1);
+    Appointment? saved = null;
+    _appointments.Setup(a => a.AddAsync(It.IsAny<Appointment>()))
+        .Callback<Appointment>(a => saved = a).Returns(Task.CompletedTask);
+
+    // Act
+    var result = await CreateService(Patient()).Handle(Booking(startUtc));
+
+    // Assert
+    Assert.NotNull(saved);
+    Assert.Equal(AppointmentStatus.Pending, result.Appointment.Status);
+    Assert.Equal(PatientId, saved!.PatientId);
+    Assert.Equal(ProfessionalId, saved.ProfessionalId);
+    Assert.Equal(startUtc, saved.ActiveSlot);
+    Assert.False(saved.Reviewed);
+    _appointments.Verify(a => a.AddAsync(It.IsAny<Appointment>()), Times.Once);
+    _unitOfWork.Verify(u => u.CompleteAsync(), Times.Once);
+}
+
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: doble reserva; dos pacientes no pueden tener la misma hora con el mismo
+///   psicólogo.
+/// - ¿Qué hace esta prueba?: simula un horario ya tomado y comprueba el 409 «El horario ya no está disponible»
+///   sin crear la cita.
+/// </summary>
+[Fact]
+public async Task Book_AlreadyTakenSlot_ShouldThrowConflict()
+{
+    // Arrange
+    _appointments.Setup(a => a.IsSlotTakenAsync(ProfessionalId, It.IsAny<DateTime>())).ReturnsAsync(true);
+
+    // Act
+    var exception = await Assert.ThrowsAsync<ConflictException>(
+        () => CreateService(Patient()).Handle(Booking(DateTime.UtcNow.AddDays(1))));
+
+    // Assert
+    Assert.Equal("El horario ya no está disponible", exception.Message);
+    _appointments.Verify(a => a.AddAsync(It.IsAny<Appointment>()), Times.Never);
+}
+```
+
+`neurozen.API.Tests/Unit/Stress/StressTriggerCommandServiceTests.cs`
+
+```csharp
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: la intensidad alimenta los gráficos y los informes al psicólogo; si se
+///   confiara en la del cliente, se podría registrar un nivel 9 como «low». Se calcula siempre en el servidor
+///   (1-3 low, 4-6 medium, 7-10 high).
+/// - ¿Qué hace esta prueba?: registra situaciones en los límites de cada tramo y comprueba la intensidad guardada.
+///   El comando ni siquiera tiene un campo de intensidad: lo que envíe el cliente se ignora.
+/// </summary>
+[Theory]
+[InlineData(1, "low")]
+[InlineData(3, "low")]
+[InlineData(4, "medium")]
+[InlineData(6, "medium")]
+[InlineData(7, "high")]
+[InlineData(10, "high")]
+public async Task Trigger_IntensityShouldBeCalculatedOnServer(int stressLevel, string expectedIntensity)
+{
+    // Arrange
+    StressTrigger? saved = null;
+    _triggers.Setup(t => t.AddAsync(It.IsAny<StressTrigger>()))
+        .Callback<StressTrigger>(t => saved = t).Returns(Task.CompletedTask);
+    var command = new CreateTriggerCommand(7, "Tres entregas el mismo día", "workOverload", stressLevel,
+        DateTime.UtcNow.AddHours(-1));
+
+    // Act
+    await CreateService().Handle(command);
+
+    // Assert
+    Assert.NotNull(saved);
+    Assert.Equal(expectedIntensity, saved!.Intensity.ToWire());
+    Assert.Equal(TriggerCategory.WorkOverload, saved.Category);
+}
+```
+
+`neurozen.API.Tests/Unit/Subscriptions/SubscriptionCommandServiceTests.cs`
+
+```csharp
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: PCI DSS; nunca se guarda el CVV (ni cifrado) ni el número completo de la
+///   tarjeta, solo los últimos 4 dígitos y el vencimiento.
+/// - ¿Qué hace esta prueba?: suscribe con una tarjeta de prueba, captura la entidad que se guardaría y comprueba
+///   cardLast4 = 1111, el vencimiento normalizado, que no existe ninguna propiedad para el CVV o el número, y que
+///   ningún valor guardado contiene el número completo ni es igual al CVV.
+/// </summary>
+[Fact]
+public async Task Subscription_ShouldStoreOnlyLast4AndNeverCvv()
+{
+    // Arrange
+    Subscription? saved = null;
+    _subscriptions.Setup(s => s.AddAsync(It.IsAny<Subscription>()))
+        .Callback<Subscription>(s => saved = s).Returns(Task.CompletedTask);
+
+    // Act
+    var result = await CreateService().Handle(Subscribe());
+
+    // Assert
+    Assert.True(result.Created);
+    Assert.NotNull(saved);
+    Assert.Equal("1111", saved!.CardLast4);
+    Assert.Equal("12/30", saved.CardExpiry);
+    var properties = typeof(Subscription).GetProperties();
+    Assert.DoesNotContain(properties, p =>
+        p.Name.Contains("cvv", StringComparison.OrdinalIgnoreCase) ||
+        p.Name.Contains("CardNumber", StringComparison.OrdinalIgnoreCase) ||
+        p.Name.Contains("NumberCard", StringComparison.OrdinalIgnoreCase));
+    var storedStrings = properties.Where(p => p.PropertyType == typeof(string))
+        .Select(p => (string?)p.GetValue(saved) ?? string.Empty).ToList();
+    Assert.DoesNotContain(storedStrings, value => value.Contains(FullCardNumber) || value == Cvv);
+}
+```
+
+> *Evidencia de ejecución del backend (inicio de la corrida con `dotnet test`; se ven pruebas unitarias aprobadas, como las de `ProfessionalQueryServiceTests`):*
+
+<img src="assets/test/Test_Backend_p1.png" alt="Ejecución de dotnet test en el backend" width="900px"/>
+
+#### Frontend Web (Vue 3) — Responsable: Jean Pool Huaman
+
+**Herramientas:** Vitest 5.0.3, Vue Test Utils, jsdom (navegador simulado), MSW (servidor de API simulado)  
+**Ubicación en el proyecto:** `tests/unit/` (20 archivos, 62 pruebas)
+
+Las pruebas unitarias del frontend se enfocan en las **reglas de negocio** que viven en los servicios y utilidades: autenticación y sesión, roles, test de estrés, citas, directorio de psicólogos, validación de tarjetas y contraseñas, ZenBot, pausas activas, informes y suscripciones. Cuando un servicio depende de la API, esta se reemplaza por **mocks** con `vi.fn()` (equivalente a `mock()` de Mockito) o por el servidor simulado **MSW**; las llamadas se verifican con `toHaveBeenCalledTimes(1)` (como `verify(times(1))`) y `not.toHaveBeenCalled()` (como `verifyNoInteractions`).
+
+| # | Archivo | Prueba | Qué valida |
+|---|---|---|---|
+| 1 | `ActiveBreaksService.spec.js` | `breaks_shouldOnlyBeScheduledOnWorkingDays` | Con la jornada de lunes a viernes, el viernes tiene pausas y el sábado no |
+| 2 | `ActiveBreaksService.spec.js` | `disabledBreaks_shouldNotBeScheduled` | Con las pausas desactivadas no se programa ninguna |
+| 3 | `ActiveBreaksService.spec.js` | `workdayStartingAt0930_shouldRespectMinutes` | Jornada 09:30-12:00 cada 45 min: pausas a las 10:15, 11:00 y 11:45 |
+| 4 | `AdminService.spec.js` | `approve_shouldVerifyTheSelectedPsychologist` | La aprobación llega a la API con el id del psicólogo elegido |
+| 5 | `AdminService.spec.js` | `reject_shouldSendTheReason` | El motivo del rechazo llega a la API sin espacios sobrantes |
+| 6 | `AppointmentService.spec.js` | `appointmentData_shouldUseBackendFormat` | La cita se envía con números, el paciente real y la hora en UTC |
+| 7 | `AppointmentService.spec.js` | `todaySlots_shouldNotIncludePastHours` | No se ofrecen horarios que ya pasaron en el día actual |
+| 8 | `AppointmentService.spec.js` | `appointmentTypesWithoutBackend_shouldUseNumericDefaults` | Si la API responde 404, se usan tipos de sesión por defecto con ids numéricos |
+| 9 | `AppointmentService.spec.js` | `cancelAppointment_shouldSendCancelledStatus` | Cancelar envía `{ status: 'CANCELLED' }` a la cita correcta |
+| 10 | `AssessmentService.spec.js` | `positiveQuestions_shouldBeScoredInReverse` | Las preguntas positivas se puntúan al revés (10 respuestas «3» = 22) |
+| 11 | `AssessmentService.spec.js` | `scoreBoundaries_shouldMapToTheCorrectLevel` | Límites de nivel 13, 14, 26 y 27 |
+| 12 | `AssessmentService.spec.js` | `incompleteAnswers_shouldThrowError` | Un test con 9 respuestas lanza error |
+| 13 | `AssessmentService.spec.js` | `submitWithoutServer_shouldKeepTheResultLocally` | Con la API caída, el resultado se guarda en el dispositivo |
+| 14 | `AuthService.spec.js` | `successfulLogin_shouldCallApiOnceAndSaveSession` | El login llama una vez a la API con el correo limpio y guarda el token |
+| 15 | `AuthService.spec.js` | `wrongPassword_shouldThrowErrorAndNotSaveSession` | Con 401 no se guarda sesión ni se pide el perfil |
+| 16 | `AuthService.spec.js` | `psychologistLogin_shouldLoadVerificationStatus` | La psicóloga obtiene su rol, estado `verified` e id profesional |
+| 17 | `AuthService.spec.js` | `psychologistRegistration_shouldSendLicenseAndRole` | El registro envía rol, especialidad, colegiatura y aceptación de términos |
+| 18 | `BreathingService.spec.js` | `completedSessions_shouldBeSavedNewestFirst` | El historial de respiración muestra primero la sesión más reciente |
+| 19 | `BreathingService.spec.js` | `sessionNotes_shouldBeTrimmedAndLimited` | Las notas se recortan a 500 caracteres |
+| 20 | `DashboardService.spec.js` | `userWithoutStressData_shouldCalculateFromTriggers` | Con registros de nivel 8 y 4: nivel actual 80 y promedio 60, consultando una sola vez |
+| 21 | `DashboardService.spec.js` | `userWithStressData_shouldNotRequestTriggers` | Si ya hay datos de estrés, no se consultan los registros |
+| 22 | `HttpClient.spec.js` | `response401_shouldCloseSessionAndNotifyOnce` | Un 401 cierra la sesión y avisa una sola vez |
+| 23 | `HttpClient.spec.js` | `loginWithWrongPassword_shouldNotBeTreatedAsExpiredSession` | El 401 del login no se trata como sesión vencida |
+| 24 | `HttpClient.spec.js` | `noConnection_shouldThrowNetworkError` | Sin red se lanza un error con estado 0 |
+| 25 | `ProfessionalService.spec.js` | `verifiedButEmptyProfile_shouldHaveOnlyOneStepDone` | Un perfil verificado pero vacío tiene 1 de 4 pasos completos |
+| 26 | `ProfessionalService.spec.js` | `availability_shouldBeShownAsReadableText` | La disponibilidad se muestra como «Lun, Mié · 09:00 - 13:00» |
+| 27 | `ProfessionalService.spec.js` | `appointmentStatuses_shouldBeGroupedForTheInterface` | Los estados de cita del backend se agrupan correctamente |
+| 28 | `ProfessionalService.spec.js` | `savingOnlyAvailability_shouldKeepTheOtherProfileData` | Guardar solo la disponibilidad envía el perfil completo en el PUT |
+| 29 | `ReportService.spec.js` | `summary_shouldCountLastWeekTriggersAndTopCategory` | El resumen cuenta los registros de la última semana y la categoría más frecuente |
+| 30 | `ReportService.spec.js` | `sharedReport_shouldBeSentToTheAppointmentPsychologist` | El informe se envía al psicólogo de la cita, sin datos internos de la app |
+| 31 | `ResourceLibraryService.spec.js` | `durationInMinutesAndSeconds_shouldBeEqual` | 15 minutos y 900 segundos se normalizan a la misma duración |
+| 32 | `ResourceLibraryService.spec.js` | `libraryWithoutServer_shouldShowSampleResources` | Con la API caída se muestran recursos de ejemplo marcados como demostración |
+| 33 | `StaticAPIAdapter.spec.js` | `demoLogin_shouldReturnTokenWithoutPassword` | El modo demostración devuelve token sin contraseña y 401 con clave incorrecta |
+| 34 | `StaticAPIAdapter.spec.js` | `demoDirectory_shouldHidePendingPsychologists` | El modo demostración oculta a los psicólogos pendientes |
+| 35 | `StaticAPIAdapter.spec.js` | `adminEndpoints_shouldRequireAdminRole` | Los endpoints de administración devuelven 403 a un trabajador |
+| 36 | `SubscriptionService.spec.js` | `subscription_shouldSendPlanIdAndCleanCardNumber` | Se envía el `planId` correcto y la tarjeta sin espacios |
+| 37 | `SubscriptionService.spec.js` | `subscriptionData_shouldOnlyKeepLastFourDigits` | Solo se conservan los últimos 4 dígitos de la tarjeta |
+| 38 | `SubscriptionService.spec.js` | `userWithoutSubscription_shouldReturnNull` | Un 404 se interpreta como «sin suscripción» |
+| 39 | `TherapistService.spec.js` | `directory_shouldOnlyShowVerifiedPsychologists` | El directorio solo muestra psicólogos verificados |
+| 40 | `TherapistService.spec.js` | `pendingPsychologistProfile_shouldBeTreatedAsNotFound` | El perfil de un psicólogo pendiente se trata como 404 |
+| 41 | `TherapistService.spec.js` | `reviewRating_shouldBeLimitedBetweenOneAndFive` | Una reseña de 7 estrellas llega como 5 |
+| 42 | `UserService.spec.js` | `changePassword_shouldSendCurrentAndNewPassword` | El cambio de contraseña envía la actual y la nueva |
+| 43 | `UserService.spec.js` | `onboardingData_shouldBeSavedInTheProfile` | Los datos del onboarding llegan al perfil |
+| 44 | `date.spec.js` | `limaLocalTime_shouldBeSentAsCorrectUtc` | Las 09:00 de Lima se envían como 14:00 UTC |
+| 45 | `date.spec.js` | `after7pm_todayShouldBeTheLocalDate` | A las 20:30 del día 10, «hoy» sigue siendo el 10 |
+| 46 | `roles.spec.js` | `backendRoleNames_shouldBeNormalized` | `PSYCHOLOGIST`, `ROLE_ADMIN` y roles desconocidos se interpretan bien |
+| 47 | `roles.spec.js` | `pendingPsychologist_shouldStartOnVerificationStatus` | El psicólogo pendiente inicia en su pantalla de estado |
+| 48 | `roles.spec.js` | `verifiedPsychologist_shouldSeeWelcomeOnlyOnce` | La bienvenida del psicólogo se muestra una sola vez |
+| 49 | `roles.spec.js` | `adminAndWorker_shouldStartOnTheirOwnHome` | Administrador y trabajador inician en su propia página |
+| 50 | `session.spec.js` | `expiredToken_shouldNotBeAuthenticated` | Un token vencido cierra la sesión |
+| 51 | `session.spec.js` | `anotherUser_shouldNotSeePreviousUserData` | Un usuario no ve los datos guardados por otro |
+| 52 | `validation.spec.js` | `cardNumberWithWrongDigit_shouldBeRejected` | Algoritmo de Luhn: se acepta la tarjeta válida y se rechaza la mal escrita |
+| 53 | `validation.spec.js` | `cardExpiredLastMonth_shouldBeRejected` | En octubre, septiembre está vencido y octubre todavía es válido |
+| 54 | `validation.spec.js` | `passwordWithLettersAndNumbers_shouldBeAccepted` | Se acepta una contraseña que cumple las reglas |
+| 55 | `validation.spec.js` | `weakPasswords_shouldBeRejected` | Se rechazan contraseñas cortas, solo letras o solo números |
+| 56 | `validation.spec.js` | `licenseNumberInCommonFormats_shouldBeAcceptedAndNormalized` | «C.Ps.P. 45821», «CPsP 45821» y «45821» se normalizan a «45821» |
+| 57 | `validation.spec.js` | `invalidLicenseNumber_shouldBeRejected` | Se rechazan colegiaturas sin números, muy cortas o con letras |
+| 58 | `zenbotEngine.spec.js` | `crisisMessage_shouldHavePriorityOverOtherTopics` | Un mensaje de crisis tiene prioridad sobre otros temas |
+| 59 | `zenbotEngine.spec.js` | `stressMessageWithAccents_shouldSuggestBreathing` | «ESTRÉS» se reconoce y sugiere respiración |
+| 60 | `zenbotEngine.spec.js` | `shortKeyword_shouldNotMatchInsideOtherWords` | «hice ejercicio» no se toma como saludo |
+| 61 | `zenbotEngine.spec.js` | `unknownMessage_shouldReturnFallbackWithSpecialist` | Un mensaje sin sentido recibe la respuesta de «no entendí» |
+| 62 | `zenbotEngine.spec.js` | `secondUnknownMessage_shouldRecommendSpecialist` | Al segundo mensaje no entendido se recomienda un especialista |
+
+**Código (extractos de las pruebas unitarias del frontend)**
+
+`tests/unit/AuthService.spec.js`
+
+```javascript
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: El login debe llamar a la API una sola vez con el correo limpio y guardar la sesión.
+ * - ¿Qué hace esta prueba?: Usa mocks (como Mockito) y verifica la llamada (times(1)) y el token guardado.
+ */
+it('successfulLogin_shouldCallApiOnceAndSaveSession', async () => {
+  // Arrange
+  const service = new AuthService()
+  service.httpClient.post = vi.fn().mockResolvedValue({ id: 7, token: 'token-123', role: 'USER' })
+  service.httpClient.get = vi.fn().mockResolvedValue({ id: 7, fullName: 'Ana Torres' })
+
+  // Act
+  await service.login('  ana@neurozen.com ', 'Secreta123')
+
+  // Assert
+  expect(service.httpClient.post).toHaveBeenCalledTimes(1)
+  expect(service.httpClient.post).toHaveBeenCalledWith('/api/v1/authentication/sign-in', { username: 'ana@neurozen.com', password: 'Secreta123' })
+  expect(getToken()).toBe('token-123')
+})
+
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: Con una contraseña incorrecta no debe quedar ninguna sesión guardada.
+ * - ¿Qué hace esta prueba?: La API responde 401 (mock); verifica el error y que no se pida el perfil (verifyNoInteractions).
+ */
+it('wrongPassword_shouldThrowErrorAndNotSaveSession', async () => {
+  // Arrange
+  const service = new AuthService()
+  service.httpClient.post = vi.fn().mockRejectedValue(new ApiError('Unauthorized', { status: 401 }))
+  service.httpClient.get = vi.fn()
+
+  // Act + Assert
+  await expect(service.login('ana@neurozen.com', 'mala')).rejects.toThrow()
+  expect(getToken()).toBeNull()
+  expect(service.httpClient.get).not.toHaveBeenCalled()
+})
+```
+
+`tests/unit/AssessmentService.spec.js`
+
+```javascript
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: Las preguntas 4, 5, 7 y 8 son positivas y se puntúan al revés;
+ *   si no, el resultado del test sería incorrecto.
+ * - ¿Qué hace esta prueba?: Responde "Con frecuencia" (3) a todo y verifica el puntaje 22 (6×3 + 4×1).
+ */
+it('positiveQuestions_shouldBeScoredInReverse', () => {
+  // Arrange
+  const answers = Array(10).fill(3)
+
+  // Act
+  const score = scoreAnswers(answers)
+
+  // Assert
+  expect(score).toBe(22)
+})
+
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: El nivel define las recomendaciones; con nivel alto se sugiere un especialista.
+ * - ¿Qué hace esta prueba?: Verifica los valores límite de cada nivel (13, 14, 26 y 27).
+ */
+it('scoreBoundaries_shouldMapToTheCorrectLevel', () => {
+  // Act + Assert
+  expect(levelFor(13)).toBe('low')
+  expect(levelFor(14)).toBe('moderate')
+  expect(levelFor(26)).toBe('moderate')
+  expect(levelFor(27)).toBe('high')
+})
+```
+
+`tests/unit/validation.spec.js`
+
+```javascript
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: Una suscripción no debe enviarse con un número de tarjeta mal escrito.
+ * - ¿Qué hace esta prueba?: Valida con Luhn una tarjeta correcta (se acepta) y la misma con un dígito cambiado (se rechaza).
+ */
+it('cardNumberWithWrongDigit_shouldBeRejected', () => {
+  // Act
+  const valid = isCardNumber('4111 1111 1111 1111')
+  const wrong = isCardNumber('4111 1111 1111 1112')
+
+  // Assert
+  expect(valid).toBe(true)
+  expect(wrong).toBe(false)
+})
+```
+
+> *Evidencia de ejecución del frontend (pruebas unitarias aprobadas y resumen: 34 archivos y 91 pruebas aprobadas):*
+
+<img src="assets/test/Test_frontend_p2.png" alt="Pruebas unitarias del frontend aprobadas" width="900px"/>
+
+<img src="assets/test/Test_frontend_p3.png" alt="Resumen de la ejecución de Vitest" width="900px"/>
+
+#### Aplicación Móvil (Android nativo) — Responsable: Manuel Fernando Joao Castro
+
+**Herramientas:** JUnit 4.13.2, MockK 1.13.13, `kotlinx-coroutines-test` 1.10.2 (`runTest`, `StandardTestDispatcher`)  
+**Tipo:** Pruebas locales en la JVM (no requieren emulador)  
+**Ubicación en el proyecto:** `app/src/test/java/com/example/neurozen_front/` (paquetes `domain`, `data` y `presentation`)  
+**Ejecución:** `.\gradlew.bat testDebugUnitTest` (en Linux/macOS: `./gradlew testDebugUnitTest`)
+
+La aplicación móvil (versión 2.2.0, `minSdk` 26, `targetSdk` 36) fue desarrollada en Android Studio con Kotlin y Jetpack Compose, siguiendo MVVM + Clean Architecture. La capa `domain/` es Kotlin puro, sin dependencias de Android, por lo que sus reglas se prueban directamente en la JVM. Las pruebas unitarias validan la lógica del dominio (reglas de citas, puntaje del test PSS-10, validación de tarjetas, fechas en hora de Lima, recordatorios de pausas, estadísticas de estrés, recomendaciones y ZenBot), el mapeo de errores HTTP y los ViewModels. En los ViewModels los repositorios se reemplazan con **MockK** (`mockk`, `coEvery`, `coVerify`), y con `coVerify(exactly = 0)` se comprueba que no se llama al backend cuando los datos son inválidos.
+
+| # | Clase de prueba | Prueba | Qué valida |
+|---|---|---|---|
+| 1 | `AppointmentRulesTest` | `psychologist_canConfirmOrCancelPending` | Desde `PENDING` el psicólogo solo puede confirmar o cancelar |
+| 2 | `AppointmentRulesTest` | `psychologist_canCompleteOrCancelConfirmed` | Desde `CONFIRMED` el psicólogo solo puede completar o cancelar |
+| 3 | `AppointmentRulesTest` | `user_canOnlyCancel` | El trabajador solo puede cancelar sus citas |
+| 4 | `AppointmentRulesTest` | `finalStates_haveNoTransitions` | `COMPLETED` y `CANCELLED` no admiten cambios para ningún rol |
+| 5 | `AppointmentRulesTest` | `pendingCannotJumpToCompleted` | Una cita `PENDING` no puede pasar directo a `COMPLETED` |
+| 6 | `AppointmentRulesTest` | `admin_hasNoTransitionsOnMobile` | El administrador no cambia estados de citas desde la app |
+| 7 | `AppointmentRulesTest` | `shareReport_onlyPendingOrConfirmed` | Solo se comparte informe en citas `PENDING` o `CONFIRMED` |
+| 8 | `AppointmentRulesTest` | `review_onlyCompletedAndNotReviewed` | Solo se califica una cita `COMPLETED` y no calificada |
+| 9 | `AppointmentRulesTest` | `upcoming_requiresFutureAndActiveStatus` | Una cita «próxima» debe ser futura y estar activa |
+| 10 | `AppointmentRulesTest` | `statusParsing_isCaseInsensitive` | Estados y roles se leen sin importar mayúsculas; los desconocidos son `UNKNOWN` |
+| 11 | `AssessmentScoringTest` | `allZeros_reverseItemsCountAsFour` | Con todo en 0, las 4 preguntas invertidas suman 16 |
+| 12 | `AssessmentScoringTest` | `allFours_reverseItemsCountAsZero` | Con todo en 4, el puntaje es 24 |
+| 13 | `AssessmentScoringTest` | `maximumStress_is40` | El puntaje máximo es 40 y corresponde a nivel alto |
+| 14 | `AssessmentScoringTest` | `minimumStress_is0` | El puntaje mínimo es 0 y corresponde a nivel bajo |
+| 15 | `AssessmentScoringTest` | `levelThresholds` | Límites de nivel 13, 14, 26 y 27 |
+| 16 | `AssessmentScoringTest` | `incompleteOrOutOfRange_isRejected` | Test incompleto, con respuesta vacía o fuera de rango no es válido |
+| 17 | `AssessmentScoringTest` | `score_throwsOnWrongSize` | Calcular con una cantidad incorrecta de respuestas lanza `IllegalArgumentException` |
+| 18 | `CardValidatorTest` | `luhn_validTestCards` | Tarjetas de prueba válidas pasan el algoritmo de Luhn |
+| 19 | `CardValidatorTest` | `luhn_invalidNumbers` | Números alterados, cortos, con letras o vacíos se rechazan |
+| 20 | `CardValidatorTest` | `expiration_validUntilEndOfMonth` | La tarjeta vale hasta el final de su mes; formatos inválidos se rechazan |
+| 21 | `CardValidatorTest` | `cvv_threeOrFourDigits` | El CVV debe tener 3 o 4 dígitos |
+| 22 | `CardValidatorTest` | `last4` | Se obtienen los últimos 4 dígitos de la tarjeta |
+| 23 | `DateTimeAndReminderTest` | `limaSlot_isConvertedToUtc` | 10:00 en Lima = 15:00 UTC; 23:30 pasa al día siguiente en UTC |
+| 24 | `DateTimeAndReminderTest` | `parseInstant_acceptsBackendFormats` | Se aceptan los formatos de fecha del backend y se descartan los inválidos |
+| 25 | `DateTimeAndReminderTest` | `utcToLima_isMinusFiveHours` | La hora UTC se convierte a Lima restando 5 horas |
+| 26 | `DateTimeAndReminderTest` | `nextBreak_sameDayNextSlot` | La siguiente pausa es el próximo intervalo del mismo día |
+| 27 | `DateTimeAndReminderTest` | `nextBreak_afterWorkDay_jumpsToNextWorkingDay` | Un viernes a las 19:00, la siguiente pausa es el lunes a las 09:00 |
+| 28 | `DateTimeAndReminderTest` | `nextBreak_exactlyOnSlot_returnsFollowingOne` | Si la hora coincide con una pausa, se devuelve la siguiente |
+| 29 | `DateTimeAndReminderTest` | `nextBreak_invalidConfig_returnsNull` | Sin días, con horario invertido o intervalo 0 no hay pausa |
+| 30 | `DateTimeAndReminderTest` | `appointmentReminder_oneHourBefore_onlyIfFuture` | El recordatorio de cita es 1 hora antes y solo si aún no pasó |
+| 31 | `StatsAndRecommendationsTest` | `emptyData_givesZeros` | Sin datos, las estadísticas quedan en cero y «Sin datos» |
+| 32 | `StatsAndRecommendationsTest` | `stats_currentAverageWeeklyChangePeakAndCategory` | Nivel actual, promedio, cambio semanal, hora pico y último test |
+| 33 | `StatsAndRecommendationsTest` | `highLevel_recommendsProfessional` | Con estrés alto, la primera recomendación es un profesional |
+| 34 | `StatsAndRecommendationsTest` | `noAssessment_recommendsTestFirst` | Sin test previo, primero se recomienda hacer el test |
+| 35 | `StatsAndRecommendationsTest` | `overtime_recommendsWorkload` | Con más de 48 h semanales se recomienda revisar la carga laboral |
+| 36 | `ValidatorsTest` | `email` | Validación del formato de correo |
+| 37 | `ValidatorsTest` | `password` | Mínimo 8 caracteres, con letras y números, y su mensaje de error |
+| 38 | `ValidatorsTest` | `licenseAndHours` | Colegiatura, formato de hora y nombre completo |
+| 39 | `ValidatorsTest` | `jwtExpiration_isRead` | Se lee la expiración (`exp`) del JWT; un texto no JWT devuelve `null` |
+| 40 | `ValidatorsTest` | `dayCodec_keepsBackendStyle` | Los días de la semana se leen y escriben en el formato que usa el backend |
+| 41 | `ZenBotEngineTest` | `crisis_isDetectedWithAccentsAndCase` | Se detectan mensajes de crisis sin importar tildes ni mayúsculas |
+| 42 | `ZenBotEngineTest` | `normalMessages_areNotCrisis` | Mensajes cotidianos no se marcan como crisis |
+| 43 | `ZenBotEngineTest` | `crisisReply_hasPriorityAndHelplines` | La respuesta de crisis tiene prioridad e incluye la Línea 113 |
+| 44 | `ZenBotEngineTest` | `keywordRules` | Ansiedad → respiración; jefe → registro de estrés; terapia → profesionales |
+| 45 | `ZenBotEngineTest` | `unknownMessage_getsDefaultReply` | Un mensaje desconocido recibe una respuesta por defecto |
+| 46 | `ErrorMapperTest` | `backendMessage_isShownAsIs` | El mensaje del backend se muestra tal cual |
+| 47 | `ErrorMapperTest` | `validationErrors_useFirstFieldMessageWhenNoMessage` | Sin `message`, se usa el primer error de campo |
+| 48 | `ErrorMapperTest` | `statusCodes_mapToTypes` | 401, 403, 404 y 503 se convierten en el tipo de error correcto |
+| 49 | `ErrorMapperTest` | `exceptions_mapToNetworkOrTimeout` | Tiempo de espera y falta de red se distinguen |
+| 50 | `ViewModelTests` | `login_invalidEmail_showsErrorAndDoesNotCallBackend` | Con correo inválido se muestra el error y no se llama al backend |
+| 51 | `ViewModelTests` | `login_wrongCredentials_showsBackendMessage` | Con credenciales incorrectas se muestra el mensaje del backend |
+| 52 | `ViewModelTests` | `login_success_clearsPassword` | Tras un login exitoso se borra la contraseña del estado |
+| 53 | `ViewModelTests` | `register_psychologistRequiresLicense_userRequiresHealthConsent` | El psicólogo debe indicar colegiatura; el trabajador, aceptar el uso de datos de salud |
+| 54 | `ViewModelTests` | `zenBot_crisisMessageIsFlagged` | El mensaje de crisis queda marcado en la conversación |
+| 55 | `ViewModelTests` | `shareReport_completedAppointment_isRejectedLocally` | No se comparte informe de una cita completada (sin llamar al servidor) |
+| 56 | `ViewModelTests` | `shareReport_buildsStatsFromRealData` | El informe se arma con los registros reales del usuario |
+
+**Código (extractos de las pruebas unitarias móviles)**
+
+`app/src/test/java/com/example/neurozen_front/domain/AssessmentScoringTest.kt`
+
+```kotlin
+package com.example.neurozen_front.domain
+
+import com.example.neurozen_front.domain.logic.AssessmentScoring
+import com.example.neurozen_front.domain.model.StressLevel
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class AssessmentScoringTest {
+
+    @Test
+    fun allZeros_reverseItemsCountAsFour() {
+        // Questions 4, 5, 7 and 8 are reversed: 4 * 4 = 16
+        assertEquals(16, AssessmentScoring.score(List(10) { 0 }))
+    }
+
+    @Test
+    fun allFours_reverseItemsCountAsZero() {
+        assertEquals(24, AssessmentScoring.score(List(10) { 4 }))
+    }
+
+    @Test
+    fun maximumStress_is40() {
+        val answers = List(10) { i -> if (i in AssessmentScoring.REVERSED_INDEXES) 0 else 4 }
+        assertEquals(40, AssessmentScoring.score(answers))
+        assertEquals(StressLevel.HIGH, AssessmentScoring.level(40))
+    }
+
+    @Test
+    fun minimumStress_is0() {
+        val answers = List(10) { i -> if (i in AssessmentScoring.REVERSED_INDEXES) 4 else 0 }
+        assertEquals(0, AssessmentScoring.score(answers))
+        assertEquals(StressLevel.LOW, AssessmentScoring.level(0))
+    }
+
+    @Test
+    fun levelThresholds() {
+        assertEquals(StressLevel.LOW, AssessmentScoring.level(13))
+        assertEquals(StressLevel.MODERATE, AssessmentScoring.level(14))
+        assertEquals(StressLevel.MODERATE, AssessmentScoring.level(26))
+        assertEquals(StressLevel.HIGH, AssessmentScoring.level(27))
+    }
+
+    @Test
+    fun incompleteOrOutOfRange_isRejected() {
+        assertFalse(AssessmentScoring.isComplete(List(9) { 1 }))
+        assertFalse(AssessmentScoring.isComplete(List(10) { if (it == 3) null else 1 }))
+        assertFalse(AssessmentScoring.isComplete(List(10) { 5 }))
+        assertTrue(AssessmentScoring.isComplete(List(10) { 2 }))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun score_throwsOnWrongSize() {
+        AssessmentScoring.score(listOf(1, 2, 3))
+    }
+}
+```
+
+`app/src/test/java/com/example/neurozen_front/presentation/ViewModelTests.kt`
+
+```kotlin
+@Test
+fun login_invalidEmail_showsErrorAndDoesNotCallBackend() = runTest(dispatcher) {
+    val auth = mockk<AuthRepository>()
+    val vm = LoginViewModel(auth)
+    vm.onEmail("ana@")
+    vm.onPassword("x")
+    vm.submit()
+    assertEquals("Ingresa un correo válido", vm.state.value.emailError)
+    coVerify(exactly = 0) { auth.signIn(any(), any()) }
+}
+
+@Test
+fun shareReport_completedAppointment_isRejectedLocally() = runTest(dispatcher) {
+    val stress = mockk<StressRepository>()
+    val reports = mockk<ReportRepository>()
+    val useCase = ShareReportUseCase(GetStressStatsUseCase(stress), reports)
+    val result = useCase(appointment(AppointmentStatus.COMPLETED), null)
+    assertTrue((result as Outcome.Failure).error is AppError.Validation)
+    coVerify(exactly = 0) { reports.share(any(), any(), any(), any()) }
+}
+```
+
+> *Evidencia de ejecución móvil (`testDebugUnitTest`):*
+
+<img src="assets/test/Test_APP_p1.png" alt="Inicio de la ejecución de testDebugUnitTest" width="900px"/>
+
+<img src="assets/test/Test_APP_p2.png" alt="Compilación de las pruebas unitarias móviles" width="900px"/>
+
+<img src="assets/test/Test_APP_p4.png" alt="Pruebas unitarias del dominio móvil aprobadas" width="900px"/>
+
+<img src="assets/test/Test_APP_p5.png" alt="Pruebas de ViewModels aprobadas y BUILD SUCCESSFUL" width="900px"/>
+
+Reporte HTML generado por Gradle en `app/build/reports/tests/testDebugUnitTest/index.html`: **66 pruebas, 0 fallas, 0 omitidas, 100 % de éxito**.
+
+<img src="assets/test/Test_APP_html.png" alt="Reporte HTML de Gradle con 66 pruebas al 100%" width="900px"/>
+
+**Ejecución automática en CI.** El workflow `.github/workflows/ci.yml` del repositorio móvil ejecuta `./gradlew testDebugUnitTest` en cada *push* y *pull request* a las ramas `develop` y `main`, luego compila el APK (`assembleDebug`) y publica el reporte HTML de pruebas como artefacto (`reporte-pruebas-unitarias`), incluso si alguna prueba falla.
+
+---
+
+### 6.1.2. Core Integration Tests
+
+Las pruebas de integración validan que los módulos de NeuroZen funcionen juntos: la API con su base de datos real, los middlewares de seguridad y autorización, y, en los clientes, las pantallas o repositorios con la comunicación HTTP hacia la API.
+
+#### Integración API y Base de Datos (MySQL 8) — Responsable: Miguel Vila
+
+**Herramientas:** `Microsoft.AspNetCore.Mvc.Testing` 9.0.0 (`WebApplicationFactory`), Testcontainers.MySql 4.0.0, xUnit  
+**Ubicación en el proyecto:** `neurozen.API.Tests/Integration/`
+
+Las pruebas de integración levantan la **API real** (`Program.cs`) en un `TestServer` mediante `NeuroZenApiFactory`, con el entorno `Testing`. Solo se reemplazan dos piezas: los correos se capturan en memoria en lugar de enviarse (`CapturingEmailQueue`) y la IP del cliente se toma de la cabecera `X-Test-Client-Ip`, para que el límite de intentos por IP no mezcle unas pruebas con otras.
+
+La base de datos es un **MySQL 8 real**. Si existe la variable `NEUROZEN_TEST_MYSQL` (por ejemplo, en CI) se usa ese servidor; si no, **Testcontainers** levanta automáticamente un contenedor `mysql:8.0` en Docker. En cada ejecución se crea una base de datos nueva con nombre único (`neurozen_tests_...`) y se elimina al terminar. Las pruebas de integración y los escenarios BDD comparten esta misma instancia de API y de base de datos, y se ejecutan de forma secuencial (`DisableTestParallelization = true`).
+
+`neurozen.API.Tests/Integration/Support/NeuroZenApiFactory.cs`
+
+```csharp
+/// <summary>
+///     The real API (Program.cs) on a TestServer, environment "Testing", with two test-only replacements:
+///     emails are captured instead of sent, and the client IP comes from the X-Test-Client-Ip header so that
+///     per-IP rate limits isolate tests from each other.
+/// </summary>
+public sealed class NeuroZenApiFactory : WebApplicationFactory<Program>
+{
+    public CapturingEmailQueue Emails { get; } = new();
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration((_, configuration) =>
+        builder.UseEnvironment("Testing");
+        builder.ConfigureTestServices(services =>
         {
-            var currentConfiguration = configuration.Build();
-            var connectionString = currentConfiguration.GetConnectionString("DefaultConnection");
-
-            if (string.IsNullOrWhiteSpace(connectionString))
-                throw new InvalidOperationException("DefaultConnection is required for integration tests.");
-
-            var testConnectionString = connectionString
-                .Replace("database=neurozenDev", "database=neurozenIntegrationTests",
-                    StringComparison.OrdinalIgnoreCase);
-
-            configuration.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["ConnectionStrings:DefaultConnection"] = testConnectionString
-            });
+            services.RemoveAll<IEmailQueue>();
+            services.AddSingleton<IEmailQueue>(Emails);
+            services.AddSingleton<IStartupFilter, TestClientIpStartupFilter>();
         });
     }
 }
 ```
-## Resumen de pruebas
- 
-| # | Prueba | Qué valida |
-|---|---|---|
-| 1 | `CreateTrigger_StressLevelGreaterThan10_ReturnsBadRequest` | `TriggersController` | Integridad del flujo completo de una petición HTTP al endpoint POST de Triggers |
 
-Evidencia de la prueba de integración realizada: 
+`neurozen.API.Tests/Integration/Support/TestEnvironment.cs` (resolución de MySQL)
 
-<img src="assets/cap6/pruebaIntegracion1Backend.jpeg" alt="insights" width="900px"/>
- 
+```csharp
+    private static async Task<string> ResolveServerConnectionStringAsync()
+    {
+        var configured = Environment.GetEnvironmentVariable("NEUROZEN_TEST_MYSQL");
+        if (!string.IsNullOrWhiteSpace(configured)) return configured;
+
+        try
+        {
+            _container = new MySqlBuilder()
+                .WithImage("mysql:8.0")
+                .WithUsername("root")
+                .WithPassword("root")
+                .Build();
+            await _container.StartAsync();
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                "Las pruebas de integración y BDD necesitan MySQL 8 y no hay ninguno disponible. " +
+                "Opción 1: abre Docker Desktop y espera a que diga «Engine running» (Testcontainers levanta MySQL solo). " +
+                "Opción 2: usa un MySQL 8 propio con la variable NEUROZEN_TEST_MYSQL, por ejemplo " +
+                "$env:NEUROZEN_TEST_MYSQL = \"server=127.0.0.1;port=3306;user=root;password=TU_CLAVE\". " +
+                "Las pruebas unitarias no lo necesitan: dotnet test --filter \"FullyQualifiedName~Unit\"",
+                exception);
+        }
+
+        return new MySqlConnectionStringBuilder(_container.GetConnectionString())
+        {
+            Database = string.Empty,
+            UserID = "root",
+            Password = "root"
+        }.ConnectionString;
+    }
+```
+
+La clase `SecurityIntegrationTests` (11 pruebas) valida la seguridad de la API de punta a punta, contra la base de datos real:
+
+| # | Prueba | Casos | Qué valida |
+|---|---|---|---|
+| 1 | `ProtectedEndpoint_WithoutToken_ShouldReturn401` | 1 | Sin JWT, un endpoint protegido responde 401 con `message` |
+| 2 | `ProtectedEndpoint_WithExpiredOrTamperedToken_ShouldReturn401` | 2 | Un token vencido o con el rol alterado responde 401 |
+| 3 | `GetUser_OfAnotherUser_ShouldReturn403` | 1 | BOLA (OWASP API1): no se puede leer la cuenta de otro usuario |
+| 4 | `GetAppointment_OfOtherPatients_ShouldReturn404` | 1 | Las citas de otro paciente responden 404 (no se revela que existen) |
+| 5 | `Worker_CallingAdminEndpoints_ShouldReturn403` | 1 | Un trabajador no puede usar el panel de administración |
+| 6 | `PendingPsychologist_CannotListAppointments` | 1 | Un psicólogo no verificado no puede ver citas |
+| 7 | `UpdateUser_WithRoleInBody_ShouldNotChangeRole` | 1 | Asignación masiva (OWASP API3): enviar `role` no convierte al usuario en ADMIN |
+| 8 | `Responses_ShouldNeverContainPasswordHashCvvOrFullCard` | 1 | Ninguna respuesta incluye hash de contraseña, CVV ni número completo de tarjeta |
+| 9 | `BusinessError_ShouldReturnJsonMessageNot500` | 1 | Los errores de negocio responden 400/409 con JSON legible, nunca 500 |
+| 10 | `SignIn_RepeatedFailures_ShouldBeRateLimited` | 1 | Tras 10 intentos fallidos por minuto desde la misma IP, la API responde 429 |
+| | **Total** | **11** | |
+
+Las otras 8 pruebas de la carpeta `Integration/` (`BusinessFlowIntegrationTests`) recorren flujos completos de negocio y se describen en la sección **6.1.4. Core System Tests**.
+
+`neurozen.API.Tests/Integration/Security/SecurityIntegrationTests.cs`
+
+```csharp
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: BOLA (OWASP API1); cambiar el id en la URL no debe exponer la cuenta de
+///   otra persona.
+/// - ¿Qué hace esta prueba?: un trabajador pide la cuenta de otro y recibe 403 con mensaje, sin datos de la otra
+///   cuenta en la respuesta.
+/// </summary>
+[Fact]
+public async Task GetUser_OfAnotherUser_ShouldReturn403()
+{
+    // Arrange
+    var ana = await Env.Api.AsUser();
+    var luis = await Env.Api.AsUser("Luis Paredes");
+
+    // Act
+    var response = await ana.Client.GetAsync($"/api/v1/users/{luis.UserId}");
+
+    // Assert
+    Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+    var raw = await response.Content.ReadAsStringAsync();
+    Assert.DoesNotContain(luis.Email, raw);
+    Assert.False(string.IsNullOrWhiteSpace(await response.MessageAsync()));
+}
+
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: fuerza bruta contra el inicio de sesión; tras 10 intentos por minuto
+///   desde la misma IP la API debe frenar con 429.
+/// - ¿Qué hace esta prueba?: desde una misma IP hace 10 intentos con contraseña incorrecta (401) y comprueba que
+///   el undécimo recibe 429 con message.
+/// </summary>
+[Fact]
+public async Task SignIn_RepeatedFailures_ShouldBeRateLimited()
+{
+    // Arrange
+    var user = await Env.Api.AsUser();
+    var attacker = Env.Api.Anonymous(TestApi.NextIp());
+    var body = new { username = user.Email, password = "Incorrecta1" };
+
+    // Act
+    var statuses = new List<HttpStatusCode>();
+    for (var attempt = 0; attempt < 10; attempt++)
+        statuses.Add((await attacker.PostAsJsonAsync("/api/v1/authentication/sign-in", body)).StatusCode);
+    var blocked = await attacker.PostAsJsonAsync("/api/v1/authentication/sign-in", body);
+
+    // Assert
+    Assert.All(statuses, status => Assert.Equal(HttpStatusCode.Unauthorized, status));
+    Assert.Equal(HttpStatusCode.TooManyRequests, blocked.StatusCode);
+    Assert.False(string.IsNullOrWhiteSpace(await blocked.MessageAsync()));
+}
+```
+
+> *Evidencia de integración Backend-BD: contenedores levantados por Testcontainers durante la ejecución (`mysql:8.0` y el contenedor de control de Testcontainers) en Docker Desktop:*
+
+<img src="assets/test/Test_Backend_docker.png" alt="Contenedores de Testcontainers con MySQL 8.0 en Docker Desktop" width="900px"/>
+
+#### Frontend Web (Vue 3) — Responsable: Jean Pool Huaman
+
+**Herramientas:** Vitest 5.0.3, Vue Test Utils, MSW (Mock Service Worker), jsdom  
+**Tipo:** Pruebas de integración del frontend, sin backend real  
+**Ubicación en el proyecto:** `tests/integration/` (14 archivos, 29 pruebas)
+
+Estas pruebas montan la **aplicación real** (`App.vue`) con sus piezas reales: pantallas Vue, servicios, cliente HTTP, sesión del usuario, router con sus guardas de acceso por rol e internacionalización (textos en español). Lo único que se simula es el backend, mediante **MSW**, que intercepta las peticiones a `http://localhost:5059/api/v1/...` y responde con datos de prueba. Así se verifica que el frontend envía correctamente los datos a la API y reacciona bien a sus respuestas (éxito, 400, 401, 404 y 500), sin depender de que el backend esté encendido.
+
+| # | Archivo | Prueba | Qué valida |
+|---|---|---|---|
+| 1 | `accountSecurity.spec.js` | `wrongCurrentPassword_shouldShowErrorAndKeepSession` | Ante un 400, se muestra el error en el campo y la sesión sigue activa |
+| 2 | `accountSecurity.spec.js` | `deleteAccount_shouldRequireTypingTheEmail` | Eliminar la cuenta exige escribir el correo; luego se cierra la sesión |
+| 3 | `accountSecurity.spec.js` | `resetPasswordLink_shouldSaveNewPassword` | El enlace de recuperación guarda la nueva contraseña y vuelve al login |
+| 4 | `adminVerification.spec.js` | `approve_shouldRequireBothChecksBeforeVerifying` | «Aprobar» se bloquea hasta marcar las 2 comprobaciones del CPsP |
+| 5 | `adminVerification.spec.js` | `reject_shouldRequireAReason` | Rechazar sin motivo no envía nada; con motivo sí |
+| 6 | `assessment.spec.js` | `completeTest_shouldShowModerateResultWithRecommendations` | 10 respuestas «Con frecuencia» muestran 22/40, «Estrés moderado» y recomendaciones |
+| 7 | `bookSession.spec.js` | `fullFlow_bookASession` | Reserva en 4 pasos; la API recibe paciente 7, profesional 1 y 14:00 UTC |
+| 8 | `bookSession.spec.js` | `serverErrorOnBooking_shouldKeepDataAndAllowRetry` | Ante un 500 se muestra el error, se conservan los datos y se puede reintentar |
+| 9 | `loginRoles.spec.js` | `wrongPassword_shouldShowErrorAndNotLogIn` | Contraseña incorrecta muestra el mensaje y no crea sesión |
+| 10 | `loginRoles.spec.js` | `adminLogin_shouldGoToVerificationPanel` | El administrador llega a su panel de verificación |
+| 11 | `proPortal.spec.js` | `confirmAppointment_shouldSendConfirmedStatus` | El psicólogo confirma una cita y la API recibe `CONFIRMED` |
+| 12 | `proPortal.spec.js` | `completingBio_shouldCompleteProfileAndSaveIt` | Completar la biografía sube el perfil a 4 de 4 pasos |
+| 13 | `proPortal.spec.js` | `patientCard_shouldShowSharedReport` | La ficha del paciente muestra el informe compartido |
+| 14 | `purchase.spec.js` | `invalidCard_shouldShowErrorsAndNotBeSent` | Tarjeta mal escrita, vencida y CVV corto muestran 3 errores y no se envían |
+| 15 | `purchase.spec.js` | `validCard_shouldSubscribeToTheSelectedPlan` | La compra válida envía el plan elegido y la tarjeta sin espacios |
+| 16 | `registerAccount.spec.js` | `psychologistRegistration_shouldEndInPendingReview` | El psicólogo registrado llega a «Tu cuenta está en revisión» |
+| 17 | `registerAccount.spec.js` | `registrationWithoutTerms_shouldNotBeSent` | Sin aceptar los términos no se llama a la API |
+| 18 | `registerTrigger.spec.js` | `incompleteForm_shouldNotBeSentToApi` | Un formulario incompleto muestra errores y no llama a la API |
+| 19 | `registerTrigger.spec.js` | `completeForm_shouldBeSavedAndShownInList` | Un registro válido se guarda y aparece en el historial |
+| 20 | `registerTrigger.spec.js` | `serverErrorOnSave_shouldKeepWhatTheUserWrote` | Ante un 500, el texto escrito se conserva en el formulario |
+| 21 | `resourceLibrary.spec.js` | `clickOnResource_shouldOpenItsDetail` | Al hacer clic en un recurso se abre su detalle con el reproductor |
+| 22 | `routeGuards.spec.js` | `worker_shouldNotAccessPsychologistOrAdminAreas` | El trabajador no entra al portal del psicólogo ni al de administración |
+| 23 | `routeGuards.spec.js` | `pendingPsychologist_shouldOnlySeeVerificationStatus` | El psicólogo pendiente solo ve su estado de verificación |
+| 24 | `therapistDirectory.spec.js` | `weekendFilter_shouldShowOnlyWeekendPsychologists` | El filtro «Fines de semana» deja solo a los psicólogos que atienden esos días |
+| 25 | `therapistDirectory.spec.js` | `directBooking_shouldSendPatientTimeAndContact` | La reserva directa envía paciente, hora y datos de contacto |
+| 26 | `userAppointments.spec.js` | `cancelUpcomingAppointment_shouldMarkItAsCancelled` | Cancelar desde «Mis citas» envía `CANCELLED` y actualiza la vista |
+| 27 | `userAppointments.spec.js` | `reviewCompletedSession_shouldRequireStars` | Calificar sin estrellas muestra error; con 5 estrellas se envía |
+| 28 | `zenbot.spec.js` | `crisisMessage_shouldShowHelpLines` | «ya no quiero vivir» muestra la Línea 113 y la opción de especialista |
+| 29 | `zenbot.spec.js` | `sleepMessage_shouldSuggestResources` | «no puedo dormir» sugiere recursos sobre el sueño |
+
+`tests/integration/registerTrigger.spec.js`
+
+```javascript
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: Un registro incompleto daría estadísticas de estrés falsas.
+ * - ¿Qué hace esta prueba?: Envía el formulario vacío y verifica los errores y que nunca se llame a la API.
+ */
+it('incompleteForm_shouldNotBeSentToApi', async () => {
+  // Arrange
+  loginAs()
+  const save = vi.spyOn(StressTriggerService.prototype, 'addStressTrigger')
+  const { page } = await openPage('/stress/triggers')
+
+  // Act
+  await page.find('form').trigger('submit')
+
+  // Assert
+  expect(page.text()).toContain('Este campo es obligatorio.')
+  expect(save).not.toHaveBeenCalled()
+})
+
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: Si el servidor falla, el usuario no debe perder lo que escribió.
+ * - ¿Qué hace esta prueba?: Simula un error 500 y verifica el mensaje de error y que el texto siga en el formulario.
+ */
+it('serverErrorOnSave_shouldKeepWhatTheUserWrote', async () => {
+  // Arrange
+  loginAs()
+  server.use(http.post(API + '/triggers', () => new HttpResponse(null, { status: 500 })))
+  const { page } = await openPage('/stress/triggers')
+
+  // Act
+  await page.find('#trigger-category').setValue('meeting')
+  await page.find('#trigger-description').setValue('Reunión improvisada')
+  await page.find('form').trigger('submit')
+
+  // Assert
+  await waitFor(() => expect(page.text()).toContain('Error al guardar el registro'))
+  expect(page.find('#trigger-description').element.value).toBe('Reunión improvisada')
+})
+```
+
+`tests/integration/routeGuards.spec.js`
+
+```javascript
+/**
+ * NOTA DE PRUEBA:
+ * - ¿Por qué se realizó esta prueba?: Un trabajador no debe entrar al portal del psicólogo ni al panel de administración.
+ * - ¿Qué hace esta prueba?: Con sesión de trabajador abre /pro y /admin, y verifica que vuelva a su inicio.
+ */
+it('worker_shouldNotAccessPsychologistOrAdminAreas', async () => {
+  // Arrange
+  loginAs('user')
+
+  // Act
+  const { router } = await openPage('/pro')
+  const fromPro = router.currentRoute.value.name
+  await router.push('/admin/professionals')
+
+  // Assert
+  expect(fromPro).toBe('Dashboard')
+  expect(router.currentRoute.value.name).toBe('Dashboard')
+})
+```
+
+> *Evidencia de ejecución de las pruebas de integración del frontend:*
+
+<img src="assets/test/Test_frontend_p1.png" alt="Pruebas de integración del frontend aprobadas" width="900px"/>
+
 **Comunicación Cliente-Servidor (Frontend/Móvil con RESTful API)**
  
 Se validó que los clientes web (Vue.js) y móvil (Android Nativo con Kotlin) envíen correctamente las peticiones HTTP (GET, POST) hacia la API RESTful del backend y gestionen de forma adecuada los códigos de respuesta del protocolo (200 OK en autenticación y operaciones exitosas, y 401 Unauthorized ante intentos de acceso no autorizados sin token JWT).
@@ -3302,433 +3390,371 @@ Se verificó el flujo completo de autenticación y consumo de recursos desde el 
 
 <img src="assets/cap6/pruebaApiTestMovil.png" alt="insights" width="900px"/>
 
-Para garantizar la consistencia de datos en el cliente móvil y la persistencia sin conexión, se realizaron pruebas de integración reales sobre Room Database (SQLite) en Android. En estas pruebas no se utilizaron dobles de prueba ni Mocks (sin Mockito); en su lugar, se instanció la base de datos real en memoria con Room.inMemoryDatabaseBuilder para validar las operaciones de persistencia del DAO (AppointmentDao) y verificar la reactividad de los flujos de datos (Flow).
+#### Comunicación Cliente Móvil - API (Android nativo) — Responsable: Manuel Fernando Joao Castro
 
-**Responsable:** Joao Castro
-**Herramientas:** AndroidJUnit4, Room (base de datos SQLite en memoria), `kotlinx.coroutines` (Flow)
-**Tipo:** Pruebas de integración instrumentadas (sin mocks), ejecutadas en un dispositivo Android físico o en un emulador
-**Ubicación en el proyecto:** `app/src/androidTest/java/com/example/neurozen_front/RoomIntegrationTest.kt`
- 
-## Resumen de pruebas
- 
+**Herramientas:** JUnit 4.13.2, **MockWebServer** (OkHttp 4.12.0), Retrofit 3.0.0 + Gson, MockK 1.13.13, `kotlinx-coroutines-test` 1.10.2  
+**Tipo:** Pruebas de integración locales en la JVM  
+**Ubicación en el proyecto:** `app/src/test/java/com/example/neurozen_front/data/`
+
+Estas pruebas integran el **repositorio real**, **Retrofit** y el conversor **Gson** contra un servidor HTTP simulado (`MockWebServer`) que responde como el backend (200, 201, 401, 409 y error de red). Se verifica tanto lo que la app interpreta de la respuesta como el cuerpo y la ruta exactos de la petición que envía (`server.takeRequest()`). La sesión y el caché local se simulan con MockK.
+
+| # | Clase de prueba | Prueba | Qué valida |
+|---|---|---|---|
+| 1 | `AuthRepositoryIntegrationTest` | `signIn_200_returnsSessionWithRoleAndSavesIt` | Un 200 devuelve la sesión con su rol y la guarda; la petición va a `/api/v1/authentication/sign-in` |
+| 2 | `AuthRepositoryIntegrationTest` | `signIn_401_returnsBackendMessage_andDoesNotSave` | Un 401 muestra el mensaje del backend y no guarda sesión |
+| 3 | `AuthRepositoryIntegrationTest` | `signUp_409_licenseAlreadyRegistered` | Un 409 por colegiatura repetida; el cuerpo incluye rol, colegiatura y términos |
+| 4 | `AuthRepositoryIntegrationTest` | `signUp_user_marksNewAccountForOnboarding` | El registro de un trabajador marca la cuenta para el onboarding |
+| 5 | `AuthRepositoryIntegrationTest` | `networkError_returnsNetworkFailure` | Sin servidor disponible se devuelve un error de red |
+| 6 | `AppointmentRepositoryIntegrationTest` | `book_sendsLimaSlotAsUtc_andCallerAsPatient` | La reserva envía las 10:00 de Lima como 15:00 UTC y al usuario como paciente |
+| 7 | `AppointmentRepositoryIntegrationTest` | `book_409_slotTaken` | Un horario ocupado (409) se muestra con el mensaje del backend |
+| 8 | `AppointmentRepositoryIntegrationTest` | `getMine_usesPatientQuery_andCachesResult` | «Mis citas» consulta `?patientId=` y guarda el resultado en caché |
+| 9 | `AppointmentRepositoryIntegrationTest` | `updateStatus_sendsUppercaseStatus` | El cambio de estado se envía por `PATCH` con el estado en mayúsculas |
+| 10 | `AppointmentRepositoryIntegrationTest` | `trigger_inTheFuture_isRejectedWithoutCallingServer` | Un registro de estrés con fecha futura se rechaza sin llamar al servidor |
+
+`app/src/test/java/com/example/neurozen_front/data/AuthRepositoryIntegrationTest.kt`
+
+```kotlin
+/** Repository + Retrofit + Gson against a fake HTTP server (200, 401, 409 and network error). */
+class AuthRepositoryIntegrationTest {
+    private lateinit var server: MockWebServer
+    private lateinit var repo: AuthRepositoryImpl
+    private val sessions = mockk<SessionRepository>(relaxed = true)
+
+    @Before
+    fun setUp() {
+        server = MockWebServer().apply { start() }
+        val api = Retrofit.Builder()
+            .baseUrl(server.url("/api/v1/"))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NeuroZenApi::class.java)
+        repo = AuthRepositoryImpl(api, sessions)
+    }
+
+    @After
+    fun tearDown() = runCatching { server.shutdown() }.let { }
+
+    @Test
+    fun signIn_200_returnsSessionWithRoleAndSavesIt() = runTest {
+        server.enqueue(MockResponse().setResponseCode(200).setBody(
+            """{"id":7,"fullName":"Ana Pérez","email":"ana@empresa.pe","role":"PSYCHOLOGIST","token":"a.b.c"}"""
+        ))
+        val result = repo.signIn("ana@empresa.pe", "Clave2026")
+
+        assertTrue(result is Outcome.Success)
+        val session = (result as Outcome.Success).data
+        assertEquals(7L, session.userId)
+        assertEquals(Role.PSYCHOLOGIST, session.role)
+        coVerify { sessions.save(match { it.userId == 7L && it.token == "a.b.c" }, false) }
+
+        val request = server.takeRequest()
+        assertEquals("/api/v1/authentication/sign-in", request.path)
+        assertTrue(request.body.readUtf8().contains("\"username\":\"ana@empresa.pe\""))
+    }
+```
+
+> *Evidencia de ejecución (pruebas de integración de repositorios aprobadas):*
+
+<img src="assets/test/Test_APP_p3.png" alt="Pruebas de integración de repositorios móviles aprobadas" width="900px"/>
+
+#### Persistencia local con Room (pruebas instrumentadas) — Responsable: Manuel Fernando Joao Castro
+
+**Herramientas:** AndroidJUnit4 (`androidx.test.ext:junit` 1.3.0), Room 2.8.4 (`Room.inMemoryDatabaseBuilder`), `kotlinx-coroutines-test` 1.10.2 (Flow)  
+**Tipo:** Pruebas de integración instrumentadas, sin mocks; se ejecutan en un dispositivo Android o emulador  
+**Ubicación en el proyecto:** `app/src/androidTest/java/com/example/neurozen_front/RoomIntegrationTest.kt`  
+**Ejecución:** `.\gradlew.bat connectedDebugAndroidTest` (con un emulador o dispositivo conectado)
+
+Se instancia una base de datos **Room real en memoria** y se prueba el repositorio `WellnessRepositoryImpl` con sus DAO reales (respiración, carga laboral, desafíos y caché de citas).
+
+En CI, el job `instrumented-tests` de `ci.yml` ejecuta `connectedDebugAndroidTest` en un emulador (API 34, x86_64). Ese job se lanza de forma manual (`workflow_dispatch`) porque tarda alrededor de 10 minutos.
+
 | # | Prueba | Qué valida |
 |---|---|---|
-| 1 | `roomIntegration_insertAndQueryAppointment_isSuccessful` | Inserción de una cita mediante el DAO y su posterior consulta desde la base de datos real |
-| 2 | `roomIntegration_deleteAppointment_removesRecordFromDb` | Eliminación de una cita y verificación de que el registro ya no existe en la tabla |
- 
-## Código
- 
+| 1 | `breathingSessions_areStoredNewestFirst` | Las sesiones de respiración se guardan y se listan de la más reciente a la más antigua |
+| 2 | `workload_addAndDelete` | Un registro de carga laboral se guarda y se elimina |
+| 3 | `challenge_countsOncePerDay` | Un desafío cuenta como máximo un avance por día |
+| 4 | `clearAll_removesEveryLocalTable_onLogout` | Al cerrar sesión se borran todas las tablas locales |
+
+**Resultado:** 4 pruebas, 0 fallas, 0 omitidas, 100 % de éxito (1,980 s), ejecutadas en el emulador `Pixel_10_Pro_XL(AVD) - 17` (Pixel 10 Pro XL API 37.0).
+
 ```kotlin
-package com.example.neurozen_front
- 
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.neurozen_front.neurozen.data.local.AppointmentEntity
-import com.example.neurozen_front.neurozen.data.local.NeurozenDatabase
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
- 
-/**
- * Prueba de Integración Local para NeuroZen (sin Mocks / sin Mockito).
- * Valida la integración real entre las entidades de negocio, el DAO de Room
- * y la base de datos SQLite en memoria sobre el dispositivo Android.
- *
- * Frente: Aplicación Móvil (Android Nativo con Room Database)
- * Responsable: Joao Castro
- */
-@RunWith(AndroidJUnit4::class)
-class RoomIntegrationTest {
- 
-    private lateinit var database: NeurozenDatabase
- 
-    @Before
-    fun createDb() {
-        // ARRANGE: Crear una instancia REAL de la base de datos Room en memoria (sin Mocks)
-        val context = ApplicationProvider.getApplicationContext<android.content.Context>()
-        database = Room.inMemoryDatabaseBuilder(context, NeurozenDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
-    }
- 
-    @After
-    fun closeDb() {
-        database.close()
-    }
- 
-    /**
-     * Prueba de Integración 1: Inserción y Consulta de Citas en Base de Datos Real.
-     * Valida la persistencia real del DAO sin simular con Mockito.
-     */
-    @Test
-    fun roomIntegration_insertAndQueryAppointment_isSuccessful() = runBlocking {
-        // Arrange: Objeto de dominio real
-        val appointment = AppointmentEntity(
-            id = 101L,
-            psychologistId = "psy_202",
-            psychologistName = "Dr. Carlos Rodríguez",
-            psychologistSpecialty = "Psicología Clínica",
-            dateMillis = 1760108400000L,
-            status = "CONFIRMED"
-        )
- 
-        // Act: Operación de persistencia real en la base de datos
-        database.appointmentDao().insertAppointment(appointment)
-        val appointments = database.appointmentDao().getAllAppointments().first()
- 
-        // Assert: Verificación de persistencia integra
-        assertEquals(1, appointments.size)
-        assertEquals("Dr. Carlos Rodríguez", appointments[0].psychologistName)
-        assertEquals("CONFIRMED", appointments[0].status)
-    }
- 
-    /**
-     * Prueba de Integración 2: Eliminación de Registro en Base de Datos Real.
-     * Valida la eliminación directa en la tabla de citas SQLite.
-     */
-    @Test
-    fun roomIntegration_deleteAppointment_removesRecordFromDb() = runBlocking {
-        // Arrange
-        val appointment = AppointmentEntity(
-            id = 102L,
-            psychologistId = "psy_203",
-            psychologistName = "Dra. Ana López",
-            psychologistSpecialty = "Mindfulness",
-            dateMillis = 1760263200000L,
-            status = "PENDING"
-        )
-        database.appointmentDao().insertAppointment(appointment)
- 
-        // Act
-        database.appointmentDao().deleteAppointment(102L)
-        val appointmentsAfterDelete = database.appointmentDao().getAllAppointments().first()
- 
-        // Assert
-        assertTrue(appointmentsAfterDelete.isEmpty())
-    }
+@Test
+fun clearAll_removesEveryLocalTable_onLogout() = runTest {
+    repo.addBreathingSession("box", 64)
+    repo.addWorkload(LocalDate.of(2026, 11, 10), 8.0, "")
+    repo.completeChallengeDay("walk7", LocalDate.of(2026, 11, 10))
+    db.appointmentCacheDao().insertAll(listOf(AppointmentCacheEntity(1, 5, null, 3, 0L, 1, "PENDING", false)))
+
+    repo.clearAll()
+
+    assertTrue(repo.observeBreathingSessions().first().isEmpty())
+    assertTrue(repo.observeWorkload().first().isEmpty())
+    assertTrue(repo.observeChallenges().first().isEmpty())
+    assertTrue(db.appointmentCacheDao().observeAll().first().isEmpty())
 }
 ```
-Evidencia de la prueba de integración realizada: 
 
-<img src="assets/cap6/pruebaIntegracionTestMovil.png" alt="insights" width="900px"/>
+> *Evidencia de ejecución de las pruebas instrumentadas (`connectedDebugAndroidTest`): 7 de 7 pruebas completadas en el emulador, 0 fallidas, `BUILD SUCCESSFUL`:*
 
-**Frontend Web (Vue.js)**
+<img src="assets/test/Test_APP_html_connected.png" alt="Ejecución de connectedDebugAndroidTest en el emulador Pixel 10 Pro XL" width="900px"/>
 
-**Responsable:** Jean Pool Huaman
+Reporte HTML generado por Gradle en `app/build/reports/androidTests/connected/debug/index.html`: **7 pruebas, 0 fallas, 0 omitidas, 100 % de éxito (45,536 s)**.
 
-**Herramientas:** Vitest 5, Vue Test Utils, MSW (Mock Service Worker), jsdom
+<img src="assets/test/Test_APP_html_Summary_1.png" alt="Resumen del reporte de pruebas instrumentadas: 7 pruebas al 100%" width="900px"/>
 
-**Tipo:** Pruebas de integración del frontend, sin backend real
+> *Detalle de la clase `RoomIntegrationTest` (4 de 4 aprobadas):*
 
-**Ubicación en el proyecto:** `tests/integration/`
-
-Las pruebas de integración validan que los módulos del frontend funcionen **juntos**, tal como lo hacen en la aplicación real. Se usan las piezas reales del frontend:
-
-- las pantallas Vue;
-- los servicios;
-- el cliente HTTP (`HttpClient`, basado en `fetch`);
-- la sesión del usuario;
-- el router y la internacionalización.
-
-Lo único que se simula es el backend, mediante **MSW**, que intercepta las peticiones HTTP a `/api/v1/...` y responde con datos de prueba. Así se verifica que el frontend envía correctamente los datos a la API y reacciona bien a sus respuestas, sin depender de que el backend esté encendido.
-
-### Resumen de pruebas
-
-| # | Prueba | Flujo | Qué valida |
-|---|---|---|---|
-| 1 | `incompleteForm_shouldNotBeSentToApi` | Registro de estrés | Un formulario incompleto muestra errores y **no** llama a la API (equivalente a `verifyNoInteractions`) |
-| 2 | `completeForm_shouldBeSavedAndShownInList` | Registro de estrés | Un registro válido se envía a la API, muestra el mensaje de éxito y aparece en el historial |
-| 3 | `fullFlow_bookASession` | Reserva de sesión | Flujo completo de 4 pasos (profesional, fecha y hora, tipo de sesión, confirmación); la API recibe la cita correcta y se muestra la confirmación |
-
-### Código
-
-**`tests/integration/registerTrigger.spec.js`**
-
-```javascript
-// Pruebas de integración: registrar una situación de estrés
-// (pantalla + servicio + API simulada + sesión trabajando juntos)
-import { StressTriggerService } from '../../src/services/StressTriggerService.js'
-import { openPage, loginAs, waitFor } from '../helpers.js'
-
-describe('RegisterTrigger', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque los registros de estrés alimentan las estadísticas
-   *   del usuario; un registro vacío o incompleto daría información falsa.
-   * - ¿Qué hace esta prueba?: Abre la pantalla real, envía el formulario sin completarlo y
-   *   verifica que se muestran los errores y que el servicio que guarda en la API nunca se llamó.
-   */
-  it('incompleteForm_shouldNotBeSentToApi', async () => {
-    // Arrange: usuario con sesión y espía del método que guarda en la API
-    loginAs()
-    const save = vi.spyOn(StressTriggerService.prototype, 'addStressTrigger')
-    const { page } = await openPage('/stress/triggers')
-
-    // Act: envía el formulario sin categoría ni descripción
-    await page.find('form').trigger('submit')
-
-    // Assert: muestra errores y no llama a la API (como verifyNoInteractions)
-    expect(page.text()).toContain('Este campo es obligatorio.')
-    expect(save).not.toHaveBeenCalled()
-  })
-
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque registrar una situación de estrés es la función
-   *   principal del módulo; el usuario necesita ver que su registro quedó guardado.
-   * - ¿Qué hace esta prueba?: Completa el formulario en la pantalla real, lo envía a la API
-   *   simulada y verifica el mensaje de éxito y que el registro aparece en el historial.
-   */
-  it('completeForm_shouldBeSavedAndShownInList', async () => {
-    // Arrange
-    loginAs()
-    const { page } = await openPage('/stress/triggers')
-
-    // Act: completa y envía el formulario
-    await page.find('#trigger-category').setValue('workOverload')
-    await page.find('#trigger-description').setValue('Tres entregas el mismo día')
-    await page.find('form').trigger('submit')
-
-    // Assert: mensaje de éxito y el registro aparece en el historial
-    await waitFor(() => expect(page.text()).toContain('Desencadenante registrado exitosamente'))
-    expect(page.text()).toContain('Tres entregas el mismo día')
-  })
-})
-```
-
-**Evidencia (registerTrigger.spec.js):** ejecución de integración aprobada.
-
-![Evidencia registerTrigger.spec.js](assets/cap6/testFrontend/registerTrigger.spec.png)
-
-**`tests/integration/bookSession.spec.js`**
-
-```javascript
-// Prueba de integración: flujo completo de reserva de una sesión con un profesional
-// (pantallas + servicios + router + API simulada trabajando juntos)
-import { http, HttpResponse } from 'msw'
-import { server, API } from '../mocks/server.js'
-import { openPage, loginAs, waitFor } from '../helpers.js'
-
-// Busca un botón por su texto
-const button = (page, text) => page.findAll('button').find((b) => b.text().includes(text))
-
-describe('BookSession', () => {
-  /**
-   * NOTA DE PRUEBA:
-   * - ¿Por qué se realizó esta prueba?: Porque reservar una sesión con un profesional es el flujo
-   *   de negocio más importante de la plataforma; si falla, el usuario no puede recibir ayuda.
-   * - ¿Qué hace esta prueba?: Recorre los 4 pasos en la pantalla real (profesional, día y hora,
-   *   tipo de sesión y confirmación), verifica que la API recibe la cita con el paciente, el
-   *   profesional y la hora correctos, y que se muestra la confirmación de la cita creada.
-   */
-  it('fullFlow_bookASession', async () => {
-    // Arrange: hoy es 10 de octubre de 2026 y guardamos lo que llega a la API
-    vi.useFakeTimers({ toFake: ['Date'] })
-    vi.setSystemTime(new Date('2026-10-10T10:00:00-05:00'))
-    loginAs()
-    let sent = null
-    server.use(
-      http.post(API + '/appointments', async ({ request }) => {
-        sent = await request.json()
-        return HttpResponse.json({ id: 555 })
-      })
-    )
-    const { page, router } = await openPage('/book-session')
-    await waitFor(() => expect(page.text()).toContain('Dra. Elena Ramírez'))
-
-    // Act - Paso 1: elegir profesional
-    await page.find('[role="radio"]').trigger('click')
-    await button(page, 'Siguiente').trigger('click')
-
-    // Act - Paso 2: elegir el día 20 y las 09:00
-    await page.findAll('.grid-cols-7 button').find((b) => b.text() === '20').trigger('click')
-    await waitFor(() => expect(page.find('button.slot').exists()).toBe(true))
-    await page.find('button.slot').trigger('click')
-    await button(page, 'Siguiente').trigger('click')
-
-    // Act - Paso 3: elegir el tipo de sesión
-    await page.find('[role="radio"]').trigger('click')
-    await button(page, 'Siguiente').trigger('click')
-
-    // Act - Paso 4: confirmar
-    await button(page, 'Confirmar Reserva').trigger('click')
-
-    // Assert: la API recibió la cita correcta (usuario 7, 09:00 Lima = 14:00 UTC)
-    await waitFor(() => expect(sent).not.toBeNull())
-    expect(sent.patientId).toBe(7)
-    expect(sent.professionalId).toBe(1)
-    expect(sent.appointmentDateTime).toBe('2026-10-20T14:00:00.000Z')
-
-    // Assert: se muestra la confirmación de la cita creada
-    await waitFor(() => expect(router.currentRoute.value.path).toBe('/appointment-confirmation/555'))
-  })
-})
-```
-
-**Evidencia (bookSession.spec.js):** ejecución de integración aprobada.
-
-![Evidencia bookSession.spec.js](assets/cap6/testFrontend/bookSession.spec.png)
-
-### Ejecución
-
-```bash
-npm test
-```
-
-**Evidencia general (10 pruebas: 7 unitarias y 3 de integración):**
-
-![Ejecución general de pruebas del frontend](assets/cap6/testFrontend/Test.General.png)
+<img src="assets/test/Test_APP_html_class_Integration.png" alt="Reporte de RoomIntegrationTest con 4 pruebas aprobadas" width="900px"/>
 
 ---
 
- 
 ### 6.1.3. Core Behavior-Driven Development
- 
-Los escenarios se escribieron en **Gherkin** a partir de los criterios de aceptación de las User Stories. **Carlos Paredes** estructuró los escenarios, que se implementaron con **Reqnroll** en el backend (Miguel Vila) y con **Cypress + Cucumber** en el frontend web (Jean Pool Huaman).
 
-| ID | Feature | User Story | Escenarios | Frente |
-|---|---|---|---|---|
-| F1 | `Authentication.feature` | US01 – Registrar cuenta | 3 | Backend |
-| F2 | `StressTriggers.feature` | US12 – Registrar desencadenantes | 3 | Backend |
-| F3 | `Professionals.feature` | US13 – Buscar psicólogos | 3 | Backend |
-| F4 | `Appointments.feature` | US14 – Programar cita | 2 | Backend |
-| F5 | `US01-account.feature` | US01 – Registrar cuenta | 2 | Web |
-| F6 | `US12-register-trigger.feature` | US12 – Registrar desencadenantes | 2 | Web |
-| F7 | `US13-search-psychologists.feature` | US13 – Buscar psicólogos | 2 | Web |
-| F8 | `US14-book-session.feature` | US14 – Programar cita | 2 | Web |
-| | | | **19** | |
+Los escenarios de comportamiento se escribieron en **Gherkin** a partir de los criterios de aceptación de las historias de usuario. En el backend se escribieron en español (`# language: es`, configurado en `reqnroll.json`) y se implementaron con **Reqnroll** (`Reqnroll.xUnit` 2.2.1); en el frontend web se implementaron con **Cypress + Cucumber** (Jean Pool Huaman). Cada paso llama a la API real por HTTP, con usuarios reales creados en la base de datos MySQL de prueba, igual que las pruebas de integración.
 
-#### Backend (Reqnroll) — `neurozen.API.Tests/BDD/`
+**Responsables:** Carlos Paredes (estructura de los escenarios) y Miguel Vila (implementación en el backend)  
+**Ubicación en el proyecto:** `neurozen.API.Tests/BDD/` (`Features/`, `Steps/NeuroZenSteps.cs`, `Support/BddHooks.cs`)  
+**Ejecución:** `dotnet test --filter "FullyQualifiedName~BDD"`
+
+| ID | Feature | Escenarios | Qué cubre |
+|---|---|---|---|
+| F1 | `ReservaDeSesion.feature` | 3 | Reserva de una sesión con un psicólogo verificado (US14), horario ocupado y psicólogo no verificado |
+| F2 | `CicloDeLaCita.feature` | 5 | Confirmar, cancelar, permisos del paciente y calificación solo de sesiones atendidas |
+| F3 | `VerificacionDePsicologos.feature` | 4 | Aprobación y rechazo de psicólogos por el administrador tras validar la colegiatura en el CPsP |
+| F4 | `SeguridadDeLaCuenta.feature` | 3 | Recuperación de contraseña, enlace vencido y cambio con contraseña actual incorrecta |
+| F5 | `US01-account.feature` (Web) | 2 | US01 – Registrar cuenta |
+| F6 | `US12-register-trigger.feature` (Web) | 2 | US12 – Registrar desencadenantes |
+| F7 | `US13-search-psychologists.feature` (Web) | 2 | US13 – Buscar psicólogos |
+| F8 | `US14-book-session.feature` (Web) | 2 | US14 – Programar cita |
+| | **Total** | **23** | |
+
+#### Backend (Reqnroll) — Features
+
+`neurozen.API.Tests/BDD/Features/ReservaDeSesion.feature`
 
 ```gherkin
-@bdd @US01
-Feature: User account registration
-  Scenario: Successful registration
-    Given the visitor does not have an account
-    When the visitor registers with a valid username, email and password
-    Then the system creates the account
-  Scenario: Registration with an already used username
-    Given a user is already registered
-    When another visitor registers with the same username
-    Then the system rejects the request
-  Scenario: Sign in with a wrong password
-    Given a user is already registered
-    When the user signs in with a wrong password
-    Then the system rejects the request
+# language: es
+Característica: Reserva de sesión
+  Como trabajador que necesita apoyo
+  quiero reservar una sesión con un psicólogo verificado en un horario libre
+  para recibir atención profesional (US14)
 
-@bdd @US12
-Feature: Register stress triggers
-  Background:
-    Given I am an authenticated user
-  Scenario: Trigger registered successfully
-    When I register a trigger with stress level 7
-    Then the system accepts the request
-  Scenario Outline: Stress level out of range
-    When I register a trigger with stress level <level>
-    Then the system responds with status code 400
-    Examples:
-      | level |
-      | 11    |
-      | 15    |
+  Antecedentes:
+    Dado un trabajador con sesión iniciada
 
-@bdd @US13
-Feature: Search specialized psychologists
-  Scenario: List of psychologists
-    Given I am an authenticated user
-    When I request "/api/v1/professionals"
-    Then the system accepts the request
-  Scenario: Psychologist not found
-    Given I am an authenticated user
-    When I request "/api/v1/professionals/999999"
-    Then the system responds with status code 404
-  Scenario: Search without authentication
-    When I request "/api/v1/professionals"
-    Then the system responds with status code 401
+  Escenario: Reserva exitosa en un horario libre
+    Dado un psicólogo verificado con disponibilidad todos los días
+    Cuando el trabajador reserva la sesión de mañana a las 10:00
+    Entonces la respuesta es 201
+    Y la cita queda en estado "PENDING"
 
-@bdd @US14
-Feature: Scheduling sessions with psychologists
-  Background:
-    Given I am an authenticated user
-  Scenario: Appointment scheduled successfully
-    When I book a free slot with the psychologist 1
-    Then the system accepts the request
-  Scenario: Time slot no longer available
-    Given another user booked a slot with the psychologist 1
-    When I book the same slot
-    Then the system rejects the request
+  Escenario: El horario ya fue reservado por otro trabajador
+    Dado un psicólogo verificado con disponibilidad todos los días
+    Y otro trabajador ya reservó la sesión de mañana a las 10:00
+    Cuando el trabajador reserva la sesión de mañana a las 10:00
+    Entonces la respuesta es un error 409 con el mensaje "El horario ya no está disponible"
+
+  Escenario: No se puede reservar con un psicólogo no verificado
+    Dado un psicólogo pendiente de verificación con disponibilidad todos los días
+    Cuando el trabajador reserva la sesión de mañana a las 10:00
+    Entonces la respuesta es un error 404
 ```
+
+`neurozen.API.Tests/BDD/Features/CicloDeLaCita.feature`
+
+```gherkin
+# language: es
+Característica: Ciclo de la cita
+  Como paciente y como psicólogo
+  queremos que cada cita siga un ciclo claro
+  para que solo se califiquen las sesiones que realmente ocurrieron
+
+  Antecedentes:
+    Dado un trabajador con una cita pendiente con un psicólogo verificado
+
+  Escenario: El psicólogo confirma la cita
+    Cuando el psicólogo confirma la cita
+    Entonces la cita queda en estado "CONFIRMED"
+
+  Escenario: El paciente cancela su cita
+    Cuando el trabajador cancela la cita
+    Entonces la cita queda en estado "CANCELLED"
+
+  Escenario: El paciente no puede marcar la cita como atendida
+    Cuando el trabajador intenta marcar la cita como atendida
+    Entonces la respuesta es un error 403
+    Y la cita queda en estado "PENDING"
+
+  Escenario: No se puede calificar una sesión que no fue atendida
+    Cuando el trabajador califica la sesión con 5 estrellas
+    Entonces la respuesta es un error 400 con el mensaje "Solo se puede calificar una sesión atendida"
+
+  Escenario: El paciente califica una sesión atendida
+    Dado que el psicólogo confirmó la cita
+    Y la sesión ya ocurrió
+    Y el psicólogo marcó la cita como atendida
+    Cuando el trabajador califica la sesión con 5 estrellas
+    Entonces la respuesta es 201
+    Y la calificación del psicólogo es "5.0" con 1 reseña
+```
+
+`neurozen.API.Tests/BDD/Features/VerificacionDePsicologos.feature`
+
+```gherkin
+# language: es
+Característica: Verificación de psicólogos
+  Para que los trabajadores solo reserven con profesionales colegiados
+  como administrador de NeuroZen
+  quiero aprobar o rechazar a los psicólogos después de validar su colegiatura en el CPsP
+
+  Escenario: El administrador aprueba a un psicólogo con la colegiatura habilitada
+    Dado un psicólogo registrado pendiente de verificación
+    Cuando el administrador lo aprueba tras validar su colegiatura en el CPsP
+    Entonces el estado del psicólogo es "VERIFIED"
+    Y el psicólogo aparece en el directorio de profesionales
+
+  Escenario: El administrador rechaza a un psicólogo indicando el motivo
+    Dado un psicólogo registrado pendiente de verificación
+    Cuando el administrador lo rechaza con el motivo "La colegiatura no figura como HABILITADO en el CPsP"
+    Entonces el estado del psicólogo es "REJECTED"
+    Y el psicólogo ve el motivo "La colegiatura no figura como HABILITADO en el CPsP"
+
+  Escenario: Un psicólogo pendiente no aparece en el directorio
+    Dado un psicólogo registrado pendiente de verificación
+    Cuando un trabajador consulta el directorio de profesionales
+    Entonces el psicólogo no aparece en el directorio de profesionales
+
+  Escenario: No se puede rechazar sin un motivo suficiente
+    Dado un psicólogo registrado pendiente de verificación
+    Cuando el administrador lo rechaza con el motivo "Corto"
+    Entonces la respuesta es un error 400
+    Y el estado del psicólogo es "PENDING"
+```
+
+`neurozen.API.Tests/BDD/Features/SeguridadDeLaCuenta.feature`
+
+```gherkin
+# language: es
+Característica: Seguridad de la cuenta
+  Como usuario de NeuroZen
+  quiero recuperar y cambiar mi contraseña de forma segura
+  para que nadie más pueda entrar a mi cuenta
+
+  Escenario: Recuperar la contraseña con un enlace válido
+    Dado un trabajador registrado que olvidó su contraseña
+    Cuando solicita recuperar su contraseña
+    Y usa el enlace recibido para elegir la contraseña "NuevaClave2026"
+    Entonces puede iniciar sesión con la contraseña "NuevaClave2026"
+    Y ya no puede iniciar sesión con su contraseña anterior
+
+  Escenario: El enlace de recuperación ya venció
+    Dado un trabajador registrado que olvidó su contraseña
+    Cuando solicita recuperar su contraseña
+    Y el enlace recibido vence
+    Y usa el enlace recibido para elegir la contraseña "NuevaClave2026"
+    Entonces la respuesta es un error 400 con el mensaje "El enlace no es válido o ya venció"
+    Y puede iniciar sesión con su contraseña anterior
+
+  Escenario: Cambiar la contraseña indicando mal la contraseña actual
+    Dado un trabajador con sesión iniciada
+    Cuando cambia su contraseña indicando "Incorrecta99" como contraseña actual
+    Entonces la respuesta es un error 400 con el mensaje "La contraseña actual es incorrecta"
+    Y puede iniciar sesión con su contraseña anterior
+```
+
+#### Definición de pasos (extracto)
+
+`BddHooks` inicia, antes de cada escenario, el mismo entorno de API + MySQL que usan las pruebas de integración (solo la primera vez), y `ScenarioState` guarda los datos que comparten los pasos de un escenario.
+
+`neurozen.API.Tests/BDD/Support/BddHooks.cs`
 
 ```csharp
 [Binding]
-public class NeurozenSteps
+public sealed class BddHooks
 {
-    private static readonly IntegrationTestWebApplicationFactory Factory = new();
-    private readonly HttpClient _client = Factory.CreateClient();
-    private HttpResponseMessage _res = null!;
-    private string _user = "";
-    private DateTime _slot;
-
-    private Task<HttpResponseMessage> Post(HttpClient c, string url, object body) =>
-        c.PostAsync(url, new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json"));
-
-    private async Task Login(HttpClient c)
-    {
-        var user = $"bdd_{Guid.NewGuid():N}"[..12];
-        await Post(c, "/api/v1/Authentication/sign-up", new { Username = user, Password = "Password123.", Email = $"{user}@gmail.com" });
-        var res = await Post(c, "/api/v1/Authentication/sign-in", new { Username = user, Password = "Password123." });
-        var token = JsonDocument.Parse(await res.Content.ReadAsStringAsync()).RootElement.GetProperty("token").GetString();
-        c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-    }
-
-    [Given("the visitor does not have an account")] public void NoAccount() => _user = $"bdd_{Guid.NewGuid():N}"[..12];
-    [Given("a user is already registered")] public async Task Registered() { NoAccount(); await SignUp(); }
-    [Given("I am an authenticated user")] public Task Authenticated() => Login(_client);
-
-    [When("the visitor registers with a valid username, email and password")]
-    [When("another visitor registers with the same username")]
-    public async Task SignUp() => _res = await Post(_client, "/api/v1/Authentication/sign-up",
-        new { Username = _user, Password = "Password123.", Email = $"{_user}@gmail.com" });
-
-    [When("the user signs in with a wrong password")]
-    public async Task WrongPassword() => _res = await Post(_client, "/api/v1/Authentication/sign-in",
-        new { Username = _user, Password = "Wrong!" });
-
-    [When("I register a trigger with stress level {int}")]
-    public async Task Trigger(int level) => _res = await Post(_client, "/api/v1/Triggers",
-        new { PatientId = 1, CategoryId = 1, StressLevel = level, TriggerDateTime = DateTime.UtcNow, Description = "BDD" });
-
-    [When("I request {string}")] public async Task Get(string url) => _res = await _client.GetAsync(url);
-
-    [Given("another user booked a slot with the psychologist {int}")]
-    public async Task OtherBooked(int id)
-    {
-        var other = Factory.CreateClient(); await Login(other);
-        _slot = DateTime.UtcNow.Date.AddDays(Random.Shared.Next(30, 365)).AddHours(14);
-        await Post(other, "/api/v1/appointments", new { PatientId = 1, ProfessionalId = id, AppointmentDateTime = _slot });
-    }
-
-    [When("I book a free slot with the psychologist {int}")]
-    public Task BookFree(int id) { _slot = DateTime.UtcNow.Date.AddDays(Random.Shared.Next(30, 365)).AddHours(14); return Book(id); }
-
-    [When("I book the same slot")] public Task BookSame() => Book(1);
-    private async Task Book(int id) => _res = await Post(_client, "/api/v1/appointments",
-        new { PatientId = 1, ProfessionalId = id, AppointmentDateTime = _slot });
-
-    [Then("the system creates the account")]
-    [Then("the system accepts the request")] public void Ok() => Assert.True(_res.IsSuccessStatusCode);
-    [Then("the system rejects the request")] public void Rejected() => Assert.False(_res.IsSuccessStatusCode);
-    [Then("the system responds with status code {int}")] public void Status(int code) => Assert.Equal(code, (int)_res.StatusCode);
+    /// <summary>
+    ///     Starts (only the first time) the same API + MySQL environment used by the integration tests.
+    ///     A scenario hook, not [BeforeTestRun]: with xUnit, a failing test-run hook becomes an assembly fixture
+    ///     failure and would also fail the unit tests, which must never depend on Docker or MySQL.
+    /// </summary>
+    [BeforeScenario(Order = 0)]
+    public static async Task EnsureApiAsync() => await TestEnvironment.GetAsync();
 }
 ```
 
-```bash
-dotnet test ./neurozen.API.Tests --filter "Category=bdd"
+`neurozen.API.Tests/BDD/Steps/NeuroZenSteps.cs`
+
+```csharp
+[Binding]
+public sealed class NeuroZenSteps(ScenarioState state)
+{
+    private static Task<TestEnvironment> Env() => TestEnvironment.GetAsync();
+
+    private TestAccount Worker => state.Worker ?? throw new InvalidOperationException("No hay trabajador");
+    private TestPsychologist Psychologist => state.Psychologist ?? throw new InvalidOperationException("No hay psicólogo");
+    private HttpResponseMessage LastResponse => state.LastResponse ?? throw new InvalidOperationException("Sin respuesta");
+
+    // ------------------------------------------------------------------ Dado
+
+    [Given("un psicólogo registrado pendiente de verificación")]
+    [Given("un psicólogo pendiente de verificación con disponibilidad todos los días")]
+    public async Task GivenPendingPsychologist() =>
+        state.Psychologist = await (await Env()).Api.AsPsychologist(verified: false);
+
+    [Given("un psicólogo verificado con disponibilidad todos los días")]
+    public async Task GivenVerifiedPsychologist() =>
+        state.Psychologist = await (await Env()).Api.AsPsychologist(verified: true);
+
+    [Given("un trabajador con sesión iniciada")]
+    [Given("un trabajador registrado que olvidó su contraseña")]
+    public async Task GivenWorker() => state.Worker = await (await Env()).Api.AsUser();
+
+    [Given("otro trabajador ya reservó la sesión de mañana a las 10:00")]
+    public async Task GivenOtherWorkerBooked()
+    {
+        state.OtherWorker = await (await Env()).Api.AsUser("Luis Paredes");
+        var response = await TestApi.BookAsync(state.OtherWorker.Client, state.OtherWorker.UserId,
+            Psychologist.ProfessionalId, TestApi.SlotUtc(1, 10));
+        await TestApi.EnsureStatusAsync(response, HttpStatusCode.Created);
+    }
+
+    // (...)
+
+    [When("el trabajador reserva la sesión de mañana a las 10:00")]
+    public async Task WhenWorkerBooks()
+    {
+        state.LastResponse = await TestApi.BookAsync(Worker.Client, Worker.UserId, Psychologist.ProfessionalId,
+            TestApi.SlotUtc(1, 10));
+        if (state.LastResponse.StatusCode == HttpStatusCode.Created)
+            state.AppointmentId = (await state.LastResponse.ReadJsonAsync()).GetProperty("id").GetInt64();
+    }
+
+    // (...)
+
+    [Then("la respuesta es {int}")]
+    public void ThenStatus(int status) => Assert.Equal(status, (int)LastResponse.StatusCode);
+
+    [Then("la respuesta es un error {int}")]
+    public async Task ThenError(int status)
+    {
+        Assert.Equal(status, (int)LastResponse.StatusCode);
+        Assert.False(string.IsNullOrWhiteSpace(await LastResponse.MessageAsync()));
+    }
+
+    [Then("la respuesta es un error {int} con el mensaje {string}")]
+    public async Task ThenErrorWithMessage(int status, string message)
+    {
+        Assert.Equal(status, (int)LastResponse.StatusCode);
+        Assert.Equal(message, await LastResponse.MessageAsync());
+    }
+
+    // (...)
 ```
+
+> *Evidencia de ejecución de los escenarios BDD (salida detallada de Reqnroll con los pasos Dado / Cuando / Entonces) y resumen final de la corrida del backend: 106 pruebas, 0 errores:*
+
+<img src="assets/test/Test_Backend_p2.png" alt="Escenarios BDD aprobados y resumen de 106 pruebas del backend" width="900px"/>
+
 
 #### Frontend Web (Cypress + Cucumber) — `cypress/e2e/features/`
 
@@ -3869,7 +3895,79 @@ npx cypress run --spec "cypress/e2e/features/**/*.feature"
 
 ### 6.1.4. Core System Tests
 
-Pruebas End-to-End sobre la aplicación completa, conectada a la API de staging. Validan la navegación, la interacción con la API y la respuesta del sistema en diferentes escenarios.
+Las pruebas de sistema validan NeuroZen como un producto completo, recorriendo flujos de negocio de principio a fin con varios actores (trabajador, psicólogo y administrador) y comprobando el resultado tanto en las respuestas de la API como en la base de datos.
+
+#### Flujos de negocio de punta a punta en la API — Responsable: Miguel Vila
+
+**Herramientas:** `WebApplicationFactory` (API real), MySQL 8 con Testcontainers, xUnit  
+**Ubicación en el proyecto:** `neurozen.API.Tests/Integration/Flows/BusinessFlowIntegrationTests.cs`
+
+Estas 8 pruebas usan la API completa (autenticación JWT, middlewares, autorización por rol, controladores, servicios, Entity Framework Core y MySQL real) exactamente como la consumen los clientes: solo por HTTP. Cada prueba crea sus propias cuentas con la API pública (registro e inicio de sesión) y, cuando el flujo lo requiere, verifica el estado final directamente en la base de datos. Para simular que la hora de una cita ya pasó, la prueba mueve la fecha de la cita en la base de datos.
+
+| # | Prueba | Flujo recorrido |
+|---|---|---|
+| 1 | `PsychologistLifecycle_RegisterVerifyAppearInDirectory` | Registro del psicólogo → no aparece en el directorio (404) → el admin lo aprueba → aparece en el directorio, sin exponer su colegiatura |
+| 2 | `RejectedPsychologist_ShouldSeeReasonAndResubmitToPending` | El admin rechaza con motivo → el psicólogo ve `REJECTED` y el motivo → reenvía su perfil → vuelve a `PENDING` |
+| 3 | `BookingFlow_BookConfirmCompleteReview` | Reserva (201 `PENDING`) → el psicólogo confirma → la sesión ocurre → se marca atendida → el paciente califica con 5 → calificación pública 5.0 con 1 reseña |
+| 4 | `Booking_SameSlotTwice_SecondShouldReturn409` | Dos pacientes reservan el mismo horario: el primero 201, el segundo 409, y en la base queda una sola cita activa |
+| 5 | `SharedReport_VisibleToItsPsychologistOnly` | El paciente comparte su informe con el psicólogo A: A lo ve, B no lo ve y recibe 403 si pide los informes de A |
+| 6 | `PasswordRecovery_ForgotResetSignInWithNewPassword` | Solicitud de recuperación → token del correo capturado → nueva contraseña → inicia sesión con la nueva (200) y no con la anterior (401) |
+| 7 | `DeleteAccount_ShouldRemoveDataAndInvalidateAccess` | Registro de estrés → eliminación de la cuenta (204) → el token deja de servir, no puede iniciar sesión y sus datos de salud se borran (Ley 29733) |
+| 8 | `Subscription_CreateAndGet_ShouldOnlyExposeLast4` | Suscripción (201) y consulta (200): solo se expone y se guarda `cardLast4`, nunca el CVV ni el número completo |
+
+`neurozen.API.Tests/Integration/Flows/BusinessFlowIntegrationTests.cs`
+
+```csharp
+/// <summary>
+/// NOTA DE PRUEBA:
+/// - ¿Por qué se realizó esta prueba?: es el ciclo completo de una sesión: reservar, confirmar, atender y
+///   calificar; al final la calificación pública del psicólogo debe reflejar la reseña.
+/// - ¿Qué hace esta prueba?: reserva (201 PENDING), el psicólogo confirma, se simula que la hora pasó (se mueve
+///   la cita al pasado en la base), el psicólogo la marca atendida, el paciente califica con 5 y el psicólogo
+///   pasa a rating 5.0 con 1 reseña; la cita queda reviewed.
+/// </summary>
+[Fact]
+public async Task BookingFlow_BookConfirmCompleteReview()
+{
+    // Arrange
+    var psychologist = await Env.Api.AsPsychologist();
+    var patient = await Env.Api.AsUser();
+
+    // Act
+    var booking = await TestApi.BookAsync(patient.Client, patient.UserId, psychologist.ProfessionalId,
+        TestApi.SlotUtc(1, 10));
+    var appointmentId = (await booking.ReadJsonAsync()).GetProperty("id").GetInt64();
+    var confirm = await psychologist.Client.PatchAsJsonAsync($"/api/v1/appointments/{appointmentId}/status",
+        new { status = "CONFIRMED" });
+    await Env.WithDatabaseAsync(db => db.Set<Appointment>().Where(a => a.Id == appointmentId)
+        .ExecuteUpdateAsync(s => s
+            .SetProperty(a => a.AppointmentDateTime, DateTime.UtcNow.AddHours(-2))
+            .SetProperty(a => a.ActiveSlot, DateTime.UtcNow.AddHours(-2))));
+    var complete = await psychologist.Client.PatchAsJsonAsync($"/api/v1/appointments/{appointmentId}/status",
+        new { status = "COMPLETED" });
+    var review = await patient.Client.PostAsJsonAsync(
+        $"/api/v1/professionals/{psychologist.ProfessionalId}/reviews",
+        new { appointmentId, rating = 5, comment = "Muy útil" });
+    var profile = await (await patient.Client.GetAsync($"/api/v1/professionals/{psychologist.ProfessionalId}"))
+        .ReadJsonAsync();
+
+    // Assert
+    Assert.Equal(HttpStatusCode.Created, booking.StatusCode);
+    Assert.Equal("CONFIRMED", (await confirm.ReadJsonAsync()).GetProperty("status").GetString());
+    Assert.Equal("COMPLETED", (await complete.ReadJsonAsync()).GetProperty("status").GetString());
+    Assert.Equal(HttpStatusCode.Created, review.StatusCode);
+    Assert.Equal("Ana T.", (await review.ReadJsonAsync()).GetProperty("userName").GetString());
+    Assert.Equal(5.0m, profile.GetProperty("rating").GetDecimal());
+    Assert.Equal(1, profile.GetProperty("reviews").GetInt32());
+    var reviewed = await Env.QueryDatabaseAsync(db =>
+        db.Set<Appointment>().Where(a => a.Id == appointmentId).Select(a => a.Reviewed).SingleAsync());
+    Assert.True(reviewed);
+}
+```
+
+Estas pruebas se ejecutaron en la misma corrida de `dotnet test` del backend (106 / 106 correctas), cuya evidencia se muestra en las secciones 6.1.1, 6.1.2 y 6.1.3.
+
+#### Frontend Web (Cypress) — Jean Pool Huaman
 
 **Flujo crítico:** registro → inicio de sesión → registro de estrés → reserva de cita → confirmación.
 
@@ -3881,14 +3979,6 @@ Pruebas End-to-End sobre la aplicación completa, conectada a la API de staging.
 | ST-W04 | Web | Credenciales inválidas | API + error |
 | ST-W05 | Web | Error 500 al guardar un trigger | API + error |
 | ST-W06 | Web | Logout bloquea rutas privadas | Navegación |
-| ST-M01 | Móvil | Integridad del paquete | Arranque |
-| ST-M02 | Móvil | Persistencia de la sesión | Sesión |
-| ST-M03 | Móvil | La app inicia en login | Navegación |
-| ST-M04 | Móvil | Credenciales inválidas | API + error |
-| ST-M05 | Móvil | Login válido → dashboard + token | Navegación + API |
-| ST-M06 | Móvil | Dashboard → Perfil → Citas | Navegación + API |
-
-#### Frontend Web (Cypress) — Jean Pool Huaman
 
 ```js
 // cypress/e2e/system/neurozen-e2e.cy.js
@@ -3961,12 +4051,6 @@ describe('NeuroZen Web — System Tests', () => {
 })
 ```
 
-
- 
-**Responsables:** Joao Castro (Móvil), Jean Pool Huaman (Web) y Carlos Paredes (Consolidación)
- 
-Las pruebas de sistema (End-to-End, E2E) validaron NeuroZen como un producto completo, simulando el recorrido de un usuario real desde que abre la aplicación hasta que completa un flujo crítico de negocio (por ejemplo: registro → inicio de sesión → check-in de estrés → reserva de cita).
- 
 **System Tests en Frontend Web**
  
 Se utilizó **Cypress** para ejecutar de forma automatizada la aplicación web e interactuar con la interfaz gráfica como lo haría un usuario.
@@ -3974,98 +4058,44 @@ Se utilizó **Cypress** para ejecutar de forma automatizada la aplicación web e
 Código fuente de la prueba realizada: 
 
 Evidencia de la prueba realizada:
- 
-**System Tests en Aplicación Móvil**
- 
-Se ejecutaron pruebas de sistema instrumentadas (End-to-End / E2E) utilizando AndroidJUnit4 y la infraestructura de pruebas de Jetpack Compose ubicadas en app/src/androidTest. Estas pruebas simularon la instanciación completa del paquete nativo (com.example.neurozen_front), la persistencia del estado de sesión global (UserSession) y la navegación de interfaz en el dispositivo Android, garantizando la estabilidad de la aplicación y una experiencia de usuario libre de bloqueos o cierres inesperados.
- 
-**Responsable:** Joao Castro
-**Herramientas:** AndroidJUnit4, AndroidX Test (`InstrumentationRegistry`)
-**Tipo:** Pruebas instrumentadas, ejecutadas en un dispositivo Android físico o en un emulador
-**Ubicación en el proyecto:** `app/src/androidTest/java/com/example/neurozen_front/ExampleInstrumentedTest.kt`
- 
-## Resumen de pruebas
- 
+
+#### Pruebas de interfaz en la aplicación móvil (Jetpack Compose) — Responsable: Joao Castro
+
+**Herramientas:** AndroidJUnit4, Compose UI Test (`ui-test-junit4`, Compose BOM 2026.05.00, `createComposeRule`)  
+**Tipo:** Pruebas instrumentadas, ejecutadas en un dispositivo Android o emulador  
+**Ubicación en el proyecto:** `app/src/androidTest/java/com/example/neurozen_front/ComposeUiTest.kt`  
+**Ejecución:** `.\gradlew.bat connectedDebugAndroidTest` (en CI: job manual `instrumented-tests` de `ci.yml`)
+
+Estas pruebas dibujan las pantallas reales de Compose (con el tema `NeuroZenTheme`) e interactúan con ellas como lo haría un usuario: escriben en los campos, pulsan botones y comprueban lo que se muestra en pantalla. Los elementos se ubican por las etiquetas `testTag` definidas en el código de las pantallas (`login_email`, `login_submit`, `zenbot_input`, `zenbot_send`, `crisis_message`).
+
 | # | Prueba | Qué valida |
 |---|---|---|
-| 1 | `useAppContext_systemPackageIntegrity_isCorrect` | La app se instancia con el paquete `com.example.neurozen_front` y accede a sus recursos del sistema |
-| 2 | `systemE2E_sessionStatePersistence_isSuccessful` | El estado global de la sesión se guarda, se mantiene y se limpia correctamente en el dispositivo |
- 
-## Código
- 
+| 1 | `login_typingAndSubmitting_callsCallbacks` | Escribir el correo (`login_email`) y pulsar «Iniciar Sesión» (`login_submit`) en `LoginScreen` dispara los eventos correctos |
+| 2 | `login_showsBackendError` | El mensaje de error del backend se muestra en la pantalla de login |
+| 3 | `zenBot_crisisMessage_showsHelplines` | En `ZenBotScreen`, el mensaje «ya no quiero vivir» muestra el aviso de crisis y el botón «Llamar 113» |
+
+**Resultado:** 3 pruebas, 0 fallas, 0 omitidas, 100 % de éxito (43,556 s), ejecutadas en el emulador `Pixel_10_Pro_XL(AVD) - 17`, en la misma corrida de `connectedDebugAndroidTest` mostrada en la sección 6.1.2.
+
 ```kotlin
-package com.example.neurozen_front
- 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.neurozen_front.neurozen.data.network.AuthSession
-import com.example.neurozen_front.neurozen.data.network.UserRole
-import com.example.neurozen_front.neurozen.data.session.UserSession
- 
-import org.junit.Test
-import org.junit.runner.RunWith
- 
-import org.junit.Assert.*
- 
-/**
- * Pruebas de Sistema Instrumentadas (End-to-End / System Tests) para NeuroZen en Android.
- * Se ejecutan directamente en un dispositivo Android físico o emulador.
- *
- * Frente: Aplicación Móvil (Android nativo con Jetpack Compose)
- * Responsable: Joao Castro
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
- 
-    /**
-     * Prueba de Sistema 1: Verificación de Integridad del Paquete y Contexto del Sistema.
-     * Valida que la app instancie correctamente el paquete Android com.example.neurozen_front.
-     */
-    @Test
-    fun useAppContext_systemPackageIntegrity_isCorrect() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.neurozen_front", appContext.packageName)
-        assertNotNull(appContext.resources)
-    }
- 
-    /**
-     * Prueba de Sistema 2: Simulación de Persistencia de Sesión E2E en Dispositivo.
-     * Valida que el estado global de la sesión persista de forma segura en memoria
-     * durante la navegación del usuario en el sistema Android.
-     */
-    @Test
-    fun systemE2E_sessionStatePersistence_isSuccessful() {
-        // Arrange
-        UserSession.clear()
-        assertFalse(UserSession.hasActiveSession())
- 
-        val mockSession = AuthSession(
-            token = "jwt_system_test_e2e_token",
-            userId = "uuid_joao_system_test",
-            username = "joao_system_user",
-            email = "joao.system@neurozen.pe",
-            role = UserRole.CLIENT
-        )
- 
-        // Act
-        UserSession.save(mockSession)
- 
-        // Assert
-        assertTrue(UserSession.hasActiveSession())
-        assertEquals("uuid_joao_system_test", UserSession.state.value.userId)
-        assertEquals("Bearer jwt_system_test_e2e_token", UserSession.bearerTokenOrEmpty())
- 
-        // Clean Up
-        UserSession.clear()
-        assertFalse(UserSession.hasActiveSession())
-    }
+@Test
+fun zenBot_crisisMessage_showsHelplines() {
+    compose.setContent { NeuroZenTheme { ZenBotScreen(onBack = {}, onSuggestion = {}, vm = ZenBotViewModel()) } }
+    compose.onNodeWithTag("zenbot_input").performTextInput("ya no quiero vivir")
+    compose.onNodeWithTag("zenbot_send").performClick()
+    compose.onNodeWithTag("crisis_message").assertIsDisplayed()
+    compose.onNodeWithText("Llamar 113").assertIsDisplayed()
 }
 ```
 
-Evidencia de la prueba realizada:
+> *Detalle de la clase `ComposeUiTest` (3 de 3 aprobadas):*
 
-<img src="assets/cap6/pruebaTestCoreMovil.png" alt="insights" width="900px"/>
- 
+<img src="assets/test/Test_APP_html_class_UiTest.png" alt="Reporte de ComposeUiTest con 3 pruebas aprobadas" width="900px"/>
+
+> *Reporte por paquete `com.example.neurozen_front`: `ComposeUiTest` y `RoomIntegrationTest`, 7 pruebas al 100 %:*
+
+<img src="assets/test/Test_APP_html_package.png" alt="Reporte del paquete com.example.neurozen_front con 7 pruebas al 100%" width="900px"/>
+
+
 ## 6.2. Static testing & Verification
 
 ### 6.2.1. Static Code Analysis
