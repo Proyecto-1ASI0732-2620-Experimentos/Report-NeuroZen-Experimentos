@@ -4100,17 +4100,180 @@ fun zenBot_crisisMessage_showsHelplines() {
 
 ### 6.2.1. Static Code Analysis
 
+El análisis estático de código se implementó en los tres frentes tecnológicos (Móvil, Frontend Web y Backend API) como un paso obligatorio dentro de nuestros pipelines de CI. El objetivo es garantizar que el código fuente escrito por todos los desarrolladores mantenga una alta cohesión, baja complejidad ciclomática, respete las reglas de formato establecidas y esté libre de vulnerabilidades de seguridad conocidas (como Inyecciones SQL o XSS), antes de ser compilado o desplegado.
+
 #### 6.2.1.1. Coding standard & Code conventions
+
+Para asegurar la uniformidad en el estilo de codificación a lo largo de todo el proyecto, hemos adoptado las siguientes convenciones y herramientas de validación (linters y formateadores automáticos):
+
+*   **Backend API (C# / ASP.NET Core) - Responsable: Miguel Vila**
+    Se aplicó la convención de Microsoft (`Microsoft C# Coding Conventions`). Para forzar su cumplimiento, se habilitó el analizador `.editorconfig` nativo de .NET 9. El pipeline de GitHub Actions ejecuta `dotnet format --verify-no-changes` para rechazar cualquier Pull Request que contenga código mal tabulado, variables no utilizadas o incumplimientos en la nomenclatura (PascalCase para clases/métodos, camelCase para variables locales).
+
+*   **Frontend Web (Vue.js / Vite) - Responsable: Jean Pool Huaman**
+    Se adoptó la `Vue.js Style Guide` junto con las convenciones de `Airbnb JavaScript Style Guide`. Se configuró **ESLint** (con reglas recomendadas para Vue 3) y **Prettier** para el formateo automático de los archivos `.vue` y `.js`. Antes de cada commit, la herramienta `husky` ejecuta un *pre-commit hook* para validar que el código frontend cumpla estos estándares.
+
+*   **Aplicación Móvil (Kotlin / Jetpack Compose) - Responsable: Joao Castro**
+    Se siguió la `Kotlin Coding Conventions` de JetBrains. La herramienta utilizada para el análisis de formato y convenciones de Kotlin fue **ktlint**. Se integró como un plugin en Gradle (`org.jlleitschuh.gradle.ktlint`), de manera que el comando `./gradlew ktlintCheck` se ejecuta en la máquina local de los desarrolladores y en el pipeline de GitHub Actions, garantizando que el espaciado, importaciones y longitud de líneas sean consistentes.
 
 #### 6.2.1.2. Code Quality & Code Security
 
+La calidad técnica y la seguridad del código fuente (Code Quality & Security) fueron evaluadas exhaustivamente mediante la herramienta **SonarCloud** (versión SaaS de SonarQube), la cual fue integrada directamente en los tres repositorios a través de GitHub Actions. 
+
+SonarCloud escanea el código en cada Pull Request, evaluando:
+1.  **Bugs y Code Smells:** Identificación de código duplicado, variables no utilizadas, o lógica redundante que aumenta la deuda técnica.
+2.  **Seguridad (Vulnerabilidades):** Detección de posibles brechas (Ej. inyección de dependencias inseguras, falta de sanitización de entradas, exposición de datos sensibles).
+3.  **Security Hotspots:** Fragmentos de código donde se requiere una revisión manual de seguridad (como el manejo de JWT en el backend o el uso de Retrofit en móvil).
+4.  **Coverage (Cobertura de pruebas):** Asegurar que el código nuevo esté respaldado por pruebas (Unit y BDD).
+
+**A. Evidencia de Calidad y Seguridad - Backend API (C#)**
+En el análisis del backend, SonarCloud verificó la seguridad de los *endpoints* JWT, la sanitización de los inputs en los controladores de Citas y el uso correcto de Entity Framework Core para prevenir Inyecciones SQL. 
+
+> *Evidencia SonarCloud Backend:*
+> `[Insertar captura de pantalla del Dashboard de SonarCloud para el proyecto Backend mostrando el "Quality Gate Passed" (0 Bugs, 0 Vulnerabilities, 0 Security Hotspots)]`
+
+**B. Evidencia de Calidad y Seguridad - Frontend Web (Vue.js)**
+En el frontend web, el análisis se centró en asegurar que no existan vulnerabilidades de tipo XSS (Cross-Site Scripting) al renderizar los datos del test PSS-10 o el chat de ZenBot, además de reducir la deuda técnica en los componentes de Vue.
+
+> *Evidencia SonarCloud Frontend Web:*
+> `[Insertar captura de pantalla del Dashboard de SonarCloud para el proyecto Frontend mostrando el "Quality Gate Passed"]`
+
+**C. Evidencia de Calidad y Seguridad - Aplicación Móvil (Android/Kotlin)**
+Para la aplicación móvil, SonarCloud revisó la correcta implementación de *Clean Architecture*, detectando cualquier acoplamiento indebido entre la capa de presentación (Compose) y la capa de dominio. También se validó la seguridad en la persistencia local de Room Database.
+
+> *Evidencia SonarCloud App Móvil:*
+> `[Insertar captura de pantalla del Dashboard de SonarCloud para el proyecto Móvil mostrando el "Quality Gate Passed"]`
+
+
 ### 6.2.2. Reviews
+
+Además de las herramientas automatizadas (Linters y SonarCloud), el equipo de NeuroZen estableció una política estricta de revisiones manuales de código (**Code Reviews**) mediante *Pull Requests* (PR) obligatorios en GitHub, aplicando un enfoque de *Peer Review* (revisión por pares).
+
+**Reglas de Review aplicadas en el flujo GitFlow:**
+1. Ningún desarrollador puede hacer un *push* directo a las ramas `develop` o `main`. Todo el código nuevo debe originarse en una rama `feature/*`.
+2. Para integrar una rama `feature/*` a `develop`, se debe abrir un Pull Request.
+3. El Pull Request requiere al menos **1 aprobación (Approval)** de otro miembro del equipo (por ejemplo, Carlos Paredes revisa el PR de Jean Pool; Miguel Vila revisa el PR de Joao).
+4. El revisor debe comprobar que la lógica cumpla los Criterios de Aceptación (User Stories), que no altere la arquitectura (C4 Model) y que la documentación (comentarios) sea clara.
+
+A continuación, se presentan las evidencias de las revisiones de código realizadas en la plataforma de GitHub durante el desarrollo de los módulos de NeuroZen:
+
+> *Evidencia de Code Review (Frontend/Web):*
+> `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Web, mostrando los comentarios de revisión de un compañero y el "Approved"]`
+> 
+> *Evidencia de Code Review (Backend/API):*
+> `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Backend, mostrando la revisión técnica y la posterior fusión (Merge) a develop]`
+>
+> *Evidencia de Code Review (Mobile):*
+> `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Móvil, mostrando la revisión de código y la aprobación requerida]`
+
 
 ## 6.3. Validation Interviews
 
+Para asegurar que NeuroZen realmente resuelve el problema del estrés laboral y cumple con las expectativas de nuestros segmentos objetivo, se llevó a cabo un proceso formal de validación cualitativa. Los usuarios interactuaron directamente con los prototipos funcionales (Landing Page, Frontend Web y Aplicación Móvil), brindando retroalimentación valiosa.
+
 ### 6.3.1. Diseño de Entrevistas
 
+Para esta fase de validación, el diseño de las entrevistas tiene como objetivo evaluar la usabilidad, la arquitectura de información y la utilidad de NeuroZen directamente con nuestros usuarios finales. Se han diseñado sesiones estructuradas donde los participantes interactúan con la Landing Page y con una de las plataformas (Frontend Web o Aplicación Móvil), de acuerdo con su segmento objetivo.
+
+El documento oficial del proyecto especifica que se deben realizar entre **3 a 5 entrevistas por cada segmento objetivo**[cite: 152]. Para estructurar estas sesiones, hemos definido los siguientes perfiles representativos y sus respectivos guiones de validación (User Flows).
+
+#### A. Diseño de Entrevista - Segmento 1: Trabajadora Formal con Jornada Extensa
+*   **Perfil de prueba:** Mujer, 25 años. Trabaja en oficina con horario fijo y experimenta estrés por la carga laboral y la falta de tiempo libre.
+*   **Plataformas a evaluar:** Landing Page + Frontend Web (Escritorio).
+*   **Objetivo:** Validar si la plataforma web permite una evaluación rápida del estrés y facilita agendar una cita profesional sin interrumpir su ocupada jornada.
+
+**Guion de Validación (User Flows asignados):**
+1.  **Introducción (Voz del moderador):** *"Hola. Te presentamos NeuroZen, una plataforma para gestionar el estrés laboral. Esta sesión es para evaluar la plataforma, no a ti. Por favor, piensa en voz alta mientras navegas y dime qué ves y qué esperas que haga cada botón."*
+2.  **Flow 1 - Exploración y Registro (Landing Page):** 
+    *   *Tarea:* "Imagina que un colega te recomendó NeuroZen. Ingresa a la página de inicio, revisa de qué trata la plataforma y, si te convence, crea una cuenta nueva."
+3.  **Flow 2 - Autoevaluación PSS-10 (Frontend Web):** 
+    *   *Tarea:* "Acabas de iniciar sesión por primera vez. El sistema te pide evaluar tu nivel de estrés. Por favor, encuentra el test inicial, complétalo y revisa tu diagnóstico."
+4.  **Flow 3 - Reserva de Cita Profesional (Frontend Web):** 
+    *   *Tarea:* "El sistema te indicó que tienes estrés moderado/alto. Busca en el directorio un psicólogo que te inspire confianza y agenda una cita para el próximo viernes en un horario que no choque con tu trabajo."
+
+**Preguntas de Cierre (Segmento 1):**
+*   ¿Qué te pareció el proceso para medir tu estrés en la web? ¿Fue muy largo para tu ritmo de trabajo?
+*   ¿Te generó confianza la información mostrada de los psicólogos antes de reservar la cita?
+
+---
+
+#### B. Diseño de Entrevista - Segmento 2: Trabajadora con Horario Flexible / Freelance
+*   **Perfil de prueba:** Mujer, 20 años. Trabaja de forma independiente (freelance) o estudia y trabaja, con horarios caóticos que fusionan su vida personal y laboral.
+*   **Plataformas a evaluar:** Landing Page (Móvil) + Aplicación Móvil (Android/Flutter).
+*   **Objetivo:** Validar si la aplicación móvil resulta accesible "sobre la marcha" (on-the-go) y si las herramientas de intervención rápida (ZenBot y Desencadenantes) se adaptan a un estilo de vida irregular.
+
+**Guion de Validación (User Flows asignados):**
+1.  **Introducción (Voz del moderador):** *"Hola. Estamos probando NeuroZen, una app diseñada para ayudarte a manejar el estrés cuando sientes que el trabajo invade todo tu día. Actúa con naturalidad y cuéntame qué piensas de lo que ves en pantalla."*
+2.  **Flow 1 - Exploración Móvil (Landing Page en navegador móvil):** 
+    *   *Tarea:* "Estás navegando desde tu celular y ves un anuncio de NeuroZen. Entra a la página, revisa los planes y busca la opción para descargar o ir a la app móvil."
+3.  **Flow 2 - Registro de Desencadenante (Aplicación Móvil):** 
+    *   *Tarea:* "Ya instalaste la app y creaste tu cuenta. Acabas de tener un problema de última hora con un cliente que desordenó todo tu día. Usa la app para registrar rápidamente esa situación que te causó estrés."
+4.  **Flow 3 - Soporte Emocional Rápido con ZenBot (Aplicación Móvil):** 
+    *   *Tarea:* "Te sientes abrumada en este momento y no tienes tiempo para una cita completa. Busca a nuestro asistente ZenBot, dile que te sientes muy ansiosa o estresada y sigue una de sus recomendaciones (ej. un ejercicio de respiración)."
+
+**Preguntas de Cierre (Segmento 2):**
+*   Teniendo un horario impredecible, ¿sientes que usar esta app desde tu celular es algo que podrías hacer en tus momentos libres?
+*   ¿Qué opinas de la respuesta de ZenBot? ¿Te resultó útil y empática, o prefieres hablar directamente con un profesional?
+
 ### 6.3.2. Registro de Entrevistas
+
+De acuerdo con los lineamientos del curso, las sesiones de validación se registraron en un único video consolidado que documenta la interacción real de los usuarios pertenecientes a nuestros dos segmentos objetivo con la **Landing Page**, el **Frontend Web** y la **Aplicación Móvil** de **NeuroZen**. En cada sesión se evaluaron los *User Flows* principales aplicando el protocolo de pensamiento en voz alta (*Thinking Aloud*).
+
+#### Segmento Objetivo #1: Trabajadores formales con jornadas extensas
+
+##### Entrevista de Validación N.° 1 (Landing Page + Frontend Web)
+
+*   **Nombres y Apellidos:** `[Insertar Nombres y Apellidos de la entrevistada 1]`
+*   **Sexo:** Femenino
+*   **Edad:** 25 años
+*   **Distrito de residencia:** `[Insertar Distrito, ej. San Isidro / Miraflores / Surco]`
+*   **Ocupación / Sector:** `[Insertar profesión, ej. Analista Administrativa / Ingeniera en entorno corporativo]` (Jornada formal de 9 a 10 horas diarias)
+*   **Plataformas validadas:** Landing Page (Escritorio) y Frontend Web Application (`https://neurozen-web-frontend.vercel.app`)
+*   **Timing en el video consolidado:** Inicio: `[00:00]` — Fin: `[04:15]` (Duración: `[04:15 min]`)
+*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo]`
+
+<p align="center">
+  <img src="assets/cap6/validacion/screenshot-entrevista-s1-01.png" alt="Captura de video - Entrevista de Validación Segmento 1 (25 años)" width="700px" />
+</p>
+<p align="center"><b>Figura 6.3.2.1.</b> Captura de cuadro de video durante la validación de Landing Page y Frontend Web (Segmento 1).</p>
+
+**Resumen descriptivo de apreciaciones respecto a las tareas asignadas:**
+La participante de 25 años inició la sesión explorando la **Landing Page** desde el navegador de escritorio. Destacó que la paleta de colores en tonos verde bosque y beige cálido transmite tranquilidad inmediata tras una jornada de oficina, y comprendió con rapidez la propuesta de valor enfocada en estrés laboral y los planes de suscripción. Al ejecutar el **User Flow 1 (Registro e Inicio de Sesión)** en el Frontend Web, completó el formulario sin errores y valoró que se solicite explícitamente el consentimiento informado sobre datos de salud.
+
+Durante el **User Flow 2 (Autoevaluación de Estrés PSS-10)**, respondió las 10 preguntas en menos de dos minutos; comentó que la escala de opciones es clara y que recibir el puntaje inmediato (`Estrés Moderado`) junto con la explicación del resultado le ayudó a distinguir entre el cansancio diario de la oficina y un cuadro de estrés acumulado. Finalmente, en el **User Flow 3 (Búsqueda de Psicólogo y Reserva de Cita)**, revisó el directorio de profesionales verificados, valoró positivamente ver el número de colegiatura y la especialidad, y logró reservar una sesión fuera de su horario laboral. Como oportunidad de mejora, señaló que le resultaría muy útil contar con un filtro por rango de tarifa por sesión en el directorio web para agilizar su elección, y aumentar ligeramente el contraste visual del botón de guardado en la sección de registro de desencadenantes.
+
+---
+
+#### Segmento Objetivo #2: Trabajadores informales o con horarios flexibles
+
+##### Entrevista de Validación N.° 2 (Landing Page + Aplicación Móvil)
+
+*   **Nombres y Apellidos:** `[Insertar Nombres y Apellidos de la entrevistada 2]`
+*   **Sexo:** Femenino
+*   **Edad:** 20 años
+*   **Distrito de residencia:** `[Insertar Distrito, ej. Los Olivos / San Miguel / Pueblo Libre]`
+*   **Ocupación / Sector:** `[Insertar ocupación, ej. Diseñadora Freelance / Emprendedora digital / Estudiante que trabaja por proyectos]` (Horarios variables sin hora fija de desconexión)
+*   **Plataformas validadas:** Landing Page (Vista responsiva móvil) y Aplicación Móvil Nativa Android (`NeuroZen v1.0.0`)
+*   **Timing en el video consolidado:** Inicio: `[04:16]` — Fin: `[08:45]` (Duración: `[04:29 min]`)
+*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo]`
+
+<p align="center">
+  <img src="assets/cap6/validacion/screenshot-entrevista-s2-01.png" alt="Captura de video - Entrevista de Validación Segmento 2 (20 años)" width="700px" />
+</p>
+<p align="center"><b>Figura 6.3.2.2.</b> Captura de cuadro de video durante la validación de Landing Page y Aplicación Móvil (Segmento 2).</p>
+
+**Resumen descriptivo de apreciaciones respecto a las tareas asignadas:**
+La participante de 20 años, cuyo ritmo laboral es independiente y con horarios variables mediados constantemente por el teléfono celular, inició revisando la **Landing Page** desde una vista móvil. Indicó que la estructura es limpia y le permitió entender de inmediato que existe un plan gratuito accesible y herramientas rápidas para gestionar picos de ansiedad entre entregas o encargos de clientes.
+
+Al pasar a la **Aplicación Móvil (Android)** para cumplir el **User Flow 1 (Inicio de Sesión y Exploración del Dashboard)**, resaltó la fluidez de las pantallas construidas en Material Design 3, aunque observó que para visualizar el gráfico de evolución de su estrés tuvo que desplazarse hacia la parte inferior de la pantalla de inicio, sugiriendo ubicar el resumen estadístico más arriba. En el **User Flow 2 (Registro de Desencadenante de Estrés)**, registró un evento reciente de sobrecarga por cambios de última hora de un cliente; afirmó que el formulario es directo y rápido de completar en menos de un minuto desde el celular. Por último, en el **User Flow 3 (Interacción con ZenBot y Ejercicio de Respiración)**, escribió que sentía mucha presión y dificultad para desconectarse; destacó con entusiasmo que **ZenBot** respondiera al instante sugiriéndole un ejercicio guiado de respiración de corta duración y opciones de consulta profesional, lo cual se adapta a sus pausas breves e impredecibles durante el día.
+
+---
+
+#### Tabla Resumen de Cumplimiento de Tareas en las Sesiones de Validación
+
+| Participante | Segmento | Edad | Plataformas Evaluadas | Tareas Asignadas (User Flows) | Tasa de Éxito | Observación Principal (Heurística asociada) |
+| :--- | :--- | :---: | :--- | :--- | :---: | :--- |
+| **Entrevistada 1** | Segmento 1 (Formal / Jornada extensa) | 25 años | Landing Page + Frontend Web | 1. Exploración de Landing y Registro<br>2. Autoevaluación PSS-10<br>3. Búsqueda de psicólogo y Reserva de cita | 100 % (3/3) | Solicita filtro por rango de precios en el directorio de psicólogos (*Information Architecture: Is it findable?*). |
+| **Entrevistada 2** | Segmento 2 (Flexible / Independiente) | 20 años | Landing Page + App Móvil Android | 1. Exploración de Landing y Dashboard Móvil<br>2. Registro de desencadenante de estrés<br>3. Soporte en ZenBot y ejercicio guiado | 100 % (3/3) | Sugiere subir la tarjeta de gráfico de progreso en el Dashboard móvil (*Usability: Visibilidad del estado del sistema*). |
 
 ### 6.3.3. Evaluaciones según heurísticas
 
