@@ -5183,43 +5183,398 @@ Evidencia de Despliegue Continuo a Producción (GitHub Release):
 
 # Parte III: Experiment-Driven Lifecycle
 
-# Capítulo VIII: Experiment-Driven Development
+## Capítulo VIII: Experiment-Driven Development
 
-## 8.1. Experiment Planning
+En este capítulo, el equipo de NeuroDraw aplica el proceso de Experiment-Driven Product Development (XDPD) sobre NeuroZen. El punto de partida no son ideas sueltas, sino la evidencia recogida en las entrevistas de validación (sección 6.3) y en la auditoría de experiencia de usuario recibida del grupo CareStacks (sección 6.4.2). A partir de esa evidencia se formulan preguntas, se priorizan y se diseñan los experimentos que permitirán tomar decisiones de producto basadas en datos.
 
-### 8.1.1. As-Is Summary
+### 8.1. Experiment Planning
 
-### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
+#### 8.1.1. As-Is Summary
 
-### 8.1.3. Experiment-Ready Questions
+NeuroZen es una plataforma para la gestión del estrés laboral dirigida a dos segmentos: trabajadores formales con jornadas extensas y trabajadores informales o con horarios flexibles. Actualmente la solución está compuesta por:
 
-### 8.1.4. Question Backlog
+- **Landing Page** (Astro + Tailwind, ES/EN), que presenta la propuesta de valor, los planes y el directorio de psicólogos.
+- **Frontend Web** (Vue 3 + PrimeVue, desplegado en Vercel), con registro de usuarios y psicólogos, test de autoevaluación PSS-10, panel de estadísticas de estrés, registro de desencadenantes, ejercicios de respiración, pausas activas, directorio de psicólogos verificados por CPsP, reserva de citas en un asistente de 4 pasos, suscripciones y el asistente ZenBot.
+- **Aplicación Móvil** Android nativa (Kotlin + Jetpack Compose), con navegación en 5 pestañas (Inicio, Bienestar, Psicólogos, Mis citas y Perfil), registro de desencadenantes, ZenBot con detección de crisis y ejercicios guiados.
+- **RESTful API** (ASP.NET Core) que da soporte a las aplicaciones web y móvil.
 
-### 8.1.5. Experiment Cards
+Lo que sabemos hoy a partir de la evidencia recogida:
 
-## 8.2. Experiment Design
+- En las **entrevistas de validación (6.3)**, las participantes de ambos segmentos completaron todas las tareas asignadas. Sin embargo, aparecieron fricciones concretas: la falta de un filtro por tarifa en el directorio, la imposibilidad de editar la hora desde el resumen de la reserva, el resumen de estrés poco visible en el inicio móvil, el bajo contraste de textos auxiliares, la ausencia de guía háptica o sonora en la respiración guiada y la ambigüedad del botón principal de la Landing móvil.
+- En la **auditoría recibida (6.4.2)**, el grupo auditor reportó 17 problemas de mayor impacto. Los más graves afectan la entrada al producto (botones de la Landing que terminan en error 404 y ausencia de acceso a "Iniciar sesión"), la reserva de citas (calendario que no indica disponibilidad), el primer uso (panel de Inicio con datos de ejemplo que parecen reales) y la coherencia entre plataformas (precios y escalas de estrés distintas).
 
-### 8.2.1. Hypotheses
+Estos hallazgos describen **qué** ocurre, pero no explican **cuánto** afecta al negocio ni **qué** cambio produce la mejora esperada. Esa es la brecha que este capítulo busca cerrar mediante experimentación. Las correcciones que son errores evidentes (enlaces rotos, texto "null", datos de contacto de relleno) se tratan como *hotfixes* y no como experimentos, porque no hay ninguna duda que responder sobre ellas.
 
-### 8.2.2. Domain Business Metrics
+#### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
 
-### 8.2.3. Measures
+La siguiente tabla reúne el material bruto del que surgirán las preguntas. Cada elemento indica su fuente, para mantener la trazabilidad con la evidencia.
 
-### 8.2.4. Conditions
+| ID | Tipo | Material bruto | Fuente |
+| :---: | :--- | :--- | :--- |
+| RM-01 | Assumption | Los visitantes de la Landing se registrarán si encuentran un único camino claro hacia la plataforma, en lugar de varios botones con destinos distintos. | Auditoría, problemas 11 y 12; validación, problema 6 |
+| RM-02 | Assumption | Los usuarios abandonan la reserva cuando eligen un día sin horarios y no saben qué otro día elegir. | Auditoría, problema 3 |
+| RM-03 | Assumption | Un usuario nuevo que ve un estado inicial con una acción clara ("Hacer el test") completa más el test que uno que ve estadísticas de ejemplo. | Auditoría, problema 2 |
+| RM-04 | Assumption | El precio es un factor decisivo para elegir psicólogo en el segmento de trabajadores formales. | Validación, problema 1; entrevistada 1 |
+| RM-05 | Assumption | Una guía háptica o sonora hace que más usuarios terminen el ejercicio de respiración. | Validación, problema 5 |
+| RM-06 | Knowledge Gap | No sabemos en qué paso del asistente de reserva abandonan los usuarios ni con qué frecuencia. | Auditoría, problema 3; validación, problema 2 |
+| RM-07 | Knowledge Gap | No sabemos en qué momentos del día ni con qué frecuencia los trabajadores con horario flexible usan ZenBot y los ejercicios rápidos. | Validación, entrevistada 2 |
+| RM-08 | Knowledge Gap | No sabemos cómo interpretan los usuarios su nivel de estrés cuando ven escalas distintas (0–100, /10 y /40). | Auditoría, problema 14 |
+| RM-09 | Idea | Agregar un filtro por rango de tarifa en el directorio de psicólogos. *(Premisa a probar: el precio condiciona la elección del profesional).* | Validación, problema 1 |
+| RM-10 | Idea | Permitir editar la fecha y hora desde el resumen de la reserva. *(Premisa a probar: volver atrás paso por paso genera abandono).* | Validación, problema 2 |
+| RM-11 | Idea | Ubicar el resumen de nivel de estrés debajo del saludo en el inicio móvil. *(Premisa a probar: ver el estado de inmediato motiva a volver a la app).* | Validación, problema 3 |
+| RM-12 | Claim | "Me da mucha confianza ver que están verificados con colegiatura." | Entrevistada 1 (Segmento 1) |
+| RM-13 | Claim | "Es muy directa y fácil de usar entre reuniones." | Entrevistada 1 (Segmento 1) |
+| RM-14 | Claim | "Poder conversar con ZenBot o hacer una pausa de respiración de tres minutos me ayuda a desconectarme sin perder tiempo de trabajo." | Entrevistada 2 (Segmento 2) |
+| RM-15 | Claim | "En la página vi que hay un plan gratuito, lo cual es genial para mí." | Entrevistada 2 (Segmento 2) |
 
-### 8.2.5. Scale Calculations and Decisions
+#### 8.1.3. Experiment-Ready Questions
 
-### 8.2.6. Methods Selection
+A partir del material bruto se formularon preguntas que pueden responderse con un experimento en un tiempo razonable. Las preguntas **belief-led** (impulsadas por creencias) prueban una premisa; las **exploratorias** buscan conocimiento donde el equipo no tiene una creencia previa.
 
-### 8.2.7. Data Analytics: Goals, KPIs and Metrics Selection
+| ID | Tipo | Pregunta lista para experimentar | Material de origen |
+| :---: | :--- | :--- | :--- |
+| Q1 | Belief-led | ¿Un único camino de acción hacia el registro en la Landing aumenta la conversión de visitantes a usuarios registrados frente a varios botones con destinos distintos? | RM-01 |
+| Q2 | Belief-led | ¿Indicar qué días tienen horarios disponibles y permitir editar la fecha desde el resumen aumenta la proporción de reservas completadas? | RM-02, RM-06, RM-10 |
+| Q3 | Belief-led | ¿Mostrar a los usuarios nuevos un estado inicial con acceso directo al test, en lugar de estadísticas de ejemplo, aumenta la proporción que completa el test en su primera sesión? | RM-03 |
+| Q4 | Exploratoria | ¿En qué momentos de la jornada, con qué frecuencia y por qué motivo usan ZenBot y los ejercicios rápidos los trabajadores con horario flexible? | RM-07, RM-14 |
+| Q5 | Belief-led | ¿Un filtro por rango de tarifa en el directorio aumenta la proporción de visitas al directorio que terminan en una reserva iniciada? | RM-04, RM-09 |
+| Q6 | Belief-led | ¿Una guía háptica durante la respiración guiada aumenta la proporción de ejercicios completados? | RM-05 |
+| Q7 | Belief-led | ¿Ubicar el resumen de estrés al inicio de la pantalla principal móvil aumenta la frecuencia con que los usuarios vuelven a la app durante la semana? | RM-11 |
+| Q8 | Exploratoria | ¿Cómo interpretan los usuarios su nivel de estrés cuando el test, el panel y el registro de desencadenantes usan escalas distintas? | RM-08 |
 
-### 8.2.8. Web and Mobile Tracking Plan
+**Aplicación de las 5W + 1H a la pregunta exploratoria Q4:**
 
-## 8.3. Experimentation
+| Dimensión | Pregunta derivada |
+| :---: | :--- |
+| Who | ¿Qué perfil del Segmento 2 usa ZenBot (freelancers, estudiantes que trabajan, emprendedores)? |
+| What | ¿Qué le piden a ZenBot y qué recomendación siguen después? |
+| Where | ¿Desde qué plataforma lo usan (móvil o web) y desde qué pantalla lo abren? |
+| When | ¿En qué franjas horarias se concentran las conversaciones y los ejercicios? |
+| Why | ¿Qué situación los lleva a abrirlo (sobrecarga, conflicto con un cliente, falta de desconexión)? |
+| How | ¿Cuánto dura la interacción y cuántas terminan en un ejercicio completado? |
 
-### 8.3.1. To-Be User Stories
+#### 8.1.4. Question Backlog
 
-### 8.3.2. To-Be Product Backlog
+Las preguntas se priorizaron con cuatro criterios puntuados de 1 a 5:
+
+- **Confianza:** se puntúa de forma inversa; 5 significa que el equipo tiene muy poca confianza en conocer hoy la respuesta, por lo que hay más valor en investigarla.
+- **Riesgo:** cuánto daño sufre el negocio si la creencia resulta falsa y no se investiga.
+- **Impacto:** cuánto puede mejorar una métrica de negocio si la respuesta es favorable.
+- **Interés:** relevancia para los stakeholders y para los segmentos objetivo.
+
+En caso de empate en el puntaje total, se prioriza la pregunta con mayor **Riesgo**.
+
+| Prioridad | ID | Pregunta (resumen) | Por qué (motivación) | Confianza | Riesgo | Impacto | Interés | Total |
+| :---: | :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| 1 | Q1 | Camino único al registro en la Landing | Sin captación en la Landing no hay usuarios para ningún otro flujo; hoy la conversión es nula por los enlaces rotos. | 4 | 5 | 5 | 4 | **18** |
+| 2 | Q2 | Disponibilidad visible y edición en la reserva | La reserva de citas es la principal fuente de ingresos y fue el flujo con más fricción en validación y auditoría. | 4 | 5 | 5 | 3 | **17** |
+| 3 | Q3 | Estado inicial con acceso al test | Mostrar datos de estrés que no son del usuario es un riesgo ético en salud mental y puede frenar la activación. | 4 | 4 | 4 | 4 | **16** |
+| 4 | Q4 | Uso de ZenBot por trabajadores flexibles | Es la propuesta diferencial para el Segmento 2 y no tenemos datos sobre cómo se usa en su jornada. | 5 | 3 | 3 | 5 | **16** |
+| 5 | Q5 | Filtro por tarifa en el directorio | Fue el pedido explícito de la usuaria del Segmento 1, pero hoy solo hay un perfil de evidencia. | 3 | 3 | 4 | 4 | **14** |
+| 6 | Q8 | Interpretación de escalas de estrés distintas | Puede generar desconfianza, pero primero debe unificarse la escala como corrección. | 3 | 4 | 3 | 3 | **13** |
+| 7 | Q7 | Resumen de estrés al inicio en el móvil | Afecta la retención, pero el cambio es de bajo riesgo. | 3 | 2 | 3 | 3 | **11** |
+| 8 | Q6 | Guía háptica en la respiración | Mejora la inclusión, pero el impacto en el negocio es indirecto. | 3 | 2 | 2 | 3 | **10** |
+
+Q3 y Q4 empatan con 16 puntos; Q3 queda primero por tener mayor Riesgo.
+
+**Estructura del backlog:** el backlog es **amplio** (*broad*), porque cubre varias etapas del recorrido del usuario: adquisición (Q1), activación (Q3), conversión en reservas (Q2 y Q5) y engagement (Q4, Q6 y Q7). Para este ciclo se seleccionan las cuatro preguntas de mayor prioridad (Q1 a Q4). Las demás se mantienen en el backlog y se volverán a puntuar con los resultados (sección 8.4.2).
+
+#### 8.1.5. Experiment Cards
+
+##### Experiment Card E1 — Camino único hacia el registro en la Landing
+
+| Lado frontal | |
+| :--- | :--- |
+| **Pregunta** | ¿Un único camino de acción hacia el registro en la Landing aumenta la conversión de visitantes a usuarios registrados frente a varios botones con destinos distintos? |
+| **Por qué** | La Landing es la puerta de entrada al producto. La auditoría mostró que hoy ningún visitante puede avanzar, y la validación mostró dudas sobre el destino del botón principal. |
+| **Hipótesis** | Creemos que una sección principal con un único botón "Comenzar gratis" que lleva al registro aumentará la conversión Landing → registro en al menos 5 puntos porcentuales. |
+| **Qué (Simplest Useful Thing)** | Una variante de la sección principal de la Landing con un solo botón primario y un enlace secundario "Iniciar sesión", comparada con la Landing actual con los enlaces ya reparados. |
+
+| Lado posterior | |
+| :--- | :--- |
+| **Medidas** | Primaria: MB-01 Conversión Landing → registro. Secundaria: MB-02 Tasa de clic en CTA. |
+| **Condiciones** | Control (A): Landing actual con sus varios botones, todos con destino funcional. Experimental (B): sección principal con un único botón primario hacia el registro. |
+| **Escala** | 435 visitantes únicos por grupo (870 en total), significancia 5 %, potencia 80 %, MDE de 5 puntos porcentuales. Duración máxima: 4 semanas. |
+
+##### Experiment Card E2 — Disponibilidad visible y edición en la reserva
+
+| Lado frontal | |
+| :--- | :--- |
+| **Pregunta** | ¿Indicar qué días tienen horarios disponibles y permitir editar la fecha desde el resumen aumenta la proporción de reservas completadas? |
+| **Por qué** | La reserva de citas es el flujo que genera ingresos. Tanto la usuaria del Segmento 1 como el auditor encontraron fricciones al elegir y corregir la fecha y la hora. |
+| **Hipótesis** | Creemos que marcar los días con disponibilidad y permitir editar fecha y hora desde el resumen aumentará la tasa de reservas completadas en al menos 10 puntos porcentuales. |
+| **Qué (Simplest Useful Thing)** | Una variante del asistente de reserva en la Web App con días sin horarios deshabilitados, aviso del próximo horario disponible y opción de edición desde el resumen. |
+
+| Lado posterior | |
+| :--- | :--- |
+| **Medidas** | Primaria: MB-03 Tasa de reservas completadas. Secundaria: MB-04 Tiempo medio de reserva. |
+| **Condiciones** | Control (A): asistente actual. Experimental (B): asistente con disponibilidad visible y edición desde el resumen. |
+| **Escala** | 388 reservas iniciadas por grupo (776 en total), significancia 5 %, potencia 80 %, MDE de 10 puntos porcentuales. |
+
+##### Experiment Card E3 — Estado inicial con acceso directo al test
+
+| Lado frontal | |
+| :--- | :--- |
+| **Pregunta** | ¿Mostrar a los usuarios nuevos un estado inicial con acceso directo al test, en lugar de estadísticas de ejemplo, aumenta la proporción que completa el test en su primera sesión? |
+| **Por qué** | La auditoría detectó que un usuario nuevo puede tomar datos de ejemplo como propios. En una aplicación de salud mental eso es un riesgo ético y además puede desviar la atención de la primera acción de valor: conocer su nivel de estrés real. |
+| **Hipótesis** | Creemos que un estado inicial sin datos de ejemplo y con acceso directo al test aumentará la tasa de activación en al menos 10 puntos porcentuales. |
+| **Qué (Simplest Useful Thing)** | Una variante del panel de Inicio para usuarios sin registros, con un mensaje de bienvenida y dos acciones: "Hacer el test" y "Registrar cómo me siento". |
+
+| Lado posterior | |
+| :--- | :--- |
+| **Medidas** | Primaria: MB-05 Tasa de activación. Secundaria: MB-06 Registro temprano de desencadenantes. Salvaguarda: MB-07 Retención a 7 días. |
+| **Condiciones** | Control (A): panel con datos de ejemplo atenuados, rotulados como "Ejemplo" y sin recomendaciones personalizadas. Experimental (B): estado inicial sin datos con las dos acciones. |
+| **Escala** | 388 usuarios nuevos por grupo (776 en total), significancia 5 %, potencia 80 %, MDE de 10 puntos porcentuales. |
+
+##### Experiment Card E4 — Uso de ZenBot por trabajadores con horario flexible (exploratorio)
+
+| Lado frontal | |
+| :--- | :--- |
+| **Pregunta** | ¿En qué momentos de la jornada, con qué frecuencia y por qué motivo usan ZenBot y los ejercicios rápidos los trabajadores con horario flexible? |
+| **Por qué** | ZenBot y los ejercicios rápidos son la propuesta diferencial para el Segmento 2, y la validación indicó que encajan con sus pausas impredecibles. Antes de invertir en mejorarlos necesitamos saber cómo se usan realmente. |
+| **Hipótesis** | No aplica (pregunta exploratoria). |
+| **Qué (Simplest Useful Thing)** | Instrumentar eventos anónimos de uso de ZenBot y de los ejercicios en la App Móvil durante 2 semanas, y complementar con entrevistas breves de seguimiento. |
+
+| Lado posterior | |
+| :--- | :--- |
+| **Medidas** | MB-08 Derivación ZenBot → ejercicio, MB-09 Finalización de ejercicios, distribución de uso por franja horaria y motivos declarados. |
+| **Condiciones** | Usuarios de la App Móvil que se identificaron en el registro como trabajadores informales o con horario flexible, mayores de 18 años, que aceptaron el tratamiento de datos. |
+| **Escala** | Todos los usuarios del segmento activos durante 2 semanas, más 3 a 5 entrevistas de seguimiento para interpretar los patrones. |
+
+### 8.2. Experiment Design
+
+#### 8.2.1. Hypotheses
+
+Cada hipótesis se redacta con la estructura del curso: *creemos que [creencia], la evidencia se reflejará en [medidas], bajo las circunstancias de [condiciones]*. Cada una se acompaña de su hipótesis nula. Las hipótesis se **prueban**, no se validan.
+
+| Exp. | Hipótesis de trabajo (H1) | Hipótesis nula (H0) |
+| :---: | :--- | :--- |
+| E1 | Creemos que una sección principal con un único botón que lleva al registro aumenta la conversión de visitantes en usuarios registrados. La evidencia se reflejará en una conversión Landing → registro (MB-01) al menos 5 puntos porcentuales mayor en el grupo experimental, bajo las circunstancias de visitantes únicos asignados al azar a cada versión durante un máximo de 4 semanas. | La versión con un único botón no modifica la conversión Landing → registro; cualquier diferencia observada entre los grupos se debe al azar. |
+| E2 | Creemos que indicar los días con disponibilidad y permitir editar la fecha desde el resumen reduce el abandono de la reserva. La evidencia se reflejará en una tasa de reservas completadas (MB-03) al menos 10 puntos porcentuales mayor en el grupo experimental, bajo las circunstancias de usuarios de la Web App que inician una reserva y son asignados al azar a cada versión del asistente. | Mostrar la disponibilidad y permitir la edición desde el resumen no modifica la tasa de reservas completadas; cualquier diferencia se debe al azar. |
+| E3 | Creemos que un estado inicial sin datos de ejemplo y con acceso directo al test aumenta la activación de los usuarios nuevos. La evidencia se reflejará en una tasa de activación (MB-05) al menos 10 puntos porcentuales mayor en el grupo experimental, sin una caída de la retención a 7 días (MB-07), bajo las circunstancias de usuarios recién registrados asignados al azar a cada versión del panel. | El estado inicial con acceso directo al test no modifica la tasa de activación; cualquier diferencia se debe al azar. |
+
+La pregunta Q4 (experimento E4) es exploratoria, por lo que no lleva hipótesis. Su resultado será la base para formular hipótesis en el siguiente ciclo.
+
+**Criterio de decisión (definido antes de ejecutar, para evitar el sesgo de confirmación):** se rechaza H0 solo si el valor p de la prueba de diferencia de proporciones es menor que 0,05 **y** la diferencia observada alcanza el MDE definido. Si no se cumple alguna de las dos condiciones, se mantiene H0 y la variante no se adopta solo por "verse mejor".
+
+#### 8.2.2. Domain Business Metrics
+
+Estas son todas las métricas del dominio de negocio que se usarán para evaluar los experimentos. Las Experiment Cards solo hacen referencia a métricas de esta tabla. Las metas corresponden a objetivos del negocio para NeuroZen; los valores base se medirán con la analítica antes de iniciar cada experimento.
+
+| ID | Métrica | Fórmula de cálculo | Técnica de recolección | Meta |
+| :---: | :--- | :--- | :--- | :--- |
+| MB-01 | Conversión Landing → registro | (Registros completados con origen en la Landing ÷ Visitantes únicos de la Landing) × 100 | Eventos `landing_view` y `signup_completed` en Google Analytics 4, con el origen enviado como parámetro | ≥ 10 % |
+| MB-02 | Tasa de clic en CTA | (Visitantes que hacen clic en un botón de acción ÷ Visitantes únicos de la Landing) × 100 | Evento `landing_cta_click` en Google Analytics 4 | ≥ 25 % |
+| MB-03 | Tasa de reservas completadas | (Reservas confirmadas ÷ Reservas iniciadas) × 100 | Eventos `booking_started` y `booking_confirmed` en Google Analytics 4, contrastados con los registros de citas en la base de datos | ≥ 60 % |
+| MB-04 | Tiempo medio de reserva | Promedio de (hora de `booking_confirmed` − hora de `booking_started`) por reserva completada | Marcas de tiempo de los eventos en Google Analytics 4 | ≤ 90 segundos |
+| MB-05 | Tasa de activación | (Usuarios nuevos que completan el test PSS-10 en su primera sesión ÷ Usuarios nuevos registrados) × 100 | Eventos `signup_completed` y `stress_test_completed`, contrastados con los resultados de test en la base de datos | ≥ 50 % |
+| MB-06 | Registro temprano de desencadenantes | (Usuarios nuevos con al menos un desencadenante registrado en sus primeros 7 días ÷ Usuarios nuevos registrados) × 100 | Registros de la tabla de desencadenantes en la base de datos | ≥ 30 % |
+| MB-07 | Retención a 7 días | (Usuarios de una cohorte que vuelven a iniciar sesión el día 7 o después ÷ Usuarios de la cohorte) × 100 | Eventos `session_start` (GA4 en web y Firebase Analytics en móvil) agrupados por cohorte de registro | ≥ 25 % |
+| MB-08 | Derivación ZenBot → ejercicio | (Conversaciones con ZenBot que terminan en un ejercicio iniciado ÷ Conversaciones con ZenBot) × 100 | Eventos `zenbot_opened` y `breathing_started` con origen ZenBot en Firebase Analytics | ≥ 40 % |
+| MB-09 | Finalización de ejercicios | (Ejercicios de respiración completados ÷ Ejercicios iniciados) × 100 | Eventos `breathing_started` y `breathing_completed` en Firebase Analytics y GA4 | ≥ 70 % |
+| MB-10 | Conversión directorio → reserva | (Reservas iniciadas desde el directorio ÷ Visitas al directorio de psicólogos) × 100 | Eventos `directory_view` y `booking_started` con origen directorio en GA4 | ≥ 20 % |
+
+#### 8.2.3. Measures
+
+Para cada experimento se eligieron solo las medidas necesarias para responder la pregunta, durante el tiempo justo. Además de la medida principal, se incluyen medidas secundarias que explican el resultado y medidas de salvaguarda que alertan si el cambio causa un efecto no deseado.
+
+| Exp. | Medida principal | Medidas secundarias | Medida de salvaguarda | Periodo de medición |
+| :---: | :--- | :--- | :--- | :--- |
+| E1 | MB-01 Conversión Landing → registro | MB-02 Tasa de clic en CTA | Proporción de visitantes que usan "Iniciar sesión" (para confirmar que los usuarios existentes no pierden su acceso) | Hasta alcanzar 870 visitantes o un máximo de 4 semanas |
+| E2 | MB-03 Tasa de reservas completadas | MB-04 Tiempo medio de reserva; paso del asistente en que ocurre el abandono | Tasa de cancelación de citas en las 48 horas siguientes a la reserva | Hasta alcanzar 776 reservas iniciadas o un máximo de 6 semanas |
+| E3 | MB-05 Tasa de activación | MB-06 Registro temprano de desencadenantes | MB-07 Retención a 7 días | Hasta alcanzar 776 usuarios nuevos o un máximo de 6 semanas, más 7 días de seguimiento |
+| E4 | MB-08 Derivación ZenBot → ejercicio | MB-09 Finalización de ejercicios; franja horaria de uso; motivo declarado en entrevistas | Activación del protocolo de crisis de ZenBot (se monitorea, nunca se modifica) | 2 semanas de observación y 1 semana de entrevistas |
+
+#### 8.2.4. Conditions
+
+| Exp. | Condición de control (A) — se asume H0 | Condición experimental (B) — evidencia a favor de H1 | Unidad de asignación |
+| :---: | :--- | :--- | :--- |
+| E1 | Landing actual con sus varios botones de acción, todos con destino funcional tras el *hotfix* de los enlaces. | Sección principal con un título orientado al beneficio, un único botón primario "Comenzar gratis" hacia el registro y un enlace secundario "Iniciar sesión". | Visitante único (identificador anónimo de navegador), 50 % / 50 % |
+| E2 | Asistente de reserva actual: todos los días habilitados y retroceso paso a paso. | Asistente con días sin horarios deshabilitados, aviso del próximo horario disponible y edición de fecha y hora desde el resumen. | Usuario autenticado (identificador de usuario), 50 % / 50 % |
+| E3 | Panel con datos de ejemplo atenuados, rotulados como "Ejemplo" y sin mensajes de tendencia ni recomendaciones personalizadas. | Estado inicial sin datos, con mensaje de bienvenida y las acciones "Hacer el test" y "Registrar cómo me siento". | Usuario recién registrado, 50 % / 50 % |
+
+**Límites del grupo de estudio para la pregunta exploratoria (E4):** usuarios de la App Móvil mayores de 18 años, que indicaron en su perfil un trabajo informal o con horario flexible y que aceptaron el tratamiento de sus datos según la Ley N.° 29733. Se excluyen los psicólogos y las cuentas de prueba del equipo.
+
+En E3, la condición de control **no** reproduce el comportamiento actual con mensajes personalizados sobre datos falsos. Se decidió atenuar y rotular los datos de ejemplo en ambas versiones porque mantener la versión actual expondría a la mitad de los usuarios a información de salud que no les pertenece.
+
+#### 8.2.5. Scale Calculations and Decisions
+
+**Parámetros de certeza y precisión:**
+
+- **Nivel de significancia (α):** 5 %, para limitar la probabilidad de un error Tipo I (adoptar un cambio que en realidad no funciona).
+- **Poder estadístico (1 − β):** 80 %, para limitar la probabilidad de un error Tipo II (descartar un cambio que sí funciona). Se eligió el extremo inferior del rango recomendado (80 %–95 %) por el volumen de tráfico esperado de una plataforma en lanzamiento.
+- **Efecto mínimo detectable (MDE):** la diferencia más pequeña que tiene valor para el negocio en cada experimento.
+
+**Fórmula utilizada** (tamaño de muestra por grupo para comparar dos proporciones, prueba bilateral):
+
+$$n = \frac{\left(z_{1-\alpha/2}\sqrt{2\bar{p}(1-\bar{p})} + z_{1-\beta}\sqrt{p_1(1-p_1) + p_2(1-p_2)}\right)^2}{(p_2 - p_1)^2}$$
+
+donde $p_1$ es la tasa base (control), $p_2 = p_1 + \text{MDE}$, $\bar{p} = (p_1 + p_2)/2$, $z_{1-\alpha/2} = 1{,}96$ y $z_{1-\beta} = 0{,}84$.
+
+| Exp. | Métrica | Tasa base supuesta ($p_1$) | MDE | $p_2$ | n por grupo (80 %) | n por grupo (90 %, referencia) | n total |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| E1 | MB-01 | 5 % | +5 p.p. | 10 % | **435** | 582 | 870 |
+| E2 | MB-03 | 50 % | +10 p.p. | 60 % | **388** | 519 | 776 |
+| E3 | MB-05 | 40 % | +10 p.p. | 50 % | **388** | 519 | 776 |
+
+**Decisiones de escala:**
+
+1. **Tasas base.** Como la Landing no tiene hoy un camino funcional y la analítica aún no está instrumentada, las tasas base son supuestos del equipo. Antes de iniciar cada experimento se medirá la tasa real durante una semana con la versión de control; si difiere del supuesto, se recalculará el tamaño de muestra con la misma fórmula.
+2. **MDE de E1.** Con un MDE de 3 puntos (de 5 % a 8 %) se necesitarían 1.059 visitantes por grupo, un volumen poco realista para la etapa de lanzamiento. Se decidió usar un MDE de 5 puntos, aceptando que solo se detectarán mejoras de esa magnitud o mayores.
+3. **Duración máxima.** Si al cumplirse la duración máxima no se alcanzó la muestra, el resultado se reportará como **no concluyente** y se usará solo como evidencia direccional, sin rechazar H0.
+4. **Datos representativos.** Se excluyen del análisis las cuentas de prueba del equipo y los accesos desde direcciones internas, para que los resultados representen a los segmentos objetivo.
+5. **Experimento exploratorio (E4).** No requiere cálculo de muestra estadística: se observa a todos los usuarios del segmento durante el periodo, y el número de entrevistas (3 a 5) se fija por saturación de los temas encontrados.
+
+#### 8.2.6. Methods Selection
+
+Para cada pregunta se eligió el método más simple que permite alcanzar la muestra y las condiciones necesarias (*Simplest Useful Thing*). El objeto de investigación es la pregunta o hipótesis; el método es solo la técnica para responderla.
+
+| Exp. | Método seleccionado | Plataforma | Justificación |
+| :---: | :--- | :---: | :--- |
+| E1 | Prueba A/B con asignación aleatoria 50/50 | Landing Page | Compara directamente dos versiones de la sección principal con tráfico real; no requiere cambios en el backend. |
+| E2 | Prueba A/B con asignación aleatoria por usuario | Web App | La reserva requiere usuario autenticado, lo que permite asignar por identificador y evitar que un mismo usuario vea ambas versiones. |
+| E3 | Prueba A/B con asignación aleatoria al registrarse | Web App | Solo afecta a usuarios nuevos, que es exactamente la población de la pregunta. |
+| E4 | Analítica descriptiva de eventos + entrevistas de seguimiento | App Móvil | La pregunta es exploratoria: primero hay que observar el comportamiento y luego entender sus motivos. |
+
+**Reglas aplicadas en la selección:**
+
+- **Un solo experimento por tema y por usuario.** E1 y E3 afectan a la misma etapa del recorrido (de visitante a usuario activo), por lo que **E3 empieza cuando E1 termina**. E2 trata un tema distinto (reserva de citas) y puede correr en paralelo, porque no comparte la medida principal con los otros.
+- **No causar daño.** Ningún experimento modifica la detección de crisis de ZenBot ni las líneas de ayuda. En E3 se eliminaron los mensajes personalizados sobre datos de ejemplo en ambas condiciones. Si en cualquier experimento la medida de salvaguarda empeora de forma sostenida, el experimento se detiene.
+- **Privacidad.** No se registra el contenido de las conversaciones con ZenBot, ni las respuestas individuales del test, ni la descripción de los desencadenantes. Solo se registran eventos anónimos y categorías, conforme a la Ley N.° 29733 y a los Términos y Condiciones.
+
+#### 8.2.7. Data Analytics: Goals, KPIs and Metrics Selection
+
+Las métricas se organizan desde el objetivo de negocio hacia los indicadores. Así se evita medir datos que no ayudan a decidir y se reduce el sesgo de confirmación, porque el criterio de éxito queda definido antes de ver los resultados.
+
+| Objetivo de negocio | KPI | Métricas que lo componen | Experimento | Criterio de éxito |
+| :--- | :--- | :--- | :---: | :--- |
+| **Adquisición:** convertir a los visitantes de la Landing en usuarios registrados | Conversión Landing → registro | MB-01, MB-02 | E1 | Diferencia ≥ 5 p.p. con p < 0,05 |
+| **Conversión de servicio:** que los usuarios que buscan ayuda profesional concreten una cita | Tasa de reservas completadas | MB-03, MB-04, MB-10 | E2 | Diferencia ≥ 10 p.p. con p < 0,05 |
+| **Activación:** que los usuarios nuevos conozcan su nivel de estrés real desde el primer uso | Tasa de activación | MB-05, MB-06, MB-07 | E3 | Diferencia ≥ 10 p.p. con p < 0,05 y sin caída de MB-07 |
+| **Engagement del Segmento 2:** que los trabajadores flexibles usen las intervenciones rápidas en su jornada | Derivación ZenBot → ejercicio | MB-08, MB-09 | E4 | Exploratorio: describir patrones de uso para formular hipótesis del siguiente ciclo |
+
+**Tipos de KPI:** E1 mide un KPI de **adquisición**, E2 y E3 miden KPI de **comportamiento y conversión**, y E4 mide un KPI de **engagement**. Para el análisis, las medidas principales se comparan con una prueba Z de diferencia de dos proporciones; MB-04 (tiempo) se compara con la prueba U de Mann-Whitney, porque los tiempos de tarea no suelen tener una distribución normal.
+
+#### 8.2.8. Web and Mobile Tracking Plan
+
+El plan de seguimiento define los eventos que se instrumentarán en cada plataforma. Se usará **Google Analytics 4** en la Landing Page y la Web App, y **Firebase Analytics** en la App Móvil. Todos los eventos de los experimentos llevan los parámetros `experiment_id` y `variant` para separar los grupos durante el análisis.
+
+| Evento | Plataforma | Disparador | Parámetros | Métrica que alimenta | Exp. |
+| :--- | :---: | :--- | :--- | :---: | :---: |
+| `experiment_exposure` | Landing, Web | El usuario ve por primera vez la versión asignada | `experiment_id`, `variant` | Todas las de A/B | E1, E2, E3 |
+| `landing_view` | Landing | Carga de la Landing | `variant`, `device_type`, `language` | MB-01, MB-02 | E1 |
+| `landing_cta_click` | Landing | Clic en un botón de acción | `cta_id`, `variant`, `section` | MB-02 | E1 |
+| `login_link_click` | Landing | Clic en "Iniciar sesión" | `variant` | Salvaguarda E1 | E1 |
+| `signup_completed` | Web, Móvil | Cuenta creada correctamente | `source` (landing / directo), `account_type`, `variant` | MB-01, MB-05 | E1, E3 |
+| `dashboard_view` | Web | Primera carga del panel de Inicio | `state` (sin datos / con datos), `variant` | MB-05 | E3 |
+| `stress_test_started` | Web, Móvil | Inicio del test PSS-10 | `entry_point` | MB-05 | E3 |
+| `stress_test_completed` | Web, Móvil | Envío del test | `level` (bajo / moderado / alto), `is_first_session` | MB-05 | E3 |
+| `trigger_logged` | Web, Móvil | Registro de un desencadenante | `category`, `days_since_signup` | MB-06 | E3 |
+| `session_start` | Web, Móvil | Inicio de sesión del usuario | `days_since_signup` | MB-07 | E3 |
+| `directory_view` | Web | Carga del directorio de psicólogos | `filters_used` | MB-10 | — |
+| `booking_started` | Web | Inicio del asistente de reserva | `source` (directorio / inicio / perfil), `variant` | MB-03, MB-04, MB-10 | E2 |
+| `booking_step_viewed` | Web | Cambio de paso en el asistente | `step` (1–4), `variant` | MB-03 | E2 |
+| `booking_date_selected` | Web | Selección de una fecha | `has_availability` (sí / no), `variant` | MB-03 | E2 |
+| `booking_summary_edit` | Web | Edición de un dato desde el resumen | `field` (fecha / hora / tipo), `variant` | MB-03, MB-04 | E2 |
+| `booking_confirmed` | Web | Reserva confirmada | `variant`, `session_type` | MB-03, MB-04 | E2 |
+| `appointment_cancelled` | Web, Móvil | Cancelación de una cita | `hours_since_booking` | Salvaguarda E2 | E2 |
+| `zenbot_opened` | Móvil | Apertura de ZenBot | `screen`, `hour_of_day` | MB-08 | E4 |
+| `zenbot_suggestion_shown` | Móvil | ZenBot muestra una recomendación | `suggestion_type` (respiración / pausa / profesional) | MB-08 | E4 |
+| `breathing_started` | Web, Móvil | Inicio de un ejercicio de respiración | `source` (ZenBot / menú), `exercise_type`, `hour_of_day` | MB-08, MB-09 | E4 |
+| `breathing_completed` | Web, Móvil | Ejercicio terminado | `exercise_type`, `duration_seconds` | MB-09 | E4 |
+
+**Reglas de privacidad del plan:** los eventos no incluyen nombres, correos, contenido de conversaciones, respuestas individuales del test ni descripciones de desencadenantes. El usuario se identifica solo mediante un identificador anónimo, y la recolección se activa únicamente si el usuario aceptó el uso de datos analíticos.
+
+### 8.3. Experimentation
+
+#### 8.3.1. To-Be User Stories
+
+Las siguientes historias permiten implementar las condiciones experimentales, la asignación de variantes y el seguimiento de eventos. Se agrupan en la épica **EP-EXP: Experimentación del producto**. Los criterios de aceptación siguen la estructura de Gherkin.
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-01** | Visitante | Alta | EP-EXP |
+| **Title** | Acceder al registro mediante un camino único | | |
+| **Description** | Como visitante de la Landing Page, quiero tener un único camino para comenzar a usar NeuroZen, para registrarme sin dudar sobre el destino de cada opción. | | |
+| **Acceptance Criteria** | **Escenario 1: Visitante asignado a la versión experimental**<br>Dado que el visitante está asignado a la versión experimental de la Landing Page,<br>cuando elige comenzar a usar NeuroZen,<br>entonces el sistema lo dirige al registro de la aplicación web.<br><br>**Escenario 2: Visitante con cuenta existente**<br>Dado que el visitante ya tiene una cuenta,<br>cuando elige iniciar sesión desde la Landing Page,<br>entonces el sistema lo dirige al inicio de sesión de la aplicación web. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-02** | Developer | Alta | EP-EXP |
+| **Title** | Asignar variantes de experimento de forma aleatoria y estable | | |
+| **Description** | Como developer, quiero asignar a cada visitante o usuario una variante de experimento de forma aleatoria y estable, para que los grupos de control y experimental sean comparables y nadie vea ambas versiones. | | |
+| **Acceptance Criteria** | **Escenario 1: Primera asignación**<br>Dado que un visitante no tiene una variante asignada para un experimento activo,<br>cuando accede por primera vez al producto evaluado,<br>entonces el sistema le asigna la variante A o B con una probabilidad del 50 %<br>y registra el evento `experiment_exposure`.<br><br>**Escenario 2: Visita posterior**<br>Dado que un visitante ya tiene una variante asignada,<br>cuando vuelve a acceder al producto evaluado,<br>entonces el sistema le presenta la misma variante.<br><br>**Escenario 3: Experimento finalizado**<br>Dado que un experimento fue marcado como finalizado,<br>cuando un visitante accede al producto evaluado,<br>entonces el sistema le presenta la versión adoptada sin asignar variantes. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-03** | Trabajador | Alta | EP-EXP |
+| **Title** | Conocer los días con disponibilidad al reservar | | |
+| **Description** | Como trabajador que busca apoyo profesional, quiero saber qué días tiene disponibles el psicólogo, para reservar mi cita sin probar día por día. | | |
+| **Acceptance Criteria** | **Escenario 1: Día con horarios disponibles**<br>Dado que el usuario está asignado a la versión experimental y eligió un psicólogo,<br>cuando consulta las fechas para su cita,<br>entonces el sistema distingue los días con horarios disponibles de los días sin horarios.<br><br>**Escenario 2: Día sin horarios**<br>Dado que el usuario está asignado a la versión experimental,<br>cuando un día no tiene horarios del psicólogo,<br>entonces el sistema no permite seleccionarlo<br>e informa la próxima fecha con horarios disponibles. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-04** | Trabajador | Alta | EP-EXP |
+| **Title** | Modificar la fecha y hora desde el resumen de la reserva | | |
+| **Description** | Como trabajador que revisa su reserva, quiero modificar la fecha o la hora sin repetir los pasos anteriores, para ajustar mi cita a mi horario laboral rápidamente. | | |
+| **Acceptance Criteria** | **Escenario 1: Edición de la hora**<br>Dado que el usuario está asignado a la versión experimental y se encuentra en el resumen de su reserva,<br>cuando solicita modificar la hora,<br>entonces el sistema le permite elegir un nuevo horario disponible<br>y conserva el psicólogo y el tipo de sesión seleccionados.<br><br>**Escenario 2: Retorno al resumen**<br>Dado que el usuario modificó la fecha o la hora,<br>cuando confirma el cambio,<br>entonces el sistema le presenta el resumen actualizado. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-05** | Developer | Alta | EP-EXP |
+| **Title** | Consultar la disponibilidad de un psicólogo por rango de fechas | | |
+| **Description** | Como developer, quiero consultar mediante la API los días con horarios disponibles de un psicólogo en un rango de fechas, para que la Web App pueda indicar la disponibilidad al reservar. | | |
+| **Acceptance Criteria** | **Escenario 1: Consulta exitosa**<br>Dado que existe un psicólogo verificado con horarios configurados,<br>cuando se envía una solicitud GET de disponibilidad con un rango de fechas válido,<br>entonces la API responde con estado 200<br>y la lista de fechas con la cantidad de horarios libres en cada una.<br><br>**Escenario 2: Rango inválido**<br>Dado que el rango enviado tiene la fecha final anterior a la inicial,<br>cuando se envía la solicitud GET de disponibilidad,<br>entonces la API responde con estado 400 y un mensaje de error descriptivo.<br><br>**Escenario 3: Psicólogo inexistente**<br>Dado que el identificador del psicólogo no existe,<br>cuando se envía la solicitud GET de disponibilidad,<br>entonces la API responde con estado 404. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-06** | Usuario nuevo | Alta | EP-EXP |
+| **Title** | Iniciar el uso con acceso directo al test de estrés | | |
+| **Description** | Como usuario nuevo de NeuroZen, quiero que mi panel inicial me indique cómo empezar y no muestre datos que no son míos, para conocer mi nivel de estrés real desde el primer uso. | | |
+| **Acceptance Criteria** | **Escenario 1: Usuario sin registros en la versión experimental**<br>Dado que el usuario está asignado a la versión experimental y no tiene registros de estrés,<br>cuando accede a su panel de Inicio,<br>entonces el sistema no presenta estadísticas de estrés<br>y le ofrece realizar el test de estrés o registrar cómo se siente.<br><br>**Escenario 2: Usuario sin registros en la versión de control**<br>Dado que el usuario está asignado a la versión de control y no tiene registros de estrés,<br>cuando accede a su panel de Inicio,<br>entonces el sistema identifica los datos presentados como ejemplo<br>y no muestra recomendaciones personalizadas basadas en ellos.<br><br>**Escenario 3: Usuario con registros**<br>Dado que el usuario ya completó el test o registró un desencadenante,<br>cuando accede a su panel de Inicio,<br>entonces el sistema presenta sus propias estadísticas en ambas versiones. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-07** | Developer | Alta | EP-EXP |
+| **Title** | Registrar eventos de analítica en la Landing Page y la Web App | | |
+| **Description** | Como developer, quiero registrar en Google Analytics 4 los eventos definidos en el plan de seguimiento, para calcular las métricas de los experimentos E1, E2 y E3. | | |
+| **Acceptance Criteria** | **Escenario 1: Evento con consentimiento**<br>Dado que el usuario aceptó el uso de datos analíticos,<br>cuando realiza una acción definida en el plan de seguimiento,<br>entonces el sistema envía el evento con su nombre y parámetros, incluidos `experiment_id` y `variant` cuando corresponda.<br><br>**Escenario 2: Usuario sin consentimiento**<br>Dado que el usuario no aceptó el uso de datos analíticos,<br>cuando realiza una acción definida en el plan de seguimiento,<br>entonces el sistema no envía ningún evento.<br><br>**Escenario 3: Protección de datos sensibles**<br>Dado que un evento se envía a Google Analytics 4,<br>cuando se revisan sus parámetros,<br>entonces no contienen nombres, correos, respuestas del test ni textos escritos por el usuario. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **EX-08** | Developer | Media | EP-EXP |
+| **Title** | Registrar eventos de analítica en la App Móvil | | |
+| **Description** | Como developer, quiero registrar en Firebase Analytics los eventos de uso de ZenBot y de los ejercicios de respiración, para responder la pregunta exploratoria del experimento E4. | | |
+| **Acceptance Criteria** | **Escenario 1: Recomendación seguida desde ZenBot**<br>Dado que el usuario aceptó el uso de datos analíticos,<br>cuando inicia un ejercicio de respiración recomendado por ZenBot,<br>entonces la aplicación registra el evento `breathing_started` con origen ZenBot y la franja horaria.<br><br>**Escenario 2: Contenido de la conversación**<br>Dado que el usuario conversa con ZenBot,<br>cuando la aplicación registra los eventos de la conversación,<br>entonces no envía el contenido de los mensajes. | | |
+
+| Story ID | User | Priority | Epic |
+| :---: | :--- | :---: | :--- |
+| **SP-EX-01** | Developer | Alta | EP-EXP |
+| **Title** | Investigar herramientas para pruebas A/B y asignación de variantes | | |
+| **Description** | Como developer, quiero investigar alternativas para asignar variantes y gestionar pruebas A/B en Astro, Vue y Android, para elegir la opción más simple y compatible con nuestra arquitectura antes de implementar los experimentos. | | |
+| **Acceptance Criteria** | Dado que se evalúan al menos tres alternativas (por ejemplo, asignación propia en el frontend, Firebase Remote Config y GrowthBook),<br>cuando se comparan según compatibilidad, costo, esfuerzo de integración y protección de datos,<br>entonces se documenta la alternativa recomendada<br>y se presenta un prototipo mínimo que asigna una variante y registra el evento `experiment_exposure`. | | |
+
+#### 8.3.2. To-Be Product Backlog
+
+El orden del To-Be Product Backlog sigue el valor para el negocio definido en el Question Backlog (sección 8.1.4): primero lo que permite ejecutar E1, luego E2, E3 y E4. La investigación SP-EX-01 y la asignación de variantes (EX-02) se ubican al inicio porque son requisito para cualquier prueba A/B.
+
+| # Orden | User Story Id | Título | Descripción | Story Points (1 / 2 / 3 / 5 / 8) |
+| :---: | :---: | :--- | :--- | :---: |
+| 1 | SP-EX-01 | Investigar herramientas para pruebas A/B y asignación de variantes | Como developer, quiero investigar alternativas para asignar variantes y gestionar pruebas A/B, para elegir la opción más simple y compatible con nuestra arquitectura. | 2 |
+| 2 | EX-02 | Asignar variantes de experimento de forma aleatoria y estable | Como developer, quiero asignar a cada visitante o usuario una variante de forma aleatoria y estable, para que los grupos sean comparables y nadie vea ambas versiones. | 5 |
+| 3 | EX-07 | Registrar eventos de analítica en la Landing Page y la Web App | Como developer, quiero registrar en Google Analytics 4 los eventos del plan de seguimiento, para calcular las métricas de los experimentos E1, E2 y E3. | 5 |
+| 4 | EX-01 | Acceder al registro mediante un camino único | Como visitante de la Landing Page, quiero tener un único camino para comenzar a usar NeuroZen, para registrarme sin dudar sobre el destino de cada opción. | 3 |
+| 5 | EX-05 | Consultar la disponibilidad de un psicólogo por rango de fechas | Como developer, quiero consultar mediante la API los días con horarios disponibles de un psicólogo, para que la Web App pueda indicar la disponibilidad al reservar. | 3 |
+| 6 | EX-03 | Conocer los días con disponibilidad al reservar | Como trabajador que busca apoyo profesional, quiero saber qué días tiene disponibles el psicólogo, para reservar mi cita sin probar día por día. | 3 |
+| 7 | EX-04 | Modificar la fecha y hora desde el resumen de la reserva | Como trabajador que revisa su reserva, quiero modificar la fecha o la hora sin repetir los pasos anteriores, para ajustar mi cita a mi horario laboral rápidamente. | 3 |
+| 8 | EX-06 | Iniciar el uso con acceso directo al test de estrés | Como usuario nuevo de NeuroZen, quiero que mi panel inicial me indique cómo empezar y no muestre datos que no son míos, para conocer mi nivel de estrés real desde el primer uso. | 3 |
+| 9 | EX-08 | Registrar eventos de analítica en la App Móvil | Como developer, quiero registrar en Firebase Analytics los eventos de uso de ZenBot y de los ejercicios, para responder la pregunta exploratoria del experimento E4. | 3 |
+| | | | **Total** | **30** |
+
+Las correcciones directas identificadas en la auditoría (enlaces rotos de la Landing, texto "null" en el inicio de sesión, datos de contacto de relleno, entre otras) no forman parte de este backlog de experimentación, porque no responden ninguna pregunta: se implementan como *hotfixes* y se registran en la sección 6.4.2.4. En particular, la reparación de los enlaces de la Landing es requisito previo de E1, ya que la condición de control debe tener destinos funcionales.
+
+
+
 
 ### 8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle
 
