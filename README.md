@@ -4277,6 +4277,99 @@ Al pasar a la **Aplicación Móvil (Android)** para cumplir el **User Flow 1 (In
 
 ### 6.3.3. Evaluaciones según heurísticas
 
+A partir de las sesiones de validación ejecutadas con las representantes de ambos segmentos objetivo (Segmento 1 en Landing Page + Frontend Web y Segmento 2 en Landing Page + Aplicación Móvil), el equipo consolidó los hallazgos aplicando el formato oficial de evaluación heurística en las dimensiones de **Usability**, **Inclusive Design** e **Information Architecture**.
+
+#### UX Heuristics & Principles Evaluation
+**Usability - Inclusive Design - Information Architecture**
+
+| Campo | Detalle |
+| :--- | :--- |
+| **CARRERA** | Ingeniería de Software |
+| **CURSO** | Diseño de Experimentos de Ingeniería de Software (1ASI0732) |
+| **NRC** | 9100 |
+| **PROFESORES** | Sánchez Ponce, Alex Humberto |
+| **AUDITOR** | Startup **NeuroDraw** (Castro Picón, Manuel Fernando Joao; Huaman De La Cruz, Jean Pool; Paredes Chavez, Carlos Augusto; Requena Gutiérrez, Diego Gabriel; Vila Guillen, Miguel Angel) |
+| **CLIENTE(S)** | Representantes de validación:<br>• **Segmento 1 (Trabajadora formal, 25 años):** Valeria Gómez<br>• **Segmento 2 (Trabajadora independiente / horario flexible, 20 años):** Camila Rojas |
+| **SITE / APP A EVALUAR** | **NeuroZen** — Landing Page (`neurozen-landing.netlify.app`), Frontend Web Application (`neurozen-web-frontend.vercel.app`) y Aplicación Móvil Android Nativo (`v2.2.0`) |
+
+#### TAREAS A EVALUAR
+
+**El alcance de esta evaluación incluye la revisión de la usabilidad de las siguientes tareas:**
+1. Exploración de beneficios, planes de suscripción y propuesta de valor en la Landing Page (versión Desktop y Mobile).
+2. Registro e inicio de sesión de un usuario nuevo aceptando los términos de privacidad (Ley N.° 29733).
+3. Resolución completa del Test de Autoevaluación de Estrés (PSS-10 de 10 preguntas) y visualización del diagnóstico.
+4. Búsqueda y filtrado de psicólogos verificados en el directorio de profesionales.
+5. Reserva de una sesión psicológica en el flujo de agendamiento (selección de especialista, fecha, horario y modalidad).
+6. Registro manual de un desencadenante de estrés (*Stress Trigger*) indicando categoría, nivel de tensión y descripción.
+7. Interacción con el asistente conversacional **ZenBot** y ejecución de un ejercicio de respiración guiado.
+
+**No están incluidas en esta versión de la evaluación las siguientes tareas:**
+1. Verificación, aprobación o rechazo de colegiaturas CPsP desde el panel exclusivo de Administrador.
+2. Configuración de disponibilidad horaria y confirmación de citas desde el portal exclusivo del Psicólogo.
+3. Envío de informes de progreso a especialistas en formato descargable.
+4. Participación en grupos de apoyo comunitarios y desafíos grupales de varios días.
+5. Flujo de cancelación de suscripción o solicitud de reembolsos.
+
+#### ESCALA DE SEVERIDAD
+
+Los errores identificados durante las sesiones de validación fueron puntuados tomando en cuenta la siguiente escala de severidad:
+
+| Nivel | Descripción |
+| :---: | :--- |
+| **1** | **Problema superficial:** puede ser fácilmente superado por el usuario u ocurre con muy poca frecuencia. No necesita ser arreglado a no ser que exista disponibilidad de tiempo. |
+| **2** | **Problema menor:** puede ocurrir un poco más frecuentemente o es un poco más difícil de superar para el usuario. Se le debería asignar una prioridad baja de cara al siguiente *release*. |
+| **3** | **Problema mayor:** ocurre frecuentemente o los usuarios no son capaces de resolverlo de forma directa. Es importante que sea corregido y se le debe asignar una prioridad alta. |
+| **4** | **Problema muy grave:** un error de gran impacto que impide al usuario continuar con el uso de la herramienta. Es imperativo que sea corregido antes del lanzamiento. |
+
+#### TABLA RESUMEN
+
+| # | Problema | Escala de severidad | Heurística / Principio violado(a) |
+| :---: | :--- | :---: | :--- |
+| **1** | En el directorio de psicólogos (Frontend Web), no existe un filtro por rango de tarifa por sesión, obligando a entrar perfil por perfil para comparar precios. | **3** | **Information Architecture:** *Is it findable?* (Capacidad de búsqueda y filtrado) |
+| **2** | En el asistente de reserva de cita en 4 pasos (Frontend Web), no hay un botón directo en el resumen final para editar solo la hora sin retroceder paso por paso. | **3** | **Usability:** Libertad y control del usuario |
+| **3** | En la pantalla principal de la App Móvil, el resumen estadístico de evolución del estrés queda desplazado hacia la parte inferior y requiere hacer *scroll* para notarlo. | **2** | **Usability:** Visibilidad del estado del sistema (Jerarquía visual) |
+| **4** | En el formulario de registro de desencadenantes (Web) y textos auxiliares, el color Gris Piedra (`#8C9893`) sobre fondo Beige Cálido (`#F1E9D4`) presenta bajo contraste visual. | **2** | **Inclusive Design:** Proporciona experiencias comparables (Contraste y legibilidad WCAG) |
+| **5** | En los ejercicios de respiración guiados de la App Móvil (invocados desde ZenBot), la guía es únicamente visual en pantalla, sin vibración háptica ni aviso sonoro al cambiar de fase (inhalar/retener/exhalar). | **2** | **Inclusive Design:** Proporciona experiencias comparables (Soporte multimodal) |
+| **6** | En la versión móvil de la Landing Page, el botón principal de acceso a la aplicación no diferencia explícitamente entre ir a la versión web o descargar el instalador APK de Android. | **1** | **Information Architecture:** *Is it usable?* (Claridad en el sistema de etiquetado) |
+
+#### DESCRIPCIÓN DE PROBLEMAS
+
+**PROBLEMA #1: Ausencia de filtro por rango de tarifa en el directorio de psicólogos (Frontend Web)**
+*   **Severidad:** 3
+*   **Heurística violada:** Information Architecture — *Is it findable?* / Usability — Flexibilidad y eficiencia de uso.
+*   **Problema:** Durante la sesión de validación del Segmento 1 (Valeria, 25 años), al ejecutar la tarea de buscar un especialista y agendar una sesión, la usuaria utilizó los filtros de modalidad y disponibilidad de horarios, pero intentó filtrar a los psicólogos según su presupuesto mensual. Al no contar con un selector de rango de precios en la barra superior del directorio, tuvo que abrir las fichas individuales de varios especialistas para comparar tarifas, incrementando el tiempo de la tarea y la carga cognitiva.
+*   **Recomendación:** Incorporar un filtro desplegable o control deslizante (*range slider*) de tarifa por sesión (ej. S/ 50 – S/ 200) y opción de ordenamiento por precio ascendente/descendente en la cabecera del directorio de profesionales, conectándolo con los parámetros de consulta de `TherapistService`.
+
+**PROBLEMA #2: Falta de edición directa de pasos previos en el resumen de reserva de cita (Frontend Web)**
+*   **Severidad:** 3
+*   **Heurística violada:** Usability — Libertad y control del usuario.
+*   **Problema:** En el flujo de agendamiento de 4 pasos (1. Especialista → 2. Fecha y Hora → 3. Modalidad → 4. Confirmación), cuando la usuaria del Segmento 1 llegó al paso 4 de revisión final y quiso cambiar únicamente la hora de su sesión de las 18:00 a las 19:00, no encontró un enlace de "Cambiar horario" junto al dato en el resumen. Para modificarlo, tuvo que presionar repetidamente el botón "Anterior" hasta regresar al paso 2 y volver a avanzar.
+*   **Recomendación:** Habilitar enlaces de acción rápida ("Editar") junto a cada bloque del resumen de confirmación (Especialista, Fecha/Hora y Tipo de sesión) y permitir hacer clic directamente en los indicadores numerados de la barra de progreso superior del *wizard* para saltar al paso deseado sin perder las selecciones posteriores.
+
+**PROBLEMA #3: Ubicación poco visible del resumen estadístico de estrés en el Home (Aplicación Móvil)**
+*   **Severidad:** 2
+*   **Heurística violada:** Usability — Visibilidad del estado del sistema / Reconocimiento antes que recuerdo.
+*   **Problema:** En la validación del Segmento 2 (Camila, 20 años), luego de registrar un desencadenante de estrés por sobrecarga de un cliente, la usuaria regresó a la pantalla de inicio (`HomeScreen`) esperando ver de inmediato cómo había cambiado su indicador de nivel de estrés del día. Dado que los accesos rápidos a actividades y tarjetas informativas ocupan la mitad superior de la pantalla, el resumen estadístico queda desplazado hacia abajo y requirió hacer *scroll* vertical para localizarlo.
+*   **Recomendación:** Reorganizar la jerarquía de componentes en Jetpack Compose dentro de `HomeScreen`, ubicando una tarjeta compacta de estado actual ("Nivel de estrés hoy", promedio semanal y variación) inmediatamente debajo del saludo principal al usuario.
+
+**PROBLEMA #4: Contraste insuficiente en textos auxiliares y botones secundarios sobre fondo beige (Frontend Web)**
+*   **Severidad:** 2
+*   **Heurística violada:** Inclusive Design — Proporciona experiencias comparables (Accesibilidad visual WCAG 2.2 AA).
+*   **Problema:** Al completar el formulario de desencadenantes de estrés y leer las etiquetas secundarias sobre el fondo Beige Cálido (`#F1E9D4`), ambas usuarias notaron que los textos de ayuda y bordes en Gris Piedra (`#8C9893`) se perciben tenues cuando la pantalla tiene un nivel de brillo alto, exigiendo mayor esfuerzo visual para distinguir los campos opcionales de los obligatorios.
+*   **Recomendación:** Oscurecer el tono de texto secundario a una variante de mayor contraste (por ejemplo, `#4A5550` o Verde Bosque `#2D5A4A` para etiquetas de formulario) garantizando una relación de contraste mínima de 4.5:1 conforme al estándar WCAG 2.2 Nivel AA.
+
+**PROBLEMA #5: Ausencia de guía háptica o sonora en los ejercicios de respiración (Aplicación Móvil)**
+*   **Severidad:** 2
+*   **Heurística violada:** Inclusive Design — Proporciona experiencias comparables (Retroalimentación multimodal).
+*   **Problema:** Cuando la usuaria del Segmento 2 siguió la sugerencia de **ZenBot** e inició un ejercicio de respiración guiado ("Respiración en caja 4-4-4-4") desde el celular, intentó cerrar los ojos para relajarse mejor. Sin embargo, tuvo que mantener la vista fija en la pantalla porque el cambio entre las fases de *Inhalar*, *Retener* y *Exhalar* solo se comunica mediante el temporizador visual en pantalla.
+*   **Recomendación:** Integrar retroalimentación háptica suave (`VibrationEffect` en Android) y un indicador auditivo opcional (campana suave o voz guía activable/desactivable) en cada transición de fase del temporizador de respiración, permitiendo realizar el ejercicio con los ojos cerrados.
+
+**PROBLEMA #6: Etiquetado ambiguo en los botones CTA de la Landing Page móvil**
+*   **Severidad:** 1
+*   **Heurística violada:** Information Architecture — *Is it usable?* (Claridad en *Labeling Systems*).
+*   **Problema:** Durante el primer flujo de la entrevistada del Segmento 2 desde el navegador de su teléfono, al presionar el botón principal de llamado a la acción ("Comenzar ahora") en la Landing Page, no le quedó claro antes de hacer clic si el botón la llevaría a la versión web en el navegador o si descargaría directamente la aplicación móvil para Android.
+*   **Recomendación:** Diferenciar explícitamente las etiquetas de los botones de acción en la sección principal (*Hero*) de la Landing Page: utilizar **"Ingresar a NeuroZen Web"** para la aplicación web y **"Descargar App Android (APK)"** para la aplicación nativa.
+
 ## 6.4. Auditoría de Experiencias de Usuario
 
 ### 6.4.1. Auditoría realizada
