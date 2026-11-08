@@ -4439,11 +4439,284 @@ Los errores identificados durante las sesiones de validación fueron puntuados t
 
 #### 6.4.2.1. Información del grupo auditor
 
+La auditoría de experiencia de usuario de nuestro producto **NeuroZen** fue realizada por el **Grupo 2**, cuya startup recibe el nombre de **"CareStacks"**. A continuación, se adjunta la lista de integrantes del grupo auditor:
+
+- Baldeon Vivar, Santiago Armando
+- Espinoza Cruz, Angela Milagros
+- Muñiz Huayanca, Percy Alonso
+- Nikaido Vargas, Javier Masaru
+- Salcedo Champi, Matías Rodolfo
+
+La coordinación con el grupo auditor estuvo a cargo de Paredes Chavez, Carlos Augusto, y el envío de los enlaces y repositorios lo realizó Huaman De La Cruz, Jean Pool. Para el desarrollo de la auditoría, nuestro equipo compartió con el grupo auditor los siguientes enlaces y recursos:
+
+- Aplicación web (producción): https://neurozen-web-frontend.vercel.app
+- Repositorio del informe: https://github.com/Proyecto-1ASI0732-2620-Experimentos/Report-NeuroZen-Experimento
+- Repositorios de código fuente de la Landing Page, el Frontend Web y la Aplicación Móvil.
+
+El grupo auditor entregó dos documentos: la evaluación heurística en el formato del Anexo D del curso y un informe técnico complementario titulado *"Auditoría UX/UI y evaluación heurística de NeuroZen"*, que amplía la revisión a la Landing Page y a la Aplicación Móvil.
+
 #### 6.4.2.2. Cronograma de auditoría recibida
+
+En esta sección se registran las principales actividades realizadas durante la auditoría que el grupo "CareStacks" ejecutó sobre nuestro producto NeuroZen.
+
+| Actividad de auditoría recibida | Fecha | Realizado por |
+| :--- | :--- | :--- |
+| Coordinación con el grupo auditor y solicitud de información | 07/11/2026 | Paredes Chavez, Carlos Augusto |
+| Envío de enlaces y repositorios de NeuroZen al grupo auditor | 07/11/2026 | Huaman De La Cruz, Jean Pool |
+| Ejecución de la auditoría | 07/11/2026 – 08/11/2026 | Baldeon Vivar, Santiago Armando<br>Espinoza Cruz, Angela Milagros |
+| Elaboración del informe de la auditoría | 08/11/2026 | Baldeon Vivar, Santiago Armando<br>Espinoza Cruz, Angela Milagros |
+| Envío del informe de auditoría a nuestro equipo | 08/11/2026 | Grupo CareStacks |
+| Recepción del informe y coordinación con el grupo auditor | 08/11/2026 | Paredes Chavez, Carlos Augusto |
+| Revisión del informe y planificación de las modificaciones | 08/11/2026 | Equipo NeuroDraw |
 
 #### 6.4.2.3. Contenido de auditoría recibida
 
+**SITE o APP A EVALUAR:** NeuroZen — Frontend Web Application (https://neurozen-web-frontend.vercel.app), complementada con la revisión de la Landing Page y la Aplicación Móvil.
+
+**MÉTODO DE EVALUACIÓN:**
+
+El grupo auditor aplicó las 10 heurísticas de usabilidad de Nielsen, criterios de arquitectura de información y las pautas de accesibilidad WCAG 2.2. Revisó el código fuente de las tres plataformas, ejecutó la Web App en el navegador en versión de escritorio y de celular, y calculó los contrastes de color con la fórmula de luminancia relativa de WCAG. La App Móvil se evaluó únicamente a partir de su código y no se realizaron pruebas con usuarios.
+
+En total, el informe reportó 35 hallazgos de usabilidad (1 crítico, 7 mayores, 23 menores y 4 superficiales) y 15 de accesibilidad. Nuestro equipo analizó todos los hallazgos y consolidó en esta sección los 17 de mayor impacto para el usuario: los 10 de la evaluación heurística principal y 7 del informe complementario, de severidad alta o vinculados al incumplimiento de contraste mínimo, que no estaban cubiertos en la evaluación principal. Los hallazgos restantes son de severidad menor o repiten problemas ya incluidos, y se registraron en el Product Backlog para iteraciones posteriores.
+
+**TAREAS A EVALUAR:**
+
+El alcance de esta evaluación incluye la revisión de la usabilidad de las siguientes tareas:
+
+1. Inicio de sesión de un usuario.
+2. Creación de cuenta y elección del tipo de cuenta (usuario o psicólogo).
+3. Registro de psicólogo y verificación de colegiatura.
+4. Configuración inicial opcional y test de autoevaluación de estrés.
+5. Navegación y lectura del panel de Inicio (estadísticas y herramientas).
+6. Reserva de una sesión con un profesional.
+7. Configuración de idioma y visualización de la aplicación.
+8. Navegación y acceso a la plataforma desde la Landing Page (botones de llamada a la acción, planes e inicio de sesión).
+9. Recuperación de contraseña y consulta del estado de citas en la Aplicación Móvil.
+
+No están incluidas en esta versión de la evaluación las siguientes tareas:
+
+1. Perfil del usuario y suscripciones.
+2. Ejercicios de respiración, pausas activas y biblioteca de recursos.
+3. Registro de desencadenantes.
+4. Pruebas de rendimiento o seguridad sobre la API.
+
+**ESCALA DE SEVERIDAD:**
+
+Los errores serán puntuados tomando en cuenta la siguiente escala de severidad:
+
+| Nivel | Descripción |
+| :---: | :--- |
+| 1 | Problema superficial: puede ser fácilmente superado por el usuario o ocurre con muy poca frecuencia. No necesita ser arreglado a no ser que exista disponibilidad de tiempo. |
+| 2 | Problema menor: puede ocurrir un poco más frecuentemente o es un poco más difícil de superar para el usuario. Se le debería asignar una prioridad baja y resolverlo de cara al siguiente release. |
+| 3 | Problema mayor: ocurre frecuentemente o los usuarios no son capaces de resolverlos. Es importante que sean corregidos y se les debe asignar una prioridad alta. |
+| 4 | Problema muy grave: un error de gran impacto que impide al usuario continuar con el uso de la herramienta. Es imperativo que sea corregido antes del lanzamiento. |
+
+**TABLA RESUMEN:**
+
+| # | Problema | Escala de severidad | Heurística/Principio violada(o) |
+| :---: | :--- | :---: | :--- |
+| 1 | Los campos del inicio de sesión muestran el texto "null" en lugar de una guía de ingreso. | 3 | Relación entre el sistema y el mundo real |
+| 2 | El panel de Inicio muestra datos de ejemplo con mensajes de tendencia que parecen reales. | 3 | Visibilidad del estado del sistema |
+| 3 | La selección de fecha no indica qué días tienen horarios disponibles. | 3 | Prevención de errores |
+| 4 | La tarjeta del profesional muestra datos de relleno: "$0", "health" y valoración 0.0. | 2 | Relación entre el sistema y el mundo real |
+| 5 | El pie de página muestra datos de contacto de relleno. | 2 | Relación entre el sistema y el mundo real |
+| 6 | El paso "Último paso" del registro no es el último y deja opciones preseleccionadas. | 2 | Visibilidad del estado del sistema |
+| 7 | Los textos de ayuda del registro de psicólogo son muy pequeños y de bajo contraste. | 2 | Accessibility: Legibility and contrast |
+| 8 | Se usan "sesión" y "cita" de forma indistinta para la misma acción. | 1 | Consistencia y estándares |
+| 9 | Los controles de "Visualización" en Configuración son poco claros. | 1 | Visibilidad del estado del sistema |
+| 10 | La pantalla "Tu cuenta está en revisión" no indica cuánto demorará la verificación. | 1 | Visibilidad del estado del sistema |
+| 11 | Los botones de llamada a la acción de la Landing Page llevan a una URL inexistente (error 404). | 4 | Ayudar a reconocer, diagnosticar y recuperarse de errores |
+| 12 | La Landing Page no ofrece acceso a "Iniciar sesión" ni "Registrarse". | 3 | Control y libertad del usuario |
+| 13 | Los planes, precios y moneda son distintos en cada plataforma. | 3 | Consistencia y estándares |
+| 14 | El nivel de estrés se expresa en escalas distintas según la pantalla y la plataforma. | 3 | Consistencia y estándares |
+| 15 | En la Aplicación Móvil, restablecer la contraseña exige pegar manualmente un token. | 3 | Prevención de errores |
+| 16 | Los botones principales de la Landing Page tienen texto blanco sobre verdes claros con contraste insuficiente. | 3 | Inclusive Design: Proporciona experiencias comparables (WCAG 1.4.3 Contraste mínimo) |
+| 17 | Los indicadores de estado de la Aplicación Móvil (citas, nivel de estrés y valoraciones) tienen contraste insuficiente. | 2 | Inclusive Design: Proporciona experiencias comparables (WCAG 1.4.3 y 1.4.11) |
+
+> Los problemas 1 al 10 provienen de la evaluación heurística en formato Anexo D. Los problemas 11 al 17 se seleccionaron del informe técnico complementario por ser de severidad alta o por incumplir el contraste mínimo de WCAG, y no estar cubiertos en la evaluación principal. Como el auditor reportó los problemas 16 y 17 en su análisis de accesibilidad sin asignarles severidad, nuestro equipo la asignó según la escala del curso a partir de las mediciones de contraste.
+
+**DESCRIPCIÓN DE PROBLEMAS:**
+
+**PROBLEMA #1: Campos del inicio de sesión con el texto "null"**
+
+**Severidad:** 3
+**Heurística violada:** Relación entre el sistema y el mundo real
+**Problema:** En la pantalla de inicio de sesión, los campos "Correo Electrónico" y "Contraseña" muestran el texto "null". Es un valor técnico que se filtra a la interfaz: el usuario puede interpretarlo como un dato precargado o como un error, y dudar si debe borrarlo antes de escribir. Al ser la primera pantalla que ve cualquier usuario, transmite una impresión de producto inestable.
+**Recomendación:**
+- Reemplazar "null" por textos de ayuda comprensibles, por ejemplo "tucorreo@ejemplo.com" e "Ingresa tu contraseña".
+- Revisar que ninguna variable sin inicializar se muestre en la interfaz.
+
+**PROBLEMA #2: Panel de Inicio con datos de ejemplo que parecen reales**
+
+**Severidad:** 3
+**Heurística violada:** Visibilidad del estado del sistema
+**Problema:** El panel de estadísticas incluye el aviso "Aún no hay registros suficientes: se muestran datos de ejemplo", pero igualmente presenta un nivel de estrés, un promedio, un gráfico semanal y un texto personalizado que habla de "tus niveles de estrés" y "tus horas pico", con una flecha roja de aumento del 5 %. Además, las señales se contradicen: el nivel actual aparece como "Bajo" y la curva termina descendiendo, mientras el texto sugiere contactar a un profesional por un aumento. En una aplicación de salud mental, un usuario nuevo puede tomar estos datos como resultados reales sobre sí mismo.
+**Recomendación:**
+- Mostrar un estado vacío (ilustración y un botón como "Registra tu primer desencadenante" o "Hacer el test") mientras no existan registros.
+- Si se mantienen datos demostrativos, atenuarlos visualmente, rotularlos como "Ejemplo" y no mostrar recomendaciones personalizadas ni alertas de tendencia.
+
+**PROBLEMA #3: El calendario de reserva no indica disponibilidad**
+
+**Severidad:** 3
+**Heurística violada:** Prevención de errores
+**Problema:** En el paso "Fecha y hora" de la reserva, todos los días desde hoy aparecen habilitados con el mismo aspecto. Al elegir el día 12, el sistema responde "No hay horarios disponibles para este día." y el botón "Siguiente" queda deshabilitado sin explicación. El usuario debe probar día por día hasta encontrar uno con cupo, lo que puede llevarlo a abandonar la tarea principal del producto. El informe complementario agrega que el calendario también ofrece días fuera del horario del psicólogo (por ejemplo, sábados para una profesional que atiende de lunes a viernes). Además, el título del mes se muestra como "Noviembre De 2026".
+**Recomendación:**
+- Marcar visualmente los días con disponibilidad (por ejemplo, con un punto) y deshabilitar los que no tengan horarios del profesional.
+- Complementar el mensaje vacío con una acción útil, como "Próximo horario disponible: [fecha]".
+- Corregir el formato del mes a "Noviembre de 2026".
+
+**PROBLEMA #4: Tarjeta del profesional con datos de relleno**
+
+**Severidad:** 2
+**Heurística violada:** Relación entre el sistema y el mundo real
+**Problema:** En el primer paso de "Reservar Sesión", el único profesional listado aparece con precio "$0 sesión", especialidad "health" (en inglés, mientras la interfaz está en español), una valoración "0.0 (0)" y un avatar genérico. El precio en cero puede interpretarse como sesión gratuita o como un error, y la especialidad no ayuda a decidir. Asimismo, el botón "Siguiente" aparece deshabilitado sin indicar que primero hay que seleccionar un profesional.
+**Recomendación:**
+- Mostrar "Tarifa por definir" o un precio real; no mostrar "$0" si no es una sesión gratuita.
+- Mostrar la especialidad en español y usar "Sin valoraciones aún" en lugar de "0.0 (0)".
+- Agregar un texto de ayuda junto al botón deshabilitado, como "Selecciona un profesional para continuar".
+
+**PROBLEMA #5: Pie de página con datos de contacto de relleno**
+
+**Severidad:** 2
+**Heurística violada:** Relación entre el sistema y el mundo real
+**Problema:** El pie de página, presente en varias pantallas, muestra el teléfono "+1 (555) 123-4567" y la dirección "123 Wellness St, Health City, HC 12345", que son datos de ejemplo, junto con el año "© 2025". En una plataforma que trata salud mental, la confianza es clave: el usuario que necesite contactar a soporte (por ejemplo, desde la pantalla de verificación de cuenta) no tendrá un canal real.
+**Recomendación:**
+- Reemplazar los datos por información real de contacto (con código +51) o retirarlos hasta contar con ella, y mostrar el año de forma automática.
+- Verificar que "Contactar soporte" lleve a un canal funcional.
+
+**PROBLEMA #6: "Último paso" que no es el último y con opciones preseleccionadas**
+
+**Severidad:** 2
+**Heurística violada:** Visibilidad del estado del sistema
+**Problema:** La pantalla "Cuéntanos un poco de ti" se presenta como "Último paso" y como opcional, pero el botón dice "Continuar al test" y a continuación aparece un test de 10 preguntas, por lo que el usuario no sabe cuánto falta. Además, "18-24" y "Formal" ya vienen seleccionados, de modo que quien continúe sin tocar nada registrará datos que no declaró. La opción "Omitir" es un enlace pequeño, alejado del botón principal.
+**Recomendación:**
+- Cambiar el encabezado por "Paso opcional" o indicar la cantidad de pasos restantes.
+- No preseleccionar edad ni tipo de trabajo.
+- Colocar "Omitir" como botón secundario junto a "Continuar al test".
+
+**PROBLEMA #7: Textos de ayuda pequeños y de bajo contraste en el registro de psicólogo**
+
+**Severidad:** 2
+**Heurística violada:** Accessibility: Legibility and contrast
+**Problema:** En el formulario "Registro de psicólogo", las indicaciones importantes ("Debe coincidir con tu DNI y tu registro en el CPsP", "Lo usaremos para verificar que estás habilitado para ejercer", "Mínimo 8 caracteres, con al menos una letra y un número") se muestran con una tipografía muy reducida y en gris claro sobre fondo crema. Son instrucciones que evitan errores que retrasarían la verificación de la colegiatura, por lo que deberían leerse con facilidad, sobre todo por personas con baja visión.
+**Recomendación:**
+- Aumentar el tamaño del texto de ayuda (mínimo 14 px) y usar un gris más oscuro que cumpla la relación de contraste 4.5:1 de WCAG.
+- Presentar los requisitos de la contraseña como una lista que se marca a medida que se cumplen.
+
+**PROBLEMA #8: Uso indistinto de "sesión" y "cita"**
+
+**Severidad:** 1
+**Heurística violada:** Consistencia y estándares
+**Problema:** En el panel de Inicio la tarjeta se llama "Reservar Sesión", pero su descripción dice "Agendar cita con profesional", y la consulta posterior se llama "Mis citas" (también en el pie de página). Además, la reserva se encuentra dentro del menú "Profesionales", lo que no es evidente para quien busca "Reservar". Esto obliga al usuario a deducir que se trata de la misma función.
+**Recomendación:**
+- Unificar el término en toda la aplicación (por ejemplo, "Reservar cita" y "Mis citas").
+- Agregar un acceso directo visible a "Reservar cita" en la barra de navegación.
+
+**PROBLEMA #9: Controles de "Visualización" poco claros en Configuración**
+
+**Severidad:** 1
+**Heurística violada:** Visibilidad del estado del sistema
+**Problema:** El control deslizante "Tamaño de texto" muestra solo "16px", sin marcas de mínimo y máximo ni una vista previa, y su control es un cuadrado negro que no sigue el estilo del resto de la interfaz. Los interruptores "Reducir animaciones" y "Alto contraste" aparecen en gris sobre gris, por lo que cuesta distinguir su estado. Estas opciones son de accesibilidad y deberían ser fáciles de usar.
+**Recomendación:**
+- Agregar marcas "A-" y "A+" y una línea de texto de ejemplo que cambie de tamaño.
+- Reforzar el contraste de los interruptores y mostrar "Activado/Desactivado".
+
+**PROBLEMA #10: Cuenta en revisión sin plazo estimado**
+
+**Severidad:** 1
+**Heurística violada:** Visibilidad del estado del sistema
+**Problema:** El psicólogo recién registrado ve los pasos de verificación, pero no se informa un plazo estimado; solo se indica "Te avisaremos cuando puedas recibir citas". Sin un tiempo orientativo, el usuario no sabe si debe esperar horas o días y debe usar "Comprobar estado" repetidamente.
+**Recomendación:**
+- Indicar un plazo estimado (por ejemplo, "Suele tomar 1 a 2 días hábiles").
+- Informar que se enviará un correo cuando la cuenta esté activa.
+
+**PROBLEMA #11: Botones de llamada a la acción de la Landing Page sin destino real**
+
+**Severidad:** 4
+**Heurística violada:** Ayudar a reconocer, diagnosticar y recuperarse de errores / Visibilidad del estado del sistema
+**Problema:** Los 11 botones de conversión de la Landing Page ("NeuroZen App", "Elegir plan", "Agendar cita", "Encuentra tu psicólogo ideal", entre otros) apuntan a una URL de relleno y terminan en error 404. Ningún visitante puede registrarse, contratar un plan ni agendar una cita desde la Landing, por lo que esta no cumple su función de captación.
+**Recomendación:**
+- Reemplazar los enlaces por rutas reales de la Web App: "Comenzar gratis" hacia el registro, "Elegir plan" hacia la compra del plan seleccionado y "Agendar cita" hacia el perfil del psicólogo, solicitando inicio de sesión cuando corresponda.
+
+**PROBLEMA #12: La Landing Page no ofrece acceso a "Iniciar sesión" ni "Registrarse"**
+
+**Severidad:** 3
+**Heurística violada:** Control y libertad del usuario / Flexibilidad y eficiencia de uso
+**Problema:** No existe un enlace de "Iniciar sesión" ni "Registrarse" en la cabecera, el menú móvil ni el pie de página de la Landing. El usuario que ya tiene cuenta no tiene forma de volver a la plataforma desde la web pública.
+**Recomendación:**
+- Añadir en la cabecera un enlace secundario "Iniciar sesión" y un botón primario "Crear cuenta", y repetir ambos en el menú móvil.
+
+**PROBLEMA #13: Planes, precios y moneda distintos en cada plataforma**
+
+**Severidad:** 3
+**Heurística violada:** Consistencia y estándares
+**Problema:** La Landing muestra planes en dólares con unos precios, la Web App muestra otros montos y la Aplicación Móvil presenta planes con otros nombres y en soles. Un usuario que ve un precio en la Landing y otro al momento de pagar puede desconfiar del servicio o presentar reclamos.
+**Recomendación:**
+- Definir un catálogo único de planes y precios servido por el backend y mostrar una sola moneda (S/) en todas las plataformas.
+
+**PROBLEMA #14: El nivel de estrés se expresa en escalas distintas**
+
+**Severidad:** 3
+**Heurística violada:** Consistencia y estándares / Relación entre el sistema y el mundo real
+**Problema:** El dashboard web muestra el estrés de 0 a 100, el inicio móvil sobre 10, el test sobre 40, y dentro de la propia web el registro de desencadenantes y el perfil usan una escala de 1 a 10. El usuario no puede comparar su evolución entre pantallas ni entre dispositivos.
+**Recomendación:**
+- Adoptar una sola escala visible (por ejemplo, 0–100 o niveles Bajo/Moderado/Alto) y convertir el puntaje del test a ella, mostrando el puntaje original solo como detalle.
+
+**PROBLEMA #15: Restablecer la contraseña en la app móvil exige pegar un token**
+
+**Severidad:** 3
+**Heurística violada:** Prevención de errores / Relación entre el sistema y el mundo real
+**Problema:** Para recuperar la contraseña desde la Aplicación Móvil, el usuario debe abrir el correo, copiar manualmente el valor "token" del enlace y pegarlo en la app. Es una tarea casi imposible para usuarios no técnicos y puede bloquear el acceso a la cuenta.
+**Recomendación:**
+- Abrir la app mediante un enlace directo (*deep link*) con el token ya cargado o, como alternativa, usar un código de 6 dígitos.
+
+**PROBLEMA #16: Contraste insuficiente en los botones principales de la Landing Page**
+
+**Severidad:** 3
+**Heurística violada:** Inclusive Design — Proporciona experiencias comparables (WCAG 2.2, criterio 1.4.3 Contraste mínimo)
+**Problema:** Los botones de llamada a la acción de la Landing usan texto blanco de 16 px en negrita sobre un degradado de verdes claros. El contraste medido va de 2.28:1 al inicio del degradado a 3.77:1 al final, y el botón del menú móvil llega solo a 1.48:1, por lo que resulta prácticamente ilegible. El mínimo exigido por WCAG para texto de ese tamaño es 4.5:1. Son las acciones más importantes de la página y no se leen bien con baja visión o con el celular al sol.
+**Recomendación:**
+- Reemplazar el degradado por un fondo sólido con el verde de marca de la Web App (`#2D5A4A`, contraste de 7.86:1 con texto blanco) y un tono más oscuro para el estado *hover*.
+- Volver a medir el contraste de todos los botones tras el cambio.
+
+**PROBLEMA #17: Contraste insuficiente en los indicadores de estado de la Aplicación Móvil**
+
+**Severidad:** 2
+**Heurística violada:** Inclusive Design — Proporciona experiencias comparables (WCAG 2.2, criterios 1.4.3 Contraste mínimo y 1.4.11 Contraste de componentes)
+**Problema:** Las etiquetas de estado de las citas y del nivel de estrés tienen un contraste muy por debajo del mínimo: "Pendiente" y "Moderado" alcanzan 2.03:1, "Confirmada" 2.77:1 y "Cancelada" 2.66:1. Las estrellas de valoración (2.27:1) y el texto "Seguro • Privado" del inicio de sesión (2.17:1) tienen el mismo problema. Como el estado se comunica principalmente por el color, a un usuario con baja visión o daltonismo le cuesta saber si su cita está confirmada o cancelada.
+**Recomendación:**
+- Usar en cada etiqueta un texto en el tono oscuro de su color (por ejemplo, `#8A5A00` sobre ámbar claro) con contraste de al menos 4.5:1.
+- Agregar un icono por estado (reloj, check, cruz) para no depender solo del color.
+- Añadir a las estrellas una descripción accesible para TalkBack, como "4 de 5".
+
+**Fortalezas identificadas por el grupo auditor:** la Web App presenta una base de accesibilidad bien resuelta (salto al contenido, foco visible, formularios con mensajes de error por campo, modo de alto contraste y reducción de movimiento), estados de carga, error y vacío en la mayoría de pantallas, y la detección de situaciones de crisis en ZenBot con líneas de ayuda de Perú.
+
 #### 6.4.2.4. Resumen de modificaciones para subsanar hallazgos
+
+A partir de la auditoría recibida, el equipo analizó los hallazgos y planificó las modificaciones correspondientes, priorizando primero los de mayor severidad. Algunos hallazgos coinciden con lo observado en nuestras entrevistas de validación (sección 6.3.3), en particular los problemas de contraste en textos auxiliares (#7). Las modificaciones se incorporan al To-Be Product Backlog y su estado se actualizará conforme se implementen.
+
+| N.° | Problema | Severidad | Producto | Modificación realizada / planificada | Estado |
+| :---: | :--- | :---: | :--- | :--- | :---: |
+| 11 | CTA de la Landing sin destino real | 4 | Landing Page | Conectar los botones con las rutas de registro, compra de plan y reserva de la Web App. | Pendiente |
+| 12 | Sin acceso a iniciar sesión en la Landing | 3 | Landing Page | Agregar "Iniciar sesión" y "Crear cuenta" en la cabecera y el menú móvil. | Pendiente |
+| 1 | Texto "null" en el inicio de sesión | 3 | Frontend Web | Reemplazar por textos de ayuda e inicializar las variables del formulario. | Pendiente |
+| 2 | Datos de ejemplo en el panel de Inicio | 3 | Frontend Web | Mostrar un estado vacío con las acciones "Hacer el test" y "Registrar desencadenante". | Pendiente |
+| 3 | Calendario sin indicar disponibilidad | 3 | Frontend Web + API | Deshabilitar días sin horarios del profesional, mostrar el próximo horario disponible y corregir el formato del mes. | Pendiente |
+| 13 | Planes y precios distintos por plataforma | 3 | API + todas | Catálogo único de planes servido por el backend, en soles. | Pendiente |
+| 14 | Escalas de estrés distintas | 3 | Frontend Web + App Móvil | Unificar la escala de estrés y convertir el puntaje del test. | Pendiente |
+| 15 | Token manual para restablecer contraseña | 3 | App Móvil | Implementar deep link con el token cargado o código de 6 dígitos. | Pendiente |
+| 16 | Contraste insuficiente en botones de la Landing | 3 | Landing Page | Botones con fondo sólido `#2D5A4A` (7.86:1) en lugar del degradado y nueva medición de contraste. | Pendiente |
+| 4 | Tarjeta del profesional con datos de relleno | 2 | Frontend Web | Mostrar tarifa real o "Tarifa por definir", especialidad en español y "Sin valoraciones aún". | Pendiente |
+| 5 | Datos de contacto de relleno en el pie de página | 2 | Frontend Web | Usar datos reales con código +51 o retirar el bloque; año automático. | Pendiente |
+| 6 | "Último paso" engañoso y opciones preseleccionadas | 2 | Frontend Web | Rotular como "Paso opcional", quitar preselecciones y destacar "Omitir". | Pendiente |
+| 7 | Textos de ayuda pequeños y de bajo contraste | 2 | Frontend Web | Texto de ayuda de 14 px como mínimo con contraste ≥ 4.5:1 y checklist de contraseña. | Pendiente |
+| 17 | Indicadores de estado con bajo contraste | 2 | App Móvil | Texto oscuro en las etiquetas (≥ 4.5:1), icono por estado y descripción accesible en las estrellas. | Pendiente |
+| 8 | "Sesión" y "cita" usados indistintamente | 1 | Frontend Web | Unificar el término "cita" en toda la aplicación. | Pendiente |
+| 9 | Controles de visualización poco claros | 1 | Frontend Web | Agregar marcas "A-"/"A+", vista previa y estado "Activado/Desactivado". | Pendiente |
+| 10 | Sin plazo estimado de verificación | 1 | Frontend Web | Indicar "Suele tomar 1 a 2 días hábiles" y avisar por correo. | Pendiente |
+
+**Conclusión de la auditoría recibida:** la auditoría permitió identificar que el principal riesgo de NeuroZen no está en una pantalla aislada, sino en la Landing Page, que hoy no conduce a la plataforma, y en la falta de coherencia entre plataformas en precios y escalas de estrés. Por ello, el equipo priorizará en el siguiente sprint los problemas 11, 12, 1 y 16, que son de severidad alta y bajo esfuerzo, seguidos de la unificación de planes (13) y de la escala de estrés (14). Los avances se registrarán en esta tabla con su estado y el commit correspondiente.
+
 
 ---
 
