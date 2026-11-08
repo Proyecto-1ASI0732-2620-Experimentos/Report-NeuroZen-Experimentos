@@ -2964,13 +2964,402 @@ En esta sección se presentan los prototipos interactivos de las aplicaciones m�
 
 ## 6.4. Auditoría de Experiencias de Usuario
 
+El equipo NeuroDraw, desarrollador de NeuroZen, evaluó la experiencia de usuario de CareConnect, producto de CareStacks. La auditoría siguió el Anexo D del Final Project Statement 2026-20 y sus tres pilares: **Usability**, **Inclusive Design** e **Information Architecture**. Se revisaron tareas visibles para el usuario, la consistencia entre superficies y la comunicación de los estados y errores.
+
 ### 6.4.1. Auditoría realizada
 
 #### 6.4.1.1. Información del grupo auditado
 
+| Elemento | Información |
+| --- | --- |
+| Startup auditada | CareStacks |
+| Producto auditado | CareConnect |
+| NRC del grupo auditado | 9100 |
+| Equipo auditor | NeuroDraw, desarrollador de NeuroZen |
+| Fecha de inspección | 8 de noviembre de 2026 |
+| Versión evaluada | Despliegues públicos disponibles en la fecha de inspección. No se verificó un commit específico asociado a cada despliegue. |
+
+**Integrantes del grupo auditado**, según el informe de CareStacks:
+
+| Código | Apellidos y nombres |
+| --- | --- |
+| U202319881 | Baldeon Armas, Santiago Armando |
+| U202415495 | Espinoza Cruz, Angela Milagros |
+| U202319563 | Muñiz Huayanca, Percy Alonso |
+| U20221G099 | Nikaido Vargas, Javier Masaru |
+| U202319698 | Salcedo Champi, Matias Rodolfo |
+
+**Organización y repositorios proporcionados por el grupo auditado:**
+
+| Recurso | Enlace |
+| --- | --- |
+| Organización GitHub | https://github.com/upc-pre-202620-1asi0732-9100-carestacks |
+| Informe | https://github.com/upc-pre-202620-1asi0732-9100-carestacks/carestacks-report |
+| Landing Page | https://github.com/upc-pre-202620-1asi0732-9100-carestacks/carestacks-landing-page |
+| Frontend Web Application | https://github.com/upc-pre-202620-1asi0732-9100-carestacks/carestacks-web |
+| Mobile Application - Caregiver | https://github.com/upc-pre-202620-1asi0732-9100-carestacks/carestacks-mobile-app |
+| Mobile Application - Patient | https://github.com/upc-pre-202620-1asi0732-9100-carestacks/carestacks-frontend |
+| Backend RESTful API | https://github.com/upc-pre-202620-1asi0732-9100-carestacks/carestacks-backend-api |
+
+**Estado de acceso de las superficies UX:**
+
+| Superficie | Estado de la auditoría |
+| --- | --- |
+| Landing Page — https://carestacks-landing-page.vercel.app/ | Disponible y auditada funcionalmente en las tareas accesibles durante la inspección de escritorio. |
+| Frontend Web Application — https://carestacks-web.onrender.com/ | Disponible y auditada funcionalmente con una cuenta de prueba de cuidador. Los flujos que requieren un paciente vinculado quedaron pendientes de validación. |
+| Mobile Application - Caregiver | **Incluida en el alcance previsto; pendiente de auditoría funcional por falta de acceso ejecutable.** |
+| Mobile Application - Patient | **Incluida en el alcance previsto; pendiente de auditoría funcional por falta de acceso ejecutable.** |
+
+La cuenta empleada se creó exclusivamente para la auditoría. Durante la inspección no tenía pacientes vinculados ni invitaciones pendientes. La disponibilidad de repositorios y documentación de las aplicaciones móviles no se tomó como prueba de ejecución funcional.
+
 #### 6.4.1.2. Cronograma de auditoría realizada
 
+No se registraron horas exactas ni se atribuyeron actividades a integrantes individuales.
+
+| Actividad efectivamente realizada | Fecha | Responsable |
+| --- | --- | --- |
+| Revisión del Final Project Statement, el Anexo D y las referencias proporcionadas para delimitar la auditoría | 08/11/2026 | Equipo NeuroDraw |
+| Inspección funcional de la Landing Page: contenido, navegación, CTA, planes, contacto, ES/EN y recorrido básico por teclado | 08/11/2026 | Equipo NeuroDraw |
+| Acceso con la cuenta de prueba e inspección funcional de Home, Agenda, Documentos, Diario, Notificaciones y Perfil de la Web App | 08/11/2026 | Equipo NeuroDraw |
+| Pruebas de campos vacíos, correo inválido, estados sin paciente, navegación por teclado, recarga, cierre y nuevo inicio de sesión | 08/11/2026 | Equipo NeuroDraw |
+| Consolidación de tareas, hallazgos confirmados, limitaciones y comparación entre Landing Page y Web App | 08/11/2026 | Equipo NeuroDraw |
+| Elaboración de la presente sección de auditoría realizada | 08/11/2026 | Equipo NeuroDraw |
+
 #### 6.4.1.3. Contenido de auditoría realizada
+
+##### Objetivo, alcance y criterio de evaluación
+
+La evaluación buscó identificar problemas observables que afectaran la comprensión de CareConnect, la navegación, la realización de tareas y la accesibilidad de las experiencias disponibles. Se prestó atención al lenguaje, la legibilidad y la claridad de las acciones debido a que el producto se dirige a cuidadores y pacientes geriátricos.
+
+La auditoría funcional abarcó la Landing Page y la Frontend Web Application. Las dos aplicaciones móviles permanecen **dentro del alcance previsto**, con su ejecución funcional pendiente hasta contar con un APK, una distribución de prueba, un build, un prototipo navegable suficientemente completo u otro medio verificable. Sus resultados podrán incorporarse posteriormente dentro de esta misma estructura.
+
+El backend, la base de datos, la arquitectura interna, la seguridad del código y los pipelines no se evaluaron directamente. Únicamente se consideró un error procedente de una solicitud cuando su texto apareció en la interfaz para el usuario.
+
+Se registró como **hallazgo confirmado** solo un problema reproducido mediante interacción directa. Las observaciones sin impacto suficiente, las tareas limitadas por el estado de la cuenta y los aspectos revisados sin problemas se presentan por separado.
+
+##### TAREAS A EVALUAR
+
+**Landing Page**
+
+| Código | Tarea | Resultado de la evaluación |
+| --- | --- | --- |
+| LP-01 | Comprender el problema que resuelve CareConnect | Ejecutada. Se revisaron la portada y la descripción del problema. |
+| LP-02 | Identificar los segmentos objetivo | Ejecutada. Se identificaron referencias a pacientes, cuidadores y familias. |
+| LP-03 | Consultar las funciones principales | Ejecutada mediante la navegación y la sección Funciones. |
+| LP-04 | Consultar los beneficios | Ejecutada mediante la navegación y la sección Beneficios. |
+| LP-05 | Consultar planes y precios | Ejecutada. Se observaron planes de $15/mes y $150/año; la acción de elegirlos presenta el Problema 03. |
+| LP-06 | Encontrar información de contacto | Ejecutada. El recorrido hacia el canal de consultas presenta el Problema 02. |
+| LP-07 | Utilizar el CTA principal | Ejecutada. Su destino presenta el Problema 01. |
+| LP-08 | Cambiar entre ES y EN | Ejecutada en ambas opciones. Se observaron los Problemas 04 y 05. |
+| LP-09 | Navegar mediante el menú principal | Ejecutada. Los enlaces internos probados llegaron a sus secciones. |
+| LP-10 | Identificar cómo acceder al producto | Intentada desde la Landing. El Problema 01 afecta esta tarea. |
+
+También se probaron el enlace para saltar al contenido, el foco visible y su activación con teclado. No se completó una prueba verificable en resolución móvil.
+
+**Frontend Web Application — cuenta de cuidador**
+
+| Código | Tarea | Resultado de la evaluación |
+| --- | --- | --- |
+| WEB-01 | Iniciar sesión | Ejecutada. Se observó Home con el saludo «Hola, Carlos» y el rol Cuidador. |
+| WEB-02 | Revisar Home | Ejecutada. Se revisaron el estado sin pacientes, los accesos rápidos y la actividad reciente. |
+| WEB-03 | Comprender el estado del paciente en el dashboard | Evaluada parcialmente. La cuenta mostró «Aún no tienes pacientes activos»; no había información de un paciente que evaluar. |
+| WEB-04 | Consultar Agenda | Ejecutada. Se abrió el calendario y se seleccionó otro día. |
+| WEB-05 | Registrar un evento en Agenda | No ejecutable bajo las condiciones disponibles: no había paciente vinculado ni acción de creación visible en ese estado. |
+| WEB-06 | Consultar eventos existentes | Evaluada parcialmente. El acceso rápido indicó cero eventos; no existía un evento para abrir. |
+| WEB-07 | Consultar Documentos | Ejecutada. Se abrió la sección, que mostró búsqueda y estado sin paciente activo. |
+| WEB-08 | Subir o registrar un documento | No ejecutable bajo las condiciones disponibles: no se ofreció la acción sin paciente vinculado. |
+| WEB-09 | Consultar Diario | Ejecutada. Se observó el estado que requiere una invitación para leer y escribir. |
+| WEB-10 | Registrar información en el Diario | No ejecutable bajo las condiciones disponibles: no se ofreció la acción sin paciente vinculado. |
+| WEB-11 | Consultar Notificaciones | Ejecutada. El panel mostró «Avisos 0» y su estado vacío. |
+| WEB-12 | Resolver una notificación | No ejecutable bajo las condiciones disponibles: no había avisos sobre los cuales actuar. |
+| WEB-13 | Consultar y gestionar Perfil | Evaluada parcialmente. Se revisaron rol, estado, pacientes vinculados y resumen; no había pacientes ni invitaciones que gestionar. |
+| WEB-14 | Revisar opciones de configuración | Se revisaron el menú y el Perfil disponibles. No se encontró una opción visible de Configuración; no se presupone que deba existir. |
+| WEB-15 | Cerrar sesión | Ejecutada. La aplicación volvió al formulario de inicio de sesión. |
+| WEB-16 | Volver a iniciar sesión | Ejecutada. Tras el nuevo ingreso se observó nuevamente Home con «Hola, Carlos». |
+
+Como pruebas complementarias, se enviaron vacíos los campos del acceso y del registro, se utilizó un correo ficticio con formato inválido en el acceso, se navegó por controles mediante Tab y Enter, y se recargó la Web App mientras la sesión estaba activa. No se creó una cuenta adicional ni se incorporaron datos médicos.
+
+##### ESCALA DE SEVERIDAD
+
+Se utiliza exclusivamente la escala del Anexo D del Final Project Statement:
+
+| Nivel | Clasificación y criterio |
+| --- | --- |
+| 1 | **Problema superficial:** el usuario puede superarlo fácilmente o se presenta con muy poca frecuencia. |
+| 2 | **Problema menor:** ocurre con mayor frecuencia o resulta algo más difícil de superar; corresponde una prioridad baja de corrección. |
+| 3 | **Problema mayor:** ocurre frecuentemente o el usuario no logra resolverlo; requiere prioridad alta de corrección. |
+| 4 | **Problema muy grave:** impide continuar con el uso de la herramienta y debe corregirse antes del lanzamiento. |
+
+La distribución provisional de los problemas confirmados es: **dos de nivel 1, cuatro de nivel 2, uno de nivel 3 y ninguno de nivel 4**.
+
+##### TABLA RESUMEN
+
+| # | Problema | Escala de severidad | Heurística/Principio violada(o) |
+| --- | --- | --- | --- |
+| 01 | «Probar app» dirige a los planes y no proporciona acceso a la Web App. | 3 | Usability: correspondencia entre la acción anunciada y su resultado. |
+| 02 | El contacto general conduce a GitHub Issues, donde iniciar una consulta requiere una cuenta de GitHub. | 2 | Inclusive Design: ofrecer vías de uso accesibles para distintos usuarios. |
+| 03 | Ambos botones «Elegir plan» llevan al mismo contacto sin conservar la elección. | 2 | Usability: visibilidad del resultado de la acción. |
+| 04 | La vista previa del teléfono permanece en español cuando la Landing está en inglés. | 1 | Inclusive Design: experiencia comprensible y consistente con el idioma elegido. |
+| 05 | La versión española mezcla rótulos en inglés y formas de tratamiento distintas. | 1 | Usability: consistencia y estándares. |
+| 06 | El acceso Web muestra «Request validation failed» ante un correo con formato inválido. | 2 | Usability: ayudar a reconocer y recuperarse de errores. |
+| 07 | La Landing permite seleccionar inglés, pero las pantallas examinadas de la Web App solo se mostraron en español. | 2 | Inclusive Design: experiencia comparable entre superficies. |
+
+##### DESCRIPCIÓN DE PROBLEMAS
+
+###### Problema 01: El CTA «Probar app» dirige a planes (UX-01)
+
+**Producto:** CareConnect Landing Page.
+
+**Pantalla o sección:** Header y portada.
+
+**Tarea afectada:** LP-07, utilizar el CTA principal; LP-10, acceder al producto.
+
+**Pilar:** Usability.
+
+**Heurística/Principio violada(o):** Correspondencia entre la acción anunciada y su resultado.
+
+**Severidad:** 3/4 - Problema mayor.
+
+**Problema explicado:**  
+El botón «Probar app» del header y «Comienza ahora» de la portada dirigen a la sección de precios (`#precio`). En la inspección de los enlaces visibles de la Landing no se encontró un acceso a la Frontend Web Application, aunque esta estaba disponible públicamente y se ejecutó por separado durante la auditoría.
+
+**Impacto en el usuario:**  
+Quien intenta ingresar o probar CareConnect desde su página pública termina comparando planes y no completa la tarea de acceso por ese recorrido.
+
+**Pasos para reproducir el problema:**
+
+1. Abrir `https://carestacks-landing-page.vercel.app/`.
+2. Pulsar «Probar app» en el header.
+3. Observar que la URL termina en `#precio` y aparece la sección de planes.
+4. Volver a Inicio y repetir con «Comienza ahora», que tiene el mismo destino.
+
+**Recomendaciones:**
+
+- Enlazar «Probar app» con el acceso ejecutable de CareConnect.
+- Si la intención del botón es presentar precios, cambiar su etiqueta a «Ver planes» y ofrecer por separado un acceso explícito al producto.
+
+###### Problema 02: El canal de contacto exige acceder a GitHub (UX-02)
+
+**Producto:** CareConnect Landing Page.
+
+**Pantalla o sección:** Contacto y enlace «Contactar al equipo».
+
+**Tarea afectada:** LP-06, encontrar y utilizar el contacto.
+
+**Pilar:** Inclusive Design.
+
+**Heurística/Principio violada(o):** Ofrecer vías de uso accesibles para visitantes con distintos niveles de familiaridad digital.
+
+**Severidad:** 2/4 - Problema menor.
+
+**Problema explicado:**  
+«Contactar al equipo» dirige a la página de Issues del repositorio del informe. En esa página, la acción «New issue» conduce al inicio de sesión de GitHub. El destino no se presenta en la llamada principal como un canal que requiere una cuenta externa.
+
+**Impacto en el usuario:**  
+Una persona sin cuenta de GitHub debe crearla o iniciar sesión antes de plantear una consulta. Este requisito añade esfuerzo a una tarea que la Landing presenta como contacto general.
+
+**Pasos para reproducir el problema:**
+
+1. Abrir la Landing y pulsar «Contacto».
+2. Pulsar «Contactar al equipo».
+3. Observar la página de Issues del repositorio `carestacks-report`.
+4. Pulsar «New issue» y observar que conduce al inicio de sesión de GitHub.
+
+**Recomendaciones:**
+
+- Ofrecer un canal de consulta utilizable por visitantes sin cuenta de GitHub.
+- Si se mantiene Issues, nombrar el enlace «Consultas del proyecto en GitHub» e indicar el requisito de cuenta antes de salir de la Landing.
+
+###### Problema 03: La elección del plan no se conserva (UX-03)
+
+**Producto:** CareConnect Landing Page.
+
+**Pantalla o sección:** Planes y Contacto.
+
+**Tarea afectada:** LP-05, consultar planes; LP-07, continuar desde una acción de conversión.
+
+**Pilar:** Usability.
+
+**Heurística/Principio violada(o):** Visibilidad del resultado de la acción.
+
+**Severidad:** 2/4 - Problema menor.
+
+**Problema explicado:**  
+Los botones «Elegir plan» del plan mensual y del anual llevan al mismo ancla `#contacto`. La sección de destino no muestra cuál fue seleccionado ni ofrece un paso específico para continuar con esa elección.
+
+**Impacto en el usuario:**  
+La decisión tomada en la tarjeta se pierde al avanzar. Si el visitante contacta al equipo, debe recordar y volver a comunicar el plan que le interesaba.
+
+**Pasos para reproducir el problema:**
+
+1. Abrir la sección «Precio».
+2. Pulsar «Elegir plan» en la tarjeta mensual y observar la sección Contacto.
+3. Regresar a Precio y pulsar «Elegir plan» en la tarjeta anual.
+4. Comprobar que se llega a la misma sección sin identificación del plan elegido.
+
+**Recomendaciones:**
+
+- Conservar el plan seleccionado en el siguiente paso y mostrarlo de forma visible.
+- Si todavía no existe un flujo de contratación, usar acciones específicas como «Consultar por el plan mensual» y «Consultar por el plan anual».
+
+###### Problema 04: La vista previa no sigue el idioma inglés (UX-04)
+
+**Producto:** CareConnect Landing Page.
+
+**Pantalla o sección:** Portada con EN seleccionado.
+
+**Tarea afectada:** LP-08, cambiar entre ES y EN.
+
+**Pilar:** Inclusive Design.
+
+**Heurística/Principio violada(o):** Mantener una experiencia comprensible y consistente con el idioma elegido.
+
+**Severidad:** 1/4 - Problema superficial.
+
+**Problema explicado:**  
+Al activar EN, el titular, la descripción y los botones de la portada cambian a inglés. La imagen principal del teléfono conserva textos en español, entre ellos «Hola, Mariana» y «Confirmar toma». Se trata de una representación visual de la aplicación, no de controles interactivos de la Landing.
+
+**Impacto en el usuario:**  
+La muestra visual más destacada del producto no corresponde al idioma que acaba de elegir el visitante.
+
+**Pasos para reproducir el problema:**
+
+1. Abrir la Landing.
+2. Seleccionar EN en el header.
+3. Volver a Inicio.
+4. Comparar los textos de la portada con los que aparecen dentro del teléfono.
+
+**Recomendaciones:**
+
+- Utilizar una vista previa correspondiente al idioma seleccionado.
+- Si solo se dispone de la versión en español, señalar brevemente que la representación corresponde a esa versión.
+
+###### Problema 05: Inconsistencias editoriales en la versión española (UX-05)
+
+**Producto:** CareConnect Landing Page.
+
+**Pantalla o sección:** Secciones de videos, Inicio y Planes.
+
+**Tarea afectada:** LP-08, verificar la consistencia de la versión española; LP-01 y LP-05, comprender los mensajes.
+
+**Pilar:** Usability.
+
+**Heurística/Principio violada(o):** Consistencia y estándares en idioma y tratamiento.
+
+**Severidad:** 1/4 - Problema superficial.
+
+**Problema explicado:**  
+Con ES seleccionado, los rótulos de las secciones de video permanecen como «ABOUT THE TEAM» y «ABOUT THE PRODUCT», junto a títulos y descripciones en español. Además, la redacción alterna imperativos como «Gestiona» y «Comienza» con «elegí el ritmo de pago». Estos elementos no impidieron completar la navegación.
+
+**Impacto en el usuario:**  
+La mezcla de idiomas y formas de tratamiento reduce la uniformidad del tono de una página dirigida a familias y cuidadores.
+
+**Pasos para reproducir el problema:**
+
+1. Seleccionar ES en la Landing.
+2. Desplazarse a las secciones «Conoce al equipo detrás de CareConnect» y «Mira cómo CareConnect organiza el cuidado diario».
+3. Leer sus rótulos superiores en inglés.
+4. Comparar «Gestiona» y «Comienza ahora» en Inicio con «elegí el ritmo de pago» en Planes.
+
+**Recomendaciones:**
+
+- Traducir los rótulos de las secciones de video para ES y mantener sus equivalentes en EN.
+- Definir una pauta de tratamiento para la versión española y revisar los verbos dirigidos al visitante.
+
+###### Problema 06: El acceso muestra un mensaje técnico en inglés (UX-06)
+
+**Producto:** CareConnect Frontend Web Application.
+
+**Pantalla o sección:** Inicio de sesión.
+
+**Tarea afectada:** Iniciar sesión y recuperarse de un dato inválido.
+
+**Pilar:** Usability.
+
+**Heurística/Principio violada(o):** Ayudar al usuario a reconocer el error y corregirlo.
+
+**Severidad:** 2/4 - Problema menor.
+
+**Problema explicado:**  
+Al intentar ingresar con un correo ficticio sin formato de dirección electrónica y una contraseña ficticia, la interfaz mostró literalmente «Request validation failed». El mensaje no señala el campo que debe corregirse y aparece en inglés mientras el formulario está en español. La auditoría registra el efecto visible; no atribuye una causa técnica concreta al backend.
+
+**Impacto en el usuario:**  
+La persona puede reconocer que algo falló, pero no recibe una instrucción específica para corregir el correo y reintentar.
+
+**Pasos para reproducir el problema:**
+
+1. Abrir `https://carestacks-web.onrender.com/` sin sesión.
+2. Introducir un texto ficticio que no tenga formato de correo en «Correo electrónico».
+3. Introducir una contraseña ficticia y pulsar «Ingresar».
+4. Observar «Request validation failed» debajo de los campos.
+
+**Recomendaciones:**
+
+- Validar el formato del correo junto al campo y mostrar una indicación específica antes de enviar el formulario.
+- Presentar en español los errores visibles de la solicitud, con una acción de corrección comprensible.
+
+###### Problema 07: El idioma elegido en la Landing no continúa en la Web App (UX-07)
+
+**Producto:** CareConnect Landing Page y Frontend Web Application.
+
+**Pantalla o sección:** Selector ES/EN de la Landing; acceso, Home y Perfil de la Web App.
+
+**Tarea afectada:** LP-08, seleccionar idioma; WEB-01, iniciar sesión; WEB-02 y WEB-13, consultar Home y Perfil.
+
+**Pilar:** Inclusive Design.
+
+**Heurística/Principio violada(o):** Proporcionar una experiencia comparable entre superficies para quienes eligen otro idioma.
+
+**Severidad:** 2/4 - Problema menor.
+
+**Problema explicado:**  
+La Landing permite seleccionar EN y presenta sus textos principales en inglés. Durante la inspección, el inicio de sesión, Home y Perfil de la Web App se mostraron en español y no ofrecieron un selector de idioma visible. Esta constatación se limita a las pantallas examinadas; no afirma el estado de funciones que no pudieron abrirse con la cuenta disponible.
+
+**Impacto en el usuario:**  
+Una persona que comprendió la propuesta en inglés encuentra el acceso y las pantallas Web revisadas en otro idioma, sin una indicación previa de esa diferencia.
+
+**Pasos para reproducir el problema:**
+
+1. Abrir la Landing y seleccionar EN.
+2. Comprobar que la navegación y la portada se presentan en inglés.
+3. Abrir por separado la Frontend Web Application.
+4. Revisar el inicio de sesión y, con una cuenta de cuidador, Home y Perfil; observar el idioma y las opciones visibles.
+
+**Recomendaciones:**
+
+- Ofrecer una opción de idioma en la Web App para las pantallas dirigidas a visitantes que llegan desde EN.
+- Mientras exista la diferencia, informar en la Landing qué superficies están disponibles en cada idioma.
+
+##### Observaciones y aspectos que requieren validación adicional
+
+Las siguientes observaciones **no integran la tabla de problemas confirmados**:
+
+- En Home, los nombres de dos accesos rápidos aparecieron recortados visualmente como «Documentos médi…» y «Diario de segui…» en la ventana de escritorio examinada. El menú lateral mostraba los nombres completos y los accesos podían utilizarse. Se requiere comprobar otras anchuras antes de calificar su impacto.
+- Perfil mostró un «Identificador» técnico. No se comprobó que impidiera una tarea del cuidador.
+- Al enviar vacío el formulario de creación de cuenta, el mensaje solicitó correo y contraseña sin mencionar el campo «Nombres y apellidos». No se completaron variantes suficientes del formulario para determinar si esto dificulta una corrección posterior.
+- En las pantallas de cuidador disponibles no apareció una opción de Configuración. No se presupone su obligatoriedad ni la existencia de otras pantallas.
+- No se pudieron evaluar el contenido y las acciones de un paciente, porque la cuenta tenía cero pacientes vinculados y cero invitaciones pendientes. Tampoco había eventos, documentos, notas o avisos para consultar, editar o resolver. Esta condición **no se calificó como defecto**.
+- La inspección de escritorio no permite afirmar resultados de responsive móvil, relaciones de contraste medidas ni adecuación comprobada mediante pruebas con pacientes geriátricos.
+- El video del equipo cargó un reproductor de YouTube. La disponibilidad del video del producto enlazado a Microsoft Stream no se comprobó durante esta auditoría.
+- Mobile Application - Caregiver y Mobile Application - Patient continúan **pendientes de auditoría funcional por falta de acceso ejecutable**. Permanecen dentro del alcance previsto.
+
+##### Comparación entre Landing Page y Frontend Web Application
+
+La marca **CareConnect** y el uso de violeta sobre fondos claros aparecen en ambas superficies. Se observó una diferencia entre el símbolo del logotipo de la Landing y el icono de corazón de la Web App, pero no se demostró un impacto suficiente para elevarla a problema. Tampoco se realizó una medición técnica que permita declarar idénticas sus tipografías, tamaños o colores.
+
+Los nombres **Agenda**, **Documentos** y **Diario** permiten reconocer en el menú Web funciones descritas en la Landing. La navegación cambia de enlaces a secciones en la página pública a un menú lateral y accesos rápidos en la aplicación, acordes con sus respectivas tareas.
+
+Las diferencias con impacto se documentaron en los Problemas 01 y 07: el CTA público no conduce a la Web App y la opción EN de la Landing no tuvo continuidad visible en las pantallas Web examinadas. La Landing comunica coordinación entre familiares y cuidadores; la Web App explicó que la cuenta auditada debía recibir una invitación de un paciente para gestionar su información. Sin un paciente vinculado, no se concluye que las funciones anunciadas estén ausentes o fallen.
+
+##### Aspectos positivos comprobados
+
+- La Landing presentó de forma identificable su propuesta, segmentos, funciones, beneficios y dos alternativas de precio. Los enlaces internos del header probados llegaron a sus secciones.
+- El selector ES/EN actualizó los textos principales de la Landing. El enlace «Saltar al contenido principal» apareció con foco visible y se activó con Enter.
+- La Web App identificó el estado de la cuenta sin paciente y explicó la necesidad de aceptar una invitación en Home, Agenda, Documentos, Diario y Perfil.
+- Los módulos accesibles conservaron un menú lateral reconocible; un acceso rápido de Home llevó a Agenda. La selección de otro día actualizó el encabezado del calendario.
+- Tab enfocó controles de la Web App y Enter permitió volver a Inicio desde el menú.
+- La sesión permaneció activa tras recargar la Web App. «Cerrar sesión» devolvió al acceso y un nuevo inicio de sesión mostró nuevamente Home con la cuenta de prueba.
+- El panel de Notificaciones indicó expresamente que había cero avisos, evitando interpretar su espacio vacío como una carga pendiente.
 
 ### 6.4.2. Auditoría recibida
 
