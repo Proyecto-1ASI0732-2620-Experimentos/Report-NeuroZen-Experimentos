@@ -4165,71 +4165,96 @@ A continuación, se presentan las evidencias de las revisiones de código realiz
 > *Evidencia de Code Review (Mobile):*
 > `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Móvil, mostrando la revisión de código y la aprobación requerida]`
 
-
 ## 6.3. Validation Interviews
 
-Para asegurar que NeuroZen realmente resuelve el problema del estrés laboral y cumple con las expectativas de nuestros segmentos objetivo, se llevó a cabo un proceso formal de validación cualitativa. Los usuarios interactuaron directamente con los prototipos funcionales (Landing Page, Frontend Web y Aplicación Móvil), brindando retroalimentación valiosa.
+Para asegurar que NeuroZen realmente resuelve el problema del estrés laboral y cumple con las expectativas de nuestros segmentos objetivo, se llevó a cabo un proceso formal de validación cualitativa. Los usuarios interactuaron directamente con los productos desplegados (Landing Page, Frontend Web y Aplicación Móvil), brindando retroalimentación valiosa.
 
 ### 6.3.1. Diseño de Entrevistas
 
 Para esta fase de validación, el diseño de las entrevistas tiene como objetivo evaluar la usabilidad, la arquitectura de información y la utilidad de NeuroZen directamente con nuestros usuarios finales. Se han diseñado sesiones estructuradas donde los participantes interactúan con la Landing Page y con una de las plataformas (Frontend Web o Aplicación Móvil), de acuerdo con su segmento objetivo.
 
-El documento oficial del proyecto especifica que se deben realizar entre **3 a 5 entrevistas por cada segmento objetivo**[cite: 152]. Para estructurar estas sesiones, hemos definido los siguientes perfiles representativos y sus respectivos guiones de validación (User Flows).
+El documento oficial del proyecto especifica que se deben realizar entre **3 a 5 entrevistas por cada segmento objetivo**. Para estructurar estas sesiones, hemos definido los siguientes perfiles representativos y sus respectivos guiones de validación (User Flows).
+
+#### Protocolo de grabación de las sesiones
+
+De acuerdo con el Anexo C del curso, cada sesión se graba compartiendo pantalla y con la cámara encendida, con una duración sugerida de 3 a 5 minutos por entrevista. El moderador asigna las tareas sin indicar dónde hacer clic e invita a la participante a pensar en voz alta (*Thinking Aloud*). Todas las sesiones se consolidan luego en un único video editado.
+
+Cada sesión sigue la misma estructura en tres partes:
+
+| Parte | Contenido | Tiempo aproximado |
+| :--- | :--- | :---: |
+| **A. Bienvenida y contexto** | Presentación del moderador, datos de la participante (nombre, edad, distrito, jornada laboral) y aclaración de que se evalúa la plataforma, no a la persona. | 00:00 – 00:40 |
+| **B. Ejecución de tareas** | La participante realiza los tres User Flows asignados mientras comparte pantalla y comenta en voz alta. | 00:40 – 03:20 |
+| **C. Preguntas de cierre** | Preguntas abiertas sobre la adecuación del producto a su rutina y sugerencias de mejora. | 03:20 – 04:10 |
+
+#### Ficha técnica de las sesiones
+
+| Entrevista | Perfil de usuario | Plataformas a mostrar | User Flows evaluados |
+| :--- | :--- | :--- | :--- |
+| **Entrevista 1 (Segmento 1)** | Mujer, 25 años. Trabajadora formal con jornada extensa (9–10 h/día). | 1. Landing Page (Desktop)<br>2. Frontend Web (Vue.js) | • Exploración de Landing y Registro<br>• Test de autoevaluación PSS-10<br>• Reserva de cita con psicólogo |
+| **Entrevista 2 (Segmento 2)** | Mujer, 20 años. Trabajadora independiente / horarios flexibles. | 1. Landing Page (Móvil)<br>2. Aplicación Móvil (Android) | • Exploración de Landing y Dashboard<br>• Registro de desencadenante de estrés<br>• Consulta rápida en ZenBot + Respiración |
 
 #### A. Diseño de Entrevista - Segmento 1: Trabajadora Formal con Jornada Extensa
 *   **Perfil de prueba:** Mujer, 25 años. Trabaja en oficina con horario fijo y experimenta estrés por la carga laboral y la falta de tiempo libre.
+*   **Contexto del perfil:** Joven profesional que cumple un horario de oficina extendido, sufre fatiga mental y busca una plataforma web rápida que pueda usar desde su laptop sin interrumpir su trabajo.
 *   **Plataformas a evaluar:** Landing Page + Frontend Web (Escritorio).
 *   **Objetivo:** Validar si la plataforma web permite una evaluación rápida del estrés y facilita agendar una cita profesional sin interrumpir su ocupada jornada.
 
 **Guion de Validación (User Flows asignados):**
-1.  **Introducción (Voz del moderador):** *"Hola. Te presentamos NeuroZen, una plataforma para gestionar el estrés laboral. Esta sesión es para evaluar la plataforma, no a ti. Por favor, piensa en voz alta mientras navegas y dime qué ves y qué esperas que haga cada botón."*
+1.  **Introducción (Voz del moderador):** *"Hola, bienvenida y muchas gracias por tu tiempo. Soy integrante del equipo de NeuroZen. Hoy estamos validando nuestra plataforma web para la gestión del estrés laboral. Primero, ¿podrías comentarnos tu nombre, tu edad, en qué distrito vives y cómo es tu jornada de trabajo habitual? Recuerda que hoy evaluamos la plataforma, no a ti; no hay respuestas incorrectas. Por favor, piensa en voz alta mientras navegas y dime qué ves y qué esperas que haga cada botón."*
 2.  **Flow 1 - Exploración y Registro (Landing Page):** 
-    *   *Tarea:* "Imagina que un colega te recomendó NeuroZen. Ingresa a la página de inicio, revisa de qué trata la plataforma y, si te convence, crea una cuenta nueva."
+    *   *Tarea:* "Imagina que un compañero del trabajo te recomendó NeuroZen. Explora la página principal, dime qué te transmite y, cuando estés lista, crea una cuenta como trabajadora."
 3.  **Flow 2 - Autoevaluación PSS-10 (Frontend Web):** 
-    *   *Tarea:* "Acabas de iniciar sesión por primera vez. El sistema te pide evaluar tu nivel de estrés. Por favor, encuentra el test inicial, complétalo y revisa tu diagnóstico."
+    *   *Tarea:* "Ahora que ingresaste al menú principal de la aplicación web, busca la opción para conocer tu nivel actual de estrés, completa el cuestionario y cuéntanos qué opinas del resultado."
 4.  **Flow 3 - Reserva de Cita Profesional (Frontend Web):** 
-    *   *Tarea:* "El sistema te indicó que tienes estrés moderado/alto. Busca en el directorio un psicólogo que te inspire confianza y agenda una cita para el próximo viernes en un horario que no choque con tu trabajo."
+    *   *Tarea:* "Dado tu resultado, deseas hablar con un especialista. Busca un psicólogo en la plataforma que te inspire confianza y reserva una sesión en un horario que no se cruce con tu oficina."
 
 **Preguntas de Cierre (Segmento 1):**
 *   ¿Qué te pareció el proceso para medir tu estrés en la web? ¿Fue muy largo para tu ritmo de trabajo?
 *   ¿Te generó confianza la información mostrada de los psicólogos antes de reservar la cita?
+*   ¿Sentiste que la plataforma web se adapta al poco tiempo libre que tienes en tu jornada, y hubo algún detalle visual que cambiarías?
 
 ---
 
 #### B. Diseño de Entrevista - Segmento 2: Trabajadora con Horario Flexible / Freelance
 *   **Perfil de prueba:** Mujer, 20 años. Trabaja de forma independiente (freelance) o estudia y trabaja, con horarios caóticos que fusionan su vida personal y laboral.
-*   **Plataformas a evaluar:** Landing Page (Móvil) + Aplicación Móvil (Android/Flutter).
+*   **Contexto del perfil:** No tiene horarios fijos, gestiona todo desde su smartphone y necesita herramientas inmediatas para desconectarse y controlar picos de estrés.
+*   **Plataformas a evaluar:** Landing Page (Móvil) + Aplicación Móvil Android nativa (Kotlin + Jetpack Compose).
 *   **Objetivo:** Validar si la aplicación móvil resulta accesible "sobre la marcha" (on-the-go) y si las herramientas de intervención rápida (ZenBot y Desencadenantes) se adaptan a un estilo de vida irregular.
 
 **Guion de Validación (User Flows asignados):**
-1.  **Introducción (Voz del moderador):** *"Hola. Estamos probando NeuroZen, una app diseñada para ayudarte a manejar el estrés cuando sientes que el trabajo invade todo tu día. Actúa con naturalidad y cuéntame qué piensas de lo que ves en pantalla."*
-2.  **Flow 1 - Exploración Móvil (Landing Page en navegador móvil):** 
-    *   *Tarea:* "Estás navegando desde tu celular y ves un anuncio de NeuroZen. Entra a la página, revisa los planes y busca la opción para descargar o ir a la app móvil."
+1.  **Introducción (Voz del moderador):** *"Hola, muchas gracias por participar en esta sesión de validación de NeuroZen, una app diseñada para ayudarte a manejar el estrés cuando sientes que el trabajo invade todo tu día. Para comenzar, ¿podrías presentarte indicando tu nombre, edad, distrito y a qué te dedicas actualmente? Vamos a probar primero nuestra página informativa y luego la aplicación móvil. Actúa con naturalidad y comenta en voz alta qué te parece cada pantalla."*
+2.  **Flow 1 - Exploración Móvil y Dashboard (Landing Page en navegador móvil + App):** 
+    *   *Tarea:* "Estás navegando desde tu celular y ves un anuncio de NeuroZen. Revisa brevemente la página y sus planes, busca la opción para ir a la app y luego inicia sesión en la aplicación móvil. Cuéntanos qué información identificas en la pantalla de inicio."
 3.  **Flow 2 - Registro de Desencadenante (Aplicación Móvil):** 
-    *   *Tarea:* "Ya instalaste la app y creaste tu cuenta. Acabas de tener un problema de última hora con un cliente que desordenó todo tu día. Usa la app para registrar rápidamente esa situación que te causó estrés."
+    *   *Tarea:* "Imagina que un cliente acaba de pedirte un cambio urgente a última hora y sientes mucha tensión. Registra esa situación estresante dentro de la app."
 4.  **Flow 3 - Soporte Emocional Rápido con ZenBot (Aplicación Móvil):** 
-    *   *Tarea:* "Te sientes abrumada en este momento y no tienes tiempo para una cita completa. Busca a nuestro asistente ZenBot, dile que te sientes muy ansiosa o estresada y sigue una de sus recomendaciones (ej. un ejercicio de respiración)."
+    *   *Tarea:* "Sigues sintiendo ansiedad y solo tienes cinco minutos libres antes de continuar trabajando. Usa el asistente ZenBot para pedir ayuda rápida y sigue su recomendación (ej. un ejercicio de respiración)."
 
 **Preguntas de Cierre (Segmento 2):**
 *   Teniendo un horario impredecible, ¿sientes que usar esta app desde tu celular es algo que podrías hacer en tus momentos libres?
 *   ¿Qué opinas de la respuesta de ZenBot? ¿Te resultó útil y empática, o prefieres hablar directamente con un profesional?
+*   Teniendo horarios tan variables, ¿consideras que la aplicación móvil te ayudaría a poner límites y manejar el estrés en tu día a día?
 
 ### 6.3.2. Registro de Entrevistas
 
 De acuerdo con los lineamientos del curso, las sesiones de validación se registraron en un único video consolidado que documenta la interacción real de los usuarios pertenecientes a nuestros dos segmentos objetivo con la **Landing Page**, el **Frontend Web** y la **Aplicación Móvil** de **NeuroZen**. En cada sesión se evaluaron los *User Flows* principales aplicando el protocolo de pensamiento en voz alta (*Thinking Aloud*).
 
+*   **Nombre del video:** `upc-pre-202620-1asi0732-<NRC>-neurodraw-validation-sprint-<n>.mp4`
+*   **URL del video consolidado (Microsoft Stream):** `[Insertar URL del video]`
+
 #### Segmento Objetivo #1: Trabajadores formales con jornadas extensas
 
 ##### Entrevista de Validación N.° 1 (Landing Page + Frontend Web)
 
-*   **Nombres y Apellidos:** `[Insertar Nombres y Apellidos de la entrevistada 1]`
+*   **Nombres y Apellidos:** Valeria Gómez `[Completar segundo apellido si corresponde]`
 *   **Sexo:** Femenino
 *   **Edad:** 25 años
-*   **Distrito de residencia:** `[Insertar Distrito, ej. San Isidro / Miraflores / Surco]`
-*   **Ocupación / Sector:** `[Insertar profesión, ej. Analista Administrativa / Ingeniera en entorno corporativo]` (Jornada formal de 9 a 10 horas diarias)
+*   **Distrito de residencia:** `[Insertar distrito mencionado en el video]`
+*   **Ocupación / Sector:** Trabajadora de oficina a tiempo completo, con entregas frecuentes bajo presión (jornada formal de 9 a 10 horas diarias frente a la computadora)
 *   **Plataformas validadas:** Landing Page (Escritorio) y Frontend Web Application (`https://neurozen-web-frontend.vercel.app`)
-*   **Timing en el video consolidado:** Inicio: `[00:00]` — Fin: `[04:15]` (Duración: `[04:15 min]`)
-*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo]`
+*   **Timing en el video consolidado:** Inicio: `00:00` — Fin: `04:00` (Duración: `04:00 min`)
+*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo t=0]`
 
 <p align="center">
   <img src="assets/cap6/validacion/screenshot-entrevista-s1-01.png" alt="Captura de video - Entrevista de Validación Segmento 1 (25 años)" width="700px" />
@@ -4237,9 +4262,16 @@ De acuerdo con los lineamientos del curso, las sesiones de validación se regist
 <p align="center"><b>Figura 6.3.2.1.</b> Captura de cuadro de video durante la validación de Landing Page y Frontend Web (Segmento 1).</p>
 
 **Resumen descriptivo de apreciaciones respecto a las tareas asignadas:**
-La participante de 25 años inició la sesión explorando la **Landing Page** desde el navegador de escritorio. Destacó que la paleta de colores en tonos verde bosque y beige cálido transmite tranquilidad inmediata tras una jornada de oficina, y comprendió con rapidez la propuesta de valor enfocada en estrés laboral y los planes de suscripción. Al ejecutar el **User Flow 1 (Registro e Inicio de Sesión)** en el Frontend Web, completó el formulario sin errores y valoró que se solicite explícitamente el consentimiento informado sobre datos de salud.
 
-Durante el **User Flow 2 (Autoevaluación de Estrés PSS-10)**, respondió las 10 preguntas en menos de dos minutos; comentó que la escala de opciones es clara y que recibir el puntaje inmediato (`Estrés Moderado`) junto con la explicación del resultado le ayudó a distinguir entre el cansancio diario de la oficina y un cuadro de estrés acumulado. Finalmente, en el **User Flow 3 (Búsqueda de Psicólogo y Reserva de Cita)**, revisó el directorio de profesionales verificados, valoró positivamente ver el número de colegiatura y la especialidad, y logró reservar una sesión fuera de su horario laboral. Como oportunidad de mejora, señaló que le resultaría muy útil contar con un filtro por rango de tarifa por sesión en el directorio web para agilizar su elección, y aumentar ligeramente el contraste visual del botón de guardado en la sección de registro de desencadenantes.
+Al iniciar la sesión, Valeria se presentó como trabajadora de oficina a tiempo completo que pasa entre 9 y 10 horas diarias frente a la computadora, con bastantes entregas bajo presión.
+
+Exploró primero la **Landing Page** desde el navegador de escritorio. Destacó que la paleta de colores en tonos verde bosque y beige cálido le relaja la vista y transmite tranquilidad tras una jornada de oficina, y comprendió con rapidez que la propuesta de valor está enfocada en el estrés laboral, así como los planes de suscripción. Al ejecutar el **User Flow 1 (Registro e Inicio de Sesión)** en el Frontend Web, se registró con su correo, completó el formulario sin errores y valoró que se solicite explícitamente el consentimiento informado sobre datos de salud.
+
+Durante el **User Flow 2 (Autoevaluación de Estrés PSS-10)**, respondió las 10 preguntas en menos de dos minutos y obtuvo un puntaje de **22/40 (Estrés Moderado)**. Comentó que la escala de opciones es clara y que recibir el puntaje inmediato con recomendaciones puntuales le ayudó a notar que lo que siente no es solo cansancio diario de la oficina, sino estrés acumulado.
+
+En el **User Flow 3 (Búsqueda de Psicólogo y Reserva de Cita)**, revisó el directorio de profesionales y señaló que le genera mucha confianza ver que los psicólogos están verificados con número de colegiatura y especialidad. Utilizó los filtros de modalidad y disponibilidad, pero intentó filtrar por presupuesto y, al no encontrar un filtro de tarifa, tuvo que abrir varias fichas para comparar precios. Al llegar al resumen final del asistente de reserva quiso cambiar únicamente la hora de su sesión (de 18:00 a 19:00) y tuvo que retroceder con el botón "Anterior" hasta el paso de fecha y hora. Finalmente logró reservar una sesión fuera de su horario laboral.
+
+**Preguntas de cierre:** Valeria indicó que la plataforma web es muy directa y fácil de usar entre reuniones, por lo que se adapta a su poco tiempo libre. Como oportunidades de mejora, sugirió incorporar un filtro por rango de tarifa en el directorio de psicólogos y dar un color más fuerte al botón "Guardar" del formulario de desencadenantes para ubicarlo al instante.
 
 ---
 
@@ -4247,14 +4279,14 @@ Durante el **User Flow 2 (Autoevaluación de Estrés PSS-10)**, respondió las 1
 
 ##### Entrevista de Validación N.° 2 (Landing Page + Aplicación Móvil)
 
-*   **Nombres y Apellidos:** `[Insertar Nombres y Apellidos de la entrevistada 2]`
+*   **Nombres y Apellidos:** Camila Rojas `[Completar segundo apellido si corresponde]`
 *   **Sexo:** Femenino
 *   **Edad:** 20 años
-*   **Distrito de residencia:** `[Insertar Distrito, ej. Los Olivos / San Miguel / Pueblo Libre]`
-*   **Ocupación / Sector:** `[Insertar ocupación, ej. Diseñadora Freelance / Emprendedora digital / Estudiante que trabaja por proyectos]` (Horarios variables sin hora fija de desconexión)
-*   **Plataformas validadas:** Landing Page (Vista responsiva móvil) y Aplicación Móvil Nativa Android (`NeuroZen v1.0.0`)
-*   **Timing en el video consolidado:** Inicio: `[04:16]` — Fin: `[08:45]` (Duración: `[04:29 min]`)
-*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo]`
+*   **Distrito de residencia:** `[Insertar distrito mencionado en el video]`
+*   **Ocupación / Sector:** Trabajadora independiente; atiende pedidos y clientes desde su celular durante casi todo el día (horarios variables sin hora fija de desconexión)
+*   **Plataformas validadas:** Landing Page (Vista responsiva móvil) y Aplicación Móvil Nativa Android (`NeuroZen v2.2.0`)
+*   **Timing en el video consolidado:** Inicio: `04:00` — Fin: `08:10` (Duración: `04:10 min`)
+*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo t=240]`
 
 <p align="center">
   <img src="assets/cap6/validacion/screenshot-entrevista-s2-01.png" alt="Captura de video - Entrevista de Validación Segmento 2 (20 años)" width="700px" />
@@ -4262,18 +4294,29 @@ Durante el **User Flow 2 (Autoevaluación de Estrés PSS-10)**, respondió las 1
 <p align="center"><b>Figura 6.3.2.2.</b> Captura de cuadro de video durante la validación de Landing Page y Aplicación Móvil (Segmento 2).</p>
 
 **Resumen descriptivo de apreciaciones respecto a las tareas asignadas:**
-La participante de 20 años, cuyo ritmo laboral es independiente y con horarios variables mediados constantemente por el teléfono celular, inició revisando la **Landing Page** desde una vista móvil. Indicó que la estructura es limpia y le permitió entender de inmediato que existe un plan gratuito accesible y herramientas rápidas para gestionar picos de ansiedad entre entregas o encargos de clientes.
 
-Al pasar a la **Aplicación Móvil (Android)** para cumplir el **User Flow 1 (Inicio de Sesión y Exploración del Dashboard)**, resaltó la fluidez de las pantallas construidas en Material Design 3, aunque observó que para visualizar el gráfico de evolución de su estrés tuvo que desplazarse hacia la parte inferior de la pantalla de inicio, sugiriendo ubicar el resumen estadístico más arriba. En el **User Flow 2 (Registro de Desencadenante de Estrés)**, registró un evento reciente de sobrecarga por cambios de última hora de un cliente; afirmó que el formulario es directo y rápido de completar en menos de un minuto desde el celular. Por último, en el **User Flow 3 (Interacción con ZenBot y Ejercicio de Respiración)**, escribió que sentía mucha presión y dificultad para desconectarse; destacó con entusiasmo que **ZenBot** respondiera al instante sugiriéndole un ejercicio guiado de respiración de corta duración y opciones de consulta profesional, lo cual se adapta a sus pausas breves e impredecibles durante el día.
+Al iniciar la sesión, Camila se presentó como trabajadora independiente con horarios variables, que atiende pedidos y clientes desde su celular casi todo el día y sin un horario fijo.
+
+Revisó la **Landing Page** desde una vista móvil. Indicó que la estructura es limpia y que le permitió entender de inmediato que existe un plan gratuito accesible ("lo cual es genial para mí") y herramientas rápidas para gestionar picos de ansiedad entre entregas o encargos de clientes. Al presionar el botón principal "Comenzar ahora" dudó antes de hacer clic, porque no le quedaba claro si la llevaría a la versión web en el navegador o si descargaría la aplicación Android.
+
+Al pasar a la **Aplicación Móvil (Android)** para cumplir el **User Flow 1 (Inicio de Sesión y Exploración del Dashboard)**, resaltó que la pantalla de inicio carga rápido y la fluidez de las pantallas construidas en Material Design 3, aunque observó que para visualizar el gráfico de evolución de su estrés tuvo que desplazarse hacia la parte inferior, sugiriendo ubicar el resumen estadístico más arriba.
+
+En el **User Flow 2 (Registro de Desencadenante de Estrés)**, registró un evento reciente de sobrecarga por un cambio urgente de último minuto pedido por un cliente: eligió la categoría "Sobrecarga", el nivel de estrés en la escala del 1 al 10 y escribió una descripción. Afirmó que le gusta poder elegir la categoría y el nivel muy rápido, y que en menos de un minuto el registro ya estaba guardado en su historial.
+
+Por último, en el **User Flow 3 (Interacción con ZenBot y Ejercicio de Respiración)**, escribió que sentía mucha presión, estrés y dificultad para desconectarse. Destacó con entusiasmo que **ZenBot** respondiera al instante sugiriéndole un ejercicio guiado de respiración de corta duración y opciones de consulta profesional. Al iniciar el ejercicio ("Respiración en caja 4-4-4-4") intentó cerrar los ojos para relajarse, pero tuvo que mantener la vista en la pantalla porque el cambio entre las fases de inhalar, retener y exhalar solo se indica de forma visual.
+
+**Preguntas de cierre:** Camila afirmó que la aplicación móvil sí le ayudaría a poner límites y manejar el estrés en su día a día, porque siempre lleva el celular consigo. Señaló que poder conversar con ZenBot o hacer una pausa de respiración de tres minutos le ayuda a desconectarse sin perder tiempo de trabajo, y que se adapta a sus pausas breves e impredecibles durante el día.
 
 ---
 
 #### Tabla Resumen de Cumplimiento de Tareas en las Sesiones de Validación
 
-| Participante | Segmento | Edad | Plataformas Evaluadas | Tareas Asignadas (User Flows) | Tasa de Éxito | Observación Principal (Heurística asociada) |
+| Participante | Segmento | Edad | Plataformas Evaluadas | Tareas Asignadas (User Flows) | Tasa de Éxito | Observaciones Principales (Heurística asociada) |
 | :--- | :--- | :---: | :--- | :--- | :---: | :--- |
-| **Entrevistada 1** | Segmento 1 (Formal / Jornada extensa) | 25 años | Landing Page + Frontend Web | 1. Exploración de Landing y Registro<br>2. Autoevaluación PSS-10<br>3. Búsqueda de psicólogo y Reserva de cita | 100 % (3/3) | Solicita filtro por rango de precios en el directorio de psicólogos (*Information Architecture: Is it findable?*). |
-| **Entrevistada 2** | Segmento 2 (Flexible / Independiente) | 20 años | Landing Page + App Móvil Android | 1. Exploración de Landing y Dashboard Móvil<br>2. Registro de desencadenante de estrés<br>3. Soporte en ZenBot y ejercicio guiado | 100 % (3/3) | Sugiere subir la tarjeta de gráfico de progreso en el Dashboard móvil (*Usability: Visibilidad del estado del sistema*). |
+| **Valeria Gómez** | Segmento 1 (Formal / Jornada extensa) | 25 años | Landing Page + Frontend Web | 1. Exploración de Landing y Registro<br>2. Autoevaluación PSS-10<br>3. Búsqueda de psicólogo y Reserva de cita | 100 % (3/3) | • Solicita filtro por rango de precios en el directorio (*Information Architecture: Is it findable?*).<br>• No puede editar la hora directamente desde el resumen de reserva (*Usability: Libertad y control del usuario*).<br>• Pide mayor contraste en el botón "Guardar" de desencadenantes (*Inclusive Design*). |
+| **Camila Rojas** | Segmento 2 (Flexible / Independiente) | 20 años | Landing Page + App Móvil Android | 1. Exploración de Landing y Dashboard Móvil<br>2. Registro de desencadenante de estrés<br>3. Soporte en ZenBot y ejercicio guiado | 100 % (3/3) | • Sugiere subir la tarjeta de progreso en el Dashboard móvil (*Usability: Visibilidad del estado del sistema*).<br>• El ejercicio de respiración no tiene guía háptica ni sonora (*Inclusive Design*).<br>• Duda sobre el destino del botón "Comenzar ahora" de la Landing (*Information Architecture: Is it usable?*). |
+
+**Análisis general de las sesiones:** ambas participantes completaron el 100 % de las tareas asignadas (6 de 6 User Flows), lo que indica que los flujos principales de NeuroZen son comprensibles para los dos segmentos. Los hallazgos no impidieron completar ninguna tarea, pero sí aumentaron el tiempo o la carga cognitiva en puntos concretos: comparación de precios y edición de la reserva en la web (Segmento 1), y jerarquía del dashboard, guía multimodal de la respiración y etiquetado de la Landing móvil (Segmento 2). Estos hallazgos se formalizan en la evaluación heurística de la sección 6.3.3.
 
 ### 6.3.3. Evaluaciones según heurísticas
 
@@ -4290,14 +4333,14 @@ A partir de las sesiones de validación ejecutadas con las representantes de amb
 | **PROFESORES** | Sánchez Ponce, Alex Humberto |
 | **AUDITOR** | Startup **NeuroDraw** (Castro Picón, Manuel Fernando Joao; Huaman De La Cruz, Jean Pool; Paredes Chavez, Carlos Augusto; Requena Gutiérrez, Diego Gabriel; Vila Guillen, Miguel Angel) |
 | **CLIENTE(S)** | Representantes de validación:<br>• **Segmento 1 (Trabajadora formal, 25 años):** Valeria Gómez<br>• **Segmento 2 (Trabajadora independiente / horario flexible, 20 años):** Camila Rojas |
-| **SITE / APP A EVALUAR** | **NeuroZen** — Landing Page (`neurozen-landing.netlify.app`), Frontend Web Application (`neurozen-web-frontend.vercel.app`) y Aplicación Móvil Android Nativo (`v2.2.0`) |
+| **SITE / APP A EVALUAR** | **NeuroZen** — Landing Page (`neurozen-landing.netlify.app`), Frontend Web Application (`neurozen-web-frontend.vercel.app`) y Aplicación Móvil Android Nativa (`v2.2.0`) |
 
 #### TAREAS A EVALUAR
 
 **El alcance de esta evaluación incluye la revisión de la usabilidad de las siguientes tareas:**
 1. Exploración de beneficios, planes de suscripción y propuesta de valor en la Landing Page (versión Desktop y Mobile).
 2. Registro e inicio de sesión de un usuario nuevo aceptando los términos de privacidad (Ley N.° 29733).
-3. Resolución completa del Test de Autoevaluación de Estrés (PSS-10 de 10 preguntas) y visualización del diagnóstico.
+3. Resolución completa del Test de Autoevaluación de Estrés (PSS-10 de 10 preguntas) y visualización del resultado.
 4. Búsqueda y filtrado de psicólogos verificados en el directorio de profesionales.
 5. Reserva de una sesión psicológica en el flujo de agendamiento (selección de especialista, fecha, horario y modalidad).
 6. Registro manual de un desencadenante de estrés (*Stress Trigger*) indicando categoría, nivel de tensión y descripción.
@@ -4338,37 +4381,49 @@ Los errores identificados durante las sesiones de validación fueron puntuados t
 *   **Severidad:** 3
 *   **Heurística violada:** Information Architecture — *Is it findable?* / Usability — Flexibilidad y eficiencia de uso.
 *   **Problema:** Durante la sesión de validación del Segmento 1 (Valeria, 25 años), al ejecutar la tarea de buscar un especialista y agendar una sesión, la usuaria utilizó los filtros de modalidad y disponibilidad de horarios, pero intentó filtrar a los psicólogos según su presupuesto mensual. Al no contar con un selector de rango de precios en la barra superior del directorio, tuvo que abrir las fichas individuales de varios especialistas para comparar tarifas, incrementando el tiempo de la tarea y la carga cognitiva.
+
+
 *   **Recomendación:** Incorporar un filtro desplegable o control deslizante (*range slider*) de tarifa por sesión (ej. S/ 50 – S/ 200) y opción de ordenamiento por precio ascendente/descendente en la cabecera del directorio de profesionales, conectándolo con los parámetros de consulta de `TherapistService`.
 
 **PROBLEMA #2: Falta de edición directa de pasos previos en el resumen de reserva de cita (Frontend Web)**
 *   **Severidad:** 3
 *   **Heurística violada:** Usability — Libertad y control del usuario.
 *   **Problema:** En el flujo de agendamiento de 4 pasos (1. Especialista → 2. Fecha y Hora → 3. Modalidad → 4. Confirmación), cuando la usuaria del Segmento 1 llegó al paso 4 de revisión final y quiso cambiar únicamente la hora de su sesión de las 18:00 a las 19:00, no encontró un enlace de "Cambiar horario" junto al dato en el resumen. Para modificarlo, tuvo que presionar repetidamente el botón "Anterior" hasta regresar al paso 2 y volver a avanzar.
+
+
 *   **Recomendación:** Habilitar enlaces de acción rápida ("Editar") junto a cada bloque del resumen de confirmación (Especialista, Fecha/Hora y Tipo de sesión) y permitir hacer clic directamente en los indicadores numerados de la barra de progreso superior del *wizard* para saltar al paso deseado sin perder las selecciones posteriores.
 
 **PROBLEMA #3: Ubicación poco visible del resumen estadístico de estrés en el Home (Aplicación Móvil)**
 *   **Severidad:** 2
 *   **Heurística violada:** Usability — Visibilidad del estado del sistema / Reconocimiento antes que recuerdo.
 *   **Problema:** En la validación del Segmento 2 (Camila, 20 años), luego de registrar un desencadenante de estrés por sobrecarga de un cliente, la usuaria regresó a la pantalla de inicio (`HomeScreen`) esperando ver de inmediato cómo había cambiado su indicador de nivel de estrés del día. Dado que los accesos rápidos a actividades y tarjetas informativas ocupan la mitad superior de la pantalla, el resumen estadístico queda desplazado hacia abajo y requirió hacer *scroll* vertical para localizarlo.
+
+
 *   **Recomendación:** Reorganizar la jerarquía de componentes en Jetpack Compose dentro de `HomeScreen`, ubicando una tarjeta compacta de estado actual ("Nivel de estrés hoy", promedio semanal y variación) inmediatamente debajo del saludo principal al usuario.
 
 **PROBLEMA #4: Contraste insuficiente en textos auxiliares y botones secundarios sobre fondo beige (Frontend Web)**
 *   **Severidad:** 2
 *   **Heurística violada:** Inclusive Design — Proporciona experiencias comparables (Accesibilidad visual WCAG 2.2 AA).
-*   **Problema:** Al completar el formulario de desencadenantes de estrés y leer las etiquetas secundarias sobre el fondo Beige Cálido (`#F1E9D4`), ambas usuarias notaron que los textos de ayuda y bordes en Gris Piedra (`#8C9893`) se perciben tenues cuando la pantalla tiene un nivel de brillo alto, exigiendo mayor esfuerzo visual para distinguir los campos opcionales de los obligatorios.
-*   **Recomendación:** Oscurecer el tono de texto secundario a una variante de mayor contraste (por ejemplo, `#4A5550` o Verde Bosque `#2D5A4A` para etiquetas de formulario) garantizando una relación de contraste mínima de 4.5:1 conforme al estándar WCAG 2.2 Nivel AA.
+*   **Problema:** Al revisar el formulario de desencadenantes de estrés en la web, la usuaria del Segmento 1 notó que el botón "Guardar", los textos de ayuda y los bordes en Gris Piedra (`#8C9893`) sobre el fondo Beige Cálido (`#F1E9D4`) se perciben tenues, especialmente con un nivel de brillo alto, exigiendo mayor esfuerzo visual para ubicar la acción principal y distinguir los campos opcionales de los obligatorios.
+
+*   **Recomendación:** Oscurecer el tono de texto secundario a una variante de mayor contraste (por ejemplo, `#4A5550` o Verde Bosque `#2D5A4A` para etiquetas de formulario) y usar el color primario sólido en el botón "Guardar", garantizando una relación de contraste mínima de 4.5:1 conforme al estándar WCAG 2.2 Nivel AA.
 
 **PROBLEMA #5: Ausencia de guía háptica o sonora en los ejercicios de respiración (Aplicación Móvil)**
 *   **Severidad:** 2
 *   **Heurística violada:** Inclusive Design — Proporciona experiencias comparables (Retroalimentación multimodal).
 *   **Problema:** Cuando la usuaria del Segmento 2 siguió la sugerencia de **ZenBot** e inició un ejercicio de respiración guiado ("Respiración en caja 4-4-4-4") desde el celular, intentó cerrar los ojos para relajarse mejor. Sin embargo, tuvo que mantener la vista fija en la pantalla porque el cambio entre las fases de *Inhalar*, *Retener* y *Exhalar* solo se comunica mediante el temporizador visual en pantalla.
+
+
 *   **Recomendación:** Integrar retroalimentación háptica suave (`VibrationEffect` en Android) y un indicador auditivo opcional (campana suave o voz guía activable/desactivable) en cada transición de fase del temporizador de respiración, permitiendo realizar el ejercicio con los ojos cerrados.
 
 **PROBLEMA #6: Etiquetado ambiguo en los botones CTA de la Landing Page móvil**
 *   **Severidad:** 1
 *   **Heurística violada:** Information Architecture — *Is it usable?* (Claridad en *Labeling Systems*).
 *   **Problema:** Durante el primer flujo de la entrevistada del Segmento 2 desde el navegador de su teléfono, al presionar el botón principal de llamado a la acción ("Comenzar ahora") en la Landing Page, no le quedó claro antes de hacer clic si el botón la llevaría a la versión web en el navegador o si descargaría directamente la aplicación móvil para Android.
+
 *   **Recomendación:** Diferenciar explícitamente las etiquetas de los botones de acción en la sección principal (*Hero*) de la Landing Page: utilizar **"Ingresar a NeuroZen Web"** para la aplicación web y **"Descargar App Android (APK)"** para la aplicación nativa.
+
+
 
 ## 6.4. Auditoría de Experiencias de Usuario
 
