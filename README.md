@@ -4126,10 +4126,22 @@ SonarCloud escanea el código en cada Pull Request, evaluando:
 4.  **Coverage (Cobertura de pruebas):** Asegurar que el código nuevo esté respaldado por pruebas (Unit y BDD).
 
 **A. Evidencia de Calidad y Seguridad - Backend API (C#)**
-En el análisis del backend, SonarCloud verificó la seguridad de los *endpoints* JWT, la sanitización de los inputs en los controladores de Citas y el uso correcto de Entity Framework Core para prevenir Inyecciones SQL. 
+En el análisis del backend, SonarCloud verificó la seguridad de los *endpoints* JWT, la sanitización de los inputs en los controladores de Citas y el uso correcto de Entity Framework Core para prevenir Inyecciones SQL.
+
+Para poder implementar SonarQube Cloud en el proyecto, primero tuvimos que contenerizar nuestro proyecto, para lo cual creamos dos contenedores, uno del MySQL y otro de nuestro proyecto, luego los unimos mediante un docker network.
+
+<img src="assets/cap6/Sonarqube_test_2.jpeg" alt="Integración SonarQube" width="600px"/>
+
+<img src="assets/cap6/Sonarqube_test_3.jpeg" alt="Integración SonarQube" width="600px"/>
+
+<img src="assets/cap6/Sonarqube_test_4.jpeg" alt="Integración SonarQube" width="600px"/>
+
+<img src="assets/cap6/Sonarqube_test_5.jpeg" alt="Integración SonarQube" width="600px"/>
+
+<img src="assets/cap6/Sonarqube_test_6.jpeg" alt="Integración SonarQube" width="600px"/>
 
 > *Evidencia SonarCloud Backend:*
-> `[Insertar captura de pantalla del Dashboard de SonarCloud para el proyecto Backend mostrando el "Quality Gate Passed" (0 Bugs, 0 Vulnerabilities, 0 Security Hotspots)]`
+<img src="assets/cap6/Sonarqube_test.jpeg" alt="Reporte de SonarQube" width="600px"/>
 
 **B. Evidencia de Calidad y Seguridad - Frontend Web (Vue.js)**
 En el frontend web, el análisis se centró en asegurar que no existan vulnerabilidades de tipo XSS (Cross-Site Scripting) al renderizar los datos del test PSS-10 o el chat de ZenBot, además de reducir la deuda técnica en los componentes de Vue.
@@ -4160,7 +4172,7 @@ A continuación, se presentan las evidencias de las revisiones de código realiz
 > `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Web, mostrando los comentarios de revisión de un compañero y el "Approved"]`
 > 
 > *Evidencia de Code Review (Backend/API):*
-> `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Backend, mostrando la revisión técnica y la posterior fusión (Merge) a develop]`
+> <img src="assets/cap6/reviews_1.jpeg" alt="Reporte de SonarQube" width="900px"/>
 >
 > *Evidencia de Code Review (Mobile):*
 > `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Móvil, mostrando la revisión de código y la aprobación requerida]`
