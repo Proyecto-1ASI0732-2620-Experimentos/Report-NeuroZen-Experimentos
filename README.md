@@ -4251,31 +4251,28 @@ Cada sesión sigue la misma estructura en tres partes:
 ### 6.3.2. Registro de Entrevistas
 
 De acuerdo con los lineamientos del curso, las sesiones de validación se registraron en un único video consolidado que documenta la interacción real de los usuarios pertenecientes a nuestros dos segmentos objetivo con la **Landing Page**, el **Frontend Web** y la **Aplicación Móvil** de **NeuroZen**. En cada sesión se evaluaron los *User Flows* principales aplicando el protocolo de pensamiento en voz alta (*Thinking Aloud*).
-
-*   **Nombre del video:** `upc-pre-202620-1asi0732-<NRC>-neurodraw-validation-sprint-<n>.mp4`
-*   **URL del video consolidado (Microsoft Stream):** `[Insertar URL del video]`
-
+ 
 #### Segmento Objetivo #1: Trabajadores formales con jornadas extensas
 
 ##### Entrevista de Validación N.° 1 (Landing Page + Frontend Web)
 
-*   **Nombres y Apellidos:** Valeria Gómez `[Completar segundo apellido si corresponde]`
+*   **Nombres y Apellidos:** Veronica Candela
 *   **Sexo:** Femenino
 *   **Edad:** 25 años
-*   **Distrito de residencia:** `[Insertar distrito mencionado en el video]`
+*   **Distrito de residencia:** Chaclacayo
 *   **Ocupación / Sector:** Trabajadora de oficina a tiempo completo, con entregas frecuentes bajo presión (jornada formal de 9 a 10 horas diarias frente a la computadora)
 *   **Plataformas validadas:** Landing Page (Escritorio) y Frontend Web Application (`https://neurozen-web-frontend.vercel.app`)
-*   **Timing en el video consolidado:** Inicio: `00:00` — Fin: `04:00` (Duración: `04:00 min`)
-*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo t=0]`
+*   **Timing en el video consolidado:** 6:33 min
+*   **URL directa al segmento del video:** [https://drive.google.com/file/d/1LBCIiYV4D1FKabvFvr7FKUgq7WgQqHeT/view?usp=sharing](https://drive.google.com/file/d/1LBCIiYV4D1FKabvFvr7FKUgq7WgQqHeT/view?usp=sharing)
 
 <p align="center">
-  <img src="assets/cap6/validacion/screenshot-entrevista-s1-01.png" alt="Captura de video - Entrevista de Validación Segmento 1 (25 años)" width="700px" />
+  <img src="assets/cap6/evidencia_web_validacion.png" alt="Captura de video - Entrevista de Validación Segmento 1 (25 años)" width="700px" />
 </p>
 <p align="center"><b>Figura 6.3.2.1.</b> Captura de cuadro de video durante la validación de Landing Page y Frontend Web (Segmento 1).</p>
 
 **Resumen descriptivo de apreciaciones respecto a las tareas asignadas:**
 
-Al iniciar la sesión, Valeria se presentó como trabajadora de oficina a tiempo completo que pasa entre 9 y 10 horas diarias frente a la computadora, con bastantes entregas bajo presión.
+Al iniciar la sesión, Veronica se presentó como trabajadora de oficina a tiempo completo que pasa entre 9 y 10 horas diarias frente a la computadora, con bastantes entregas bajo presión.
 
 Exploró primero la **Landing Page** desde el navegador de escritorio. Destacó que la paleta de colores en tonos verde bosque y beige cálido le relaja la vista y transmite tranquilidad tras una jornada de oficina, y comprendió con rapidez que la propuesta de valor está enfocada en el estrés laboral, así como los planes de suscripción. Al ejecutar el **User Flow 1 (Registro e Inicio de Sesión)** en el Frontend Web, se registró con su correo, completó el formulario sin errores y valoró que se solicite explícitamente el consentimiento informado sobre datos de salud.
 
@@ -4283,7 +4280,7 @@ Durante el **User Flow 2 (Autoevaluación de Estrés PSS-10)**, respondió las 1
 
 En el **User Flow 3 (Búsqueda de Psicólogo y Reserva de Cita)**, revisó el directorio de profesionales y señaló que le genera mucha confianza ver que los psicólogos están verificados con número de colegiatura y especialidad. Utilizó los filtros de modalidad y disponibilidad, pero intentó filtrar por presupuesto y, al no encontrar un filtro de tarifa, tuvo que abrir varias fichas para comparar precios. Al llegar al resumen final del asistente de reserva quiso cambiar únicamente la hora de su sesión (de 18:00 a 19:00) y tuvo que retroceder con el botón "Anterior" hasta el paso de fecha y hora. Finalmente logró reservar una sesión fuera de su horario laboral.
 
-**Preguntas de cierre:** Valeria indicó que la plataforma web es muy directa y fácil de usar entre reuniones, por lo que se adapta a su poco tiempo libre. Como oportunidades de mejora, sugirió incorporar un filtro por rango de tarifa en el directorio de psicólogos y dar un color más fuerte al botón "Guardar" del formulario de desencadenantes para ubicarlo al instante.
+**Preguntas de cierre:** Veronica indicó que la plataforma web es muy directa y fácil de usar entre reuniones, por lo que se adapta a su poco tiempo libre. Como oportunidades de mejora, sugirió incorporar un filtro por rango de tarifa en el directorio de psicólogos y dar un color más fuerte al botón "Guardar" del formulario de desencadenantes para ubicarlo al instante.
 
 ---
 
@@ -4291,23 +4288,23 @@ En el **User Flow 3 (Búsqueda de Psicólogo y Reserva de Cita)**, revisó el di
 
 ##### Entrevista de Validación N.° 2 (Landing Page + Aplicación Móvil)
 
-*   **Nombres y Apellidos:** Camila Rojas `[Completar segundo apellido si corresponde]`
+*   **Nombres y Apellidos:** Ariana Robles
 *   **Sexo:** Femenino
 *   **Edad:** 20 años
-*   **Distrito de residencia:** `[Insertar distrito mencionado en el video]`
+*   **Distrito de residencia:** Santa Eulalia
 *   **Ocupación / Sector:** Trabajadora independiente; atiende pedidos y clientes desde su celular durante casi todo el día (horarios variables sin hora fija de desconexión)
 *   **Plataformas validadas:** Landing Page (Vista responsiva móvil) y Aplicación Móvil Nativa Android (`NeuroZen v2.2.0`)
-*   **Timing en el video consolidado:** Inicio: `04:00` — Fin: `08:10` (Duración: `04:10 min`)
-*   **URL directa al segmento del video:** `[Insertar URL del video con parámetro de tiempo t=240]`
+*   **Timing en el video consolidado:** 14:50 min
+*   **URL directa al segmento del video:** [https://drive.google.com/file/d/124wXjiiDeV7VZEK2raVhSks-HBzu31tZ/view?usp=sharing](https://drive.google.com/file/d/124wXjiiDeV7VZEK2raVhSks-HBzu31tZ/view?usp=sharing)
 
 <p align="center">
-  <img src="assets/cap6/validacion/screenshot-entrevista-s2-01.png" alt="Captura de video - Entrevista de Validación Segmento 2 (20 años)" width="700px" />
+  <img src="assets/cap6/evidencia_movil_validación.png" alt="Captura de video - Entrevista de Validación Segmento 2 (20 años)" width="700px" />
 </p>
 <p align="center"><b>Figura 6.3.2.2.</b> Captura de cuadro de video durante la validación de Landing Page y Aplicación Móvil (Segmento 2).</p>
 
 **Resumen descriptivo de apreciaciones respecto a las tareas asignadas:**
 
-Al iniciar la sesión, Camila se presentó como trabajadora independiente con horarios variables, que atiende pedidos y clientes desde su celular casi todo el día y sin un horario fijo.
+Al iniciar la sesión, Ariana se presentó como trabajadora independiente con horarios variables, que atiende pedidos y clientes desde su celular casi todo el día y sin un horario fijo.
 
 Revisó la **Landing Page** desde una vista móvil. Indicó que la estructura es limpia y que le permitió entender de inmediato que existe un plan gratuito accesible ("lo cual es genial para mí") y herramientas rápidas para gestionar picos de ansiedad entre entregas o encargos de clientes. Al presionar el botón principal "Comenzar ahora" dudó antes de hacer clic, porque no le quedaba claro si la llevaría a la versión web en el navegador o si descargaría la aplicación Android.
 
@@ -4317,7 +4314,7 @@ En el **User Flow 2 (Registro de Desencadenante de Estrés)**, registró un even
 
 Por último, en el **User Flow 3 (Interacción con ZenBot y Ejercicio de Respiración)**, escribió que sentía mucha presión, estrés y dificultad para desconectarse. Destacó con entusiasmo que **ZenBot** respondiera al instante sugiriéndole un ejercicio guiado de respiración de corta duración y opciones de consulta profesional. Al iniciar el ejercicio ("Respiración en caja 4-4-4-4") intentó cerrar los ojos para relajarse, pero tuvo que mantener la vista en la pantalla porque el cambio entre las fases de inhalar, retener y exhalar solo se indica de forma visual.
 
-**Preguntas de cierre:** Camila afirmó que la aplicación móvil sí le ayudaría a poner límites y manejar el estrés en su día a día, porque siempre lleva el celular consigo. Señaló que poder conversar con ZenBot o hacer una pausa de respiración de tres minutos le ayuda a desconectarse sin perder tiempo de trabajo, y que se adapta a sus pausas breves e impredecibles durante el día.
+**Preguntas de cierre:** Ariana afirmó que la aplicación móvil sí le ayudaría a poner límites y manejar el estrés en su día a día, porque siempre lleva el celular consigo. Señaló que poder conversar con ZenBot o hacer una pausa de respiración de tres minutos le ayuda a desconectarse sin perder tiempo de trabajo, y que se adapta a sus pausas breves e impredecibles durante el día.
 
 ---
 
@@ -4325,8 +4322,8 @@ Por último, en el **User Flow 3 (Interacción con ZenBot y Ejercicio de Respira
 
 | Participante | Segmento | Edad | Plataformas Evaluadas | Tareas Asignadas (User Flows) | Tasa de Éxito | Observaciones Principales (Heurística asociada) |
 | :--- | :--- | :---: | :--- | :--- | :---: | :--- |
-| **Valeria Gómez** | Segmento 1 (Formal / Jornada extensa) | 25 años | Landing Page + Frontend Web | 1. Exploración de Landing y Registro<br>2. Autoevaluación PSS-10<br>3. Búsqueda de psicólogo y Reserva de cita | 100 % (3/3) | • Solicita filtro por rango de precios en el directorio (*Information Architecture: Is it findable?*).<br>• No puede editar la hora directamente desde el resumen de reserva (*Usability: Libertad y control del usuario*).<br>• Pide mayor contraste en el botón "Guardar" de desencadenantes (*Inclusive Design*). |
-| **Camila Rojas** | Segmento 2 (Flexible / Independiente) | 20 años | Landing Page + App Móvil Android | 1. Exploración de Landing y Dashboard Móvil<br>2. Registro de desencadenante de estrés<br>3. Soporte en ZenBot y ejercicio guiado | 100 % (3/3) | • Sugiere subir la tarjeta de progreso en el Dashboard móvil (*Usability: Visibilidad del estado del sistema*).<br>• El ejercicio de respiración no tiene guía háptica ni sonora (*Inclusive Design*).<br>• Duda sobre el destino del botón "Comenzar ahora" de la Landing (*Information Architecture: Is it usable?*). |
+| **Veronica Candela** | Segmento 1 (Formal / Jornada extensa) | 25 años | Landing Page + Frontend Web | 1. Exploración de Landing y Registro<br>2. Autoevaluación PSS-10<br>3. Búsqueda de psicólogo y Reserva de cita | 100 % (3/3) | • Solicita filtro por rango de precios en el directorio (*Information Architecture: Is it findable?*).<br>• No puede editar la hora directamente desde el resumen de reserva (*Usability: Libertad y control del usuario*).<br>• Pide mayor contraste en el botón "Guardar" de desencadenantes (*Inclusive Design*). |
+| **Ariana Robles** | Segmento 2 (Flexible / Independiente) | 20 años | Landing Page + App Móvil Android | 1. Exploración de Landing y Dashboard Móvil<br>2. Registro de desencadenante de estrés<br>3. Soporte en ZenBot y ejercicio guiado | 100 % (3/3) | • Sugiere subir la tarjeta de progreso en el Dashboard móvil (*Usability: Visibilidad del estado del sistema*).<br>• El ejercicio de respiración no tiene guía háptica ni sonora (*Inclusive Design*).<br>• Duda sobre el destino del botón "Comenzar ahora" de la Landing (*Information Architecture: Is it usable?*). |
 
 **Análisis general de las sesiones:** ambas participantes completaron el 100 % de las tareas asignadas (6 de 6 User Flows), lo que indica que los flujos principales de NeuroZen son comprensibles para los dos segmentos. Los hallazgos no impidieron completar ninguna tarea, pero sí aumentaron el tiempo o la carga cognitiva en puntos concretos: comparación de precios y edición de la reserva en la web (Segmento 1), y jerarquía del dashboard, guía multimodal de la respiración y etiquetado de la Landing móvil (Segmento 2). Estos hallazgos se formalizan en la evaluación heurística de la sección 6.3.3.
 
@@ -4344,7 +4341,7 @@ A partir de las sesiones de validación ejecutadas con las representantes de amb
 | **NRC** | 9100 |
 | **PROFESORES** | Sánchez Ponce, Alex Humberto |
 | **AUDITOR** | Startup **NeuroDraw** (Castro Picón, Manuel Fernando Joao; Huaman De La Cruz, Jean Pool; Paredes Chavez, Carlos Augusto; Requena Gutiérrez, Diego Gabriel; Vila Guillen, Miguel Angel) |
-| **CLIENTE(S)** | Representantes de validación:<br>• **Segmento 1 (Trabajadora formal, 25 años):** Valeria Gómez<br>• **Segmento 2 (Trabajadora independiente / horario flexible, 20 años):** Camila Rojas |
+| **CLIENTE(S)** | Representantes de validación:<br>• **Segmento 1 (Trabajadora formal, 25 años):** Veronica Candela<br>• **Segmento 2 (Trabajadora independiente / horario flexible, 20 años):** Ariana Robles |
 | **SITE / APP A EVALUAR** | **NeuroZen** — Landing Page (`neurozen-landing.netlify.app`), Frontend Web Application (`neurozen-web-frontend.vercel.app`) y Aplicación Móvil Android Nativa (`v2.2.0`) |
 
 #### TAREAS A EVALUAR
@@ -4392,7 +4389,7 @@ Los errores identificados durante las sesiones de validación fueron puntuados t
 **PROBLEMA #1: Ausencia de filtro por rango de tarifa en el directorio de psicólogos (Frontend Web)**
 *   **Severidad:** 3
 *   **Heurística violada:** Information Architecture — *Is it findable?* / Usability — Flexibilidad y eficiencia de uso.
-*   **Problema:** Durante la sesión de validación del Segmento 1 (Valeria, 25 años), al ejecutar la tarea de buscar un especialista y agendar una sesión, la usuaria utilizó los filtros de modalidad y disponibilidad de horarios, pero intentó filtrar a los psicólogos según su presupuesto mensual. Al no contar con un selector de rango de precios en la barra superior del directorio, tuvo que abrir las fichas individuales de varios especialistas para comparar tarifas, incrementando el tiempo de la tarea y la carga cognitiva.
+*   **Problema:** Durante la sesión de validación del Segmento 1 (Veronica, 25 años), al ejecutar la tarea de buscar un especialista y agendar una sesión, la usuaria utilizó los filtros de modalidad y disponibilidad de horarios, pero intentó filtrar a los psicólogos según su presupuesto mensual. Al no contar con un selector de rango de precios en la barra superior del directorio, tuvo que abrir las fichas individuales de varios especialistas para comparar tarifas, incrementando el tiempo de la tarea y la carga cognitiva.
 
 
 *   **Recomendación:** Incorporar un filtro desplegable o control deslizante (*range slider*) de tarifa por sesión (ej. S/ 50 – S/ 200) y opción de ordenamiento por precio ascendente/descendente en la cabecera del directorio de profesionales, conectándolo con los parámetros de consulta de `TherapistService`.
@@ -4408,7 +4405,7 @@ Los errores identificados durante las sesiones de validación fueron puntuados t
 **PROBLEMA #3: Ubicación poco visible del resumen estadístico de estrés en el Home (Aplicación Móvil)**
 *   **Severidad:** 2
 *   **Heurística violada:** Usability — Visibilidad del estado del sistema / Reconocimiento antes que recuerdo.
-*   **Problema:** En la validación del Segmento 2 (Camila, 20 años), luego de registrar un desencadenante de estrés por sobrecarga de un cliente, la usuaria regresó a la pantalla de inicio (`HomeScreen`) esperando ver de inmediato cómo había cambiado su indicador de nivel de estrés del día. Dado que los accesos rápidos a actividades y tarjetas informativas ocupan la mitad superior de la pantalla, el resumen estadístico queda desplazado hacia abajo y requirió hacer *scroll* vertical para localizarlo.
+*   **Problema:** En la validación del Segmento 2 (Ariana, 20 años), luego de registrar un desencadenante de estrés por sobrecarga de un cliente, la usuaria regresó a la pantalla de inicio (`HomeScreen`) esperando ver de inmediato cómo había cambiado su indicador de nivel de estrés del día. Dado que los accesos rápidos a actividades y tarjetas informativas ocupan la mitad superior de la pantalla, el resumen estadístico queda desplazado hacia abajo y requirió hacer *scroll* vertical para localizarlo.
 
 
 *   **Recomendación:** Reorganizar la jerarquía de componentes en Jetpack Compose dentro de `HomeScreen`, ubicando una tarjeta compacta de estado actual ("Nivel de estrés hoy", promedio semanal y variación) inmediatamente debajo del saludo principal al usuario.
