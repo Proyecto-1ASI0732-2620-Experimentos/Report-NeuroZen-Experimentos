@@ -3133,6 +3133,12 @@ Quien intenta ingresar o probar CareConnect desde su página pública termina co
 3. Observar que la URL termina en `#precio` y aparece la sección de planes.
 4. Volver a Inicio y repetir con «Comienza ahora», que tiene el mismo destino.
 
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-01-cta-planes.png" alt="Destino en planes tras activar Probar app" width="700px"/>
+</p>
+
 **Recomendaciones:**
 
 - Enlazar «Probar app» con el acceso ejecutable de CareConnect.
@@ -3164,6 +3170,16 @@ Una persona sin cuenta de GitHub debe crearla o iniciar sesión antes de plantea
 2. Pulsar «Contactar al equipo».
 3. Observar la página de Issues del repositorio `carestacks-report`.
 4. Pulsar «New issue» y observar que conduce al inicio de sesión de GitHub.
+
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-02-contacto-github.png" alt="Acción Contactar al equipo en la Landing" width="700px"/>
+</p>
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-02-github-acceso.png" alt="Inicio de sesión de GitHub requerido para crear una consulta" width="700px"/>
+</p>
 
 **Recomendaciones:**
 
@@ -3197,6 +3213,12 @@ La decisión tomada en la tarjeta se pierde al avanzar. Si el visitante contacta
 3. Regresar a Precio y pulsar «Elegir plan» en la tarjeta anual.
 4. Comprobar que se llega a la misma sección sin identificación del plan elegido.
 
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-03-eleccion-plan.png" alt="Sección Contacto sin indicación del plan elegido" width="700px"/>
+</p>
+
 **Recomendaciones:**
 
 - Conservar el plan seleccionado en el siguiente paso y mostrarlo de forma visible.
@@ -3228,6 +3250,12 @@ La muestra visual más destacada del producto no corresponde al idioma que acaba
 2. Seleccionar EN en el header.
 3. Volver a Inicio.
 4. Comparar los textos de la portada con los que aparecen dentro del teléfono.
+
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-04-preview-idioma.png" alt="Portada en inglés con vista previa del teléfono en español" width="700px"/>
+</p>
 
 **Recomendaciones:**
 
@@ -3261,6 +3289,16 @@ La mezcla de idiomas y formas de tratamiento reduce la uniformidad del tono de u
 3. Leer sus rótulos superiores en inglés.
 4. Comparar «Gestiona» y «Comienza ahora» en Inicio con «elegí el ritmo de pago» en Planes.
 
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-05-rotulos-videos.png" alt="Rótulo en inglés dentro de una sección de video en español" width="700px"/>
+</p>
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-05-tratamiento-planes.png" alt="Texto de planes que utiliza elegí en la versión española" width="700px"/>
+</p>
+
 **Recomendaciones:**
 
 - Traducir los rótulos de las secciones de video para ES y mantener sus equivalentes en EN.
@@ -3293,6 +3331,12 @@ La persona puede reconocer que algo falló, pero no recibe una instrucción espe
 3. Introducir una contraseña ficticia y pulsar «Ingresar».
 4. Observar «Request validation failed» debajo de los campos.
 
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-06-error-acceso.png" alt="Formulario de acceso en español con el mensaje Request validation failed" width="700px"/>
+</p>
+
 **Recomendaciones:**
 
 - Validar el formato del correo junto al campo y mostrar una indicación específica antes de enviar el formulario.
@@ -3324,6 +3368,16 @@ Una persona que comprendió la propuesta en inglés encuentra el acceso y las pa
 2. Comprobar que la navegación y la portada se presentan en inglés.
 3. Abrir por separado la Frontend Web Application.
 4. Revisar el inicio de sesión y, con una cuenta de cuidador, Home y Perfil; observar el idioma y las opciones visibles.
+
+**Evidencia:**
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-07-landing-en.png" alt="Landing de CareConnect con inglés seleccionado" width="700px"/>
+</p>
+
+<p align="center">
+  <img src="./assets/ux-audit/ux-07-web-es.png" alt="Pantalla de la Web App presentada en español" width="700px"/>
+</p>
 
 **Recomendaciones:**
 
