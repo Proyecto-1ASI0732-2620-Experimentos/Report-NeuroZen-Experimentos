@@ -4130,6 +4130,8 @@ En el análisis del backend, SonarCloud verificó la seguridad de los *endpoints
 
 Para poder implementar SonarQube Cloud en el proyecto, primero tuvimos que contenerizar nuestro proyecto, para lo cual creamos dos contenedores, uno del MySQL y otro de nuestro proyecto, luego los unimos mediante un docker network.
 
+> *Evidencia SonarCloud Backend:*
+
 <img src="assets/cap6/Sonarqube_test_2.jpeg" alt="Integración SonarQube" width="600px"/>
 
 <img src="assets/cap6/Sonarqube_test_3.jpeg" alt="Integración SonarQube" width="600px"/>
@@ -4139,9 +4141,6 @@ Para poder implementar SonarQube Cloud en el proyecto, primero tuvimos que conte
 <img src="assets/cap6/Sonarqube_test_5.jpeg" alt="Integración SonarQube" width="600px"/>
 
 <img src="assets/cap6/Sonarqube_test_6.jpeg" alt="Integración SonarQube" width="600px"/>
-
-> *Evidencia SonarCloud Backend:*
-<img src="assets/cap6/Sonarqube_test.jpeg" alt="Reporte de SonarQube" width="600px"/>
 
 **B. Evidencia de Calidad y Seguridad - Frontend Web (Vue.js)**
 En el frontend web, el análisis se centró en asegurar que no existan vulnerabilidades de tipo XSS (Cross-Site Scripting) al renderizar los datos del test PSS-10 o el chat de ZenBot, además de reducir la deuda técnica en los componentes de Vue.
