@@ -4173,86 +4173,346 @@ fun zenBot_crisisMessage_showsHelplines() {
 
 <img src="assets/test/Test_APP_html_package.png" alt="Reporte del paquete com.example.neurozen_front con 7 pruebas al 100%" width="900px"/>
 
-
 ## 6.2. Static testing & Verification
+
+La verificación estática se aplica de forma independiente a cada producto de la solución (Landing Page, Frontend Web Application, RESTful API y Aplicación Móvil), porque cada uno usa un lenguaje y un conjunto de herramientas distinto. En esta sección se documentan el **Frontend Web Application** (Vue 3 + Vite), cuyo repositorio es [`neurozen_web_frontend`](https://github.com/Proyecto-1ASI0732-2620-Experimentos/neurozen_web_frontend), la **RESTful API** (ASP.NET Core 9 + Entity Framework Core 9 + MySQL 8), cuyo repositorio es [`neurozen_web_backend`](https://github.com/Proyecto-1ASI0732-2620-Experimentos/neurozen_web_backend), y la **Aplicación Móvil** (Kotlin + Jetpack Compose), cuyo repositorio es [`NeuroZen_AppMovil`](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil). En los tres productos, la verificación estática se ejecuta en dos niveles:
+
+- **Estándares de código:** ESLint en el frontend, las reglas de C# de SonarQube Cloud en la RESTful API y ktlint en la aplicación móvil revisan que el código cumpla las convenciones del proyecto.
+- **Calidad y seguridad:** SonarQube Cloud analiza bugs, vulnerabilidades, mantenibilidad, duplicación y cobertura.
+
+Ambos niveles se ejecutan en local y, de forma automática, en el pipeline de integración continua (sección 7.1) en cada *push* y *Pull Request*.
 
 ### 6.2.1. Static Code Analysis
 
-El análisis estático de código se implementó en los tres frentes tecnológicos (Móvil, Frontend Web y Backend API) como un paso obligatorio dentro de nuestros pipelines de CI. El objetivo es garantizar que el código fuente escrito por todos los desarrolladores mantenga una alta cohesión, baja complejidad ciclomática, respete las reglas de formato establecidas y esté libre de vulnerabilidades de seguridad conocidas (como Inyecciones SQL o XSS), antes de ser compilado o desplegado.
+El análisis estático de código se aplica en los tres frentes tecnológicos de NeuroZen como un paso de los pipelines de integración continua. Su objetivo es que el código de todos los desarrolladores mantenga un estilo uniforme y baja complejidad, y que se detecten vulnerabilidades conocidas (por ejemplo, inyección SQL o XSS) antes de compilar o desplegar.
+
+| Producto | Responsable | Estándares de código | Calidad y seguridad |
+| :--- | :--- | :--- | :--- |
+| Frontend Web Application (Vue 3 + Vite) | Jean Pool Huaman | ESLint 10 (`npm run lint`) | SonarQube Cloud |
+| RESTful API (ASP.NET Core 9) | Miguel Vila | Reglas de C# de SonarQube Cloud (*Sonar way*) | SonarQube Cloud |
+| Aplicación Móvil (Kotlin + Jetpack Compose) | Joao Castro | ktlint (`./gradlew ktlintCheck`) | SonarQube Cloud |
 
 #### 6.2.1.1. Coding standard & Code conventions
 
-Para asegurar la uniformidad en el estilo de codificación a lo largo de todo el proyecto, hemos adoptado las siguientes convenciones y herramientas de validación (linters y formateadores automáticos):
+**Frontend Web Application**
 
-*   **Backend API (C# / ASP.NET Core) - Responsable: Miguel Vila**
-    Se aplicó la convención de Microsoft (`Microsoft C# Coding Conventions`). Para forzar su cumplimiento, se habilitó el analizador `.editorconfig` nativo de .NET 9. El pipeline de GitHub Actions ejecuta `dotnet format --verify-no-changes` para rechazar cualquier Pull Request que contenga código mal tabulado, variables no utilizadas o incumplimientos en la nomenclatura (PascalCase para clases/métodos, camelCase para variables locales).
+Las convenciones de nomenclatura y estilo definidas en la sección 5.1.3 (nombres en inglés, Google JavaScript Style Guide y Vue Style Guide) se verifican con **ESLint 10**, mediante el archivo de configuración `eslint.config.mjs` (formato *flat config*) ubicado en la raíz del repositorio. El análisis se ejecuta con el script `npm run lint`.
 
-*   **Frontend Web (Vue.js / Vite) - Responsable: Jean Pool Huaman**
-    Se adoptó la `Vue.js Style Guide` junto con las convenciones de `Airbnb JavaScript Style Guide`. Se configuró **ESLint** (con reglas recomendadas para Vue 3) y **Prettier** para el formateo automático de los archivos `.vue` y `.js`. Antes de cada commit, la herramienta `husky` ejecuta un *pre-commit hook* para validar que el código frontend cumpla estos estándares.
+| Elemento | Configuración aplicada |
+| :--- | :--- |
+| Reglas base | `@eslint/js` → `recommended` |
+| Reglas de Vue | `eslint-plugin-vue` → `flat/essential` |
+| Código de la aplicación (`src/`) | Entorno de navegador, módulos ES y la constante global `__APP_VERSION__` inyectada por Vite |
+| Funciones serverless y servidor (`api/`, `server/`) | Entorno Node.js |
+| Pruebas (`tests/`) | Entornos de navegador simulado (jsdom), Node.js y Vitest |
+| Archivos excluidos | `dist/`, `coverage/`, `node_modules/`, `.vercel/`, `public/` |
+| Reglas ajustadas | `vue/multi-word-component-names` desactivada (las vistas usan nombres de un solo término) y `no-unused-vars` como advertencia |
 
-*   **Aplicación Móvil (Kotlin / Jetpack Compose) - Responsable: Joao Castro**
-    Se siguió la `Kotlin Coding Conventions` de JetBrains. La herramienta utilizada para el análisis de formato y convenciones de Kotlin fue **ktlint**. Se integró como un plugin en Gradle (`org.jlleitschuh.gradle.ktlint`), de manera que el comando `./gradlew ktlintCheck` se ejecuta en la máquina local de los desarrolladores y en el pipeline de GitHub Actions, garantizando que el espaciado, importaciones y longitud de líneas sean consistentes.
+**Resultado del primer análisis.** La primera ejecución de `npm run lint` sobre el código existente reportó **15 problemas (9 errores y 6 advertencias)**:
+
+| Tipo | Regla | Archivo(s) | Causa | Corrección aplicada |
+| :--- | :--- | :--- | :--- | :--- |
+| Error (2) | `no-undef` | `FooterComponent.vue`, `SettingsComponent.vue` | `__APP_VERSION__` es una constante que Vite inyecta al compilar y ESLint no la conocía | Se declaró como global de solo lectura en la configuración |
+| Error (4) | `no-undef` | `tests/helpers.js`, `tests/setup.js` | Las pruebas usan `window` y `document` del entorno jsdom | Se agregaron los globales de navegador al entorno de pruebas |
+| Error (2) | `no-useless-assignment` | `appointmentDetails.js` | Las variables `appointment` y `professional` se inicializaban con `null`, valor que nunca se usaba | Se eliminó la inicialización innecesaria |
+| Error (1) | `preserve-caught-error` | `AuthService.js` | Al iniciar sesión con credenciales inválidas se lanzaba un error nuevo y se perdía el error original de la API | Se agregó `{ cause: error }` para conservar el error original |
+| Advertencia (6) | `no-unused-vars` | `ReportService.js`, `StaticAPIAdapter.js`, `OnboardingProfileComponent.vue`, `ResourceDetailComponent.vue`, `ResourceLibraryComponent.vue`, `UserProfileComponent.vue` | Variables declaradas y no utilizadas | Se eliminaron las variables sin uso |
+
+**Resultado final.** Tras las correcciones, el análisis termina sin errores ni advertencias:
+
+```text
+PS C:\...\neurozen_web_frontend> npm run lint
+
+> front-end-neurozen@1.0.0 lint
+> eslint .
+
+PS C:\...\neurozen_web_frontend>
+```
+
+El mismo comando se ejecuta como paso **Lint** del pipeline (sección 7.1.2). Si se introduce código que incumple las reglas, el job `quality` falla y el cambio no se publica ni se despliega.
+
+**RESTful API**
+
+Las convenciones de la sección 5.1.3 se aplican al código C# del backend. Los nombres están en inglés, los tipos y miembros públicos usan *PascalCase* y los parámetros y variables locales usan *camelCase*. El código se organiza por *bounded context* (IAM, Professionals, Appointments, Stress, Wellness, Subscriptions y ResourcesLibrary) y, dentro de cada uno, por capas de DDD: `Domain`, `Application`, `Infrastructure` e `Interfaces`. Cada clase lleva un sufijo que indica su rol: `CommandService`, `QueryService`, `Repository`, `Controller`, `Assembler` y `Resource`.
+
+La verificación de estas convenciones se realiza con las **reglas de C# del perfil *Sonar way*** de SonarQube Cloud, que se ejecutan dentro del pipeline (sección 7.1.2) sobre el código compilado. El análisis del Pull Request #15 detectó las siguientes observaciones de estándares y buenas prácticas en el código nuevo, todas corregidas o registradas:
+
+| Tipo | Regla (descripción de SonarQube) | Archivo | Causa | Corrección aplicada |
+| :--- | :--- | :--- | :--- | :--- |
+| Confiabilidad (media) | *Value type property used as input in a controller action should be nullable, required or annotated with JsonRequired* | `WellnessResources.cs` | Si el cliente omitía `stressLevel` al registrar una métrica de salud, .NET lo completaba en silencio con `0` y se guardaba un nivel de estrés falso | Se anotó la propiedad con `[property: JsonRequired]`; ahora la API responde `400 Bad Request` si falta el campo |
+| Confiabilidad (alta) | *Use '[[' instead of '[' for conditional tests* | `scripts/deploy.sh` (2 casos) | Condiciones de Bash con la sintaxis antigua `[ ... ]` | Se reemplazaron por `[[ ... ]]` |
+| Mantenibilidad (media) | *Prefer 'static readonly' fields over constant array arguments* | `WellnessServicesAndPaginationTests.cs` | Arreglo constante creado en cada llamada dentro de una prueba | Registrado como deuda técnica menor (no bloquea el Quality Gate) |
+
+**Acción pendiente.** El frontend cuenta con un linter dedicado (`npm run lint`) que falla el pipeline ante cualquier incumplimiento. Para el backend, el equivalente previsto es agregar el paso `dotnet format --verify-no-changes` al job `build-and-test`, de modo que los incumplimientos de formato y estilo de .NET también bloqueen el pipeline.
+
+**Aplicación Móvil**
+
+La aplicación móvil sigue las *Kotlin Coding Conventions* de JetBrains. El formato y las convenciones se verifican con **ktlint**, integrado como plugin de Gradle (`org.jlleitschuh.gradle.ktlint`). El comando `./gradlew ktlintCheck` revisa el espaciado, el orden de las importaciones y la longitud de las líneas, y se ejecuta en la máquina de cada desarrollador.
+
+**Acción pendiente.** El workflow *CI - Mobile* actual (sección 7.1.2) ejecuta las pruebas unitarias y la compilación del APK, pero todavía no incluye `ktlintCheck`. Agregarlo como paso previo a las pruebas hará que un incumplimiento de las convenciones bloquee el pipeline, igual que el linter del frontend.
 
 #### 6.2.1.2. Code Quality & Code Security
 
-La calidad técnica y la seguridad del código fuente (Code Quality & Security) fueron evaluadas exhaustivamente mediante la herramienta **SonarCloud** (versión SaaS de SonarQube), la cual fue integrada directamente en los tres repositorios a través de GitHub Actions. 
+La calidad técnica y la seguridad del código se evalúan con **SonarQube Cloud** (antes SonarCloud), en la organización del equipo, con un proyecto por producto. En cada análisis se revisan cuatro dimensiones:
 
-SonarCloud escanea el código en cada Pull Request, evaluando:
-1.  **Bugs y Code Smells:** Identificación de código duplicado, variables no utilizadas, o lógica redundante que aumenta la deuda técnica.
-2.  **Seguridad (Vulnerabilidades):** Detección de posibles brechas (Ej. inyección de dependencias inseguras, falta de sanitización de entradas, exposición de datos sensibles).
-3.  **Security Hotspots:** Fragmentos de código donde se requiere una revisión manual de seguridad (como el manejo de JWT en el backend o el uso de Retrofit en móvil).
-4.  **Coverage (Cobertura de pruebas):** Asegurar que el código nuevo esté respaldado por pruebas (Unit y BDD).
+1. **Bugs y *code smells*:** código duplicado, variables sin uso o lógica redundante que aumentan la deuda técnica.
+2. **Vulnerabilidades:** por ejemplo, entradas sin validar o exposición de datos sensibles.
+3. **Security Hotspots:** fragmentos que requieren una revisión manual de seguridad, como el manejo de JWT en el backend o el cliente HTTP (Retrofit) en la aplicación móvil.
+4. **Cobertura:** que el código nuevo esté respaldado por pruebas unitarias, de integración y BDD.
 
-**A. Evidencia de Calidad y Seguridad - Backend API (C#)**
-En el análisis del backend, SonarCloud verificó la seguridad de los *endpoints* JWT, la sanitización de los inputs en los controladores de Citas y el uso correcto de Entity Framework Core para prevenir Inyecciones SQL.
+El Quality Gate *Sonar way* evalúa el **código nuevo** de cada cambio. En el frontend y en el backend, el pipeline espera su resultado y se detiene si no se cumple.
 
-Para poder implementar SonarQube Cloud en el proyecto, primero tuvimos que contenerizar nuestro proyecto, para lo cual creamos dos contenedores, uno del MySQL y otro de nuestro proyecto, luego los unimos mediante un docker network.
+**Frontend Web Application**
 
-> *Evidencia SonarCloud Backend:*
+La calidad y la seguridad del código se evalúan con **SonarQube Cloud**, dentro de la organización del equipo `Proyecto-1ASI0732-2620-Experimentos`.
 
-<img src="assets/cap6/Sonarqube_test_2.jpeg" alt="Integración SonarQube" width="600px"/>
+| Dato | Valor |
+| :--- | :--- |
+| Organization Key | `proyecto-1asi0732-2620-experimentos` |
+| Project Key | `Proyecto-1ASI0732-2620-Experimentos_neurozen_web_frontend` |
+| Quality Gate | *Sonar way* (evalúa el código nuevo) |
+| Definición de código nuevo | *Previous version* |
+| Método de análisis | Desde GitHub Actions (el análisis automático de SonarQube fue desactivado para que el reporte incluya la cobertura de las pruebas) |
+| Cobertura | Reporte `coverage/lcov.info` generado por Vitest con el proveedor v8 |
 
-<img src="assets/cap6/Sonarqube_test_3.jpeg" alt="Integración SonarQube" width="600px"/>
+**Línea base del análisis (09/11/2026).** El primer análisis del proyecto, sobre 14 000 líneas de código, arrojó los siguientes resultados:
 
-<img src="assets/cap6/Sonarqube_test_4.jpeg" alt="Integración SonarQube" width="600px"/>
+| Dimensión | Issues | Calificación | Detalle |
+| :--- | :---: | :---: | :--- |
+| Security | 7 | **C** | El 100 % son de severidad media |
+| Reliability | 22 | **D** | 23 % de severidad alta y 77 % de severidad media |
+| Maintainability | 5 | **A** | Deuda técnica baja |
+| Security Hotspots | 0 | **A** | Sin puntos sensibles pendientes de revisión |
+| Duplicaciones | — | 0,0 % | Sin código duplicado |
 
-<img src="assets/cap6/Sonarqube_test_5.jpeg" alt="Integración SonarQube" width="600px"/>
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-frontend-summary-baseline.png" alt="Resumen del primer análisis de SonarQube Cloud del frontend" width="800px" />
+</p>
+<p align="center"><b>Figura 6.2.1.</b> Resumen del primer análisis de SonarQube Cloud del Frontend Web Application.</p>
 
-<img src="assets/cap6/Sonarqube_test_6.jpeg" alt="Integración SonarQube" width="600px"/>
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-frontend-overview.png" alt="Panel general del proyecto en SonarQube Cloud" width="800px" />
+</p>
+<p align="center"><b>Figura 6.2.2.</b> Panel de salud del proyecto (Project health dashboard).</p>
 
-**B. Evidencia de Calidad y Seguridad - Frontend Web (Vue.js)**
-En el frontend web, el análisis se centró en asegurar que no existan vulnerabilidades de tipo XSS (Cross-Site Scripting) al renderizar los datos del test PSS-10 o el chat de ZenBot, además de reducir la deuda técnica en los componentes de Vue.
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-frontend-security.png" alt="Detalle de seguridad: calificación C y 7 issues de severidad media" width="700px" />
+</p>
+<p align="center"><b>Figura 6.2.3.</b> Detalle de seguridad: calificación C con 7 issues de severidad media.</p>
 
-> *Evidencia SonarCloud Frontend Web:*
-> `[Insertar captura de pantalla del Dashboard de SonarCloud para el proyecto Frontend mostrando el "Quality Gate Passed"]`
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-frontend-hotspots-reliability.png" alt="Security hotspots y detalle de confiabilidad" width="700px" />
+</p>
+<p align="center"><b>Figura 6.2.4.</b> Security Hotspots (0, calificación A) y confiabilidad (22 issues, calificación D).</p>
 
-**C. Evidencia de Calidad y Seguridad - Aplicación Móvil (Android/Kotlin)**
-Para la aplicación móvil, SonarCloud revisó la correcta implementación de *Clean Architecture*, detectando cualquier acoplamiento indebido entre la capa de presentación (Compose) y la capa de dominio. También se validó la seguridad en la persistencia local de Room Database.
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-frontend-maintainability.png" alt="Detalle de mantenibilidad: calificación A con 5 issues" width="700px" />
+</p>
+<p align="center"><b>Figura 6.2.5.</b> Detalle de mantenibilidad: calificación A con 5 issues.</p>
 
-> *Evidencia SonarCloud App Móvil:*
-> `[Insertar captura de pantalla del Dashboard de SonarCloud para el proyecto Móvil mostrando el "Quality Gate Passed"]`
+**Cobertura de pruebas.** La suite de pruebas del frontend se ejecuta con **Vitest** y genera el reporte de cobertura que SonarQube incorpora en cada análisis. La medición local, previa a la incorporación de la prueba de exportación de datos descrita más abajo, fue la siguiente:
 
+| Métrica | Cobertura |
+| :--- | :---: |
+| Sentencias (*statements*) | 61,72 % |
+| Ramas (*branches*) | 55,34 % |
+| Funciones (*functions*) | 59,00 % |
+| Líneas (*lines*) | 64,62 % |
+
+**Quality Gate como control del pipeline.** El Quality Gate *Sonar way* se aplica sobre el **código nuevo**. El pipeline espera su resultado (`sonar.qualitygate.wait=true`) y, si no se cumple, el job `quality` falla y se detienen la publicación y el despliegue. Esto se comprobó en dos ejecuciones reales:
+
+1. **Ejecución #9 (commit `179f6c2`), bloqueada.** El Quality Gate falló por una sola condición: la cobertura del código nuevo fue de **66,7 %** sobre 6 líneas nuevas, frente al mínimo de 80 %. Las líneas sin cubrir correspondían a la función `downloadData()` de `UserProfileComponent.vue`, que se había modificado al corregir una advertencia de lint y que ninguna prueba ejecutaba. Como consecuencia, no se publicó ninguna imagen ni se desplegó la versión.
+2. **Ejecución #10 (commit `ad5c2c6`), aprobada.** Se agregó la prueba unitaria `tests/unit/UserProfileExport.spec.js`, que verifica que la exportación de datos personales **no incluya el token de sesión** del usuario (protección de datos, Ley N.° 29733), que conserve el perfil y los contactos de emergencia, y que libere la URL temporal de descarga. Con esta prueba, el código nuevo superó el umbral de cobertura, el Quality Gate pasó y el cambio llegó a producción.
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-frontend-quality-gate-failed.png" alt="Quality Gate fallido por cobertura del código nuevo de 66,7 %" width="700px" />
+</p>
+<p align="center"><b>Figura 6.2.6.</b> Quality Gate fallido en la ejecución #9: cobertura del código nuevo de 66,7 % (mínimo requerido: 80 %).</p>
+
+**Análisis y acciones pendientes.** Las calificaciones C (Security) y D (Reliability) corresponden al código existente antes de la incorporación del análisis. No bloquean el pipeline, porque el Quality Gate evalúa el código nuevo, pero el equipo las registró como deuda técnica a reducir en los siguientes sprints:
+
+| Prioridad | Acción | Indicador esperado |
+| :---: | :--- | :--- |
+| 1 | Revisar y corregir los issues de severidad alta de confiabilidad (23 % de los 22) | Reliability de D a C o superior |
+| 2 | Revisar los 7 issues de seguridad de severidad media | Security de C a B o superior |
+| 3 | Agregar pruebas a los componentes sin cobertura (por ejemplo, `BreathingSessionComponent.vue`, `ActiveBreaksComponent.vue` y `TherapistDetailComponent.vue`) | Mayor cobertura general |
+| 4 | Mantener el Quality Gate *Sonar way* sobre el código nuevo | Ningún cambio nuevo por debajo del 80 % de cobertura |
+
+**RESTful API**
+
+La RESTful API se analiza en el mismo espacio de SonarQube Cloud del equipo, como un proyecto independiente:
+
+| Dato | Valor |
+| :--- | :--- |
+| Organization Key | `proyecto-1asi0732-2620-experimentos` |
+| Project Key | `Proyecto-1ASI0732-2620-Experimentos_neurozen_web_backend` |
+| Quality Gate | *Sonar way* (evalúa el código nuevo) |
+| Escáner | `dotnet-sonarscanner` (SonarScanner for .NET), que envuelve la compilación: `begin` → `build` → `test` → `end` |
+| Cobertura | Reporte OpenCover (`coverage.opencover.xml`) generado por **coverlet** en cada ejecución de `dotnet test` |
+| Resultados de pruebas | Reporte `.trx` de VSTest |
+| Exclusiones | Migraciones de EF Core (`**/Migrations/**`) y código generado por Reqnroll (`**/*.feature.cs`) se excluyen del análisis; `Program.cs` se excluye solo de la cobertura |
+| Control del pipeline | `sonar.qualitygate.wait=true`: si el Quality Gate falla, el job `build-and-test` falla |
+
+**Primera integración con SonarQube.** Como las pruebas de integración del backend requieren MySQL, en la primera integración el equipo ejecutó la API y MySQL en dos contenedores Docker conectados mediante una red (`docker network`). Las capturas siguientes corresponden a esa primera etapa, anterior al Quality Gate bloqueante descrito más abajo. En el backend, las reglas de seguridad de C# cubren, entre otros aspectos, la configuración de la autenticación JWT, el uso de Entity Framework Core con consultas parametrizadas (prevención de inyección SQL) y la validación de las entradas de los controladores.
+
+<p align="center">
+  <img src="assets/cap6/Sonarqube_test_2.jpeg" alt="Primera integración del backend con SonarQube" width="600px" />
+</p>
+<p align="center"><b>Figura 6.2.7.</b> Primera integración del backend con SonarQube Cloud (1 de 5).</p>
+
+<p align="center">
+  <img src="assets/cap6/Sonarqube_test_3.jpeg" alt="Primera integración del backend con SonarQube" width="600px" />
+</p>
+<p align="center"><b>Figura 6.2.8.</b> Primera integración del backend con SonarQube Cloud (2 de 5).</p>
+
+<p align="center">
+  <img src="assets/cap6/Sonarqube_test_4.jpeg" alt="Primera integración del backend con SonarQube" width="600px" />
+</p>
+<p align="center"><b>Figura 6.2.9.</b> Primera integración del backend con SonarQube Cloud (3 de 5).</p>
+
+<p align="center">
+  <img src="assets/cap6/Sonarqube_test_5.jpeg" alt="Primera integración del backend con SonarQube" width="600px" />
+</p>
+<p align="center"><b>Figura 6.2.10.</b> Primera integración del backend con SonarQube Cloud (4 de 5).</p>
+
+<p align="center">
+  <img src="assets/cap6/Sonarqube_test_6.jpeg" alt="Primera integración del backend con SonarQube" width="600px" />
+</p>
+<p align="center"><b>Figura 6.2.11.</b> Primera integración del backend con SonarQube Cloud (5 de 5).</p>
+
+
+**Línea base del análisis (rama `main`, antes de integrar el PR #15).** Sobre 6 400 líneas de código, el proyecto presentaba el Quality Gate aprobado, pero con deuda acumulada en el código existente:
+
+| Dimensión | Resultado | Detalle |
+| :--- | :---: | :--- |
+| Quality Gate | **Passed** | Todas las condiciones sobre el código nuevo cumplidas |
+| Issues totales | 13 | Código existente |
+| Security | **E** | 5 issues: 20 % *blocker*, 20 % de severidad media y 60 % de severidad baja |
+| Duplicaciones | 1,9 % | — |
+| Cobertura | 47,7 % | Código total del proyecto |
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-backend-overview-baseline.png" alt="Panel general del backend en SonarQube Cloud" width="850px" />
+</p>
+<p align="center"><b>Figura 6.2.12.</b> Panel de salud del proyecto de la RESTful API (línea base de la rama main).</p>
+
+**Quality Gate como control del pipeline.** La integración de las mejoras del backend y del pipeline del laboratorio se realizó mediante el **Pull Request #15** (`feature/cicd-lab` → `main`, 816 líneas nuevas). El Quality Gate bloqueó el cambio en su primera versión y lo aprobó después de las correcciones:
+
+1. **Primer análisis (commit `71b9131`), bloqueado.** El Quality Gate falló por dos condiciones:
+   - **Security Rating C** en el código nuevo (se requiere A). Los 5 issues de seguridad estaban en el nuevo workflow `cd-lab-vm.yml`: tres *actions* referenciadas por etiqueta (`@v3`, `@v4`) en lugar de por hash SHA completo, y dos puntos donde un `workflow_run` hacía *checkout* de un commit que podía provenir de un *fork* no confiable.
+   - **Cobertura del código nuevo de 69,57 %** sobre 391 líneas, frente al mínimo de 80 %. Las 116 líneas sin cubrir se concentraban en la capa REST de Wellness: `WellnessResources.cs` (34 líneas, 0 %) y `WellnessAssemblers.cs` (30 líneas, 0 %).
+2. **Correcciones aplicadas.**
+   - Todas las *actions* del workflow se fijaron por **hash SHA completo**, los mismos que el equipo ya usaba en la rama `main`.
+   - El *checkout* de `head_sha` se reemplazó por el *checkout* por defecto, más una verificación de que el commit construido es el mismo que aprobó el CI, y una condición que **excluye explícitamente los forks** (`head_repository.full_name == github.repository`).
+   - Se corrigió el *under-posting* de `StressLevel` (sección 6.2.1.1).
+   - Se agregó la prueba `WellnessAssemblersTests.cs` (6 casos). Verifica el mapeo de métricas de salud, del dashboard con y sin próxima cita, y de meditaciones, y además comprueba que un JSON **sin** `stressLevel` sea **rechazado**, lo que protege la corrección anterior frente a regresiones.
+3. **Análisis final (commit `fa0932e`), aprobado.** Cobertura del código nuevo de **85,51 %**, duplicación de 0,0 % y Quality Gate **Passed**. Con este resultado se habilitó el *merge* a `main`.
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-backend-pr15-quality-gate-failed.png" alt="Quality Gate fallido en el PR 15 del backend" width="800px" />
+</p>
+<p align="center"><b>Figura 6.2.13.</b> Primer análisis del PR #15: Quality Gate fallido por Security Rating C y cobertura del código nuevo de 69,57 %.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-backend-uncovered-lines.png" alt="Archivos con más líneas nuevas sin cubrir" width="850px" />
+</p>
+<p align="center"><b>Figura 6.2.14.</b> Líneas nuevas sin cubrir por archivo: la capa REST de Wellness concentraba 64 de las 116 líneas.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/sonarqube-backend-pr15-quality-gate-passed.png" alt="Quality Gate aprobado en el PR 15 del backend" width="850px" />
+</p>
+<p align="center"><b>Figura 6.2.15.</b> Análisis final del PR #15: Quality Gate aprobado con 85,51 % de cobertura del código nuevo.</p>
+
+**Análisis y acciones pendientes.** El Quality Gate protege el código nuevo, pero la línea base muestra deuda en el código existente que el equipo registró para los siguientes sprints:
+
+| Prioridad | Acción | Indicador esperado |
+| :---: | :--- | :--- |
+| 1 | Revisar y corregir el issue de seguridad de severidad *blocker* del código existente | Security de E a C o superior |
+| 2 | Corregir los 4 issues de seguridad restantes (media y baja) | Security A |
+| 3 | Aumentar la cobertura general (47,7 %), empezando por `StressQueryServices.cs`, `AppointmentQueryService.cs` y `ProfessionalsController.cs` | Cobertura general superior al 60 % |
+| 4 | Fijar por hash SHA las *actions* de `main_neurozen-api.yml`, igual que en los workflows de despliegue | Sin dependencias de CI por etiqueta |
+
+**Aplicación Móvil**
+
+En la aplicación móvil, el análisis se orienta a la correcta implementación de *Clean Architecture*: detecta acoplamientos indebidos entre la capa de presentación (Jetpack Compose) y la capa de dominio. También revisa la seguridad de la persistencia local con Room.
+
+> `[Pendiente: captura del Dashboard de SonarQube Cloud del proyecto móvil con el estado del Quality Gate]`
 
 ### 6.2.2. Reviews
 
-Además de las herramientas automatizadas (Linters y SonarCloud), el equipo de NeuroZen estableció una política estricta de revisiones manuales de código (**Code Reviews**) mediante *Pull Requests* (PR) obligatorios en GitHub, aplicando un enfoque de *Peer Review* (revisión por pares).
+Además de las herramientas automáticas, el equipo aplica revisión por pares (*peer review*) mediante Pull Requests en GitHub:
 
-**Reglas de Review aplicadas en el flujo GitFlow:**
-1. Ningún desarrollador puede hacer un *push* directo a las ramas `develop` o `main`. Todo el código nuevo debe originarse en una rama `feature/*`.
-2. Para integrar una rama `feature/*` a `develop`, se debe abrir un Pull Request.
-3. El Pull Request requiere al menos **1 aprobación (Approval)** de otro miembro del equipo (por ejemplo, Carlos Paredes revisa el PR de Jean Pool; Miguel Vila revisa el PR de Joao).
-4. El revisor debe comprobar que la lógica cumpla los Criterios de Aceptación (User Stories), que no altere la arquitectura (C4 Model) y que la documentación (comentarios) sea clara.
+1. Nadie integra cambios con *push* directo a `develop` o `main`. El código nuevo nace en una rama de trabajo (`feature/*`, o `ci/*` para cambios del pipeline).
+2. La integración se realiza siempre mediante Pull Request.
+3. Por acuerdo del equipo, cada Pull Request recibe al menos **una revisión** de otro integrante (por ejemplo, Carlos Paredes revisa los cambios de Jean Pool Huaman y Miguel Vila revisa los de Joao Castro).
+4. El revisor comprueba que el cambio cumpla los criterios de aceptación de las historias de usuario, que respete la arquitectura (modelo C4) y que la documentación sea clara.
 
-A continuación, se presentan las evidencias de las revisiones de código realizadas en la plataforma de GitHub durante el desarrollo de los módulos de NeuroZen:
+La aplicación técnica de estas reglas depende de la protección de ramas de cada repositorio, que se detalla a continuación por producto.
 
-> *Evidencia de Code Review (Frontend/Web):*
-> `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Web, mostrando los comentarios de revisión de un compañero y el "Approved"]`
-> 
-> *Evidencia de Code Review (Backend/API):*
-> <img src="assets/cap6/reviews_1.jpeg" alt="Reporte de SonarQube" width="900px"/>
+**Frontend Web Application**
+
+La revisión del código del frontend combina una revisión automática obligatoria con la revisión entre pares:
+
+- **Revisión automática en cada cambio:** el job `quality` del pipeline actúa como primera revisión de todo *push* y *Pull Request* hacia `main` y `develop`. Ejecuta el linter, las pruebas unitarias e integrales con cobertura, el build y el Quality Gate de SonarQube. Las ejecuciones #9 y #10 (sección 6.2.1.2) muestran que un cambio que no cumple los criterios queda bloqueado y uno corregido es aceptado.
+- **Revisión entre pares mediante Pull Requests:** los cambios se integran mediante ramas de GitFlow y Pull Requests revisados por otro integrante del equipo, quien comprueba el cumplimiento de las convenciones de la sección 5.1.3, la existencia de pruebas para el código nuevo, la ausencia de credenciales en el código y el uso de nombres en inglés.
+
+> `[Pendiente: captura de la regla de protección de la rama main (Settings → Branches) con Pull Request obligatorio y el check "Quality (lint, tests, coverage, SonarQube)" requerido]`
 >
-> *Evidencia de Code Review (Mobile):*
-> `[Insertar captura de pantalla de un Pull Request en GitHub del repositorio Móvil, mostrando la revisión de código y la aprobación requerida]`
+> `[Pendiente: captura de un Pull Request del frontend con comentarios del revisor y aprobación]`
+
+**RESTful API**
+
+En el backend, la revisión automática es **obligatoria por configuración del repositorio**. La rama `main` está protegida por el *ruleset* `protect-main` (estado *Active*, sin lista de excepciones), con las siguientes reglas:
+
+| Regla | Efecto |
+| :--- | :--- |
+| *Require a pull request before merging* | Nadie puede hacer *push* directo a `main`; todo cambio entra por Pull Request |
+| *Require status checks to pass* | Son obligatorios los checks `build-and-test` (GitHub Actions) y `SonarCloud Code Analysis` (Quality Gate) |
+| *Block force pushes* | No se puede reescribir el historial de `main` |
+| *Restrict deletions* | No se puede eliminar la rama `main` |
+
+La regla todavía no exige un número mínimo de aprobaciones (*Required approvals* = 0), de modo que la revisión de un compañero se aplica por acuerdo del equipo. Activar *Required approvals* = 1 queda como mejora para alinear la regla técnica con la política descrita.
+
+
+El Pull Request #15 muestra el flujo completo de revisión. Primero quedó **bloqueado**, con ambos checks fallidos. Luego se corrigió en la misma rama y, con los dos checks aprobados, se integró a `main` con el commit de *merge* `51af523`.
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-backend-pr15-checks-failed.png" alt="Checks fallidos en el PR 15" width="650px" />
+</p>
+<p align="center"><b>Figura 6.2.16.</b> PR #15 bloqueado: SonarCloud Code Analysis (Quality Gate failed) y CI - Backend fallidos.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-backend-pr15-checks-passed.png" alt="Checks aprobados en el PR 15" width="650px" />
+</p>
+<p align="center"><b>Figura 6.2.17.</b> PR #15 aprobado tras las correcciones: ambos checks obligatorios en verde.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-backend-ruleset-protect-main.png" alt="Ruleset protect-main activo" width="650px" />
+</p>
+<p align="center"><b>Figura 6.2.18.</b> Ruleset `protect-main` creado y activo sobre la rama main del backend.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-backend-pr15-merged.png" alt="PR 15 integrado a main" width="750px" />
+</p>
+<p align="center"><b>Figura 6.2.19.</b> PR #15 integrado a main con 2 checks aprobados.</p>
+
+<p align="center">
+  <img src="assets/cap6/reviews_1.jpeg" alt="Revisión de código en el backend" width="900px" />
+</p>
+<p align="center"><b>Figura 6.2.20.</b> Evidencia de revisión de código (*Code Review*) en un Pull Request del repositorio del backend.</p>
+
+
+**Aplicación Móvil**
+
+> `[Pendiente: captura de un Pull Request del repositorio móvil con la revisión de código y la aprobación requerida]`
+
+---
+
+
+
+
+
+
 
 ## 6.3. Validation Interviews
 
@@ -5126,147 +5386,298 @@ A partir de la auditoría recibida, el equipo analizó los hallazgos y planific�
 
 # Capítulo VII: DevOps Practices
  
+
 ## 7.1. Continuous Integration
- 
+
 ### 7.1.1. Tools and Practices
- 
+
 | Herramienta | Uso en NeuroZen |
-|---|---|
-| **GitHub** | Repositorio de código y control de versiones |
-| **GitHub Actions** | Ejecución automática de los pipelines de CI/CD |
-| **GitFlow simplificado** | Ramas `feature/*` → `develop` → `main` |
-| **Branch protection rules** | Impiden hacer merge a `develop`/`main` si el pipeline falla o no hay revisión |
-| **Conventional Commits** | Mensajes estandarizados (`feat:`, `fix:`, `test:`, `docs:`, `ci:`) |
-| **Testcontainers** | PostgreSQL real dentro del pipeline para las pruebas de integración |
- 
+| :--- | :--- |
+| GitHub | Repositorios y control de versiones (un repositorio por producto) |
+| GitHub Actions | Ejecución automática de los pipelines de CI/CD de cada producto |
+| GitFlow simplificado | Ramas `feature/*` → `develop` → `main` |
+| Protección de ramas (*rulesets*) | Impide integrar en `main` sin Pull Request y con checks fallidos |
+| Conventional Commits | Mensajes estandarizados (`feat:`, `fix:`, `test:`, `docs:`, `ci:`, `chore:`) |
+| MySQL 8 (*service container*) y Testcontainers | Base de datos real para las pruebas de integración del backend |
+
+**Prácticas comunes a los tres productos:**
+
+- **Integración frecuente:** cada integrante trabaja en una rama propia y la integra mediante Pull Request.
+- **Validación automática:** el pipeline se ejecuta en cada *push* y en cada Pull Request hacia `develop` y `main`.
+- **Retroalimentación rápida:** si la compilación, las pruebas o el Quality Gate fallan, el Pull Request queda bloqueado hasta corregirlo.
+- **Pipelines independientes por producto:** frontend, backend y aplicación móvil tienen repositorios y workflows propios, por lo que cada pipeline solo se ejecuta con los cambios de su producto.
+
+Las secciones siguientes detallan la configuración de cada producto.
+
+**Frontend Web Application**
+
+La integración continua del frontend se implementa con **GitHub Actions**, en el workflow `.github/workflows/ci-frontend.yml` (*NeuroZen Web Frontend CI CD*). El diseño se basa en el laboratorio de CI/CD visto en clase, adaptado de Java/Maven al stack de Vue 3.
+
+| Herramienta | Uso en el pipeline | Equivalente en el laboratorio de clase |
+| :--- | :--- | :--- |
+| GitHub Actions | Orquestación del pipeline | GitHub Actions |
+| Node.js 22 + `npm ci` | Instalación reproducible de dependencias desde `package-lock.json` | Java 21 + Maven |
+| ESLint 10 | Verificación de estándares de código | — |
+| Vitest 5 + cobertura v8 | Pruebas unitarias y de integración con reporte `lcov` | JUnit + JaCoCo |
+| Vite | Compilación de la aplicación | `mvn package` |
+| SonarQube Cloud (`SonarSource/sonarqube-scan-action`) | Análisis de calidad, seguridad y Quality Gate | Plugin de SonarQube para Maven |
+
 **Prácticas aplicadas:**
- 
-- **Integración frecuente:** cada integrante trabaja en una rama `feature/*` y la integra a `develop` mediante Pull Request.
-- **Validación automática:** el pipeline se ejecuta en cada `push` y en cada Pull Request hacia `develop` y `main`.
-- **Pull Request obligatorio:** requiere al menos 1 revisión de otro integrante y todos los checks en verde antes del merge.
-- **Feedback rápido:** si una compilación o prueba falla, el PR queda bloqueado hasta corregirlo.
-- **Pipelines por componente:** backend, frontend y móvil tienen workflows independientes que se activan solo cuando cambian sus carpetas (`paths`), reduciendo tiempos de ejecución.
----
- 
+
+- **Un solo pipeline por producto.** El workflow reemplazó al anterior *Vue CI - Tests*, que solo ejecutaba pruebas y build. La nueva versión conserva esos pasos y agrega lint, cobertura, Quality Gate, publicación y despliegue. El workflow anterior se conserva en el historial de commits como primera versión de la integración continua.
+- **Disparadores:** se ejecuta en cada *push* y *Pull Request* hacia `main` y `develop`, y también de forma manual (`workflow_dispatch`).
+- **Falla rápida (*fail fast*):** los pasos se ejecutan en orden de menor a mayor costo (lint, pruebas, build y análisis), y cualquier fallo detiene el pipeline.
+- **Gestión de secretos:** ningún token se escribe en el código. Los tokens se guardan como *Repository secrets* (se muestran como `***` en los logs) y los identificadores no sensibles como *Repository variables*.
+- **Permisos mínimos:** el workflow declara `permissions: contents: read`.
+- **Evidencias como artefactos:** el reporte de cobertura se publica como artefacto de cada ejecución.
+- **Conventional Commits:** los commits siguen el formato `ci:`, `test:`, `feat:`, `fix:` y `chore:`, como se observa en el historial de ejecuciones.
+
+| Tipo | Nombre | Uso |
+| :--- | :--- | :--- |
+| Secret | `SONAR_TOKEN` | Autenticación con SonarQube Cloud |
+| Secret | `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN` | Publicación de la imagen en Docker Hub (sección 7.2) |
+| Secret | `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` | Despliegue en Vercel (sección 7.3) |
+| Variable | `SONAR_ORG` | Key de la organización en SonarQube Cloud |
+| Variable | `SONAR_PROJECT_KEY` | Key del proyecto en SonarQube Cloud |
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-actions-secrets.png" alt="Secretos del repositorio del frontend en GitHub" width="750px" />
+</p>
+<p align="center"><b>Figura 7.1.1.</b> Repository secrets del frontend (los valores no son visibles).</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-actions-variables.png" alt="Variables del repositorio del frontend en GitHub" width="750px" />
+</p>
+<p align="center"><b>Figura 7.1.2.</b> Repository variables con la organización y el proyecto de SonarQube Cloud.</p>
+
+**RESTful API**
+
+La integración continua del backend también se implementa con **GitHub Actions**, en el workflow `.github/workflows/main_neurozen-api.yml` (**CI - Backend**). El workflow ya existía en el equipo y se reforzó para el laboratorio: se mantuvo su nombre, porque los workflows de despliegue a Render dependen de él, y se convirtió el Quality Gate en un control bloqueante.
+
+| Herramienta | Uso en el pipeline | Equivalente en el laboratorio de clase |
+| :--- | :--- | :--- |
+| GitHub Actions | Orquestación del pipeline | GitHub Actions |
+| .NET 9 SDK (`actions/setup-dotnet`) | Restauración, compilación y pruebas | Java 21 + Maven |
+| MySQL 8 como *service container* | Base de datos real para las pruebas de integración y BDD | — |
+| xUnit + Reqnroll + `WebApplicationFactory` | Pruebas unitarias, de integración y BDD | JUnit |
+| coverlet (formatos OpenCover y Cobertura) | Cobertura de código | JaCoCo |
+| ReportGenerator | Resumen de cobertura publicado en el *Job Summary* de cada ejecución | Reporte HTML de JaCoCo |
+| SonarScanner for .NET + Java 17 | Análisis de calidad, seguridad y Quality Gate | Plugin de SonarQube para Maven |
+
+**Prácticas aplicadas:**
+
+- **Disparadores:** cada *push* y *Pull Request* hacia `main` y `develop`.
+- **Pruebas con base de datos real:** el job levanta MySQL 8 como *service container* con *health check*, y las pruebas crean y eliminan su propia base de datos en cada ejecución mediante la variable `NEUROZEN_TEST_MYSQL`. En local, si la variable no existe, las pruebas levantan MySQL automáticamente con **Testcontainers**.
+- **Quality Gate bloqueante:** `sonar.qualitygate.wait=true` hace fallar el job si el Quality Gate no se cumple. Antes de este cambio, el análisis se enviaba pero nunca detenía el pipeline.
+- **Permisos mínimos:** `permissions: contents: read`.
+- **Evidencias como artefactos:** los resultados `.trx` y los reportes de cobertura se publican como artefacto `test-results` en cada ejecución, incluso si fallan las pruebas.
+- **Gestión de secretos:** los tokens se guardan como *Repository secrets*; los identificadores no sensibles, como *Repository variables*. El usuario de Docker Hub se guarda como **variable** y no como secreto, porque GitHub descarta las salidas de un job que contienen secretos, y el nombre de la imagen publicada lo incluye.
+- **Consolidación de pipelines:** se eliminó el workflow anterior `deploy-server.yml`, que solo ejecutaba las pruebas unitarias y desplegaba en paralelo al CI, sin esperar el Quality Gate.
+
+| Tipo | Nombre | Uso |
+| :--- | :--- | :--- |
+| Secret | `SONAR_TOKEN` | Autenticación con SonarQube Cloud |
+| Secret | `DOCKERHUB_TOKEN` | Publicación de la imagen en Docker Hub (sección 7.2) |
+| Variable | `DOCKERHUB_USERNAME` | Usuario de Docker Hub (`charlie404x`) |
+| Secret | `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_HOST_KEY` | Despliegue por SSH en la VM del laboratorio (sección 7.3) |
+| Environment secret (`production`) | `RENDER_PROD_DEPLOY_HOOK` | Despliegue a producción en Render |
+| Environment secret (`staging`) | `RENDER_STAGING_DEPLOY_HOOK` | Despliegue a *staging* en Render |
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-backend-secrets.png" alt="Secretos del repositorio del backend" width="750px" />
+</p>
+<p align="center"><b>Figura 7.1.3.</b> Secretos del backend: de repositorio y de los environments production y staging (los valores no son visibles).</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-backend-variables.png" alt="Variables del repositorio del backend" width="700px" />
+</p>
+<p align="center"><b>Figura 7.1.4.</b> Repository variable `DOCKERHUB_USERNAME` del backend.</p>
+
+
 ### 7.1.2. Build & Test Suite Pipeline Components
- 
-El pipeline de CI compila cada componente y ejecuta las pruebas descritas en el Capítulo VI.
- 
-**Backend (C# / ASP.NET Core)** — `.github/workflows/ci-backend.yml`
 
-Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/main_neurozen-api.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en la rama main o develop, ejecutando la suite de pruebas unitarias (./neurozen.API.Tests) generando un DB MySQL en la VM de GithubActions para permitir las pruebas integrales dondse será necesario.
- 
-```yaml
-name: CI - Backend
+El pipeline de CI de cada producto compila el código y ejecuta las pruebas descritas en el Capítulo VI.
 
-on:
-  push:
-    branches: [develop, main]
-  pull_request:
-    branches: [develop, main]
+**Frontend Web Application**
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    env:
-      ConnectionStrings__DefaultConnection: "server=127.0.0.1;port=3306;user=root;password=root;database=neurozenIntegrationTests"
+El job **Quality (lint, tests, coverage, SonarQube)** se ejecuta en cada *push* y *Pull Request*:
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: neurozenIntegrationTests
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-
-      # Ejecuta todas las pruebas del proyecto (Unitarias, Integrales y BDD si existen)
-      - name: Run all tests
-        run: dotnet test --no-build -c Release
-```
-Evidencia de Despliegue Continuo en el repositorio del Backend:
-
-<img src="assets/cap6/gitActionsBackend1.jpeg" alt="insights" width="900px"/>
- 
-**Frontend Web (Vue.js)** — `.github/workflows/ci-frontend.yml`
-
-Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/ci-frontend.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en las ramas main, master o develop, y también puede ejecutarse manualmente (workflow_dispatch). Sobre un contenedor virtual de Ubuntu con Node.js 22, instala las dependencias exactas del proyecto (npm ci), ejecuta la suite de 10 pruebas del frontend con Vitest (7 unitarias y 3 de integración) y genera la compilación de producción de la aplicación Vue (npm run build). Si alguna prueba falla, el pipeline se detiene y el cambio no se considera válido.
+| # | Paso | Comando / acción | Si falla |
+| :---: | :--- | :--- | :--- |
+| 1 | Checkout repository | `actions/checkout@v4` con historial completo (requerido por SonarQube) | — |
+| 2 | Setup Node.js | `actions/setup-node@v4` con Node 22 y caché de npm | — |
+| 3 | Install dependencies | `npm ci` | Se detiene el pipeline |
+| 4 | Lint | `npm run lint` | Se detiene el pipeline |
+| 5 | Run unit and integration tests with coverage | `npm run test:coverage` (genera `coverage/lcov.info`) | Se detiene el pipeline |
+| 6 | Build Vue app | `npm run build` | Se detiene el pipeline |
+| 7 | Upload coverage report | Artefacto `coverage-report` | Se ejecuta siempre (`if: always()`) |
+| 8 | SonarQube Cloud Quality Gate | `sonarqube-scan-action` con `sonar.qualitygate.wait=true` | El job falla y no se publica ni despliega |
 
 ```yaml
-# Integración continua del frontend de NeuroZen (basado en el workflow visto en clase).
-# En cada push o Pull Request: instala dependencias, ejecuta las pruebas y compila la app.
-# Si alguna prueba falla, el workflow queda en rojo y el cambio no se considera válido.
-name: Vue CI - Tests
-
-on:
-  push:
-    branches: [main, master, develop]
-  pull_request:
-    branches: [main, master, develop]
-  workflow_dispatch: # permite ejecutarlo a mano desde la pestaña Actions
-
-permissions:
-  contents: read
-
-jobs:
-  test-and-build:
-    name: Test and build
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1. Descarga el código del repositorio
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 2. Instala Node.js 22 (las herramientas de prueba necesitan Node 22 o superior)
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      # 3. Instala las dependencias exactas de package-lock.json
-      - name: Install dependencies
-        run: npm ci
-
-      # 4. Ejecuta las pruebas unitarias y de integración (Vitest)
-      - name: Run unit and integration tests
-        run: npx vitest run --reporter=verbose
-
-      # 5. Compila la aplicación para comprobar que el build no se rompe
-      - name: Build Vue app
-        run: npm run build
+quality:
+  name: Quality (lint, tests, coverage, SonarQube)
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+    - run: npm run lint
+    - run: npm run test:coverage
+    - run: npm run build
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-report
+        path: coverage/
+    - uses: SonarSource/sonarqube-scan-action@v5
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.organization=${{ vars.SONAR_ORG }}
+          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+          -Dsonar.qualitygate.wait=true
 ```
 
-Evidencia de Integración Continua en Frontend Web:
+**Suite de pruebas automatizadas.** La suite está compuesta por **36 archivos y 95 pruebas**, todas aprobadas:
 
-<img src="assets/cap6/testFrontend/Test.Action.png" alt="insights" width="900px"/>
+| Tipo | Archivos | Cobertura funcional |
+| :--- | :---: | :--- |
+| Integración (`tests/integration/`) | 14 | Inicio de sesión por rol, registro de cuentas, protección de rutas, seguridad de la cuenta, test de estrés, registro de desencadenantes, ZenBot (incluida la detección de crisis), directorio de psicólogos, reserva de sesiones, citas del usuario, portal del profesional, verificación por administrador, suscripción y biblioteca de recursos |
+| Unitarias (`tests/unit/`) | 22 | Servicios (autenticación, citas, terapeutas, reportes, suscripciones, dashboard, entre otros), validaciones, roles, sesión, fechas, motor de ZenBot, consistencia de traducciones (i18n) y exportación de datos del perfil |
 
-Ejecución exitosa del pipeline de CI para el frontend web (Vue CI - Tests) en GitHub Actions, validando las 10 pruebas unitarias y de integración y la compilación de la aplicación en 31s.
+Durante la configuración del pipeline se agregaron dos pruebas:
 
- 
-**Pipeline de Integración Continua para Aplicación Móvil (Android)**
+- **`i18n.spec.js`:** verifica que `public/es.json` y `public/en.json` tengan exactamente las mismas claves, para cumplir el requisito de internacionalización (en_US y es_419).
+- **`UserProfileExport.spec.js`:** verifica que la exportación de datos personales excluya el token de sesión (ver sección 6.2.1.2).
 
-Se configuró el workflow de Integración Continua en GitHub Actions en el archivo .github/workflows/ci-mobile.yml. El pipeline se ejecuta automáticamente ante cada evento de push o pull_request en la rama main o develop, ejecutando la suite de pruebas unitarias (./gradlew testDebugUnitTest) y generando la compilación de depuración del paquete Android (./gradlew assembleDebug) sobre un contenedor virtual de Ubuntu con Java 17. 
+**Resultados de ejecución.** La siguiente tabla resume las dos ejecuciones con las que se validó el pipeline:
+
+| Ejecución | Commit | Resultado | Duración | Observación |
+| :---: | :---: | :---: | :---: | :--- |
+| #9 | `179f6c2` | ❌ Fallida | 1 min 49 s | Lint, pruebas y build aprobados; Quality Gate fallido por cobertura del código nuevo (66,7 %). No se ejecutaron *publish* ni *deploy*. |
+| #10 | `ad5c2c6` | ✅ Exitosa | 3 min 14 s | Quality (1 min 26 s) → Publish (36 s) → Deploy (1 min 5 s). Se generaron 2 artefactos. |
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-actions-runs.png" alt="Historial de ejecuciones del workflow en GitHub Actions" width="850px" />
+</p>
+<p align="center"><b>Figura 7.1.5.</b> Historial de ejecuciones: la #9 bloqueada por el Quality Gate y la #10 aprobada tras agregar la prueba.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-actions-run-10-success.png" alt="Ejecución #10 con los jobs quality, publish y deploy en verde" width="850px" />
+</p>
+<p align="center"><b>Figura 7.1.6.</b> Ejecución #10: los jobs Quality, Publish Docker image y Deploy to Vercel completados.</p>
+
+**Primera versión del pipeline.** Antes del pipeline actual, el workflow *Vue CI - Tests* instalaba las dependencias, ejecutaba 10 pruebas con Vitest (7 unitarias y 3 de integración) y compilaba la aplicación, sin lint, cobertura ni Quality Gate.
+
+<p align="center">
+  <img src="assets/cap6/testFrontend/Test.Action.png" alt="Primera versión del CI del frontend" width="900px" />
+</p>
+<p align="center"><b>Figura 7.1.7.</b> Primera versión del CI del frontend (*Vue CI - Tests*): 10 pruebas y compilación en 31 s.</p>
+
+**RESTful API**
+
+El job **build-and-test** del workflow *CI - Backend* se ejecuta en cada *push* y *Pull Request*:
+
+| # | Paso | Comando / acción | Si falla |
+| :---: | :--- | :--- | :--- |
+| 1 | Checkout | `actions/checkout@v4` con historial completo (requerido por SonarQube) | — |
+| 2 | Setup .NET 9 y Java 17 | Java es requerido por el escáner de SonarQube | — |
+| 3 | Restore dependencies | `dotnet restore` | Se detiene el pipeline |
+| 4 | Sonar begin | `dotnet sonarscanner begin` con la organización, el proyecto, las rutas de cobertura y `sonar.qualitygate.wait=true` | Se detiene el pipeline |
+| 5 | Build | `dotnet build --configuration Release` | Se detiene el pipeline |
+| 6 | Run all tests | `dotnet test` con cobertura OpenCover y Cobertura, y resultados `.trx` | Se detiene el pipeline |
+| 7 | Sonar end (Quality Gate) | `dotnet sonarscanner end`; espera el veredicto del Quality Gate | El job falla y no se publica ni despliega |
+| 8 | Coverage report | ReportGenerator publica el resumen de cobertura en el *Job Summary* | Se ejecuta siempre |
+| 9 | Upload test results | Artefacto `test-results` | Se ejecuta siempre |
+
+```yaml
+build-and-test:
+  runs-on: ubuntu-latest
+  env:
+    NEUROZEN_TEST_MYSQL: "server=127.0.0.1;port=3306;user=root;password=root"
+  services:
+    mysql:
+      image: mysql:8.0
+      env:
+        MYSQL_ROOT_PASSWORD: root
+      ports: ["3306:3306"]
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - run: dotnet restore
+    - run: dotnet tool install --global dotnet-sonarscanner
+    - run: >
+        dotnet sonarscanner begin
+        /k:"Proyecto-1ASI0732-2620-Experimentos_neurozen_web_backend"
+        /o:"proyecto-1asi0732-2620-experimentos"
+        /d:sonar.token="$SONAR_TOKEN"
+        /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+        /d:sonar.cs.vstest.reportsPaths="**/*.trx"
+        /d:sonar.qualitygate.wait=true
+    - run: dotnet build --no-restore --configuration Release
+    - run: >
+        dotnet test --no-build -c Release
+        --logger "trx;LogFileName=test-results.trx"
+        --collect:"XPlat Code Coverage"
+        --results-directory ./TestResults
+        -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover,cobertura
+    - run: dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+```
+
+La credencial `root/root` corresponde únicamente al contenedor MySQL efímero del runner, que se destruye al terminar el job. No se usa en ningún entorno real.
+
+**Suite de pruebas automatizadas.** La suite del backend cuenta con **131 pruebas, todas aprobadas** (125 existentes y 6 agregadas durante la configuración del pipeline), que se ejecutan en unos 100 segundos:
+
+| Tipo | Ubicación | Cobertura funcional |
+| :--- | :--- | :--- |
+| Unitarias | `neurozen.API.Tests/Unit/` | Servicios de comandos y consultas de IAM (registro, inicio de sesión, política de contraseñas, *hashing*, recuperación de contraseña, cuenta), Appointments, Professionals (perfil, verificación, reseñas, concurrencia), Stress (evaluaciones, reportes, desencadenantes), Subscriptions y Wellness (servicios, paginación, *assemblers* y recursos REST) |
+| Integración | `neurozen.API.Tests/Integration/` | Flujos de negocio y seguridad de punta a punta sobre la API real (`WebApplicationFactory`) con MySQL 8 |
+| BDD (Reqnroll) | `neurozen.API.Tests/BDD/Features/` | Escenarios en Gherkin: ciclo de la cita, reserva de sesión, seguridad de la cuenta y verificación de psicólogos |
+
+**Resultados de ejecución.** La siguiente tabla resume las ejecuciones con las que se validó el pipeline del backend:
+
+| Ejecución | Evento | Resultado | Duración | Observación |
+| :---: | :--- | :---: | :---: | :--- |
+| #41 | Pull Request #15 abierto | ❌ Fallida | 2 min 39 s | Pruebas aprobadas; Quality Gate fallido (Security C y cobertura de 69,57 %). |
+| #42 | Pull Request #15 actualizado | ❌ Fallida | 2 min 18 s | Correcciones intermedias; el Quality Gate seguía sin cumplirse. |
+| #43 | Pull Request #15 actualizado | ✅ Exitosa | 2 min 34 s | Quality Gate aprobado (cobertura de 85,51 %). |
+| #44 | *Push* a `main` (merge, commit `51af523`) | ✅ Exitosa | 2 min 32 s | CI sobre la rama principal tras la integración; se generó 1 artefacto. |
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-actions-backend-runs.png" alt="Historial de ejecuciones del CI del backend" width="850px" />
+</p>
+<p align="center"><b>Figura 7.1.8.</b> Historial de ejecuciones de CI - Backend: las #41 y #42 bloqueadas por el Quality Gate, y las #43 y #44 aprobadas.</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-actions-backend-run-44-main-success.png" alt="Ejecución 44 del CI del backend en main" width="850px" />
+</p>
+<p align="center"><b>Figura 7.1.9.</b> Ejecución #44 sobre main: job build-and-test completado en 2 min 30 s.</p>
+
+
+**Versión inicial del workflow.** La primera versión de *CI - Backend* restauraba, compilaba y ejecutaba las pruebas con MySQL en el runner, sin cobertura ni análisis de SonarQube. La versión actual, descrita arriba, conserva esos pasos y agrega la cobertura, los reportes y el Quality Gate bloqueante.
+
+<p align="center">
+  <img src="assets/cap6/gitActionsBackend1.jpeg" alt="Versión inicial de CI - Backend" width="900px" />
+</p>
+<p align="center"><b>Figura 7.1.10.</b> Ejecución de la versión inicial de *CI - Backend* en GitHub Actions.</p>
+
+**Aplicación Móvil**
+
+El workflow de integración continua de la aplicación móvil está en `.github/workflows/ci-mobile.yml` (**CI - Mobile**). Se ejecuta en cada *push* o *Pull Request* hacia `main` o `develop` y, sobre un runner de Ubuntu con Java 17, ejecuta las pruebas unitarias (`./gradlew testDebugUnitTest`) y genera la compilación de depuración del APK (`./gradlew assembleDebug`).
 
 ```yaml
 name: CI - Mobile
@@ -5299,43 +5710,182 @@ jobs:
       - name: Build APK (debug)
         run: ./gradlew assembleDebug
 ```
- 
-Evidencia de Integración Continua en Móvil:
 
-<img src="assets/cap6/gitActionsMovil.png" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsMovil.png" alt="Ejecución de CI - Mobile" width="900px" />
+</p>
+<p align="center"><b>Figura 7.1.11.</b> Ejecución del pipeline *CI - Mobile*: pruebas unitarias y compilación del APK en 5 min 15 s.</p>
 
-Ejecución exitosa del pipeline de CI/CD para la aplicación móvil Android (CI - Mobile) en GitHub Actions, validando las pruebas unitarias y la compilación automatizada del APK en 5m 15s.
- 
 ---
- 
+
 ## 7.2. Continuous Delivery
- 
+
 ### 7.2.1. Tools and Practices
- 
+
 | Herramienta | Uso |
-|---|---|
-| **GitHub Actions** | Orquesta el despliegue automático a staging |
-| **Docker** | Empaqueta el backend para que sea idéntico en todos los entornos |
-| **Render (servicio Staging)** | Hospeda el backend y la base de datos PostgreSQL de pruebas |
-| **Vercel / Netlify (Preview)** | Publica el frontend web de staging |
-| **Gradle + artefactos de GitHub** (opcional: Firebase App Distribution) | Genera y distribuye el APK de pruebas al equipo y al cliente |
-| **GitHub Environments** | Variables y secretos separados por entorno (`staging`, `production`) |
- 
+| :--- | :--- |
+| GitHub Actions | Orquesta la publicación y el despliegue en cada entorno |
+| Docker | Empaqueta el frontend (nginx) y el backend (ASP.NET Core) en imágenes idénticas para todos los entornos |
+| Docker Hub | Registro de las imágenes versionadas del frontend y del backend |
+| Render | Hosting del backend en *staging* y producción |
+| Vercel | Hosting del frontend en producción |
+| Gradle + artefactos de GitHub | Generación y distribución del APK de pruebas |
+| GitHub Environments | Secretos separados por entorno (`staging`, `production`, `lab-production`) |
+
+**Prácticas comunes:**
+
+- La rama `develop` debe estar siempre en estado desplegable: solo se integra código con el pipeline de CI en verde.
+- Cada integración en `develop` despliega el backend en **staging**, donde QA y el cliente validan las nuevas funcionalidades antes de publicarlas.
+- Los entornos tienen configuraciones y bases de datos separadas. Las credenciales se guardan en *GitHub Secrets*, en los *environments* o en el panel del proveedor, nunca en el repositorio.
+- Las migraciones de Entity Framework Core se aplican automáticamente al iniciar la API en staging, para verificarlas antes de llegar a producción.
+
+Las secciones siguientes detallan la configuración de cada producto.
+
+**Frontend Web Application**
+
+La entrega continua del frontend genera, en cada *push* a `main` que supera el job `quality`, una **imagen Docker inmutable** de la aplicación, lista para desplegarse en cualquier entorno.
+
+| Herramienta | Uso |
+| :--- | :--- |
+| Docker (*Dockerfile* multietapa) | Etapa 1: `node:22-alpine` instala dependencias y compila con `npm run build`. Etapa 2: `nginx:1.27-alpine` sirve solo los archivos estáticos de `dist/`. |
+| nginx (`nginx.conf`) | Sirve la aplicación, redirige las rutas de Vue Router a `index.html` y expone el endpoint `/health`, que responde `200 UP` para las pruebas de humo |
+| Docker Buildx | Construcción de la imagen para la plataforma `linux/amd64` |
+| Docker Hub | Registro de imágenes: [`charlie404x/neurozen-web-frontend`](https://hub.docker.com/r/charlie404x/neurozen-web-frontend) |
+
 **Prácticas aplicadas:**
- 
-- La rama `develop` siempre debe estar en estado desplegable: solo se integra código con el pipeline de CI en verde.
-- Cada merge a `develop` despliega automáticamente en **staging**.
-- Los entornos tienen configuraciones y bases de datos separadas; las credenciales se guardan en *GitHub Secrets*, nunca en el repositorio.
-- Staging es el entorno donde QA y el cliente validan nuevas funcionalidades antes de publicarlas.
-- Las migraciones de base de datos (EF Core) se aplican de forma automática en staging, para verificarlas antes de llegar a producción.
----
- 
+
+- **Imagen inmutable y trazable:** cada imagen se etiqueta con el commit que la originó (`sha-<commit>`) y el pipeline registra su *digest*. Así, cada versión desplegable se vincula de forma única con su código fuente.
+- **Solo se publica código verificado:** el job `publish` depende de `quality` (`needs: quality`) y solo se ejecuta en *push* a `main`.
+- **Imagen mínima:** la imagen final contiene únicamente nginx y los archivos compilados, sin código fuente ni dependencias de desarrollo. Pesa 25,2 MB en Docker Hub.
+- **Contexto de construcción controlado:** el archivo `.dockerignore` excluye `node_modules`, `coverage`, `.git`, `.vercel` y los archivos `.env` locales.
+
+**RESTful API**
+
+La entrega continua del backend genera una **imagen Docker inmutable** de la API por cada cambio en `main` que supera el CI. El workflow encargado es **CD - Lab VM** (`.github/workflows/cd-lab-vm.yml`), separado del CI para que un fallo en la infraestructura del laboratorio no afecte el despliegue del equipo en Render.
+
+| Herramienta | Uso |
+| :--- | :--- |
+| Docker (*Dockerfile* multietapa) | Etapa 1: `mcr.microsoft.com/dotnet/sdk:9.0` restaura y publica la API en `Release`. Etapa 2: `mcr.microsoft.com/dotnet/aspnet:9.0` contiene solo los binarios publicados. |
+| Puerto configurable | La API escucha en el puerto indicado por la variable `PORT` (10000 por defecto, como requiere Render) |
+| Docker Buildx | Construcción de la imagen para la plataforma `linux/amd64` |
+| Docker Hub | Registro de imágenes: [`charlie404x/neurozen-backend`](https://hub.docker.com/r/charlie404x/neurozen-backend) |
+| `.dockerignore` | Excluye `bin/`, `obj/`, `.git`, `TestResults/`, `coverage-report/` y archivos `.env` |
+
+**Prácticas aplicadas:**
+
+- **Solo se publica código verificado:** el job `publish` solo se ejecuta si *CI - Backend* terminó con éxito en un *push* a `main` del propio repositorio; los *forks* quedan excluidos.
+- **Lo que se construye es lo que se probó:** antes de construir, el job verifica que el commit descargado sea exactamente el que aprobó el CI. Si `main` avanzó entre ambos momentos, no publica.
+- **Imagen inmutable y trazable:** cada imagen se etiqueta como `sha-<commit>` y el despliegue usa su *digest* (`imagen@sha256:...`), no una etiqueta que pueda cambiar.
+- **Dependencias de CI fijadas:** todas las *actions* del workflow se referencian por hash SHA completo (sección 6.2.1.2).
+- **Secretos fuera de la imagen:** la cadena de conexión y la clave JWT no se incluyen en la imagen; se inyectan como variables de entorno al ejecutar el contenedor. La API **se niega a arrancar** si `TokenSettings__Secret` no existe o tiene menos de 32 bytes, lo que impide desplegar por error con una clave débil.
+
 ### 7.2.2. Stages Deployment Pipeline Components
- 
-Se despliega a staging cada vez que hay un push a `develop`, una vez que la CI pasa correctamente.
- 
-**Backend → Render (Staging)** — `.github/workflows/cd-staging-backend.yml`
- 
+
+**Frontend Web Application**
+
+**Validación manual previa (local).** Antes de automatizar la publicación, la imagen se construyó y validó en local siguiendo las etapas del laboratorio:
+
+| Etapa | Comando | Resultado |
+| :--- | :--- | :--- |
+| Construcción | `docker build -t neurozen-web-frontend:1.0.0 .` | Imagen multietapa construida |
+| Ejecución | `docker run -d --name nz-web -p 8080:80 neurozen-web-frontend:1.0.0` | Contenedor `nz-web` en ejecución en el puerto 8080 |
+| Prueba de humo | `curl.exe -i http://localhost:8080/health` | `HTTP/1.1 200 OK` · `UP` |
+| Publicación | `docker push charlie404x/neurozen-web-frontend:1.0.0` | Etiqueta `1.0.0` en Docker Hub |
+| Recuperación desde el registro | `docker pull` y `docker run` de la imagen publicada | Mismo *digest* y `200 OK` · `UP` |
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/docker-build-multistage.png" alt="Construcción multietapa de la imagen del frontend" width="850px" />
+</p>
+<p align="center"><b>Figura 7.2.1.</b> Construcción de la imagen: etapa Node 22 (build) y etapa nginx 1.27 (servidor).</p>
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/docker-container-running.png" alt="Contenedor nz-web en ejecución en Docker Desktop" width="850px" />
+</p>
+<p align="center"><b>Figura 7.2.2.</b> Contenedor `nz-web` en ejecución con el puerto 8080:80.</p>
+
+Recuperación de la imagen desde Docker Hub y prueba de humo:
+
+```text
+PS> docker pull charlie404x/neurozen-web-frontend:1.0.0
+Digest: sha256:abb07d87ade4fdc05e7cbcadedbcc024ab54cc1e5a0241dca158d16c6b49d311
+Status: Downloaded newer image for charlie404x/neurozen-web-frontend:1.0.0
+
+PS> docker run -d --name nz-web -p 8080:80 charlie404x/neurozen-web-frontend:1.0.0
+PS> curl.exe -i http://localhost:8080/health
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Content-Type: text/plain
+
+UP
+```
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/dockerhub-repository.png" alt="Repositorio charlie404x/neurozen-web-frontend en Docker Hub" width="850px" />
+</p>
+<p align="center"><b>Figura 7.2.3.</b> Repositorio público `charlie404x/neurozen-web-frontend` en Docker Hub con la etiqueta 1.0.0.</p>
+
+**Job `publish` del pipeline.** Automatiza la publicación tras cada cambio aprobado en `main`:
+
+| # | Paso | Descripción |
+| :---: | :--- | :--- |
+| 1 | Checkout repository | Descarga el código del commit aprobado |
+| 2 | Login to Docker Hub | Autenticación con `DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN` |
+| 3 | Setup Docker Buildx | Prepara el constructor de imágenes |
+| 4 | Build and push image | Construye para `linux/amd64` y publica `charlie404x/neurozen-web-frontend:sha-<commit>` |
+| 5 | Save image digest | Guarda la referencia `imagen@sha256:...` como salida del job |
+
+En la ejecución #10, el job `publish` se completó en 36 segundos y publicó la imagen correspondiente al commit `ad5c2c6`.
+
+> `[Pendiente: captura de la pestaña Tags de Docker Hub con la etiqueta sha-ad5c2c6...]`
+
+**RESTful API**
+
+**Validación manual previa (local).** Antes de automatizar la publicación, la imagen del backend se construyó y validó en local, con MySQL en un contenedor:
+
+| Etapa | Comando | Resultado |
+| :--- | :--- | :--- |
+| Pruebas | `dotnet test neurozen.API.sln -c Release --collect:"XPlat Code Coverage"` | 125/125 aprobadas (131/131 tras agregar `WellnessAssemblersTests`) y reporte `coverage.opencover.xml` |
+| Construcción | `docker build -t neurozen-backend:1.0.0 .` | Imagen multietapa de 103 MB comprimida |
+| Ejecución | `docker run -d --name neurozen-api -p 5080:8080 -e PORT=8080 -e ConnectionStrings__DefaultConnection=... -e TokenSettings__Secret=... neurozen-backend:1.0.0` | API en ejecución en el puerto 5080; migraciones aplicadas al arrancar |
+| Prueba de seguridad | Ejecución sin `TokenSettings__Secret` | La API no arranca: `TokenSettings:Secret must be at least 32 bytes (256 bits)` |
+| Prueba de humo | `http://localhost:5080/swagger` | Swagger UI disponible con los **40 endpoints** de `/api/v1`, agrupados en 11 secciones: Authentication, Users, Admin - Professionals, Appointments, Professionals, Resource library, Stress - Assessments, Stress - Reports, Stress - Triggers, Subscriptions y Wellness |
+| Publicación | `docker push charlie404x/neurozen-backend:1.0.0` | Etiqueta `1.0.0` en Docker Hub |
+
+```text
+PS> docker push charlie404x/neurozen-backend:1.0.0
+The push refers to repository [docker.io/charlie404x/neurozen-backend]
+...
+1.0.0: digest: sha256:c0b53175cfe525f4ebadc963ab85922678f31c53d5d88fa052babe61557cf9b3 size: 856
+```
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/docker-backend-swagger-local.jpeg" alt="Swagger del backend ejecutándose en Docker con todos los endpoints" width="700px" />
+</p>
+<p align="center"><b>Figura 7.2.4.</b> RESTful API ejecutándose en un contenedor local: Swagger UI en localhost:5080 con los 40 endpoints de `/api/v1`, agrupados en 11 secciones.</p>
+
+**Job `publish` del pipeline.** Automatiza la publicación tras cada cambio aprobado en `main`:
+
+| # | Paso | Descripción |
+| :---: | :--- | :--- |
+| 1 | Checkout | Descarga el código de `main` (*action* fijada por SHA) |
+| 2 | Verify tested commit | Confirma que el commit coincide con el que aprobó *CI - Backend* |
+| 3 | Login to Docker Hub | Autenticación con `DOCKERHUB_USERNAME` (variable) y `DOCKERHUB_TOKEN` (secreto) |
+| 4 | Setup Docker Buildx | Prepara el constructor de imágenes |
+| 5 | Build and push image | Construye para `linux/amd64` y publica `charlie404x/neurozen-backend:sha-<commit>` |
+| 6 | Save image digest | Guarda la referencia `imagen@sha256:...` como salida del job, para el despliegue |
+
+**Observación de la primera ejecución.** Tras el *merge* del PR #15, *CI - Backend* (#44) terminó con éxito, pero GitHub no disparó los workflows dependientes (`workflow_run`), ni **CD - Lab VM** ni **CD - Production Backend**. La causa fue un **incidente de GitHub con Actions y Webhooks**, reportado el 09/11/2026 desde las 10:00 UTC. Para no depender exclusivamente de ese encadenamiento, se abrió el PR #16, que agrega un disparador manual (`workflow_dispatch`) al workflow. Por seguridad, ese disparo manual **verifica mediante la API de GitHub que el commit tenga el check `build-and-test` aprobado** antes de publicar, de modo que no permite saltarse el Quality Gate. Los tiempos medidos durante la ventana del incidente se excluyen del análisis por no ser representativos.
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/githubstatus-incident-2026-11-09.png" alt="Incidente de GitHub Actions del 9 de noviembre de 2026" width="800px" />
+</p>
+<p align="center"><b>Figura 7.2.5.</b> Incidente de GitHub con Actions y Webhooks (09/11/2026), que impidió el disparo automático de los workflows de despliegue.</p>
+
+> `[Pendiente: captura de la pestaña Tags de Docker Hub con la etiqueta sha-... publicada por el pipeline del backend]`
+
+
+**Despliegue a *staging* (Render).** El workflow *CD - Staging Backend* (`.github/workflows/deploy-staging.yml`) se ejecuta cuando *CI - Backend* termina con éxito en un *push* a `develop`, y dispara el *deploy hook* de Render guardado en el environment `staging`:
+
 ```yaml
 name: CD - Staging Backend
 
@@ -5362,26 +5912,21 @@ jobs:
             --request POST \
             "${{ secrets.RENDER_STAGING_DEPLOY_HOOK }}"
 ```
-Evidencia de Despliegue Continuo en el Backend:
 
-<img src="assets/cap6/gitActionsBackend2.jpeg" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsBackend2.jpeg" alt="Ejecución de CD - Staging Backend" width="900px" />
+</p>
+<p align="center"><b>Figura 7.2.6.</b> Ejecución de *CD - Staging Backend* en GitHub Actions.</p>
 
-<img src="assets/cap6/renderBackend1.jpeg" alt="insights" width="900px"/>
- 
-**Frontend → Vercel/Netlify (Staging)**
- 
-El proyecto de hosting se conecta al repositorio y toma la rama `develop` como entorno de staging. Cada Pull Request genera además una URL de *preview* para revisar los cambios antes del merge.
- 
-```yaml
-# Variables de entorno del entorno staging
-VITE_API_URL: https://neurozen-api-staging.onrender.com
-```
- 
-**Móvil → Generación y Despliegue de APK de Pruebas (Staging)**
+<p align="center">
+  <img src="assets/cap6/renderBackend1.jpeg" alt="Despliegue del backend en Render" width="900px" />
+</p>
+<p align="center"><b>Figura 7.2.7.</b> Despliegue del backend en Render.</p>
 
-Para la aplicación móvil de NeuroZen, se configuró el pipeline de Despliegue Continuo (CD) en el archivo .github/workflows/cd-staging-mobile.yml. Cada vez que se integra código en las ramas de trabajo (develop o main), GitHub Actions compila automáticamente el paquete ejecutable (./gradlew assembleDebug) y publica el artefacto resultante (neurozen-staging-apk) en la plataforma.
-Este proceso automatizado permite al equipo de QA, desarrolladores y clientes descargar e instalar la versión más reciente de la aplicación móvil en sus dispositivos físicos directamente desde los artefactos de GitHub sin necesidad de compilar manualmente.
- 
+**Aplicación Móvil**
+
+El pipeline de entrega continua de la aplicación móvil está en `.github/workflows/cd-staging-mobile.yml` (**CD - Staging Mobile**). En cada integración en `develop` o `main`, compila el APK de depuración (`./gradlew assembleDebug`) y lo publica como artefacto `neurozen-staging-apk`. Así, QA, los desarrolladores y el cliente pueden descargar e instalar la versión más reciente en sus dispositivos sin compilarla manualmente.
+
 ```yaml
 name: CD - Staging Mobile
 
@@ -5414,43 +5959,120 @@ jobs:
           name: neurozen-staging-apk
           path: app/build/outputs/apk/debug/app-debug.apk
 ```
- 
-Evidencia de Despliegue Continuo en Móvil:
 
-<img src="assets/cap6/gitActionsApK1.png" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsApK1.png" alt="Ejecución de CD - Staging Mobile" width="900px" />
+</p>
+<p align="center"><b>Figura 7.2.8.</b> Ejecución de *CD - Staging Mobile* en GitHub Actions.</p>
 
-<img src="assets/cap6/gitActionsApK2.png" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsApK2.png" alt="Artefacto del APK de staging" width="900px" />
+</p>
+<p align="center"><b>Figura 7.2.9.</b> Artefacto `neurozen-staging-apk` publicado por el pipeline.</p>
 
-> *Evidencia:*
-> [CI - NeuroZen App Móvil: ejecución #37090257267](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/actions/runs/37090257267)
+> *Evidencia:* [CI - NeuroZen App Móvil: ejecución #37090257267](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/actions/runs/37090257267)
 
 ---
- 
-## 7.3. Continuous Deployment
- 
+
+## 7.3. Continuous deployment
+
 ### 7.3.1. Tools and Practices
- 
+
 | Herramienta | Uso |
-|---|---|
-| **GitHub Actions** | Dispara el despliegue automático al integrar en `main` |
-| **Render** | Hosting de producción del backend (ASP.NET Core en Docker) y PostgreSQL |
-| **Vercel / Netlify** | Hosting de producción del frontend web, conectado a la rama `main` |
-| **GitHub Releases** | Publicación del APK versionado de la aplicación móvil |
-| **Semantic Versioning** | Versionado de releases (`v1.0.0`, `v1.1.0`, …) |
- 
-**Prácticas aplicadas:**
- 
-- Solo se hace merge a `main` desde `develop` mediante Pull Request aprobado, con CI en verde y validación previa en staging.
-- Cada push a `main` despliega automáticamente a producción, sin pasos manuales.
-- Cada release se etiqueta con un tag semántico, lo que permite identificar la versión y hacer *rollback* redeplegando un commit/tag anterior.
-- Las variables y secretos de producción (cadena de conexión, clave JWT) están aislados en el entorno `production` de GitHub y en el panel de Render.
-- Se verifica la salud del servicio tras el despliegue mediante un endpoint `/health`.
----
- 
+| :--- | :--- |
+| GitHub Actions | Dispara el despliegue automático al integrar en `main` |
+| Render | Producción del backend (ASP.NET Core en Docker) |
+| Vercel | Producción del frontend, desplegada desde el pipeline |
+| GitHub Releases | Publicación del APK versionado de la aplicación móvil |
+| Semantic Versioning | Versionado de los *releases* (`v1.0.0`, `v1.1.0`, …) |
+
+**Prácticas comunes:**
+
+- Los cambios llegan a `main` solo mediante Pull Request, con el CI en verde y, en el frontend y el backend, con el Quality Gate aprobado.
+- Cada integración en `main` despliega a producción sin pasos manuales.
+- **Rollback:** en el backend, el script de despliegue mantiene activa la versión anterior si la nueva no supera la prueba de humo. En la aplicación móvil, cada *release* lleva una etiqueta semántica que permite volver a una versión anterior.
+- Las variables y secretos de producción (cadena de conexión, clave JWT) están aislados en el environment `production` de GitHub y en el panel de Render.
+- Tras cada despliegue se verifica la salud del servicio mediante el endpoint `/health`.
+
+Las secciones siguientes detallan la configuración de cada producto.
+
+**Frontend Web Application**
+
+El frontend se despliega automáticamente en producción en **Vercel** (proyecto `neurozen-web-frontend` del equipo *NeuroZen*), cada vez que un cambio en `main` supera los jobs `quality` y `publish`.
+
+| Herramienta / configuración | Uso |
+| :--- | :--- |
+| Vercel CLI | `vercel pull`, `vercel build --prod` y `vercel deploy --prebuilt --prod` desde el pipeline |
+| `vercel.json` → `"git": { "deploymentEnabled": false }` | Desactiva el despliegue automático de Vercel en cada *push*, para que producción **solo** se actualice desde el pipeline, después del Quality Gate |
+| `vercel.json` → `rewrites` | Redirige todas las rutas a `index.html` para el enrutamiento de Vue Router |
+| Environment `Production` de GitHub | Agrupa los despliegues a producción y registra su historial |
+| Secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` | Autenticación con el equipo de Vercel; el token tiene alcance del equipo y vence a los 90 días |
+
+**Continuous Deployment frente a Continuous Delivery.** El environment `Production` está configurado **sin revisores obligatorios** y sin restricción de ramas. Por eso todo cambio que supera las verificaciones se despliega automáticamente, lo que corresponde a **Continuous Deployment**. Para pasar a **Continuous Delivery**, basta con activar *Required reviewers* en el environment: el job `deploy` esperará la aprobación manual de un integrante antes de publicar.
+
+<p align="center">
+  <img src="assets/cap6/cap6-cap7/github-environment-production.png" alt="Configuración del environment Production en GitHub" width="800px" />
+</p>
+<p align="center"><b>Figura 7.3.1.</b> Environment `Production` sin revisores obligatorios ni restricción de ramas (Continuous Deployment).</p>
+
+**RESTful API**
+
+La RESTful API tiene dos destinos de despliegue automatizados, ambos encadenados al éxito de *CI - Backend* mediante `workflow_run`:
+
+| Workflow | Disparador | Destino | Mecanismo |
+| :--- | :--- | :--- | :--- |
+| **CD - Staging Backend** | CI exitoso en un *push* a `develop` | Render (*staging*) | *Deploy hook* guardado en el environment `staging` |
+| **CD - Production Backend** | CI exitoso en un *push* a `main` | Render (producción), `https://neurozen-backend-mobile.onrender.com` | *Deploy hook* del environment `production`, seguido de un *health check* a `/health` con hasta 18 intentos cada 10 s |
+| **CD - Lab VM** | CI exitoso en un *push* a `main`, o manual | VM Ubuntu del laboratorio | SSH con clave dedicada y verificación de la huella del servidor (`known_hosts`) |
+
+| Herramienta / configuración | Uso |
+| :--- | :--- |
+| Environments `staging`, `production` y `lab-production` de GitHub | Aíslan los secretos de cada destino y registran el historial de despliegues |
+| `scripts/deploy.sh` | Despliegue con candidato, prueba de humo y *rollback* en la VM |
+| `~/neurozen/api.env` (solo en la VM) | Cadena de conexión, clave JWT y entorno de ejecución; nunca se versiona en Git |
+| SSH con `StrictHostKeyChecking=yes` | Impide conectarse a un servidor distinto del registrado en `DEPLOY_HOST_KEY` |
+
+**Continuous Deployment frente a Continuous Delivery.** Los despliegues a Render y a la VM se ejecutan automáticamente cuando el CI aprueba un cambio, lo que corresponde a **Continuous Deployment**. Para pasar a **Continuous Delivery**, basta con activar *Required reviewers* en el environment correspondiente (`production` o `lab-production`); el job de despliegue esperará la aprobación de un integrante.
+
 ### 7.3.2. Production Deployment Pipeline Components
- 
-**Backend → Render (Producción)** — `.github/workflows/deploy-production.yml`
- 
+
+**Frontend Web Application**
+
+El job **Deploy to Vercel (production)** depende de `publish` (`needs: publish`) y usa el environment `production`:
+
+| # | Paso | Descripción |
+| :---: | :--- | :--- |
+| 1 | Checkout repository | Descarga el código del commit aprobado |
+| 2 | Setup Node.js | Node 22 |
+| 3 | Install Vercel CLI | `npm install --global vercel` |
+| 4 | Pull Vercel project settings | Descarga la configuración y las variables de entorno de producción |
+| 5 | Build for production | Compila la aplicación con la configuración de producción |
+| 6 | Deploy to production | Publica la compilación en `https://neurozen-web-frontend.vercel.app` |
+
+**Flujo completo de un cambio hasta producción:**
+
+```text
+push a main
+   │
+   ▼
+[quality]  lint → pruebas + cobertura → build → Quality Gate ── falla ──► se detiene (ej.: ejecución #9)
+   │ aprobado
+   ▼
+[publish]  imagen Docker inmutable charlie404x/neurozen-web-frontend:sha-<commit>
+   │
+   ▼
+[deploy]   Vercel producción → https://neurozen-web-frontend.vercel.app
+```
+
+En la ejecución #10 (commit `ad5c2c6`), el job `deploy` se completó en 1 minuto y 5 segundos, y el ciclo completo, desde el *push* hasta producción, tomó **3 minutos y 14 segundos** (Figura 7.1.6).
+
+> `[Pendiente: captura del despliegue en Vercel (Deployments) con el commit ad5c2c6 y la aplicación en producción]`
+
+
+**RESTful API**
+
+**Despliegue a producción (Render).** El workflow *CD - Production Backend* (`.github/workflows/deploy-production.yml`) se ejecuta cuando *CI - Backend* termina con éxito en un *push* a `main`. Valida que exista el *deploy hook*, dispara el despliegue en Render y comprueba `/health` hasta 18 veces, cada 10 segundos:
+
 ```yaml
 name: CD - Production Backend
 
@@ -5492,7 +6114,7 @@ jobs:
         run: |
           for attempt in {1..18}; do
             if curl --fail --show-error --silent \
-              "https://neurozen-api.onrender.com/health"; then
+              "https://neurozen-backend-mobile.onrender.com/health"; then
               exit 0
             fi
             echo "Production is not ready yet (attempt $attempt/18)."
@@ -5501,73 +6123,134 @@ jobs:
           echo "::error::Production health check failed after 180 seconds."
           exit 1
 ```
-Evidencia de Despliegue Continuo a Producción (Render):
 
-<img src="assets/cap6/gitActionsProductionBackend1.jpeg" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsProductionBackend1.jpeg" alt="Ejecución de CD - Production Backend" width="900px" />
+</p>
+<p align="center"><b>Figura 7.3.2.</b> Ejecución de *CD - Production Backend* en GitHub Actions.</p>
 
-<img src="assets/cap6/gitActionsProductionBackend2.jpeg" alt="insights" width="900px"/>
- 
-**Frontend → Vercel/Netlify (Producción)**
- 
-El hosting está conectado a la rama `main`: cada merge dispara automáticamente el build (`npm run build`) y publica en la URL pública.
- 
-```yaml
-# Variables de entorno del entorno production
-VITE_API_URL: https://neurozen-api.onrender.com
+<p align="center">
+  <img src="assets/cap6/gitActionsProductionBackend2.jpeg" alt="Health check de producción del backend" width="900px" />
+</p>
+<p align="center"><b>Figura 7.3.3.</b> Despliegue a producción del backend y verificación del *health check*.</p>
+
+**Despliegue en la VM del laboratorio.** El job **deploy** de *CD - Lab VM* depende de `publish` (`needs: publish`), usa el environment `lab-production` y ejecuta `scripts/deploy.sh` en la VM con la imagen identificada por su *digest*:
+
+| # | Paso | Descripción |
+| :---: | :--- | :--- |
+| 1 | Configure SSH | Escribe la clave privada dedicada y la huella verificada del servidor |
+| 2 | Copy deploy script to VM | Copia `scripts/deploy.sh` en cada despliegue, por lo que la VM no necesita clonar el repositorio |
+| 3 | Deploy immutable image | Ejecuta `deploy.sh 'charlie404x/neurozen-backend@sha256:...'` |
+
+El script `deploy.sh` implementa el despliegue con **candidato y *rollback***. Partió del script que el equipo ya tenía y se reforzó:
+
+1. Descarga la imagen por *digest* y levanta un **candidato** en `127.0.0.1:18080`, con la configuración de `~/neurozen/api.env`.
+2. Ejecuta la **prueba de humo**: consulta `/health` hasta 30 veces, cada 3 segundos.
+3. Si el candidato **no responde**, muestra su estado y sus registros, lo elimina y termina con error. La versión en producción **sigue activa** (*rollback*).
+4. Si responde, **promueve** la imagen a `127.0.0.1:8080` con `--restart unless-stopped`, elimina el candidato y verifica `/health` de nuevo.
+
+Respecto de la versión anterior del script, se eliminó la contraseña de MySQL escrita en el código, la clave JWT dejó de pasarse como argumento, los puertos se publican solo en `localhost` (el acceso es mediante túnel SSH) y la espera fija de 20 segundos se reemplazó por reintentos.
+
+**Flujo completo de un cambio hasta producción (backend):**
+
+```text
+Pull Request a main
+   │
+   ▼
+[CI - Backend]  build → 131 pruebas (MySQL 8) + cobertura → Quality Gate ── falla ──► PR bloqueado (ej.: PR #15, ejecución #41)
+   │ aprobado + merge
+   ▼
+[CI - Backend en main] ── éxito ──┬──► [CD - Production Backend]  Render producción + health check
+                                  │
+                                  └──► [CD - Lab VM]  publish: imagen sha-<commit> por digest
+                                                         │
+                                                         ▼
+                                                      deploy: candidato :18080 → /health → promoción :8080
+                                                              (si falla: rollback, la versión previa sigue activa)
 ```
- 
-**Móvil → Despliegue en Producción y GitHub Release (v1.0.0)**
 
-Para la aplicación móvil de NeuroZen, se implementó el pipeline de Despliegue Continuo a Producción en el archivo .github/workflows/cd-production-mobile.yml. El flujo se activa automáticamente ante la creación de etiquetas semánticas de versión (tags v*.*.*).
-Cuando se publica una nueva versión oficial, GitHub Actions compila el paquete de la aplicación y utiliza softprops/action-gh-release para publicar de forma automatizada una Release oficial en GitHub, adjuntando el APK distribuible para la instalación en dispositivos móviles de producción.
+**Estado actual y trabajo para la siguiente entrega.** El pipeline de CI y el bloqueo por Quality Gate están operativos en `main`. Para la siguiente entrega quedan:
+
+| Pendiente | Detalle |
+| :--- | :--- |
+| VM del laboratorio | Provisionar la VM Ubuntu (Azure for Students, `Standard_D2als_v6`, x64, solo puerto 22 abierto), con Docker, el usuario `deploy`, MySQL y `~/neurozen/api.env` |
+| Secretos de despliegue | Actualizar `DEPLOY_HOST`, `DEPLOY_USER` y `DEPLOY_SSH_KEY` con los datos de la nueva VM y crear `DEPLOY_HOST_KEY` |
+| Disparador manual | Integrar el PR #16 (`workflow_dispatch` en *CD - Lab VM*) |
+| Experimento | Ejecutar los escenarios E1 (regresión), E2 (Quality Gate), E3 (entrega), E4 (despliegue) y E5 (*rollback*) con 3 repeticiones cada uno |
+| Limpieza | Eliminar los secretos sin uso del workflow retirado `deploy-server.yml` (`DOCKER_USERNAME`, `DOCKER_PASSWORD` y `JWT_SECRET`) |
+
+> `[Pendiente: captura del job deploy de CD - Lab VM en verde y de la aplicación accesible por el túnel SSH en localhost:8081]`
+
+**Aplicación Móvil**
+
+El despliegue a producción de la aplicación móvil está en `.github/workflows/cd-production-mobile.yml` (**CD - Production Mobile**). Se activa al crear una etiqueta de versión semántica (`v*.*.*`): GitHub Actions compila el APK y, con `softprops/action-gh-release`, publica un *release* oficial en GitHub con el APK adjunto, listo para instalarse en los dispositivos.
+
+```yaml
 name: CD - Production Mobile
-on: push: tags: ['v*..']
-jobs: release-apk: runs-on: ubuntu-latest permissions: contents: write steps: - uses: actions/checkout@v4
 
- 
-```yaml
- - uses: actions/setup-java@v4
-    with:
-      distribution: temurin
-      java-version: 17
+on:
+  push:
+    tags: ['v*.*.*']
 
-  - uses: gradle/actions/setup-gradle@v4
+jobs:
+  release-apk:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
 
-  - name: Permisos de gradlew
-    run: chmod +x gradlew
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-  - name: Build APK (Release/Debug)
-    run: ./gradlew assembleDebug
+      - uses: gradle/actions/setup-gradle@v4
 
-  - name: Create GitHub Release
-    uses: softprops/action-gh-release@v2
-    with:
-      files: app/build/outputs/apk/debug/app-debug.apk
-      name: NeuroZen Mobile Release ${{ github.ref_name }}
-      draft: false
-      prerelease: false
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Permisos de gradlew
+        run: chmod +x gradlew
+
+      - name: Build APK (Release/Debug)
+        run: ./gradlew assembleDebug
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/build/outputs/apk/debug/app-debug.apk
+          name: NeuroZen Mobile Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-Evidencia de Despliegue Continuo a Producción (GitHub Release):
 
-<img src="assets/cap6/gitActionsProduction1.png" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsProduction1.png" alt="Ejecución de CD - Production Mobile" width="900px" />
+</p>
+<p align="center"><b>Figura 7.3.4.</b> Ejecución de *CD - Production Mobile* en GitHub Actions.</p>
 
-<img src="assets/cap6/gitActionsProduction2.png" alt="insights" width="900px"/>
+<p align="center">
+  <img src="assets/cap6/gitActionsProduction2.png" alt="Release v1.0.0 de la aplicación móvil" width="900px" />
+</p>
+<p align="center"><b>Figura 7.3.5.</b> *Release* v1.0.0 publicado en GitHub Releases con el APK adjunto.</p>
 
-> *Evidencia:*
-> [Release v1.0.0 publicado en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0)
- 
-**URLs de producción:**
- 
+> *Evidencia:* [Release v1.0.0 publicado en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0)
+
+---
+
+### URLs de producción
+
 | Componente | URL |
-|---|---|
-| Backend API | [neurozen.API v1.0] (https://neurozen-backend-mobile.onrender.com/swagger/index.html) |
-| Frontend Web | https://neurozen-web-frontend.vercel.app |
-| App Móvil | [Release v1.0.0 publicado en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0) |
- 
-> *Evidencia:*
-> `[Insertar captura del despliegue en producción (Render/Vercel) y de las URLs públicas funcionando]`
+| :--- | :--- |
+| RESTful API (Swagger) | [https://neurozen-backend-mobile.onrender.com/swagger/index.html](https://neurozen-backend-mobile.onrender.com/swagger/index.html) |
+| Frontend Web Application | [https://neurozen-web-frontend.vercel.app](https://neurozen-web-frontend.vercel.app) |
+| Aplicación Móvil | [Release v1.0.0 en GitHub Releases](https://github.com/Proyecto-1ASI0732-2620-Experimentos/NeuroZen_AppMovil/releases/tag/v1.0.0) |
+
+> `[Pendiente: captura de las URLs públicas de producción funcionando (Render y Vercel)]`
+
+
+
+
 
 ## 7.4. Continuous Monitoring
 
